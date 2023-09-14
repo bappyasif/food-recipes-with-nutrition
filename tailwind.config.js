@@ -6,7 +6,7 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   theme: {
     container: {
       center: true,
@@ -73,4 +73,33 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
+  // daisyui theme
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+
+          "primary": "#99b22c",
+
+          "secondary": "#9e1e20",
+
+          "accent": "#5f4ae2",
+
+          "neutral": "#1b161d",
+
+          "base-100": "#28373e",
+
+          "info": "#3676ec",
+
+          "success": "#128151",
+
+          "warning": "#f8ac3a",
+
+          "error": "#e71848",
+        },
+      },
+    ],
+  },
+  // add daisyUI plugin
+  plugins: [require("daisyui")],
 }

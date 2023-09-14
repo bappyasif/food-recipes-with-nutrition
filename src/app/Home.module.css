@@ -1,0 +1,17 @@
+.moveToLeft {
+    animation-name: slideLeft;
+    animation-duration: 8000ms;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0ms;
+    animation-iteration-count: infinite;
+}
+
+@keyframes slideLeft {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-600px);
+    }
+}
