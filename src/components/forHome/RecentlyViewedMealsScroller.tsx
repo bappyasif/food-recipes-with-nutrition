@@ -85,7 +85,7 @@ export const RecentlyViewedMealsScroller = () => {
       }
 
       // console.log(beginFrom, "PAUSE from timer", isTrue)
-    }, 8000)
+    }, 6009)
     
     // setTimerRunning(timer)
     return () => clearInterval(timer)
@@ -124,7 +124,10 @@ const RenderDeliciousMealCard = ({ ...item }: ViewedMealCardType) => {
   const upTick = () => null
 
   return (
-    <div className={`${styles.moveToLeft}`}>
+    <div 
+      // className={`${styles.moveToLeft}`}
+      className={`${styles.dissolvePhoto}`}
+    >
       <Image
         className='w-60 h-48 object-cover'
         // fill={true}

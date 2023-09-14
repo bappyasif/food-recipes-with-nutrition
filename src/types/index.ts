@@ -4,3 +4,8 @@ export type ViewedMealCardType = {
     picture: string, 
     nutrition: number
 }
+
+export type CategoriesCuisinesCarouselType = {
+    name: string,
+    picture: string
+}
