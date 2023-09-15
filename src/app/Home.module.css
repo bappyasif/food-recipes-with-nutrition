@@ -37,3 +37,65 @@
         opacity: 0;
     }
 }
+
+/* vertical carousel */
+.carouselItem {
+    will-change: transform, opacity;
+    animation: cardAnim 4s linear infinite;
+}
+
+.carouselItem:nth-child(2n) {
+    animation-delay: calc(1s);
+}
+
+.carouselItem:nth-child(2n + 1) {
+    animation-delay: calc(2s);
+}
+
+@keyframes cardAnim {
+    from {
+        transform: translateY(100%) scale(0.5);
+        opacity: 0;
+        /* visibility: ; */
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 100;
+    }
+}
+
+.carouselCardItem {
+    animation: animateVertically 4s linear 0s infinite;
+}
+
+@keyframes animateVertically {
+    0% {
+        opacity: 0;
+        transform: translateY(100%) scale(.5);
+    }
+
+    5%, 20% {
+        opacity: 0.4;
+        transform: translateY(100%) scale(.7);
+    }
+    
+    25%, 40% {
+        opacity: 1;
+        transform: translateY(0%) scale(1);
+    }
+
+    45%, 60% {
+        opacity: 0.4;
+        transform: translateY(-100%) scale(.7);
+    }
+
+    65%, 100% {
+        opacity: 0;
+        transform: translateY(-100%) scale(.5);
+    }
+}
+
+.outerDiv:hover .carouselCardItem {
+    animation-play-state: paused;
+}

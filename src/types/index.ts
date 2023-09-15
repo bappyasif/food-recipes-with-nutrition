@@ -9,3 +9,8 @@ export type CategoriesCuisinesCarouselType = {
     name: string,
     picture: string
 }
+
+export type ReuseableCarouselType = {
+    title: string,
+    items: CategoriesCuisinesCarouselType[]
+}
