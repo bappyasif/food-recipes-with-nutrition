@@ -3,7 +3,11 @@ import { HomeHero } from "@/components/forHome/HomeHero";
 import { MouseWheelBasedCarouselBasic } from "@/components/forHome/MouseWheelBasedCarouselBasic";
 import { MouseWheelBasedVertical } from "@/components/forHome/MouseWheelBasedVertical";
 import { RecentlyViewedMealsScroller } from "@/components/forHome/RecentlyViewedMealsScroller";
+import VerticalCarousel from "@/components/forHome/VerticalCarousel";
+import { VerticalCarouselAttemptOne } from "@/components/forHome/VerticalCarouselAttemptOne";
+import { VerticalCarouselAttemptTwo } from "@/components/forHome/VerticalCarouselAttemptTwo";
 import { Button } from "@/components/ui/button";
+import data from "@/utils/data.json"
 
 export default function Home() {
   return (
@@ -11,10 +15,17 @@ export default function Home() {
       <h1>Home Page</h1>
       <HomeHero />
       <Button variant={"ghost"} className="bg-primary-content hover:bg-primary-foreground">Button Here</Button>
+
+      <VerticalCarouselAttemptTwo />
+
+      {/* <VerticalCarouselAttemptOne /> */}
+      
+      {/* <VerticalCarousel data={data.slides} leadingText={data.leadingText} /> */}
+
       <div className="flex items-center gap-x-20 justify-center">
       <RecentlyViewedMealsScroller />
       {/* <MouseWheelBasedCarouselBasic /> */}
-      <MouseWheelBasedVertical />
+      {/* <MouseWheelBasedVertical /> */}
       <DuoCarousels />
       </div>
     </div>
