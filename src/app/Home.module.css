@@ -255,3 +255,56 @@
   .carousel-item.visible {
     opacity: 1;
   }
+
+/* horizontal carousel */
+.card {
+  animation: slideLeft 4s infinite linear 0s;
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.cardSlides {
+  overflow: hidden;
+  padding: 60px 0;
+  background: white;
+  white-space: nowrap;
+  position: relative;
+}
+
+.cardSlides:before,
+.cardSlides:after {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  content: "";
+  z-index: 2;
+}
+
+.cardSlides:before {
+  left: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
+}
+
+.cardSlides:after {
+  right: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
+}
+
+.cardSlides:hover .logos-slide {
+  animation-play-state: paused;
+}
+
+/* .logos-slide,
+.card {
+  display: inline-block;
+  animation: 35s slideLeft infinite linear;
+} */

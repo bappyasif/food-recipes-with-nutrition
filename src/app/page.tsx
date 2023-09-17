@@ -1,5 +1,7 @@
+import { CarouselVertical } from "@/components/forHome/CarouselVertical";
 import { DuoCarousels } from "@/components/forHome/DuoCarousels";
 import { HomeHero } from "@/components/forHome/HomeHero";
+import { HorizontalCarousel } from "@/components/forHome/HorizontalCarousel";
 import { MouseWheelBasedCarouselBasic } from "@/components/forHome/MouseWheelBasedCarouselBasic";
 import { MouseWheelBasedVertical } from "@/components/forHome/MouseWheelBasedVertical";
 import { RecentlyViewedMealsScroller } from "@/components/forHome/RecentlyViewedMealsScroller";
@@ -16,7 +18,11 @@ export default function Home() {
       <HomeHero />
       <Button variant={"ghost"} className="bg-primary-content hover:bg-primary-foreground">Button Here</Button>
 
-      <VerticalCarouselAttemptTwo />
+      <CarouselVertical />
+
+      {/* <HorizontalCarousel /> */}
+
+      {/* <VerticalCarouselAttemptTwo /> */}
 
       {/* <VerticalCarouselAttemptOne /> */}
       

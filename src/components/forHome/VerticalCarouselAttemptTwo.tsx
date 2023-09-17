@@ -16,6 +16,7 @@ export const VerticalCarouselAttemptTwo = () => {
     const [activeIndex, setActiveIndex] = useState(0)
 
     const determineCardItemPlacement = (itemIndex: number) => {
+        // console.log(itemIndex, "what what")
         // positioned at list center
         if (activeIndex === itemIndex) {
             return 0;
@@ -29,8 +30,8 @@ export const VerticalCarouselAttemptTwo = () => {
                 return (itemIndex - activeIndex) * CARD_ITEM_HEIGHT
             } else {
                 // negative value moves upwards towards list's top
-                console.log(-((data.length - activeIndex) - itemIndex) * CARD_ITEM_HEIGHT, "from current to top")
-                return -((data.length - activeIndex) - itemIndex) * CARD_ITEM_HEIGHT
+                console.log(-((data.length + activeIndex) - itemIndex) * CARD_ITEM_HEIGHT, "from current to top")
+                return -((data.length + activeIndex) - itemIndex) * CARD_ITEM_HEIGHT
             }
         }
 
@@ -80,16 +81,16 @@ export const VerticalCarouselAttemptTwo = () => {
 
                 // else decrease by 1
                 return prevIdx - 1;
+            } else {
+                return prevIdx
             }
-
-            return prevIdx
         })
     }
 
     return (
         <div>
             <h2 onClick={() => handleClick("prev")}>Prev</h2>
-            <div className='flex flex-col items-center justify-end gap-y-4 h-72'>
+            <div className='flex flex-col items-center justify-center gap-y-4 h-72'>
                 {renderData()}
             </div>
             <h2 onClick={() => handleClick("next")}>Next</h2>
