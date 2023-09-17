@@ -1,4 +1,4 @@
-import { CarouselVertical } from "@/components/forHome/CarouselVertical";
+// import { CarouselVertical } from "@/components/forHome/CarouselVertical";
 import { DuoCarousels } from "@/components/forHome/DuoCarousels";
 import { HomeHero } from "@/components/forHome/HomeHero";
 import { RecentlyViewedMealsScroller } from "@/components/forHome/RecentlyViewedMealsScroller";
@@ -11,7 +11,7 @@ export default function Home() {
       <HomeHero />
       <Button variant={"ghost"} className="bg-primary-content hover:bg-primary-foreground">Button Here</Button>
 
-      <CarouselVertical />
+      {/* <CarouselVertical /> */}
 
       <div className="flex items-center gap-x-20 justify-center">
       <RecentlyViewedMealsScroller />

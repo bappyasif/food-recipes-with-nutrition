@@ -3,6 +3,8 @@
 import { CategoriesCuisinesCarouselType, ReuseableCarouselType } from '@/types'
 import Image from 'next/image'
 import React from 'react'
+import { CarouselVertical } from './CarouselVertical'
+import { Button } from '../ui/button'
 
 export const DuoCarousels = () => {
     return (
@@ -16,25 +18,21 @@ export const DuoCarousels = () => {
 const ReusableCarousel = ({ ...item }: ReuseableCarouselType) => {
     const {items, title} = item;
 
-    const renderItems = () => items.map(item => <ReusableCarouselCard key={item.name} name={item.name} picture={item.picture} />)
-
     return (
-        <div>
-            <h2>{title}</h2>
-            <div
-                className='flex flex-col gap-y-4 h-48 overflow-y-scroll'
-            >{renderItems()}</div>
+        <div className='flex flex-col gap-y-4 justify-center items-center'>
+            <h2 className='text-xl'>{title}</h2>
+            <CarouselVertical items={items} />
         </div>
     )
 }
 
-const ReusableCarouselCard = ({ ...item }: CategoriesCuisinesCarouselType) => {
+export const ReusableCarouselCard = ({ ...item }: CategoriesCuisinesCarouselType) => {
     const { name, picture } = item;
 
     return (
-        <div>
+        <Button variant={'link'} className='flex flex-col-reverse text-primary-content gap-x-4 p-1 justify-center items-center h-16 text-primary-foreground transition-all duration-500 hover:scale-110 hover:bg-primary-focus'>
             <Image
-                className='w-32 h-20 object-cover'
+                className='w-28 h-16 object-cover relative'
                 // fill={true}
                 placeholder='blur'
                 blurDataURL={picture}
@@ -44,8 +42,8 @@ const ReusableCarouselCard = ({ ...item }: CategoriesCuisinesCarouselType) => {
                 alt={`${name}`}
                 src={picture}
             />
-            <p>{name}</p>
-        </div>
+            <p className='absolute bg-secondary-focus px-4 capitalize opacity-80'>{name}</p>
+        </Button>
     )
 }
 
@@ -55,7 +53,11 @@ const categories = [
     { name: "chicken", picture: "https://source.unsplash.com/random/200?chicken" },
     { name: "fish", picture: "https://source.unsplash.com/random/200?fish" },
     { name: "duck", picture: "https://source.unsplash.com/random/200?duck" },
-    { name: "seafood", picture: "https://source.unsplash.com/random/200?seafood" }
+    { name: "seafood", picture: "https://source.unsplash.com/random/200?seafood" },
+    { name: "pork", picture: "https://source.unsplash.com/random/200?pork" },
+    { name: "eggs", picture: "https://source.unsplash.com/random/200?egg" },
+    { name: "dairy", picture: "https://source.unsplash.com/random/200?dairy" },
+    { name: "lentils", picture: "https://source.unsplash.com/random/200?lentils" }
 ]
 
 const cuisines = [
@@ -65,34 +67,8 @@ const cuisines = [
     { name: "french", picture: "https://source.unsplash.com/random/200?cuisine,french" },
     { name: "italian", picture: "https://source.unsplash.com/random/200?cuisine,italian" },
     { name: "jamaican", picture: "https://source.unsplash.com/random/200?cuisine,jamaican" },
+    { name: "bengali", picture: "https://source.unsplash.com/random/200?cuisine,bengali" },
+    { name: "indian", picture: "https://source.unsplash.com/random/200?cuisine,indian" },
+    { name: "african", picture: "https://source.unsplash.com/random/200?cuisine,african" },
+    { name: "japanese", picture: "https://source.unsplash.com/random/200?cuisine,japanese" },
 ]
-
-
-/**
- * 
- * 
- // const CuisinesCarousel = () => {
-
-//     const renderItems = () => cuisines.map(item => <ReusableCarouselCard key={item.name} name={item.name} picture={item.picture} />)
-
-//     return (
-//         <div>
-//             <h2>Cuisines</h2>
-//             <div className='flex flex-col gap-y-4 h-48 overflow-y-scroll'>{renderItems()}</div>
-//         </div>
-//     )
-// }
-
-// const CategoriesCarousel = () => {
-//     const renderItems = () => categories.map(item => <ReusableCarouselCard key={item.name} name={item.name} picture={item.picture} />)
-
-//     return (
-//         <div>
-//             <h2>Categories</h2>
-//             <div
-//                 className='flex flex-col gap-y-4 h-48 overflow-clip'
-//             >{renderItems()}</div>
-//         </div>
-//     )
-// }
- */

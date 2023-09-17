@@ -3,17 +3,23 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import styles from "@/app/Home.module.css"
+import { CategoriesCuisinesCarouselType, ReuseableCarouselType } from '@/types'
+import { ReusableCarouselCard } from './DuoCarousels'
 
-export const CarouselVertical = () => {
-    const data = ["een", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien"]
+type VerticalType = Pick<ReuseableCarouselType, "items">
+
+export const CarouselVertical = ({items:data}: VerticalType) => {
+    // const data = ["een", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien"]
 
     const [activeIdx, setActiveIdx] = useState(0)
 
-    const [currentlyViewing, setCurrentlyViewing] = useState<string[]>([])
+    const [currentlyViewing, setCurrentlyViewing] = useState<CategoriesCuisinesCarouselType[]>([])
 
     // const renderData = () => data.map(item => <Button variant={'secondary'} className='w-60'>{item}</Button>)
 
-    const renderData = () => currentlyViewing.map(item => <Button variant={'secondary'} className={`w-60 ${styles["carousel-vertical-card-item"]}`} key={item}>{item}</Button>)
+    // const renderData = () => currentlyViewing.map(item => <Button variant={'secondary'} className={`w-60 ${styles["carousel-vertical-card-item"]}`} key={item.name}>{item.name}</Button>)
+
+    const renderData = () => currentlyViewing.map(item => <ReusableCarouselCard name={item.name} picture={item.picture} key={item.name}  />)
 
     const handleCarousel = (direction:string) => {
         setActiveIdx(prevIdx => {
@@ -34,7 +40,7 @@ export const CarouselVertical = () => {
 
     const handleDataRendering = () => {
         setCurrentlyViewing(prevElms => {
-            let temp:string[] = []
+            let temp:CategoriesCuisinesCarouselType[] = []
 
             if(activeIdx === 0) {
                 temp = data.slice(data.length - 2).concat(data.slice(0, 3))
@@ -54,19 +60,19 @@ export const CarouselVertical = () => {
 
     useEffect(() => {
         setCurrentlyViewing([])
-        handleDataRendering()
+        data?.length && handleDataRendering()
     }, [activeIdx])
     
   return (
-    <div className='w-96 relative flex flex-col items-center'>
+    <div className='w-48 relative flex flex-col items-center'>
         {/* {activeIdx} */}
         <Button variant={'destructive'} onClick={() => handleCarousel("prev")}>Prev</Button>
         <div 
-            className='flex flex-col flex-nowrap overflow-y-hidden gap-y-4 h-60 
+            className='flex flex-col items-center flex-nowrap overflow-y-hidden gap-y-4 h-80 
 
-            before:content-[""] before:h-14 before:absolute before:text-red-600 before:w-60 before:bg-gradient-to-b before:from-slate-400 before:to-slate-200 before:opacity-80
+            before:content-[""] before:h-8 before:absolute before:text-red-600 before:w-44 before:bg-gradient-to-b before:from-slate-400 before:to-slate-200 before:opacity-80 before:z-20
 
-            after:content-[""] after:h-14 after:absolute after:bottom-10 after:text-red-600 after:w-60 after:bg-gradient-to-b after:from-slate-400 after:to-slate-200 after:opacity-80
+            after:content-[""] after:h-8 after:absolute after:bottom-10 after:text-red-600 after:w-44 after:bg-gradient-to-b after:from-slate-400 after:to-slate-200 after:opacity-80 after:z-20
             '>{renderData()}</div>
         <Button variant={'destructive'} onClick={() => handleCarousel("next")}>Next</Button>
     </div>
