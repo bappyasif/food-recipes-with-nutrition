@@ -1,6 +1,8 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from 'react'
+import { categories } from './DuoCarousels'
+import { Button } from '../ui/button'
 
 export const MouseWheelBasedCarouselBasic = () => {
     const [cards, setCards] = useState<React.JSX.Element[]>([])
@@ -34,7 +36,7 @@ export const MouseWheelBasedCarouselBasic = () => {
         const newCards:React.JSX.Element[] = [];
 
         for(let i=0; i<8; i++) {
-            newCards.push(<MemoizedCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} />)
+            newCards.push(<MemoizedCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} title={categories[i].name} />)
             
             // newCards.push(<CarouselCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} />)
         }
@@ -66,15 +68,19 @@ export const MouseWheelBasedCarouselBasic = () => {
         
         const timer = setTimeout(() => {
             setThetaTracked(temp_theta)
-            console.log("cleared timer", timerId)
+            console.log(temp_theta, "cleared timer", timerId)
         }, 200)
         
         setTimerId(timer);
         // setThetaTracked(temp_theta)
     }
 
+    const handleSpin = () => {
+
+    }
+
     return (
-        <div className='absolute top-[50%]'>
+        <div className='absolute top-[50%] flex justify-center items-center'>
             <div
                 onWheel={handleScroll}
                 id='wheel'
@@ -90,18 +96,19 @@ export const MouseWheelBasedCarouselBasic = () => {
                 {/* {cards[0]} */}
                 {cards}
             </div>
+            <Button variant={'destructive'} className='absolute' onClick={handleSpin}>Spin</Button>
         </div>
     )
 }
 
 
 const CarouselCard = ({ ...item }: {
-    theta: number, radius: number, center: {
+    title: string, theta: number, radius: number, center: {
         x: number;
         y: number;
     }
 }) => {
-    const { center, radius, theta } = item;
+    const { center, radius, theta, title } = item;
 
     const newCoords = {
         x: Math.cos(theta) * radius,
@@ -109,10 +116,15 @@ const CarouselCard = ({ ...item }: {
     }
 
     return (
-        <div className='absolute -translate-x-[50%] -translate-y-[50%] bg-blue-800 rounded-full'
+        <div className='absolute -translate-x-[50%] -translate-y-[50%] bg-blue-800 rounded-full flex justify-center items-center'
             style={{...styles.card, left: `${center.x + newCoords.x}px`, top: `${center.y + newCoords.y}px`}}
         >
-
+            <h2 className='' 
+                // style={{transform: `rotate(${theta * 45}deg)`}}
+            >
+                {title} 
+                {/* {theta} */}
+            </h2>
         </div>
     )
 }

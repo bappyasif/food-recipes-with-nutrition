@@ -47,7 +47,7 @@ export const ReusableCarouselCard = ({ ...item }: CategoriesCuisinesCarouselType
     )
 }
 
-const categories = [
+export const categories = [
     { name: "vegetables", picture: "https://source.unsplash.com/random/200?vegetables" },
     { name: "beef", picture: "https://source.unsplash.com/random/200?beef" },
     { name: "chicken", picture: "https://source.unsplash.com/random/200?chicken" },
@@ -60,7 +60,7 @@ const categories = [
     { name: "lentils", picture: "https://source.unsplash.com/random/200?lentils" }
 ]
 
-const cuisines = [
+export const cuisines = [
     { name: "american", picture: "https://source.unsplash.com/random/200?cuisine,american" },
     { name: "british", picture: "https://source.unsplash.com/random/200?cuisine,british" },
     { name: "chinese", picture: "https://source.unsplash.com/random/200?cuisine,chinese" },
