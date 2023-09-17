@@ -255,3 +255,28 @@
   .carousel-item.visible {
     opacity: 1;
   }
+
+  /* carousel vertical */
+  .carousel-vertical-card-item {
+    /* animation: bottomUp 2s 1 linear 0; */
+    /* animation-name: bottomUp; */
+    animation-duration: 4000ms;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0ms;
+    animation-iteration-count: 1;
+  }
+
+  @keyframes bottomUp {
+    0% {
+      transform: translateY(40%);
+    }
+
+    50% {
+      transform: translateY(0);
+    }
+
+    100% {
+      transform: translateY(-40%);
+    }
+
+  }

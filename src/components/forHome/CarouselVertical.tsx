@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
+import styles from "@/app/Home.module.css"
 
 export const CarouselVertical = () => {
     const data = ["een", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien"]
@@ -12,7 +13,7 @@ export const CarouselVertical = () => {
 
     // const renderData = () => data.map(item => <Button variant={'secondary'} className='w-60'>{item}</Button>)
 
-    const renderData = () => currentlyViewing.map(item => <Button variant={'secondary'} className='w-60'>{item}</Button>)
+    const renderData = () => currentlyViewing.map(item => <Button variant={'secondary'} className={`w-60 ${styles["carousel-vertical-card-item"]}`} key={item}>{item}</Button>)
 
     const handleCarousel = (direction:string) => {
         setActiveIdx(prevIdx => {
@@ -52,13 +53,21 @@ export const CarouselVertical = () => {
     }
 
     useEffect(() => {
+        setCurrentlyViewing([])
         handleDataRendering()
     }, [activeIdx])
     
   return (
-    <div>
+    <div className='w-96 relative flex flex-col items-center'>
+        {/* {activeIdx} */}
         <Button variant={'destructive'} onClick={() => handleCarousel("prev")}>Prev</Button>
-        <div className='flex flex-col flex-nowrap overflow-y-scroll gap-y-4 h-60'>{renderData()}</div>
+        <div 
+            className='flex flex-col flex-nowrap overflow-y-hidden gap-y-4 h-60 
+
+            before:content-[""] before:h-14 before:absolute before:text-red-600 before:w-60 before:bg-gradient-to-b before:from-slate-400 before:to-slate-200 before:opacity-80
+
+            after:content-[""] after:h-14 after:absolute after:bottom-10 after:text-red-600 after:w-60 after:bg-gradient-to-b after:from-slate-400 after:to-slate-200 after:opacity-80
+            '>{renderData()}</div>
         <Button variant={'destructive'} onClick={() => handleCarousel("next")}>Next</Button>
     </div>
   )

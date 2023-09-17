@@ -5,7 +5,6 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import { useForTruthToggle } from '@/hooks/forComponents'
-import { NoobTimer } from './NoobTimer'
 import styles from "@/app/Home.module.css"
 
 export const RecentlyViewedMealsScroller = () => {
@@ -98,8 +97,6 @@ export const RecentlyViewedMealsScroller = () => {
 
   return (
     <div>
-      <NoobTimer />
-
       <h2>Some Recently Viewed Meals</h2>
       <div>
       <Button onClick={handlePrev}>prev</Button>
