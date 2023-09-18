@@ -2,7 +2,9 @@
 import { DuoCarousels } from "@/components/forHome/DuoCarousels";
 import { HomeHero } from "@/components/forHome/HomeHero";
 import { MouseWheelBasedCarouselBasic } from "@/components/forHome/MouseWheelBasedCarouselBasic";
+import { RandomizeSelection } from "@/components/forHome/RandomizeSelection";
 import { RecentlyViewedMealsScroller } from "@/components/forHome/RecentlyViewedMealsScroller";
+import { VerticalCarousel } from "@/components/forHome/VerticalCarousel";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -10,12 +12,12 @@ export default function Home() {
     <div className="h-[100vh] bg-primary">
       <h1>Home Page</h1>
       <HomeHero />
-      <Button variant={"ghost"} className="bg-primary-content hover:bg-primary-foreground">Button Here</Button>
+      <RandomizeSelection />
+      {/* <Button variant={"ghost"} className="bg-primary-content hover:bg-primary-foreground">Button Here</Button> */}
 
       {/* <CarouselVertical /> */}
-      <div className="flex justify-center relative z-20">
-      <MouseWheelBasedCarouselBasic />
-      </div>
+
+      {/* <VerticalCarousel /> */}
 
       <div className="flex items-center gap-x-20 justify-center">
         <RecentlyViewedMealsScroller />
