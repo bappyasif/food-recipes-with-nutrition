@@ -76,7 +76,17 @@ export const MouseWheelBasedCarouselBasic = () => {
     }
 
     const handleSpin = () => {
+        let temp_theta = thetaTracked;
+        for(let i=0; i<8; i++) {
+            temp_theta += 120;
+            wheelRef.current.style.transform = `translate(-50%, -50%) rotate(${temp_theta * i}deg)`
+            setThetaTracked(temp_theta)
+        }
 
+        let rndNum = Math.round(Math.random() * 8)
+        console.log(rndNum, "can be used to get a random category from shuffle")
+
+        // setThetaTracked(temp_theta)
     }
 
     return (
