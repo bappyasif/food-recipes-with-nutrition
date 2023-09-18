@@ -1,7 +1,6 @@
 // import { CarouselVertical } from "@/components/forHome/CarouselVertical";
 import { DuoCarousels } from "@/components/forHome/DuoCarousels";
 import { HomeHero } from "@/components/forHome/HomeHero";
-import { MouseWheelBasedCarouselBasic } from "@/components/forHome/MouseWheelBasedCarouselBasic";
 import { RandomizeSelection } from "@/components/forHome/RandomizeSelection";
 import { RecentlyViewedMealsScroller } from "@/components/forHome/RecentlyViewedMealsScroller";
 import { VerticalCarousel } from "@/components/forHome/VerticalCarousel";

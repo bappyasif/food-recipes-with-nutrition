@@ -1,15 +1,14 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from 'react'
-import { categories } from './DuoCarousels'
 import { Button } from '../ui/button'
 
-import styles2 from "./Swiper.module.css"
+import { MouseWheelBasedCarouselType } from '@/types'
 
-export const MouseWheelBasedCarouselBasic = ({rndNum, handleRandomNumber, handleResetRandomNumber}: {rndNum: number, handleRandomNumber: () => void, handleResetRandomNumber: () => void}) => {
+export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) => {
     const [cards, setCards] = useState<React.JSX.Element[]>([])
 
-    // const [radius, setRadius] = useState(250);
+    const {rndNum, handleRandomNumber, handleResetRandomNumber, dataset} = item;
 
     const radius = 150
 
@@ -19,11 +18,6 @@ export const MouseWheelBasedCarouselBasic = ({rndNum, handleRandomNumber, handle
         x: number;
         y: number;
     }>({ x: 0, y: 0 })
-
-    // const centerOfWheel = {
-    //     x: parseFloat(wheelRef.current.style.width) / 2.0,
-    //     y: parseFloat(wheelRef.current.style.height) / 2.0,
-    // }
 
     const getCenterOfWheel = () => {
         const wheelCenter = {
@@ -38,7 +32,7 @@ export const MouseWheelBasedCarouselBasic = ({rndNum, handleRandomNumber, handle
         const newCards:React.JSX.Element[] = [];
 
         for(let i=0; i<8; i++) {
-            newCards.push(<MemoizedCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} title={categories[i].name} selected={categories[i].name === categories[rndNum]?.name} />)
+            newCards.push(<MemoizedCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} title={dataset[i].name} selected={dataset[i].name === dataset[rndNum]?.name} />)
             
             // newCards.push(<CarouselCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} title={categories[i].name} selected={categories[i].name === categories[rndNum].name} />)
         }
@@ -99,6 +93,7 @@ export const MouseWheelBasedCarouselBasic = ({rndNum, handleRandomNumber, handle
                 id='wheel'
                 ref={wheelRef}
                 className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-primary-focus'
+                // className='absolute top-[50%] -translate-y-[50%] bg-primary-focus'
                 style={{
                     width: "180px",
                     height: "180px",
@@ -159,7 +154,7 @@ const styles = {
 const WheelParts = () => {
     const options = [1, 2, 3, 4, 5, 6, 7, 8];
     
-    const renderOptions = () => options.map(num => <span key={num} className={`${styles2["span1"+num]} absolute w-1/3 h-1/3 inline-block`}>{num}</span>)
+    const renderOptions = () => options.map(num => <span key={num} className={` absolute w-1/3 h-1/3 inline-block`}>{num}</span>)
 
     return (
         <div className="circle w-60 h-60 rounded-full bg-gray-600">

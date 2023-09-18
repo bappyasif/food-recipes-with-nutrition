@@ -28,3 +28,10 @@ export type CarouselDataType = {
     data: SlideTypes[],
     leadingText: string
 }
+
+export type MouseWheelBasedCarouselType = {
+    rndNum: number,
+    handleRandomNumber: () => void,
+    handleResetRandomNumber: () => void,
+    dataset:CategoriesCuisinesCarouselType[]
+}
