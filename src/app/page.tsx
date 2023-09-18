@@ -4,6 +4,7 @@ import { HomeHero } from "@/components/forHome/HomeHero";
 import { RandomizeSelection } from "@/components/forHome/RandomizeSelection";
 import { RecentlyViewedMealsScroller } from "@/components/forHome/RecentlyViewedMealsScroller";
 import { VerticalCarousel } from "@/components/forHome/VerticalCarousel";
+import { DragAndDrop } from "@/components/forUtilities/dragAndDrop/DragAndDrop";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
     <div className="h-[100vh] bg-primary">
       <h1>Home Page</h1>
       <HomeHero />
+      <DragAndDrop />
       <RandomizeSelection />
       {/* <Button variant={"ghost"} className="bg-primary-content hover:bg-primary-foreground">Button Here</Button> */}
 
