@@ -3,16 +3,22 @@
 import React, { useState } from 'react'
 import { Dustbin } from './Dustbin'
 import { Box } from './Box'
+import { CardsContainer } from './CardsContainer'
+
+export type CardType = {id: number, text: string}
 
 export const Container = () => {
-    const [cards, setCards] = useState<string[]>([])
-    const handleAddToList = (item: string) => setCards(prev => [...prev, item])
+    const [cards, setCards] = useState<CardType[]>([])
+    // const handleAddToList = (item: string) => setCards(prev => [...prev, item])
+    const handleAddToList = (item: string) => setCards(prev => [...prev, {id: cards.length, text: item}])
 
   return (
     <div>
-      <div style={{ overflow: 'hidden', clear: 'both' }}>
+      <div className='flex gap-x-4' style={{ overflow: 'hidden', clear: 'both' }}>
         <Dustbin cards={cards} />
         {cards?.length}
+        <CardsContainer cards={cards} updateCards={(data) => setCards(data)} />
+        {/* <CardsContainer /> */}
       </div>
       <div className='flex flex-col gap-y-1 w-fit text-primary-content' style={{ overflow: 'hidden', clear: 'both' }}>
         <Box name="Glass" handleAddToList={handleAddToList} />

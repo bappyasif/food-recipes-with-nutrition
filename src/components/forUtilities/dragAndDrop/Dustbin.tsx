@@ -1,5 +1,6 @@
 import React, { CSSProperties, useCallback } from 'react'
 import { useDrop } from 'react-dnd'
+import { CardType } from './Container'
 
 const style: CSSProperties = {
     height: '12rem',
@@ -19,7 +20,8 @@ export const ItemTypes = {
 }
 
 
-export const Dustbin = ({cards}: {cards: string[]}) => {
+// export const Dustbin = ({cards}: {cards: string[]}) => {
+export const Dustbin = ({cards}: {cards: CardType[]}) => {
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         accept: ItemTypes.BOX,
         drop: () => ({ name: 'Dustbin bees!!' }),
@@ -39,7 +41,7 @@ export const Dustbin = ({cards}: {cards: string[]}) => {
 
     const renderCard = useCallback((card:string, index:number) => {
         return (
-            <h2 key={card}>{card}</h2>
+            <h2 key={card + index}>{card}</h2>
         //   <Card
         //     key={card.id}
         //     index={index}
@@ -50,7 +52,7 @@ export const Dustbin = ({cards}: {cards: string[]}) => {
         )
       }, [])
 
-      const renderCards = () => cards.map((card, idx) => renderCard(card, idx))
+      const renderCards = () => cards.map((card, idx) => renderCard(card.text, idx))
 
     return (
         <div

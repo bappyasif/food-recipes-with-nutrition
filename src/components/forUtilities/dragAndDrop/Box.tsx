@@ -30,7 +30,7 @@ export const Box = ({ name, handleAddToList }: BoxProps) => {
         const dropResult = monitor.getDropResult<DropResult>()
         if (item && dropResult) {
             handleAddToList(item.name)
-          alert(`You dropped ${item.name} into ${dropResult.name}!`)
+          // alert(`You dropped ${item.name} into ${dropResult.name}!`)
         }
       },
       collect: (monitor) => ({
