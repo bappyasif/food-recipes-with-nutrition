@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export const useForPauseAndPlayMealScroll = () => {
     const [seconds, setSeconds] = useState(30);
@@ -32,4 +32,12 @@ export const useForTruthToggle = () => {
     const handleFalsy = () => setIsTrue(false)
 
     return {isTrue, handleFalsy, handleTruthy}
+}
+
+export const useForInputTextChange = () => {
+    const [text, setText] = useState("");
+
+    const handleTextChange = (e:ChangeEvent<HTMLInputElement>) => setText(e.target.value)
+
+    return {text, handleTextChange}
 }
