@@ -8,9 +8,9 @@ import moment from 'moment'
 import React, { useState } from 'react'
 import { Calendar, SlotInfo, momentLocalizer } from "react-big-calendar"
 
-const localizer = momentLocalizer(moment)
+export const localizer = momentLocalizer(moment)
 
-type EventItemTypes = {
+export type EventItemTypes = {
     start: Date;
     end: Date;
     id: number;
@@ -18,7 +18,7 @@ type EventItemTypes = {
     description: string;
 }
 
-const ITEMS = [
+export const ITEMS = [
     {
         start: moment().toDate(),
         end: moment().add(1, "days").toDate(),
@@ -108,7 +108,7 @@ export const WithoutDnd = () => {
 
 // const EventOptionsDropDown = ({event, remove}: {event: EventItemTypes, remove: () => void}) => {
 // const EventOptionsDropDown = ({ event }: { event: EventItemTypes}) => {
-const EventOptionsDropDown = (props:any) => {
+export const EventOptionsDropDown = (props:any) => {
     return (
         <div className='flex justify-between'>
             {/* <h2>{event.title}</h2> */}
@@ -137,7 +137,7 @@ const EventOptionsDropDown = (props:any) => {
     )
 }
 
-const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFromList, handleEdit }: { open: boolean, handleClose: () => void, handleRemoveFromList: () => void, handleEdit: (t:string) => void }) => {
+export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFromList, handleEdit }: { open: boolean, handleClose: () => void, handleRemoveFromList: () => void, handleEdit: (t:string) => void }) => {
     
     const handleDelete = () => {
         handleRemoveFromList()
@@ -173,7 +173,7 @@ const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFromList, h
     )
 }
 
-const DialogModal = ({ open, handleClose, slotData, handleAddToList }: { open: boolean, handleClose: () => void, slotData: SlotInfo | undefined, handleAddToList: (d: any) => void }) => {
+export const DialogModal = ({ open, handleClose, slotData, handleAddToList }: { open: boolean, handleClose: () => void, slotData: SlotInfo | undefined, handleAddToList: (d: any) => void }) => {
     const { handleTextChange, text } = useForInputTextChange()
 
     const handleAdd = () => {

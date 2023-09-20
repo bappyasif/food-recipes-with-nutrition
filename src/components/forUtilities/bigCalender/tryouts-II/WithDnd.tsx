@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, { useState } from 'react'
 import BigCalendar, { Calendar, momentLocalizer } from "react-big-calendar"
-import withDragAndDrop, { EventInteractionArgs, withDragAndDropProps } from 'react-big-calendar/lib/addons/dragAndDrop'
+import withDragAndDrop, { DragFromOutsideItemArgs, EventInteractionArgs, withDragAndDropProps } from 'react-big-calendar/lib/addons/dragAndDrop'
 
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 
@@ -58,6 +58,14 @@ export const WithDnd = () => {
     //     console.log("resizing event", data)
     // }
 
+    const handleDraggedFromOutside = (event: object) => {
+        console.log("fukkk yuuu", event)
+    }
+
+    const handleDroppedFromOutside = ({start, end}: DragFromOutsideItemArgs) => {
+        console.log("dropped from outside calendar!!")
+    }
+
     return (
         <div>
             WithDnd {events.length}
@@ -70,6 +78,9 @@ export const WithDnd = () => {
                 onEventDrop={handleMoveEvent}
                 defaultView='month'
                 defaultDate={new Date(2015, 3, 12)}
+                // dragFromOutsideItem={handleDraggedFromOutside}
+                // onDropFromOutside={handleDroppedFromOutside}
+                onDropFromOutside={({ start, end, allDay }) => {console.log(start, end, "!!")}}
 
                 style={{
                     height: "40vh"
@@ -79,7 +90,7 @@ export const WithDnd = () => {
     )
 }
 
-const ITEMS = [
+export const ITEMS = [
     {
         id: 0,
         title: "All Day Event very long title",
