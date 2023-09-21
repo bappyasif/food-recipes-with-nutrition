@@ -1,4 +1,5 @@
 // import { CarouselVertical } from "@/components/forHome/CarouselVertical";
+import { SimpleCounter } from "@/components/SimpleCounter";
 import { DuoCarousels } from "@/components/forHome/DuoCarousels";
 import { HomeHero } from "@/components/forHome/HomeHero";
 import { RandomizeSelection } from "@/components/forHome/RandomizeSelection";
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <div className="h-[100vh] bg-primary">
       <h1>Home Page</h1>
+      <SimpleCounter />
       <HomeHero />
       <Scheduler />
       <DragAndDrop />

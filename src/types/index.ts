@@ -33,5 +33,38 @@ export type MouseWheelBasedCarouselType = {
     rndNum: number,
     handleRandomNumber: () => void,
     handleResetRandomNumber: () => void,
-    dataset:CategoriesCuisinesCarouselType[]
+    dataset: CategoriesCuisinesCarouselType[]
+}
+
+export type DynamicStringKeyType = {
+    [key: string]: string
+}
+
+export type IngredientsType = {
+    ingredients: DynamicStringKeyType[]
+}
+
+export type MeasurmentsType = {
+    measurements: DynamicStringKeyType[]
+}
+
+export type RecipeTypes = {
+    idMeal: string,
+    strMeal: string,
+    strCategory: string,
+    strArea: string,
+    strInstructions: string,
+    strMealThumb: string,
+    strTags: string,
+    strYoutube: string,
+    ingredients: IngredientsType,
+    measurements: MeasurmentsType
+    strSource?: string,
+    count?: number
+}
+
+export type NavType = {
+    name: string,
+    path: string,
+    icon: string
 }
