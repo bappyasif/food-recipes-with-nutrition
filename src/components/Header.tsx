@@ -35,12 +35,13 @@ const ShowAllFoundRecipes = ({text}: {text: string}) => {
   const [recipes, setRecipes] = useState<RecipeTypes[]>([])
 
   useEffect(() => {
-    searchRecipesByNameFromApi(text).then(data => setRecipes(data.meals)).catch(err => console.log(err))
+    text && searchRecipesByNameFromApi(text).then(data => setRecipes(data.meals)).catch(err => console.log(err))
+    !text && setRecipes([])
   }, [text])
 
   const renderRecipes = () => recipes.map(item => {
     return (
-      <div className='flex gap-x-2'>
+      <div key={item.idMeal} className='flex gap-x-2'>
         <span>{item?.strMeal}</span>
         <span>{item.strArea}</span>
         <span>{item.strCategory}</span>
@@ -49,7 +50,7 @@ const ShowAllFoundRecipes = ({text}: {text: string}) => {
   })
 
   return (
-    <div className='absolute flex flex-col gap-y-2'>
+    <div className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-40" : "h-0"} overflow-y-scroll`}>
       { recipes?.length ? renderRecipes() : null}
     </div>
   )

@@ -68,3 +68,13 @@ export type NavType = {
     path: string,
     icon: string
 }
+
+export type CategoryTypes = {
+    strCategory: string,
+    count: number
+}
+
+export type CuisineTypes = {
+    strArea: string,
+    count: number
+}
