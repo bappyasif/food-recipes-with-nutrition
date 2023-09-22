@@ -5,6 +5,10 @@ import React, { useState } from 'react'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Label } from '../ui/label'
 import { Checkbox } from '../ui/checkbox'
+import { Button } from '../ui/button'
+import { searchRecipes } from '@/utils/dataFetching'
+// import { useRouter } from 'next/router'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 export const FiltersDashboard = () => {
     const [filters, setFilters] = useState<{ category: string, cuisines: string[] }>({ category: "", cuisines: [] })
@@ -29,6 +33,38 @@ export const FiltersDashboard = () => {
         })
     }
 
+    const router = useRouter()
+
+    // const params = useParams()
+    // console.log(params, "poarmas!!")
+
+    // const pathname = usePathname()
+    // console.log(pathname)
+
+    // const searchParams = useSearchParams()
+    // console.log(searchParams.entries)
+
+    const handleSearchNow = () => {
+        const params = {
+            type: "public",
+            q: "Beef",
+            app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
+            app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
+            helath: "paleo",
+            cuisineType: "American",
+            mealType: "Lunch",
+            dishType: "Main course"
+        }
+
+        // router.push(`?type=public&q=beef`)
+
+        router.replace(`?type=public&q=beef`)
+
+        // router?.push(`type=public&q=beef`, undefined, {shallow: true})
+
+        // searchRecipes(params).then(d => console.log(d)).catch(err => console.log(err))
+    }
+
     return (
         <div>
             <h1>FiltersDashboard</h1>
@@ -37,6 +73,7 @@ export const FiltersDashboard = () => {
                 <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />
                 <CuisinesCheckboxes handleFiltersChange={handleFiltersChange} />
             </div>
+            <Button onClick={handleSearchNow}>Search Now</Button>
         </div>
     )
 }
