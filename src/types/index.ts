@@ -78,3 +78,14 @@ export type CuisineTypes = {
     strArea: string,
     count: number
 }
+
+export type ShallowRoutingTypes = {
+    type?: string,
+    q?: string,
+    app_id?: string,
+    app_key?: string,
+    health?: string,
+    cuisineType?: string,
+    mealType?: string,
+    dishType?: string
+}

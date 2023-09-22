@@ -1,3 +1,6 @@
+import { ShallowRoutingTypes } from "@/types";
+import { searchRecipes } from "@/utils/dataFetching";
+import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
 export const useForPauseAndPlayMealScroll = () => {
@@ -31,13 +34,58 @@ export const useForTruthToggle = () => {
 
     const handleFalsy = () => setIsTrue(false)
 
-    return {isTrue, handleFalsy, handleTruthy}
+    return { isTrue, handleFalsy, handleTruthy }
 }
 
 export const useForInputTextChange = () => {
     const [text, setText] = useState("");
 
-    const handleTextChange = (e:ChangeEvent<HTMLInputElement>) => setText(e.target.value)
+    const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => setText(e.target.value)
 
-    return {text, handleTextChange}
+    return { text, handleTextChange }
+}
+
+export const useForExtractingQueriesFromUrl = () => {
+    const [params, setParams] = useState<ShallowRoutingTypes>({ app_id: "", app_key: "", cuisineType: "", dishType: "", health: "", mealType: "", q: "", type: "" })
+    const searchParams = useSearchParams();
+    console.log(searchParams.get("q"), searchParams.keys)
+
+    const updateParams = (d: string, k: string) => setParams(prev => ({ ...prev, [k]: d }))
+
+    const runOnce = () => {
+        if (searchParams.get("q")) {
+            updateParams(searchParams.get("q")!, "q")
+        } else if (searchParams.get("health")) {
+            updateParams(searchParams.get("health")!, "health")
+        } else if (searchParams.get("cuisineType")) {
+            updateParams(searchParams.get("cuisineType")!, "cuisineType")
+        } else if (searchParams.get("mealType")) {
+            updateParams(searchParams.get("mealType")!, "mealType")
+        } else if (searchParams.get("dishType")) {
+            updateParams(searchParams.get("dishType")!, "dishType")
+        }
+    }
+
+    useEffect(() => {
+        setParams(prev => ({
+            ...prev, type: "public", app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
+            app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY
+        }))
+
+        runOnce()
+
+    }, [])
+
+    useEffect(() => {
+        // runOnce()
+    }, [params])
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            // console.log(params)
+            params?.q && searchRecipes(params).then(d => console.log(d)).catch(err => console.log(err))
+        }, 1001)
+
+        return () => clearTimeout(timer)
+    }, [params])
 }

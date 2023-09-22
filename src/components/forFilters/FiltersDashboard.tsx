@@ -9,6 +9,7 @@ import { Button } from '../ui/button'
 import { searchRecipes } from '@/utils/dataFetching'
 // import { useRouter } from 'next/router'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useForExtractingQueriesFromUrl } from '@/hooks/forComponents'
 
 export const FiltersDashboard = () => {
     const [filters, setFilters] = useState<{ category: string, cuisines: string[] }>({ category: "", cuisines: [] })
@@ -42,7 +43,9 @@ export const FiltersDashboard = () => {
     // console.log(pathname)
 
     // const searchParams = useSearchParams()
-    // console.log(searchParams.entries)
+    // console.log(searchParams.entries(), searchParams.get("q"), searchParams.values)
+
+    useForExtractingQueriesFromUrl()
 
     const handleSearchNow = () => {
         const params = {
@@ -50,7 +53,7 @@ export const FiltersDashboard = () => {
             q: "Beef",
             app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
             app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
-            helath: "paleo",
+            health: "paleo",
             cuisineType: "American",
             mealType: "Lunch",
             dishType: "Main course"
@@ -58,11 +61,15 @@ export const FiltersDashboard = () => {
 
         // router.push(`?type=public&q=beef`)
 
-        router.replace(`?type=public&q=beef`)
+        // router.replace(`?type=public&q=beef&health=paleo`)
+
+        router.push(`?q=beefnot&health=paleo`, undefined)
 
         // router?.push(`type=public&q=beef`, undefined, {shallow: true})
 
-        // searchRecipes(params).then(d => console.log(d)).catch(err => console.log(err))
+        // console.log(params)
+
+        searchRecipes(params).then(d => console.log(d)).catch(err => console.log(err))
     }
 
     return (
