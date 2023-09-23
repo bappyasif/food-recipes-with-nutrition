@@ -92,27 +92,12 @@ export type ShallowRoutingTypes = {
 
 export type RecipeMealType = {
     "label": string,
+    "cautions": [string],
     "images": {
-      "THUMBNAIL": {
-        "url": string,
-        "width": number,
-        "height": 0
-      },
-      "SMALL": {
-        "url": string,
-        "width": number,
-        "height": 0
-      },
-      "REGULAR": {
-        "url": string,
-        "width": number,
-        "height": 0
-      },
-      "LARGE": {
-        "url": string,
-        "width": number,
-        "height": 0
-      }
+      "THUMBNAIL": ImageItemType,
+      "SMALL": ImageItemType,
+      "REGULAR": ImageItemType,
+      "LARGE": ImageItemType
     },
     "source": string,
     "url": string,
@@ -125,14 +110,7 @@ export type RecipeMealType = {
       string
     ],
     "ingredients": [
-      {
-        "text": string,
-        "quantity": number,
-        "measure": string,
-        "food": string,
-        "weight": number,
-        "foodId": string
-      }
+        IngredientItemType
     ],
     "calories": number,
     "co2EmissionsClass": string,
@@ -146,22 +124,39 @@ export type RecipeMealType = {
     "dishType": [
       string
     ],
-    "instructions": [
-      string
-    ],
     "tags": [
       string
     ],
     "digest": [
-      {
-        "label": string,
-        "tag": string,
-        "schemaOrgTag": string,
-        "total": number,
-        "hasRDI": true,
-        "daily": number,
-        "unit": string,
-        "sub": {}
-      }
-    ]
+        DigestItemType
+    ],
+    count?: number
+  }
+
+export type ImageItemType = {
+    "url": string,
+    "width": number,
+    "height": 0
+  }
+
+export type IngredientItemType = {
+    "text": string,
+    "quantity": number,
+    "measure": string,
+    "food": string,
+    "weight": number,
+    "foodId": string,
+    "image": string,
+    "foodCategory": string
+  }
+
+export type DigestItemType = {
+    "label": string,
+    "tag": string,
+    "schemaOrgTag": string,
+    "total": number,
+    "hasRDI": true,
+    "daily": number,
+    "unit": string,
+    "sub": {}
   }

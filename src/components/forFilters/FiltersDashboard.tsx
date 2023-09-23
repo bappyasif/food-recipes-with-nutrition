@@ -82,7 +82,7 @@ export const FiltersDashboard = () => {
                 <CuisinesCheckboxes handleFiltersChange={handleFiltersChange} />
             </div>
             <Button onClick={handleSearchNow}>Search Now</Button>
-            <RecipesView recipes={mealsRecipes} />
+            {/* <RecipesView recipes={mealsRecipes} /> */}
         </div>
     )
 }
