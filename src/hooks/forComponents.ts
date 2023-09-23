@@ -1,4 +1,4 @@
-import { ShallowRoutingTypes } from "@/types";
+import { RecipeMealType, ShallowRoutingTypes } from "@/types";
 import { searchRecipes } from "@/utils/dataFetching";
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -46,16 +46,16 @@ export const useForInputTextChange = () => {
 }
 
 export const useForExtractingQueriesFromUrl = () => {
-    const [params, setParams] = useState<ShallowRoutingTypes>({ app_id: "", app_key: "", cuisineType: "", dishType: "", health: "", mealType: "", q: "", type: "" })
+    const [params, setParams] = useState<ShallowRoutingTypes>({  })
+    const [mealsRecipes, setMealsRecipes] = useState<RecipeMealType[]>([])
+
     const searchParams = useSearchParams();
-    console.log(searchParams.get("q"), searchParams.keys)
+    console.log(searchParams.get("q"), searchParams.size)
 
     const updateParams = (d: string, k: string) => setParams(prev => ({ ...prev, [k]: d }))
 
     const runOnce = () => {
-        if (searchParams.get("q")) {
-            updateParams(searchParams.get("q")!, "q")
-        } else if (searchParams.get("health")) {
+        if (searchParams.get("health")) {
             updateParams(searchParams.get("health")!, "health")
         } else if (searchParams.get("cuisineType")) {
             updateParams(searchParams.get("cuisineType")!, "cuisineType")
@@ -63,13 +63,16 @@ export const useForExtractingQueriesFromUrl = () => {
             updateParams(searchParams.get("mealType")!, "mealType")
         } else if (searchParams.get("dishType")) {
             updateParams(searchParams.get("dishType")!, "dishType")
+        } else if (searchParams.get("q")) {
+            updateParams(searchParams.get("q")!, "q")
         }
     }
 
     useEffect(() => {
         setParams(prev => ({
             ...prev, type: "public", app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
-            app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY
+            app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
+            q: searchParams.get("q") as string
         }))
 
         runOnce()
@@ -82,10 +85,18 @@ export const useForExtractingQueriesFromUrl = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            // console.log(params)
-            params?.q && searchRecipes(params).then(d => console.log(d)).catch(err => console.log(err))
+            console.log(params)
+            params?.q && searchRecipes(params).then(d =>{
+                console.log(d)
+                const onlyRecipes = d?.hits.map((item:any) => item.recipe)
+                onlyRecipes?.length &&  setMealsRecipes(onlyRecipes)
+            }).catch(err => console.log(err))
         }, 1001)
+
+        console.log("runing!!")
 
         return () => clearTimeout(timer)
     }, [params])
+
+    return {mealsRecipes}
 }

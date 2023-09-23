@@ -89,3 +89,79 @@ export type ShallowRoutingTypes = {
     mealType?: string,
     dishType?: string
 }
+
+export type RecipeMealType = {
+    "label": string,
+    "images": {
+      "THUMBNAIL": {
+        "url": string,
+        "width": number,
+        "height": 0
+      },
+      "SMALL": {
+        "url": string,
+        "width": number,
+        "height": 0
+      },
+      "REGULAR": {
+        "url": string,
+        "width": number,
+        "height": 0
+      },
+      "LARGE": {
+        "url": string,
+        "width": number,
+        "height": 0
+      }
+    },
+    "source": string,
+    "url": string,
+    "shareAs": string,
+    "yield": number,
+    "dietLabels": [
+      string
+    ],
+    "healthLabels": [
+      string
+    ],
+    "ingredients": [
+      {
+        "text": string,
+        "quantity": number,
+        "measure": string,
+        "food": string,
+        "weight": number,
+        "foodId": string
+      }
+    ],
+    "calories": number,
+    "co2EmissionsClass": string,
+    "totalWeight": number,
+    "cuisineType": [
+      string
+    ],
+    "mealType": [
+      string
+    ],
+    "dishType": [
+      string
+    ],
+    "instructions": [
+      string
+    ],
+    "tags": [
+      string
+    ],
+    "digest": [
+      {
+        "label": string,
+        "tag": string,
+        "schemaOrgTag": string,
+        "total": number,
+        "hasRDI": true,
+        "daily": number,
+        "unit": string,
+        "sub": {}
+      }
+    ]
+  }

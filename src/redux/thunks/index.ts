@@ -1,4 +1,6 @@
+import { useForExtractingQueriesFromUrl } from "@/hooks/forComponents"
 import { mealdbApiRequestInterceptor } from "@/utils/axiosInterceptor"
+import { searchRecipes } from "@/utils/dataFetching"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
 const SEARCH = "/search.php"
@@ -23,4 +25,12 @@ export const fetchCuisinesList = createAsyncThunk("fetchCuisinesList", async() =
     const urlStr:string = `${LIST}?a=list`
     const resp = await returnResponse(urlStr)
     return resp.data
+})
+
+export const fetchRecipesWithShallowRoutingOnce = createAsyncThunk("fetchRecipesWithShallowRoutingOnce", async () => {
+    // const {params} = useForExtractingQueriesFromUrl()
+    console.log("tHUnked!! needs to be done from coimpoennt instead")
+    // const resp = await searchRecipes(params)
+    // console.log(resp, "resp!!", params)
+    // return resp?.data
 })

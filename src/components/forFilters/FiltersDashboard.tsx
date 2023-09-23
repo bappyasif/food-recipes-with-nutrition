@@ -10,6 +10,7 @@ import { searchRecipes } from '@/utils/dataFetching'
 // import { useRouter } from 'next/router'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useForExtractingQueriesFromUrl } from '@/hooks/forComponents'
+import { RecipesView } from './RecipesView'
 
 export const FiltersDashboard = () => {
     const [filters, setFilters] = useState<{ category: string, cuisines: string[] }>({ category: "", cuisines: [] })
@@ -45,7 +46,7 @@ export const FiltersDashboard = () => {
     // const searchParams = useSearchParams()
     // console.log(searchParams.entries(), searchParams.get("q"), searchParams.values)
 
-    useForExtractingQueriesFromUrl()
+    const {mealsRecipes} = useForExtractingQueriesFromUrl()
 
     const handleSearchNow = () => {
         const params = {
@@ -75,12 +76,13 @@ export const FiltersDashboard = () => {
     return (
         <div>
             <h1>FiltersDashboard</h1>
-            <h2>{filters.category} ---- {filters.cuisines}</h2>
+            <h2>{filters.category} ---- {filters.cuisines} ---- {mealsRecipes?.length}</h2>
             <div className='flex justify-center gap-x-6'>
                 <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />
                 <CuisinesCheckboxes handleFiltersChange={handleFiltersChange} />
             </div>
             <Button onClick={handleSearchNow}>Search Now</Button>
+            <RecipesView recipes={mealsRecipes} />
         </div>
     )
 }

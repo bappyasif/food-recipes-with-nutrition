@@ -1,8 +1,10 @@
-import { RecipeTypes } from "@/types"
+import { fetchRecipesWithShallowRoutingOnce } from "@/redux/thunks"
+import { RecipeMealType, RecipeTypes } from "@/types"
 import { createSlice } from "@reduxjs/toolkit"
 
 type RecipesInitStateTypes = {
-    recipes: RecipeTypes[],
+    // recipes: RecipeTypes[],
+    recipes: RecipeMealType[],
     count: number
 }
 
@@ -26,7 +28,9 @@ const recipesSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        
+        builder.addCase(fetchRecipesWithShallowRoutingOnce.fulfilled, (state, action) => {
+            console.log(action.payload, "payload!!")
+        })
     }
 })
 
