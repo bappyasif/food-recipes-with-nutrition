@@ -11,6 +11,7 @@ import { searchRecipes } from '@/utils/dataFetching'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useForExtractingQueriesFromUrl } from '@/hooks/forComponents'
 import { RecipesView } from './RecipesView'
+import { Badge } from '../ui/badge'
 
 export const FiltersDashboard = () => {
     const [filters, setFilters] = useState<{ category: string, cuisines: string[] }>({ category: "", cuisines: [] })
@@ -78,13 +79,48 @@ export const FiltersDashboard = () => {
             <h1>FiltersDashboard</h1>
             <h2>{filters.category} ---- {filters.cuisines} ---- {mealsRecipes?.length}</h2>
             <div className='flex justify-center gap-x-6'>
-                <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />
-                <CuisinesCheckboxes handleFiltersChange={handleFiltersChange} />
+                <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
+                {/* <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />
+                <CuisinesCheckboxes handleFiltersChange={handleFiltersChange} /> */}
             </div>
             <Button onClick={handleSearchNow}>Search Now</Button>
             {/* <RecipesView recipes={mealsRecipes} /> */}
         </div>
     )
+}
+
+const MultipleSelectableFilters = ({ handleFiltersChange }: FilterChangeTypes) => {
+    return (
+        <div className='grid grid-cols-2'>
+            <RenderCheckboxTypes propKey={"mealType"} data={meals} title='Meal Types' handleFiltersChange={handleFiltersChange} />
+            <RenderCheckboxTypes propKey={"diet"}  data={diets} title='Diet Types' handleFiltersChange={handleFiltersChange} />
+            <RenderCheckboxTypes propKey={"dishType"}  data={dishes} title='Dish Types' handleFiltersChange={handleFiltersChange} />
+            <RenderCheckboxTypes propKey={"health"}  data={health} title='Health Labels' handleFiltersChange={handleFiltersChange} />
+            <RenderCheckboxTypes propKey={"cuisineType"}  data={cuisines} title='Cuisines' handleFiltersChange={handleFiltersChange} />
+        </div>
+    )
+}
+
+type ReuseableCheckboxTypes = {
+    data: string[], title: string, propKey: string, handleFiltersChange: (d: string, k: string) => void   
+}
+
+const RenderCheckboxTypes = ({...items}: ReuseableCheckboxTypes) => {
+    const {data, handleFiltersChange, propKey, title} = items;
+
+    const rendertypes = () => data.map(text => <RenderCheckbox key={text} name={text} handleFiltersChange={handleFiltersChange} propKey={propKey}  />)
+
+    return (
+        <div>
+            <h2>{title}</h2>
+            <div className='flex flex-wrap gap-4'>{rendertypes()}</div>
+        </div>
+    )
+
+}
+
+const RednerDietTypes = () => {
+    const options = ["balanced", "high-fiber", "high-protein", "low-carb", "low-fat", "low-sodium"]
 }
 
 type FilterChangeTypes = {
@@ -93,12 +129,12 @@ type FilterChangeTypes = {
 
 const CuisinesCheckboxes = ({ handleFiltersChange }: FilterChangeTypes) => {
     const cuisines = useAppSelector(state => state.cuisines.list)
-    const renderCheckboxes = () => cuisines.map(item => <RenderCheckbox name={item.strArea} key={item.strArea} handleFiltersChange={handleFiltersChange} />)
+    const renderCheckboxes = () => cuisines.map(item => <RenderCheckbox name={item.strArea} key={item.strArea} handleFiltersChange={handleFiltersChange} propKey='' />)
 
     return (
-        <div>
+        <div className='h-fit w-1/2'>
             <h2>Cuisines - to choose from</h2>
-            <div>
+            <div className='flex flex-wrap gap-4'>
                 {renderCheckboxes()}
             </div>
         </div>
@@ -107,13 +143,15 @@ const CuisinesCheckboxes = ({ handleFiltersChange }: FilterChangeTypes) => {
 
 type CheckboxTypes = {
     name: string,
-    handleFiltersChange: (d: string, k: string) => void
+    handleFiltersChange: (d: string, k: string) => void,
+    propKey: string
 }
 
-const RenderCheckbox = ({ name, handleFiltersChange }: CheckboxTypes) => {
+const RenderCheckbox = ({ name, handleFiltersChange, propKey }: CheckboxTypes) => {
     return (
-        <div className="items-top flex space-x-2">
-            <Checkbox id={name} onClick={() => handleFiltersChange(name, "cuisines")} />
+        <Badge variant={'secondary'} className="flex space-x-2 px-4 py-1">
+            {/* <Checkbox id={name} onClick={() => handleFiltersChange(name, "cuisines")} /> */}
+            <Checkbox id={name} onClick={() => handleFiltersChange(name, propKey)} />
 
             {/* <Checkbox id={name} onClick={() => console.log("clicked")} /> */}
             {/* <input type="checkbox" id={name} onChange={e => console.log(e.target.value)} /> */}
@@ -123,7 +161,7 @@ const RenderCheckbox = ({ name, handleFiltersChange }: CheckboxTypes) => {
             >
                 {name}
             </label>
-        </div>
+        </Badge>
     )
 }
 
@@ -133,9 +171,9 @@ const CategoriesRadioOptions = ({ handleFiltersChange }: FilterChangeTypes) => {
     const renderCategories = () => categories.map(item => <RenderRadioItem name={item.strCategory} key={item.strCategory} />)
 
     return (
-        <div>
+        <div className='h-20 w-1/3'>
             <h2>Categories Options</h2>
-            <RadioGroup defaultValue='Beef' onValueChange={d => handleFiltersChange(d, "category")}>
+            <RadioGroup className='flex flex-wrap' defaultValue='Beef' onValueChange={d => handleFiltersChange(d, "category")}>
                 {renderCategories()}
             </RadioGroup>
         </div>
@@ -144,9 +182,19 @@ const CategoriesRadioOptions = ({ handleFiltersChange }: FilterChangeTypes) => {
 
 const RenderRadioItem = ({ name }: { name: string }) => {
     return (
-        <div className="flex items-center space-x-2">
+        <Badge variant={"secondary"} className="flex items-center space-x-2 px-4 py-1">
             <RadioGroupItem value={name} id={name} onChange={e => console.log(e.target)} />
             <Label htmlFor={name}>{name}</Label>
-        </div>
+        </Badge>
     )
 }
+
+const diets = ["balanced", "high-fiber", "high-protein", "low-carb", "low-fat", "low-sodium"]
+
+const health = ["alcohol-free", "alchohol-cocktail", "celery-free", "crustacean-free", "dairy-free", "DASH", "egg-free", "fish-free", "fodmap-free", "gluten-free", "immuno-supportive", "keto-friendly", "kidney-friendly", "kosher", "low-fat-abs", "low-potassium", "low-sugar", "lupine-free", "mediterranean", "mollusk-free", "mustard-free", "no-oil-added", "paleo", "peanut-free", "pescaterian", "pork-free", "red-meat-free", "sesame-free", "shellfish-free", "soy-free", "sugar-conscious", "sulfite-free", "tree-nut-free", "vegan", "vegetarian", "wheat-free"]
+
+const cuisines = ["American", "Asian", "British", "Caribbean", "Central europe", "chinese", "eastern europe", "french", "indian", "italian", "japanese", "kosher", "mediterranean", "mexican", "middle eastern", "nordic", "south-american", "south east asian", "bengali"]
+
+const meals = ["Breakfast", "dinner", "lunch", "snack", "teatime"]
+
+const dishes = ["biscuits and cookies", "bread", "cereals", "condiments and sauces", "desserts", "drinks", "main course", "pan cake", "preps", "preserve", "salad", "sandwiches", "side dish", "soup", "starter", "sweets"]
