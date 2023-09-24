@@ -12,26 +12,122 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useForExtractingQueriesFromUrl } from '@/hooks/forComponents'
 import { RecipesView } from './RecipesView'
 import { Badge } from '../ui/badge'
+import { FiltersTypes } from '@/types'
 
 export const FiltersDashboard = () => {
-    const [filters, setFilters] = useState<{ category: string, cuisines: string[] }>({ category: "", cuisines: [] })
+    const [filters, setFilters] = useState<FiltersTypes>({cuisineType: [], diet: [], dishType: [], health: [], mealType: [], q: ""})
+
+    // const handleFiltersChange = (data: string, key: string) => {
+    //     // console.log("cuisines!!", data)
+    //     setFilters(prev => {
+    //         if (key === "cuisines") {
+    //             // console.log("cuisines!!", data)
+    //             const found = prev.cuisines.findIndex(item => item === data);
+    //             if (found !== -1) {
+    //                 const filtered = prev.cuisines.filter(d => d !== data)
+    //                 // console.log("cuisines!!", data, found)
+    //                 return { ...prev, cuisines: filtered }
+    //             } else {
+    //                 const updatedList = prev.cuisines.concat(data)
+    //                 return { ...prev, cuisines: updatedList }
+    //             }
+    //         } else {
+    //             return { ...prev, category: data }
+    //         }
+    //     })
+    // }
+
+    const doThisForAnyDataChange = (key: keyof FiltersTypes) => {
+        // const found = filters["cuisineType"]?.findIndex(item => item === data);
+            // const found = filters[key as keyof FiltersTypes]?.findIndex(item => item === data);
+            // if (found !== -1) {
+            //     const filtered = filters.cuisineType?.filter(d => d !== data)
+            //     // console.log("cuisines!!", data, found)
+            //     return { ...filters, cuisines: filtered }
+            // } else {
+            //     const updatedList = filters.cuisineType?.concat(data)
+            //     return { ...filters, cuisines: updatedList }
+            // }
+    }
+
+    const getFiltered = (data: string, key: string) => {
+        let filtered = null;
+
+        if(key === "cuisineType") {
+            filtered = filters.cuisineType?.filter(item => !item.includes(data));
+        } else if(key === "dishType") {
+            filtered = filters.dishType?.filter(item => !item.includes(data));
+        } else if(key === "mealType") {
+            filtered = filters.mealType?.filter(item => !item.includes(data));
+        } else if(key === "health") {
+            filtered = filters.health?.filter(item => !item.includes(data));
+        } else if(key === "diet") {
+            filtered = filters.diet?.filter(item => !item.includes(data));
+        }
+
+        // console.log(filtered, filters)
+        return filtered
+    }
+
+    const checkIfFound = (data:string, key: string) => {
+        let found = null;
+        if(key === "cuisineType") {
+            found = filters.cuisineType?.findIndex(item => item === data);
+            // console.log("in scope!!")
+        } else if(key === "dishType") {
+            found = filters.dishType?.findIndex(item => item === data);
+        } else if(key === "mealType") {
+            found = filters.mealType?.findIndex(item => item === data);
+        } else if(key === "health") {
+            found = filters.health?.findIndex(item => item === data);
+        } else if(key === "diet") {
+            found = filters.diet?.findIndex(item => item === data);
+        }
+        // console.log(found, "found!!")
+        return found
+    }
 
     const handleFiltersChange = (data: string, key: string) => {
         // console.log("cuisines!!", data)
         setFilters(prev => {
-            if (key === "cuisines") {
-                // console.log("cuisines!!", data)
-                const found = prev.cuisines.findIndex(item => item === data);
-                if (found !== -1) {
-                    const filtered = prev.cuisines.filter(d => d !== data)
-                    // console.log("cuisines!!", data, found)
-                    return { ...prev, cuisines: filtered }
-                } else {
-                    const updatedList = prev.cuisines.concat(data)
-                    return { ...prev, cuisines: updatedList }
-                }
+            let found = checkIfFound(data, key)
+            // const found = prev.cuisineType?.findIndex(item => item === data);
+            // const found = prev[key as keyof FiltersTypes]?.findIndex(item => item);
+
+            // console.log(found, "found", prev.cuisineType?.findIndex(item => item.includes(data)))
+            // if(found === undefined) {
+            //     console.log("HERE")
+            //     const updatedList = prev.cuisineType?.concat(data)
+            //     console.log({ ...prev, [key]: updatedList }, "FKFKFKF", data, prev.cuisineType?.concat("test"))
+            //     return { ...prev, [key]: updatedList }
+            // }
+
+            // console.log(prev[key as keyof FiltersTypes]?.includes(data), "WHTHTHTHHTH")
+
+            // const foundRevised = prev[key as keyof FiltersTypes]?.includes(data)
+            // if(foundRevised) {
+            //     const foundIdx = prev[key as keyof FiltersTypes]?.indexOf(data)
+            //     if(foundIdx === 0) {
+            //         const newList = prev[key as keyof FiltersTypes]?.slice(foundIdx+1)
+            //         console.log(prev[key as keyof FiltersTypes]?.slice(foundIdx+1), "IF")
+            //     } else {
+            //         const newList = prev[key as keyof FiltersTypes]?.slice(0,foundIdx)
+            //         console.log(foundIdx, prev[key as keyof FiltersTypes]?.slice(0,foundIdx), prev, "ELSE")
+            //     }
+            // }
+            
+            if (found !== -1) {
+                // const filtered = prev.cuisineType?.filter(d => d !== data)
+                // console.log("cuisines!!", data, found)
+
+                const filtered = getFiltered(data, key)
+                // console.log({ ...prev, [key]: filtered }, ">!>!>!")
+                return { ...prev, [key]: filtered }
             } else {
-                return { ...prev, category: data }
+                // const updatedList = prev.cuisineType?.concat(data)
+                const updatedList = prev[key as keyof FiltersTypes]?.concat(data)
+                // console.log({ ...prev, [key]: updatedList }, "FKFKFKF")
+                return { ...prev, [key]: updatedList }
             }
         })
     }
@@ -47,7 +143,7 @@ export const FiltersDashboard = () => {
     // const searchParams = useSearchParams()
     // console.log(searchParams.entries(), searchParams.get("q"), searchParams.values)
 
-    const {mealsRecipes} = useForExtractingQueriesFromUrl()
+    const { mealsRecipes } = useForExtractingQueriesFromUrl()
 
     const handleSearchNow = () => {
         const params = {
@@ -74,10 +170,12 @@ export const FiltersDashboard = () => {
         searchRecipes(params).then(d => console.log(d)).catch(err => console.log(err))
     }
 
+    console.log(filters)
+
     return (
         <div>
             <h1>FiltersDashboard</h1>
-            <h2>{filters.category} ---- {filters.cuisines} ---- {mealsRecipes?.length}</h2>
+            <h2>{filters.diet} ---- {filters.cuisineType} ---- {mealsRecipes?.length}</h2>
             <div className='flex justify-center gap-x-6'>
                 <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
                 {/* <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />
@@ -93,22 +191,22 @@ const MultipleSelectableFilters = ({ handleFiltersChange }: FilterChangeTypes) =
     return (
         <div className='grid grid-cols-2'>
             <RenderCheckboxTypes propKey={"mealType"} data={meals} title='Meal Types' handleFiltersChange={handleFiltersChange} />
-            <RenderCheckboxTypes propKey={"diet"}  data={diets} title='Diet Types' handleFiltersChange={handleFiltersChange} />
-            <RenderCheckboxTypes propKey={"dishType"}  data={dishes} title='Dish Types' handleFiltersChange={handleFiltersChange} />
-            <RenderCheckboxTypes propKey={"health"}  data={health} title='Health Labels' handleFiltersChange={handleFiltersChange} />
-            <RenderCheckboxTypes propKey={"cuisineType"}  data={cuisines} title='Cuisines' handleFiltersChange={handleFiltersChange} />
+            <RenderCheckboxTypes propKey={"diet"} data={diets} title='Diet Types' handleFiltersChange={handleFiltersChange} />
+            <RenderCheckboxTypes propKey={"dishType"} data={dishes} title='Dish Types' handleFiltersChange={handleFiltersChange} />
+            <RenderCheckboxTypes propKey={"health"} data={health} title='Health Labels' handleFiltersChange={handleFiltersChange} />
+            <RenderCheckboxTypes propKey={"cuisineType"} data={cuisines} title='Cuisines' handleFiltersChange={handleFiltersChange} />
         </div>
     )
 }
 
 type ReuseableCheckboxTypes = {
-    data: string[], title: string, propKey: string, handleFiltersChange: (d: string, k: string) => void   
+    data: string[], title: string, propKey: keyof FiltersTypes, handleFiltersChange: (d: string, k: string) => void
 }
 
-const RenderCheckboxTypes = ({...items}: ReuseableCheckboxTypes) => {
-    const {data, handleFiltersChange, propKey, title} = items;
+const RenderCheckboxTypes = ({ ...items }: ReuseableCheckboxTypes) => {
+    const { data, handleFiltersChange, propKey, title } = items;
 
-    const rendertypes = () => data.map(text => <RenderCheckbox key={text} name={text} handleFiltersChange={handleFiltersChange} propKey={propKey}  />)
+    const rendertypes = () => data.map(text => <RenderCheckbox key={text} name={text} handleFiltersChange={handleFiltersChange} propKey={propKey} />)
 
     return (
         <div>
@@ -127,27 +225,29 @@ type FilterChangeTypes = {
     handleFiltersChange: (d: string, k: string) => void
 }
 
-const CuisinesCheckboxes = ({ handleFiltersChange }: FilterChangeTypes) => {
-    const cuisines = useAppSelector(state => state.cuisines.list)
-    const renderCheckboxes = () => cuisines.map(item => <RenderCheckbox name={item.strArea} key={item.strArea} handleFiltersChange={handleFiltersChange} propKey='' />)
+// const CuisinesCheckboxes = ({ handleFiltersChange }: FilterChangeTypes) => {
+//     const cuisines = useAppSelector(state => state.cuisines.list)
+//     const renderCheckboxes = () => cuisines.map(item => <RenderCheckbox name={item.strArea} key={item.strArea} handleFiltersChange={handleFiltersChange}  />)
 
-    return (
-        <div className='h-fit w-1/2'>
-            <h2>Cuisines - to choose from</h2>
-            <div className='flex flex-wrap gap-4'>
-                {renderCheckboxes()}
-            </div>
-        </div>
-    )
-}
+//     return (
+//         <div className='h-fit w-1/2'>
+//             <h2>Cuisines - to choose from</h2>
+//             <div className='flex flex-wrap gap-4'>
+//                 {renderCheckboxes()}
+//             </div>
+//         </div>
+//     )
+// }
 
 type CheckboxTypes = {
     name: string,
     handleFiltersChange: (d: string, k: string) => void,
-    propKey: string
+    propKey: keyof FiltersTypes
 }
 
 const RenderCheckbox = ({ name, handleFiltersChange, propKey }: CheckboxTypes) => {
+    // console.log(name, propKey, "test!!")
+
     return (
         <Badge variant={'secondary'} className="flex space-x-2 px-4 py-1">
             {/* <Checkbox id={name} onClick={() => handleFiltersChange(name, "cuisines")} /> */}
@@ -166,28 +266,28 @@ const RenderCheckbox = ({ name, handleFiltersChange, propKey }: CheckboxTypes) =
 }
 
 
-const CategoriesRadioOptions = ({ handleFiltersChange }: FilterChangeTypes) => {
-    const categories = useAppSelector(state => state.categories.list)
-    const renderCategories = () => categories.map(item => <RenderRadioItem name={item.strCategory} key={item.strCategory} />)
+// const CategoriesRadioOptions = ({ handleFiltersChange }: FilterChangeTypes) => {
+//     const categories = useAppSelector(state => state.categories.list)
+//     const renderCategories = () => categories.map(item => <RenderRadioItem name={item.strCategory} key={item.strCategory} />)
 
-    return (
-        <div className='h-20 w-1/3'>
-            <h2>Categories Options</h2>
-            <RadioGroup className='flex flex-wrap' defaultValue='Beef' onValueChange={d => handleFiltersChange(d, "category")}>
-                {renderCategories()}
-            </RadioGroup>
-        </div>
-    )
-}
+//     return (
+//         <div className='h-20 w-1/3'>
+//             <h2>Categories Options</h2>
+//             <RadioGroup className='flex flex-wrap' defaultValue='Beef' onValueChange={d => handleFiltersChange(d, "category")}>
+//                 {renderCategories()}
+//             </RadioGroup>
+//         </div>
+//     )
+// }
 
-const RenderRadioItem = ({ name }: { name: string }) => {
-    return (
-        <Badge variant={"secondary"} className="flex items-center space-x-2 px-4 py-1">
-            <RadioGroupItem value={name} id={name} onChange={e => console.log(e.target)} />
-            <Label htmlFor={name}>{name}</Label>
-        </Badge>
-    )
-}
+// const RenderRadioItem = ({ name }: { name: string }) => {
+//     return (
+//         <Badge variant={"secondary"} className="flex items-center space-x-2 px-4 py-1">
+//             <RadioGroupItem value={name} id={name} onChange={e => console.log(e.target)} />
+//             <Label htmlFor={name}>{name}</Label>
+//         </Badge>
+//     )
+// }
 
 const diets = ["balanced", "high-fiber", "high-protein", "low-carb", "low-fat", "low-sodium"]
 

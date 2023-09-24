@@ -90,6 +90,15 @@ export type ShallowRoutingTypes = {
     dishType?: string
 }
 
+export type FiltersTypes = {
+  q?: string,
+  health?: string[],
+  cuisineType?: string[],
+  mealType?: string[],
+  dishType?: string[],
+  diet?: string[]
+}
+
 export type RecipeMealType = {
     "label": string,
     "cautions": [string],
