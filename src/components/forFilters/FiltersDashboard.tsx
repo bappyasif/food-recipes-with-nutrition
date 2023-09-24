@@ -15,11 +15,23 @@ import { Badge } from '../ui/badge'
 import { FiltersTypes } from '@/types'
 import axios from 'axios'
 
-export const FiltersDashboard = () => {
+type FiltersDashboardPropsType = {
+    handleRecipesFound: (d: any) => void
+}
+
+export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsType) => {
     const [filters, setFilters] = useState<FiltersTypes>({ cuisineType: [], diet: [], dishType: [], health: [], mealType: [], q: "" })
 
     const getFiltered = (data: string, key: string) => {
         let filtered = null;
+
+        // for(let k in filters) {
+        //     if(k === "q") return
+            
+        //     if(filters[k as keyof FiltersTypes]?.length) {
+                
+        //     }
+        // }
 
         if (key === "cuisineType") {
             filtered = filters.cuisineType?.filter(item => !item.includes(data));
@@ -39,6 +51,18 @@ export const FiltersDashboard = () => {
 
     const checkIfFound = (data: string, key: string) => {
         let found = null;
+        // posible solution in this
+        // for (let k in filters) {
+        //     if (filters[k as keyof FiltersTypes] as FiltersTypes) {
+        //         if (k === "q") return
+
+        //         if (k === key) {
+        //             found = (filters[k as keyof FiltersTypes] as string[]).findIndex(item => item === data)
+        //         }
+        //     }
+        // }
+
+        // trying bruteforce
         if (key === "cuisineType") {
             found = filters.cuisineType?.findIndex(item => item === data);
             // console.log("in scope!!")
@@ -65,7 +89,7 @@ export const FiltersDashboard = () => {
                 // console.log("cuisines!!", data, found)
 
                 const filtered = getFiltered(data, key)
-                // console.log({ ...prev, [key]: filtered }, ">!>!>!")
+                console.log({ ...prev, [key]: filtered }, ">!>!>!")
                 return { ...prev, [key]: filtered }
             } else {
                 // const updatedList = prev.cuisineType?.concat(data)
@@ -89,32 +113,27 @@ export const FiltersDashboard = () => {
 
     const { mealsRecipes } = useForExtractingQueriesFromUrl()
 
-    const appendParam = (params: URLSearchParams, arrSrc: string[], propKey:string) => {
+    const appendParam = (params: URLSearchParams, arrSrc: string[], propKey: string) => {
         arrSrc.forEach(item => params.append(`${propKey}`, `${item}`))
     }
 
-    const handleSearchNow = () => {
-        const params1 = {
-            type: "public",
-            q: "Beef",
-            app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
-            app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
-            health: filters.health?.length ? filters.health[0] : null,
-            cuisineType: filters.cuisineType?.length ? filters.cuisineType[0] : null,
-            mealType: filters.mealType?.length ? filters.mealType[0] : null,
-            dishType: filters.dishType?.length ? filters.dishType[0] : null,
-            diet: filters.diet?.length ? filters.diet[0] : null
+    const querifyFilters = () => {
+        let str = "?";
+        const querified = (items: string[], propKey: string) => items.forEach(item => str += `${propKey}=${item}&`)
+        for (let k in filters) {
+            if (filters[k as keyof FiltersTypes]?.length) {
+                querified(filters[k as keyof FiltersTypes] as string[], k)
+            }
         }
+        // console.log(str, "STR!!", str.lastIndexOf("&"), str.slice(0, 143))
+        router.push(str.slice(0, str.lastIndexOf("&")), undefined)
+    }
 
+    const handleSearchNow = () => {
         const params = new URLSearchParams();
         params.append("app_id", `${process.env.NEXT_PUBLIC_EDAMAM_APP_ID}`);
         params.append("app_key", `${process.env.NEXT_PUBLIC_EDAMAM_APP_KEY}`);
         params.append("type", "public");
-        // params.append("tag", "party");
-        // params.append("tag", "family");
-        // params.append("field", "uri");
-        // params.append("field", "label");
-        // params.append("field", "tags");
         filters.health?.length && appendParam(params, filters.health!, "health")
         filters.diet?.length && appendParam(params, filters.diet!, "diet")
         filters.cuisineType?.length && appendParam(params, filters.cuisineType!, "cuisineType")
@@ -123,7 +142,13 @@ export const FiltersDashboard = () => {
         params.append("q", "beef")
         // params.append("health", `${filters.health![0]}`)
         // params.append("health", `${filters.health![1]}`)
-        axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => console.log(d.data))
+        axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
+            console.log(d.data)
+            const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
+            onlyRecipes?.length && handleRecipesFound(onlyRecipes)
+        }).catch(err => console.log(err))
+
+        querifyFilters();
 
         // router.push(`?q=beefnot&health=paleo`, undefined)
 
