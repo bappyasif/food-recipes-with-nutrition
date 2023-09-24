@@ -10,10 +10,12 @@ export const searchRecipesByNameFromApi = async (qStr: string) => {
     // return resp.json()
 }
 
-const Search = "/recipes/v2"
+export const Search = "/recipes/v2"
 
 export const searchRecipes = async ({...params}) => {
     const url = Search
+    // console.log({url, params})
     const resp = await edamamApiRequestInterceptor({url, params})
     return resp?.data
+    // return "ts"
 }
