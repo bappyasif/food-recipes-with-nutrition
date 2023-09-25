@@ -25,25 +25,30 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
     const getFiltered = (data: string, key: string) => {
         let filtered = null;
 
-        // for(let k in filters) {
-        //     if(k === "q") return
-            
-        //     if(filters[k as keyof FiltersTypes]?.length) {
-                
-        //     }
-        // }
+        for(let k in filters) {
+            if(k !== "q") {
+                // console.log(k === "q")
+                // return
 
-        if (key === "cuisineType") {
-            filtered = filters.cuisineType?.filter(item => !item.includes(data));
-        } else if (key === "dishType") {
-            filtered = filters.dishType?.filter(item => !item.includes(data));
-        } else if (key === "mealType") {
-            filtered = filters.mealType?.filter(item => !item.includes(data));
-        } else if (key === "health") {
-            filtered = filters.health?.filter(item => !item.includes(data));
-        } else if (key === "diet") {
-            filtered = filters.diet?.filter(item => !item.includes(data));
+                if(filters[k as keyof FiltersTypes]?.length) {
+                    filtered = (filters[k as keyof FiltersTypes] as string[]).filter(item => !item.includes(data));
+                }
+            }
         }
+
+        console.log(filtered, "filtered!!")
+
+        // if (key === "cuisineType") {
+        //     filtered = filters.cuisineType?.filter(item => !item.includes(data));
+        // } else if (key === "dishType") {
+        //     filtered = filters.dishType?.filter(item => !item.includes(data));
+        // } else if (key === "mealType") {
+        //     filtered = filters.mealType?.filter(item => !item.includes(data));
+        // } else if (key === "health") {
+        //     filtered = filters.health?.filter(item => !item.includes(data));
+        // } else if (key === "diet") {
+        //     filtered = filters.diet?.filter(item => !item.includes(data));
+        // }
 
         // console.log(filtered, filters)
         return filtered
@@ -52,29 +57,29 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
     const checkIfFound = (data: string, key: string) => {
         let found = null;
         // posible solution in this
-        // for (let k in filters) {
-        //     if (filters[k as keyof FiltersTypes] as FiltersTypes) {
-        //         if (k === "q") return
+        for (let k in filters) {
+            if (filters[k as keyof FiltersTypes] as FiltersTypes) {
+                if (k === "q") {}
 
-        //         if (k === key) {
-        //             found = (filters[k as keyof FiltersTypes] as string[]).findIndex(item => item === data)
-        //         }
-        //     }
-        // }
+                if (k === key) {
+                    found = (filters[k as keyof FiltersTypes] as string[]).findIndex(item => item === data)
+                }
+            }
+        }
 
         // trying bruteforce
-        if (key === "cuisineType") {
-            found = filters.cuisineType?.findIndex(item => item === data);
-            // console.log("in scope!!")
-        } else if (key === "dishType") {
-            found = filters.dishType?.findIndex(item => item === data);
-        } else if (key === "mealType") {
-            found = filters.mealType?.findIndex(item => item === data);
-        } else if (key === "health") {
-            found = filters.health?.findIndex(item => item === data);
-        } else if (key === "diet") {
-            found = filters.diet?.findIndex(item => item === data);
-        }
+        // if (key === "cuisineType") {
+        //     found = filters.cuisineType?.findIndex(item => item === data);
+        //     // console.log("in scope!!")
+        // } else if (key === "dishType") {
+        //     found = filters.dishType?.findIndex(item => item === data);
+        // } else if (key === "mealType") {
+        //     found = filters.mealType?.findIndex(item => item === data);
+        // } else if (key === "health") {
+        //     found = filters.health?.findIndex(item => item === data);
+        // } else if (key === "diet") {
+        //     found = filters.diet?.findIndex(item => item === data);
+        // }
         // console.log(found, "found!!")
         return found
     }
@@ -131,17 +136,27 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     const handleSearchNow = () => {
         const params = new URLSearchParams();
+        
         params.append("app_id", `${process.env.NEXT_PUBLIC_EDAMAM_APP_ID}`);
         params.append("app_key", `${process.env.NEXT_PUBLIC_EDAMAM_APP_KEY}`);
         params.append("type", "public");
-        filters.health?.length && appendParam(params, filters.health!, "health")
-        filters.diet?.length && appendParam(params, filters.diet!, "diet")
-        filters.cuisineType?.length && appendParam(params, filters.cuisineType!, "cuisineType")
-        filters.mealType?.length && appendParam(params, filters.mealType!, "mealType")
-        filters.dishType?.length && appendParam(params, filters.dishType!, "dishType")
         params.append("q", "beef")
+        
+        for(let k in filters) {
+            if(filters[k as keyof FiltersTypes]?.length) {
+                appendParam(params, filters[k as keyof FiltersTypes] as string[], k)
+            }
+        }
+        
+        // filters.health?.length && appendParam(params, filters.health!, "health")
+        // filters.diet?.length && appendParam(params, filters.diet!, "diet")
+        // filters.cuisineType?.length && appendParam(params, filters.cuisineType!, "cuisineType")
+        // filters.mealType?.length && appendParam(params, filters.mealType!, "mealType")
+        // filters.dishType?.length && appendParam(params, filters.dishType!, "dishType")
+        
         // params.append("health", `${filters.health![0]}`)
         // params.append("health", `${filters.health![1]}`)
+        
         // axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
         //     console.log(d.data)
         //     const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)

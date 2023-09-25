@@ -58,20 +58,6 @@ export const useForExtractingQueriesFromUrl = () => {
     const updateParams = (d: string, k: string) => params2.append(`${k}`, `${d}`)
     // const updateParams = (d: string, k: string) => setParams(prev => ({ ...prev, [k]: d }))
 
-    // const runOnce = () => {
-    //     if (searchParams.get("health")) {
-    //         updateParams(searchParams.get("health")!, "health")
-    //     } else if (searchParams.get("cuisineType")) {
-    //         updateParams(searchParams.get("cuisineType")!, "cuisi    neType")
-    //     } else if (searchParams.get("mealType")) {
-    //         updateParams(searchParams.get("mealType")!, "mealType")
-    //     } else if (searchParams.get("dishType")) {
-    //         updateParams(searchParams.get("dishType")!, "dishType")
-    //     } else if (searchParams.get("q")) {
-    //         updateParams(searchParams.get("q")!, "q")
-    //     }
-    // }
-
     const runOnce = () => {
         const queriesStr = searchParams.toString();
         const tokenized = queriesStr.split("&")
@@ -82,7 +68,7 @@ export const useForExtractingQueriesFromUrl = () => {
 
         setParams(params2)
 
-        console.log(tokenized.length, "tokenized!!", tokenized, params2)
+        // console.log(tokenized.length, "tokenized!!", tokenized, params2)
 
         // if (searchParams.get("health")) {
         //     updateParams(searchParams.get("health")!, "health")
@@ -125,11 +111,12 @@ export const useForExtractingQueriesFromUrl = () => {
             //     onlyRecipes?.length &&  setMealsRecipes(onlyRecipes)
             // }).catch(err => console.log(err))
 
-            params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
-                // console.log(d.data)
-                const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
-                onlyRecipes?.length && setMealsRecipes(onlyRecipes)
-            }).catch(err => console.log(err))
+            // going with this way
+            // params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
+            //     // console.log(d.data)
+            //     const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
+            //     onlyRecipes?.length && setMealsRecipes(onlyRecipes)
+            // }).catch(err => console.log(err))
 
         }, 1001)
 
