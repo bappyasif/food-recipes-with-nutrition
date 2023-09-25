@@ -6,6 +6,7 @@ import { Button } from '../ui/button'
 import { useForTruthToggle } from '@/hooks/forComponents'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { Badge } from '../ui/badge'
+import Link from 'next/link'
 
 export const RecipesView = ({ recipes }: { recipes: RecipeMealType[] }) => {
     const renderRecipes = () => recipes.map(item => <RenderRecipe key={item.label} {...item} />)
@@ -20,12 +21,25 @@ export const RecipesView = ({ recipes }: { recipes: RecipeMealType[] }) => {
 }
 
 const RenderRecipe = ({ ...items }: RecipeMealType) => {
-    const { calories, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, source, tags, totalWeight, url, yield: servings } = items
+    const { calories, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, source, tags, totalWeight, url, yield: servings, uri } = items
+
+    const extractRecipeId = () => {
+        let id = null
+        if(url) {
+            const tokenize = uri.split("#")
+            const tokenizeNext = tokenize[1].split("e_")
+            id=tokenizeNext[1]
+        }
+
+        return id
+    }
 
     return (
         <div className='flex flex-col gap-y-4 justify-center items-center'>
+            <Link href={`/recipe/${extractRecipeId()}`}>
             <h2>{label}</h2>
             <img className='w-64' src={images.SMALL.url} alt={label} width={images.SMALL.width} height={images.SMALL.height} />
+            </Link>
             <div className='flex justify-start gap-2'>
                 {/* <h3>{dishType[0]}</h3>
                 <h3>{cuisineType[0]}</h3>
@@ -123,9 +137,9 @@ const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType) => {
             // className='grid grid-flow-col col-span-3 gap-x-2 justify-items-center place-items-center'
             className='flex justify-between items-center gap-x-4'
         >
-            <h2 className='w-36'>{food}</h2>
+            <div className='w-36'>{food}</div>
             <div className='w-40 flex flex-col justify-center items-center'>
-                <h2 className='text-[11px]'>{foodCategory}</h2>
+                <div className='text-[11px]'>{foodCategory}</div>
                 <img src={image} alt={food} width={60} height={39} />
             </div>
             <div className='flex gap-x-2 w-full'>

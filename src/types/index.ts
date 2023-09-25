@@ -100,6 +100,7 @@ export type FiltersTypes = {
 }
 
 export type RecipeMealType = {
+    "uri": string,
     "label": string,
     "cautions": [string],
     "images": {

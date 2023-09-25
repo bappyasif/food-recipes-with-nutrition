@@ -17,3 +17,11 @@ export const searchRecipes = async ({...params}) => {
     const resp = await edamamApiRequestInterceptor({url, params})
     return resp?.data
 }
+
+const BY_URI = "by-uri";
+
+export const searchRecipeById = async ({...params}, recipeId:string) => {
+    const url = `${Search}/${recipeId}`
+    const resp = await edamamApiRequestInterceptor({url, params})
+    return resp?.data
+}
