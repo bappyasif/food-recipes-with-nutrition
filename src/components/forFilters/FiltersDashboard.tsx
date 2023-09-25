@@ -111,14 +111,14 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
     // const searchParams = useSearchParams()
     // console.log(searchParams.entries(), searchParams.get("q"), searchParams.values)
 
-    const { mealsRecipes } = useForExtractingQueriesFromUrl()
+    // const { mealsRecipes } = useForExtractingQueriesFromUrl()
 
     const appendParam = (params: URLSearchParams, arrSrc: string[], propKey: string) => {
         arrSrc.forEach(item => params.append(`${propKey}`, `${item}`))
     }
 
     const querifyFilters = () => {
-        let str = "?";
+        let str = "?type=public&";
         const querified = (items: string[], propKey: string) => items.forEach(item => str += `${propKey}=${item}&`)
         for (let k in filters) {
             if (filters[k as keyof FiltersTypes]?.length) {
@@ -142,11 +142,11 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
         params.append("q", "beef")
         // params.append("health", `${filters.health![0]}`)
         // params.append("health", `${filters.health![1]}`)
-        axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
-            console.log(d.data)
-            const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
-            onlyRecipes?.length && handleRecipesFound(onlyRecipes)
-        }).catch(err => console.log(err))
+        // axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
+        //     console.log(d.data)
+        //     const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
+        //     onlyRecipes?.length && handleRecipesFound(onlyRecipes)
+        // }).catch(err => console.log(err))
 
         querifyFilters();
 
@@ -162,7 +162,7 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
     return (
         <div>
             <h1>FiltersDashboard</h1>
-            <h2>{filters.diet} ---- {filters.cuisineType} ---- {mealsRecipes?.length}</h2>
+            <h2>{filters.diet} ---- {filters.cuisineType} ----</h2>
             <div className='flex justify-center gap-x-6'>
                 <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
                 {/* <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />

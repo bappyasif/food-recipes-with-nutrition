@@ -8,12 +8,14 @@ import React, { useState } from 'react'
 
 const FilterRecipesPage = () => {
   const [recipesFound, setRecipesFound] = useState<RecipeMealType[]>([])
+ 
+  const handleRecipesFound = (data:any) => setRecipesFound(data)
+
   const {mealsRecipes} = useForExtractingQueriesFromUrl()
 
-  const handleRecipesFound = (data:any) => setRecipesFound(data)
   return (
     <div className='h-[100vh]'>
-      FilterRecipesPage
+      FilterRecipesPage {recipesFound?.length}
       <FiltersDashboard handleRecipesFound={handleRecipesFound} />
       <RecipesView recipes={ recipesFound?.length ? recipesFound : mealsRecipes} />
     </div>
