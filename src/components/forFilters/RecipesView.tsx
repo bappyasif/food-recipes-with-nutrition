@@ -114,7 +114,7 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
     const renderIngredientsAndMeasurements = () => ingredients.map(item => <RenderIngredientAndMeasurement key={item.foodId} {...item} />)
     const renderInstructions = () => ingredients.map(item => {
         return (
-            <h3>{item.text}</h3>
+            <h3 key={item.foodId}>{item.text}</h3>
         )
     })
     return (
@@ -130,7 +130,7 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
     )
 }
 
-const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType) => {
+export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType) => {
     const { food, foodCategory, measure, quantity, weight, image } = items;
     return (
         <div 
