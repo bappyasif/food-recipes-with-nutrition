@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { Badge } from '../ui/badge'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
+import { ShowFewRelatedRecipes } from './ShowFewRelatedRecipes'
 
 export const ShowRecipeDetails = () => {
     const [recipeData, setRecipeData] = useState<RecipeMealType>()
@@ -44,39 +45,44 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     const { calories, cautions, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, shareAs, source, tags, totalWeight, uri, url, yield: servings, count } = data;
 
     return (
-        <section className='flex justify-between gap-x-6 mx-6 min-h-screen'>
-            <div className='w-1/3 mx-auto text-center'>
-                <h1 className='text-4xl'>{label}</h1>
-                <img className='rounded-sm' src={images.LARGE.url} height={images.LARGE.height} width={images.LARGE.width} alt={label} />
-            </div>
-
-            <div className='w-2/3 flex flex-col gap-y-11'>
-                
-                <div className='flex justify-between'>
-                    <div className='w-1/3 flex flex-col gap-y-1'>
-                        <Badge className='text-xl flex gap justify-between'><span>Meal Type</span> <span>{mealType}</span></Badge>
-                        <Badge className='text-xl flex gap justify-between'><span>Cautions</span> <span>{cautions[0]}</span></Badge>
-                        <Badge className='text-xl flex gap justify-between'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
-                    </div>
-                    
-                    <div className='flex flex-col gap-y-1'>
-                        <ReusableBadge text='Diet' val={dietLabels[0]} />
-                        <ReusableBadge text='Cuisine' val={cuisineType[0]} />
-                        <ReusableBadge text='Dish' val={dishType[0]} />
-                    </div>
-
-                    <div className='flex flex-col gap-y-1'>
-                        <ReusableBadge text='Yield' val={servings} />
-                        <ReusableBadge text='Calories' val={calories.toFixed(2)} />
-                        <ReusableBadge text='Weight' val={totalWeight.toFixed(2)} />
-                    </div>
+        <>
+            <section className='flex justify-between gap-x-6 mx-6 min-h-screen'>
+                <div className='w-1/3 mx-auto text-center'>
+                    <h1 className='text-4xl'>{label}</h1>
+                    <img className='rounded-sm' src={images.LARGE.url} height={images.LARGE.height} width={images.LARGE.width} alt={label} />
                 </div>
 
-                <RecipeIngredientsAndInstructions ingredients={ingredients} />
+                <div className='w-2/3 flex flex-col gap-y-11'>
 
-                <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
-            </div>
-        </section>
+                    <div className='flex justify-between'>
+                        <div className='w-1/3 flex flex-col gap-y-1'>
+                            <Badge className='text-xl flex gap justify-between'><span>Meal Type</span> <span>{mealType}</span></Badge>
+                            <Badge className='text-xl flex gap justify-between'><span>Cautions</span> <span>{cautions[0]}</span></Badge>
+                            <Badge className='text-xl flex gap justify-between'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
+                        </div>
+
+                        <div className='flex flex-col gap-y-1'>
+                            <ReusableBadge text='Diet' val={dietLabels[0]} />
+                            <ReusableBadge text='Cuisine' val={cuisineType[0]} />
+                            <ReusableBadge text='Dish' val={dishType[0]} />
+                        </div>
+
+                        <div className='flex flex-col gap-y-1'>
+                            <ReusableBadge text='Yield' val={servings} />
+                            <ReusableBadge text='Calories' val={calories.toFixed(2)} />
+                            <ReusableBadge text='Weight' val={totalWeight.toFixed(2)} />
+                        </div>
+                    </div>
+
+                    <RecipeIngredientsAndInstructions ingredients={ingredients} />
+
+                    <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
+                </div>
+            </section>
+            <section>
+                <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0]} />
+            </section>
+        </>
     )
 }
 
