@@ -23,20 +23,9 @@ export const RecipesView = ({ recipes }: { recipes: RecipeMealType[] }) => {
 const RenderRecipe = ({ ...items }: RecipeMealType) => {
     const { calories, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, source, tags, totalWeight, url, yield: servings, uri } = items
 
-    const extractRecipeId = () => {
-        let id = null
-        if(url) {
-            const tokenize = uri.split("#")
-            const tokenizeNext = tokenize[1].split("e_")
-            id=tokenizeNext[1]
-        }
-
-        return id
-    }
-
     return (
         <div className='flex flex-col gap-y-4 justify-center items-center'>
-            <Link href={`/recipe/${extractRecipeId()}`}>
+            <Link href={`/recipe/${extractRecipeId(uri)}`}>
             <h2>{label}</h2>
             <img className='w-64' src={images.SMALL.url} alt={label} width={images.SMALL.width} height={images.SMALL.height} />
             </Link>
@@ -209,4 +198,15 @@ const RenderHealthLabels = ({labels}: {labels: string[]}) => {
 const useForIngredientsLabels = (labels:string[]) => {
     const renderLabels = () => labels.map(txt => <Button key={txt} variant={'ghost'}>{txt}</Button>)
     return {renderLabels}
+}
+
+export const extractRecipeId = (uri: string) => {
+    let id = null
+    if(uri) {
+        const tokenize = uri.split("#")
+        const tokenizeNext = tokenize[1].split("e_")
+        id=tokenizeNext[1]
+    }
+
+    return id
 }

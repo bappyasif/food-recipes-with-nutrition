@@ -49,7 +49,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
             <section className='flex justify-between gap-x-6 mx-6 min-h-screen'>
                 <div className='w-1/3 mx-auto text-center'>
                     <h1 className='text-4xl'>{label}</h1>
-                    <img className='rounded-sm' src={images.LARGE.url} height={images.LARGE.height} width={images.LARGE.width} alt={label} />
+                    <img className='rounded-sm w-full' src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height  || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
                 </div>
 
                 <div className='w-2/3 flex flex-col gap-y-11'>
