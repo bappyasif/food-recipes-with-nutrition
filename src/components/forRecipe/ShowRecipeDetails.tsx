@@ -8,6 +8,7 @@ import { Badge } from '../ui/badge'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { ShowFewRelatedRecipes } from './ShowFewRelatedRecipes'
+import { RecipeImage } from './RecipeImage'
 
 export const ShowRecipeDetails = () => {
     const [recipeData, setRecipeData] = useState<RecipeMealType>()
@@ -50,14 +51,15 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0]} />
             </section>
             <section className='flex justify-between gap-x-6 mx-6 min-h-screen'>
-                <div className='w-1/3 mx-auto text-center'>
+                {/* <div className='w-1/3 mx-auto text-center'>
                     <h1 className='text-4xl'>{label}</h1>
                     <img className='rounded-sm w-full' src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
-                </div>
+                </div> */}
+                <RecipeImage {...data} />
 
                 <div className='w-2/3 flex flex-col gap-y-11'>
 
-                    <div className='flex justify-between'>
+                    {/* <div className='flex justify-between'>
                         <div className='w-1/3 flex flex-col gap-y-1'>
                             <Badge className='text-xl flex gap justify-between'><span>Meal Type</span> <span>{mealType}</span></Badge>
                             <Badge className='text-xl flex gap justify-between'><span>Cautions</span> <span>{cautions[0]}</span></Badge>
@@ -75,7 +77,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                             <ReusableBadge text='Calories' val={calories.toFixed(2)} />
                             <ReusableBadge text='Weight' val={totalWeight.toFixed(2)} />
                         </div>
-                    </div>
+                    </div> */}
 
                     <RecipeIngredientsAndInstructions ingredients={ingredients} />
 
@@ -161,11 +163,11 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     )
 }
 
-const ReusableBadge = ({ text, val }: { text: string, val: string | number }) => {
-    return (
-        <Badge className='px-4 flex gap-x-4 w-64 justify-between text-xl'><span>{text} </span>{val}</Badge>
-    )
-}
+// const ReusableBadge = ({ text, val }: { text: string, val: string | number }) => {
+//     return (
+//         <Badge className='px-4 flex gap-x-4 w-64 justify-between text-xl'><span>{text} </span>{val}</Badge>
+//     )
+// }
 
 const RednerIngredients = ({ ...items }: IngredientItemType) => {
     const { food, foodCategory, foodId, image, measure, quantity, text, weight } = items
