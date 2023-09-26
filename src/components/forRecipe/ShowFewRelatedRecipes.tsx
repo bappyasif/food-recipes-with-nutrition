@@ -35,7 +35,7 @@ export const ShowFewRelatedRecipes = ({ mealType, diet, dishType }: { mealType: 
     }, [mealType, diet, dishType])
 
     return (
-        <div>
+        <div className='h-fit'>
             ShowFewRelatedRecipes -- {recipes.length} -- {recipes.filter(item=>item.dishType.length).length}
             <RenderRecipesListCarousel data={recipes.filter(item=>item.dishType.length)} />
         </div>
@@ -102,7 +102,7 @@ const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) => {
     }, [beginFrom])
 
     // const renderRecipes = () => data.map(item => <RenderRecipeForCarousel key={item.uri} {...item} />)
-    const renderRecipes = () => onlyFour?.map(item => <RenderRecipeForCarousel key={item.uri} {...item} />)
+    const renderRecipes = () => onlyFour?.map((item, idx) => <RenderRecipeForCarousel key={item.uri} rdata={item} lastCard={idx === 7} firstCard={idx===0} />)
 
     useEffect(() => {
         let timer = setInterval(() => {
@@ -131,25 +131,31 @@ const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) => {
 
     useEffect(() => {
         handleNext()
-    }, [])
+    }, [data])
 
     return (
-        <div className='flex gap-x-4 items-center'>
-            <Button onClick={handlePrev} variant={'secondary'}>Prev</Button>
+        <div className='flex gap-x-4 items-center justify-between h-48 bg-slate-600'>
+            <Button className='absolute left-0 bg-primary-content h-48 z-40 w-40 text-primary-focus font-extrabold bg-blend-multiply' onClick={handlePrev} variant={'secondary'}>Prev</Button>
             <div
-                // className='flex gap-4 flex-wrap overflow-hidden h-40' 
-                className='grid grid-rows-1 grid-flow-col gap-4'
+                className='flex gap-4 flex-nowrap overflow-hidden h-40' 
+                // className='grid grid-rows-1 grid-flow-col gap-4 place-content-start place-items-start'
                 onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
             >
                 {renderRecipes()}
             </div>
-            <Button onClick={handleNext} variant={'secondary'}>Next</Button>
+            <Button className='absolute right-0 bg-primary-content h-48 z-40 w-40 text-primary-focus font-extrabold' onClick={handleNext} variant={'secondary'}>Next</Button>
         </div>
     )
 }
 
-const RenderRecipeForCarousel = ({ ...items }: RecipeMealType) => {
-    const { cuisineType, dishType, images, label, mealType, uri } = items;
+type ForCarouselTypes = {
+    rdata: RecipeMealType,
+    firstCard: boolean,
+    lastCard: boolean
+}
+
+const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarouselTypes) => {
+    const { cuisineType, dishType, images, label, mealType, uri } = rdata;
     const { height, url, width } = images.SMALL;
 
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
@@ -159,19 +165,19 @@ const RenderRecipeForCarousel = ({ ...items }: RecipeMealType) => {
     return (
         <div
             // ${isTrue ? styles.cardHovered : ""}
-            className={`${styles.fadeOutCard} w-44 relative ${isTrue ? "scale-110 text-xl" : ""}`}
+            className={`${styles.fadeOutCard} w-48 relative ${(lastCard || firstCard) ? "pointer-events-none": "pointer-events-auto"}`}
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
             {/* <h2>{label}</h2> */}
-            <div className={`absolute transition-transform duration-500 ${isTrue ? "-translate-y-48" : "z-20"}`}>
-                <Badge>Cuisine : {cuisineType[0]}</Badge>
-                <img src={url} alt={label} height={height} width={width} />
+            <div className={`absolute transition-transform duration-500 ${isTrue ? "-translate-y-48" : "z-20"} text-center`}>
+                <Badge>{cuisineType[0]} {firstCard ? "1" : null} {lastCard  ? "8" : null}</Badge>
+                <img className='w-40 h-full' src={url} alt={label} height={height} width={width} />
             </div>
             <div className={`absolute top-0 transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>
                 {/* <h2>{label}</h2> */}
-                <Link href={`/recipe/${recipeId}`}>{label}</Link>
-                <Badge>{label}</Badge>
+                <Link className={`${isTrue ? "text-xl" : ""}`} href={`/recipe/${recipeId}`}>{label}</Link>
+                {/* <Badge>{label}</Badge> */}
                 <Badge>{mealType[0]}</Badge>
                 <Badge>{dishType[0]}</Badge>
             </div>
