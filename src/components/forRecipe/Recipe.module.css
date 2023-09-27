@@ -64,3 +64,98 @@
         transform: skewX(20%);
     }
 }
+
+.animateBorder {
+    animation-name: jentrify;
+    animation-duration: 4s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+    animation-delay: 0ms;
+    width: 100%;
+    height: 6px;
+    position: absolute;
+}
+
+.animateBorder:nth-child(1) {
+    /* transform: translateY(-40%); */
+    transform: rotate(0deg);
+    /* top: -200px; */
+    top: 0;
+    left: 0;
+    background-color: yellow;
+}
+
+.animateBorder:nth-child(2) {
+    transform: rotate(90deg);
+    top: 40%;
+    right: -119px;
+    background-color: red;
+}
+
+.animateBorder:nth-child(3) {
+    transform: rotate(180deg);
+    left: 0;
+    bottom: 0px;
+    background-color: blueviolet;
+}
+
+.animateBorder:nth-child(4) {
+    background-color: aqua;
+    transform: rotate(270deg);
+    left: -119px;
+    bottom: 40%;
+}
+
+@keyframes jentrify {
+    from {
+        /* border: 1px solid red; */
+        /* width: 0%; */
+        /* width: 0; */
+        /* height: 2px; */
+        /* background-color: aqua; */
+        width: 0px;
+    }
+
+    to {
+        /* border: 1px solid greenyellow; */
+        /* width: 100%; */
+        width: 60px;
+        /* background-color: aqua; */
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: scale(100%) rotate(360deg);
+    }
+}
+
+.animateSpin {
+    animation: spin 20s linear infinite;
+}
+
+.borderSlick {
+    /* border: 2px solid; */
+    animation: fillUpBorder 11s linear infinite alternate-reverse;
+}
+
+@keyframes fillUpBorder {
+    to {
+        border-left: 2px yellow solid;
+        border-right: 2px green solid;
+        border-top: 2px magenta solid;
+        border-bottom: 2px maroon solid;
+        border-height: 2px;
+        border-width: 100%;
+    }
+
+    /* from {
+        border-left: 0px yellow solid;
+        border-right: 0px green solid;
+        border-top: 0px magenta solid;
+        border-bottom: 0px maroon solid;
+        border-height: 0px;
+        border-width: 0%;
+    } */
+}
