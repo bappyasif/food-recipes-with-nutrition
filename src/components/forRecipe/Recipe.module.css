@@ -125,6 +125,25 @@
     }
 }
 
+@keyframes spinOnce {
+    40% {
+        transform: rotate(90deg);
+    }
+    60% {
+        transform: rotate(180deg);
+    }
+    80% {
+        transform: rotate(270deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.fullSpinOnce {
+    animation: spinOnce .7s ease-in-out 1 alternate-reverse;
+}
+
 @keyframes spin {
     to {
         transform: scale(100%) rotate(360deg);

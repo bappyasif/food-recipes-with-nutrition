@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { ShowFewRelatedRecipes } from './ShowFewRelatedRecipes'
 import { RecipeImage } from './RecipeImage'
 import { FewNonRelatedRecipes } from './FewNonRelatedRecipes'
+import { Button } from '../ui/button'
 
 export const ShowRecipeDetails = () => {
     const [recipeData, setRecipeData] = useState<RecipeMealType>()
@@ -51,15 +52,17 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
             <section>
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0]} />
             </section>
-            <section className='flex justify-between gap-x-6 mx-6'>
+            <section className='flex justify-between items-center gap-x-6 mx-6'>
 
                 <RecipeImage {...data} />
 
-                <div className='w-2/3 flex flex-col justify-center gap-y-11'>
+                <div className='absolute right-0 w-3/5 flex flex-col justify-center gap-y-11 z-40 bg-primary'>
 
                     <RecipeIngredientsAndInstructions ingredients={ingredients} />
 
                     <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
+
+                    <Button variant={'secondary'}>Source: <a href={url} target='_blank'>{source}</a></Button>
                 </div>
             </section>
             <section className='flex justify-between'>

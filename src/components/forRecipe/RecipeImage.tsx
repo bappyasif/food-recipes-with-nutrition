@@ -16,7 +16,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
 
     return (
         <div
-            className='relative w-1/2 rounded flex flex-col gap-y-6 items-center'
+            className='relative w-1/3 rounded flex flex-col gap-y-6 items-center'
             onClick={handleClick}
         >
             <h1 className='text-4xl'>{label}</h1>
@@ -27,9 +27,9 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
 
                 <SquareElem showIt={isTrue} data={data} />
 
-                <img className={`transition-all duration-700 ${isTrue ? "h-[23.4rem] translate-x-32" : "h-64 translate-x-0 w-64"} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ""} relative`} src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
+                <img className={`transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-32 rotate-[360deg]` : `h-64 translate-x-0 w-64 rotate-[-360deg]`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative`} src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
 
-                <CircleElem stopIt={!isTrue} />
+                {/* <CircleElem stopIt={!isTrue} /> */}
             </div>
         </div>
     )
@@ -39,13 +39,15 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
     const { calories, cautions, co2EmissionsClass, cuisineType, dietLabels, dishType, mealType, yield: servings, totalWeight } = data;
 
     return (
-        <div className={`absolute rounded-xl transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit w-[650px]" : "bg-slate-800 h-40 w-36"} pl-2`}>
+        <div className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit w-[650px]" : `bg-slate-800 h-64 w-[18.6rem] rounded-full ${styles.animateSpin} self-center`} pl-2`}>
 
             <div className={`grid grid-cols-1 justify-items-start transition-all duration-700 ${!showIt ? "-translate-y-20 opacity-0 scale-0" : "translate-y-0 opacity-100 scale-100"} py-2`}>
+                
                 <div className='flex flex-col gap-y-4 justify-between'>
+                    
                     <div className='flex flex-col gap-y-1'>
                         <Badge className='text-lg flex gap justify-between'><span>Meal Type</span> <span>{mealType}</span></Badge>
-                        <Badge className='text-lg flex gap justify-between'><span>Cautions</span> <span>{cautions[0]}</span></Badge>
+                        <Badge className='text-lg flex gap justify-between'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>
                         <Badge className='text-lg flex gap justify-between'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
                     </div>
 

@@ -64,14 +64,23 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
             </div>
             <div 
             // className={`absolute top-0 transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-100"} flex flex-col gap-y-1 text-primary-foreground`}
-            className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute`}
+            className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center`}
             >
                 {/* <h2>{label}</h2> */}
-                <Link className={`${isTrue ? "text-xl" : ""}`} href={`/recipe/${recipeId}`}>{label}</Link>
+                <Link className={`${isTrue ? "text-lg" : ""} hover:underline`} href={`/recipe/${recipeId}`} title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</Link>
                 {/* <Badge>{label}</Badge> */}
                 <Badge>{mealType[0]}</Badge>
                 <Badge>{dishType[0]}</Badge>
             </div>
         </div>
     )
+}
+
+export const ellipsedText = (text:string, highLen:number) => {
+    let newStr = "";
+    if(text.length > highLen) {
+        newStr += text.slice(0, highLen) + "...."
+    }
+
+    return newStr
 }
