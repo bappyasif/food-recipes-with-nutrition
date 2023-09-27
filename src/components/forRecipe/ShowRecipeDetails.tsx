@@ -9,6 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { ShowFewRelatedRecipes } from './ShowFewRelatedRecipes'
 import { RecipeImage } from './RecipeImage'
+import { FewNonRelatedRecipes } from './FewNonRelatedRecipes'
 
 export const ShowRecipeDetails = () => {
     const [recipeData, setRecipeData] = useState<RecipeMealType>()
@@ -46,45 +47,31 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     const { calories, cautions, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, shareAs, source, tags, totalWeight, uri, url, yield: servings, count } = data;
 
     return (
-        <>
+        <div className='flex flex-col gap-y-20'>
             <section>
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0]} />
             </section>
-            <section className='flex justify-between gap-x-6 mx-6 min-h-screen'>
-                {/* <div className='w-1/3 mx-auto text-center'>
-                    <h1 className='text-4xl'>{label}</h1>
-                    <img className='rounded-sm w-full' src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
-                </div> */}
+            <section className='flex justify-between gap-x-6 mx-6'>
+
                 <RecipeImage {...data} />
 
-                <div className='w-2/3 flex flex-col gap-y-11'>
-
-                    {/* <div className='flex justify-between'>
-                        <div className='w-1/3 flex flex-col gap-y-1'>
-                            <Badge className='text-xl flex gap justify-between'><span>Meal Type</span> <span>{mealType}</span></Badge>
-                            <Badge className='text-xl flex gap justify-between'><span>Cautions</span> <span>{cautions[0]}</span></Badge>
-                            <Badge className='text-xl flex gap justify-between'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
-                        </div>
-
-                        <div className='flex flex-col gap-y-1'>
-                            <ReusableBadge text='Diet' val={dietLabels[0]} />
-                            <ReusableBadge text='Cuisine' val={cuisineType[0]} />
-                            <ReusableBadge text='Dish' val={dishType[0]} />
-                        </div>
-
-                        <div className='flex flex-col gap-y-1'>
-                            <ReusableBadge text='Yield' val={servings} />
-                            <ReusableBadge text='Calories' val={calories.toFixed(2)} />
-                            <ReusableBadge text='Weight' val={totalWeight.toFixed(2)} />
-                        </div>
-                    </div> */}
+                <div className='w-2/3 flex flex-col justify-center gap-y-11'>
 
                     <RecipeIngredientsAndInstructions ingredients={ingredients} />
 
                     <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
                 </div>
             </section>
-        </>
+            <section className='flex justify-between'>
+                <div className='w-2/3'>
+                    <h2 className='text-xl mb-6 mt-2'>Digest Labels</h2>
+                    <div className='h-72 overflow-y-scroll scroll-smooth appearance-none'>
+                        <RenderDigestTable heading='Digest' labels={digest} />
+                    </div>
+                </div>
+                <FewNonRelatedRecipes />
+            </section>
+        </div>
     )
 }
 
@@ -123,12 +110,12 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels }: { diges
                 </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value='digest'>
+            {/* <AccordionItem value='digest'>
                 <AccordionTrigger>Digest Labels</AccordionTrigger>
                 <AccordionContent>
                     <RenderDigestTable heading='Digest' labels={digest} />
                 </AccordionContent>
-            </AccordionItem>
+            </AccordionItem> */}
         </Accordion>
     )
 }
@@ -199,19 +186,26 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
 }
 
 const RenderDigestTable = ({ labels, heading }: { labels: DigestItemType[], heading: string }) => {
-    // const renderTableHeads = () => Object.keys(labels).map(item => {
-    //     return (
-    //         <TableHead>{item}</TableHead>
-    //     )
-    // })
 
-    // console.log(Object.values(labels))
+    // const renderTableRows = () => labels.map(item => {
+    //     const { daily, hasRDI, label, schemaOrgTag, tag, total, unit } = item;
 
-    // const renderTableHeads = () => Object.keys(labels[0]).map(item => {
-    //     // const renderHeads = () => Object.keys(item).map(val => <TableHead key={val}>{val}</TableHead>)
-    //     if (item === "sub") return
+    //     // console.log(Object.values(item))
+
     //     return (
-    //         <TableHead key={item}>{item}</TableHead>
+    //         <TableRow>
+    //             {/* {renderRows()} */}
+
+    //             {/* {dataCells()} */}
+    //             <TableCell>{tag}</TableCell>
+    //             <TableCell>{daily.toFixed(2)}</TableCell>
+    //             <TableCell>{schemaOrgTag}</TableCell>
+    //             <TableCell>{label}</TableCell>
+    //             <TableCell>{hasRDI ? "True" : "False"}</TableCell>
+
+    //             <TableCell>{total.toFixed(2)}</TableCell>
+    //             <TableCell>{unit}</TableCell>
+    //         </TableRow>
     //     )
     // })
 
@@ -221,26 +215,26 @@ const RenderDigestTable = ({ labels, heading }: { labels: DigestItemType[], head
         // console.log(Object.values(item))
 
         return (
-            <TableRow>
+            <tr>
                 {/* {renderRows()} */}
 
                 {/* {dataCells()} */}
-                <TableCell>{tag}</TableCell>
-                <TableCell>{daily.toFixed(2)}</TableCell>
-                <TableCell>{schemaOrgTag}</TableCell>
-                <TableCell>{label}</TableCell>
-                <TableCell>{hasRDI ? "True" : "False"}</TableCell>
+                <td>{tag}</td>
+                <td>{daily.toFixed(2)}</td>
+                <td>{schemaOrgTag}</td>
+                <td>{label}</td>
+                <td>{hasRDI ? "True" : "False"}</td>
 
-                <TableCell>{total.toFixed(2)}</TableCell>
-                <TableCell>{unit}</TableCell>
-            </TableRow>
+                <td>{total.toFixed(2)}</td>
+                <td>{unit}</td>
+            </tr>
         )
     })
 
     const renderHeads = () => {
         return (
-            <TableRow>
-                <TableHead>Tag</TableHead>
+            <TableRow className=''>
+                <TableHead className='sticky'>Tag</TableHead>
                 <TableHead>Daily</TableHead>
                 <TableHead>SchemaOrgTag</TableHead>
                 <TableHead>Label</TableHead>
@@ -251,17 +245,32 @@ const RenderDigestTable = ({ labels, heading }: { labels: DigestItemType[], head
         )
     }
 
-    return (
-        <Table>
-            <TableHeader>
-                {/* <TableRow>
-                    {renderTableHeads()}
-                </TableRow> */}
-                {renderHeads()}
-            </TableHeader>
-            <TableBody>
-                {renderTableRows()}
-            </TableBody>
-        </Table>
+    return (<table className="relative w-full border">
+        <thead>
+            <tr className='text-sm'>
+                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">Tag</th>
+                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">Daily</th>
+                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">SchemaOrgTag</th>
+                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">Label</th>
+                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">HasRDI</th>
+                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">Total</th>
+                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">Unit</th>
+            </tr>
+        </thead>
+        <tbody className="divide-y bg-primary-focus text-center text-xs">
+            {renderTableRows()}
+        </tbody>
+    </table>
+        // <Table className=''>
+        //     <TableHeader className='text-sm bg-white border-b sticky top-0'>
+        //         <TableRow>
+        //             {renderTableHeads()}
+        //         </TableRow>
+        //         {renderHeads()}
+        //     </TableHeader>
+        //     <TableBody className='text-xs'>
+        //         {renderTableRows()}
+        //     </TableBody>
+        // </Table>
     )
 }

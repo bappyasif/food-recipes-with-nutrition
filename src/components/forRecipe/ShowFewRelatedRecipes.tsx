@@ -1,4 +1,4 @@
-import { useForTruthToggle } from '@/hooks/forComponents'
+import { useForRandomRecipesList, useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
 import { RecipeMealType } from '@/types'
 import { searchRecipes } from '@/utils/dataFetching'
 import Link from 'next/link'
@@ -9,30 +9,32 @@ import { Badge } from '../ui/badge'
 import { extractRecipeId } from '../forFilters/RecipesView'
 
 export const ShowFewRelatedRecipes = ({ mealType, diet, dishType }: { mealType: string, diet: string, dishType: string }) => {
-    const [recipes, setRecipes] = useState<RecipeMealType[]>([])
+    // const [recipes, setRecipes] = useState<RecipeMealType[]>([])
 
-    const readySimilarRcipesRequest = () => {
-        const params = {
-            mealType: mealType,
-            diet: diet.toLocaleLowerCase(),
-            dishyType: dishType,
-            random: true,
-            type: "public",
-            app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
-            app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY
-        }
+    // const readySimilarRcipesRequest = () => {
+    //     const params = {
+    //         mealType: mealType,
+    //         diet: diet.toLocaleLowerCase(),
+    //         dishyType: dishType,
+    //         random: true,
+    //         type: "public",
+    //         app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
+    //         app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY
+    //     }
 
-        searchRecipes(params).then(d => {
-            // console.log(d, "!!")
-            const onlyRecipes = d?.hits.map((item: any) => item.recipe)
-            onlyRecipes?.length && setRecipes(onlyRecipes)
-        }).catch(err => console.log(err))
+    //     searchRecipes(params).then(d => {
+    //         // console.log(d, "!!")
+    //         const onlyRecipes = d?.hits.map((item: any) => item.recipe)
+    //         onlyRecipes?.length && setRecipes(onlyRecipes)
+    //     }).catch(err => console.log(err))
 
-    }
+    // }
 
-    useEffect(() => {
-        readySimilarRcipesRequest()
-    }, [mealType, diet, dishType])
+    // useEffect(() => {
+    //     readySimilarRcipesRequest()
+    // }, [mealType, diet, dishType])
+
+    const {recipes} = useForRandomRecipesList(mealType, diet, dishType)
 
     return (
         <div className='h-fit'>
@@ -42,96 +44,99 @@ export const ShowFewRelatedRecipes = ({ mealType, diet, dishType }: { mealType: 
     )
 }
 
-const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) => {
-    const [beginFrom, setBeginFrom] = useState(0);
-    const [onlyFour, setOnlyFour] = useState<RecipeMealType[]>();
+export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) => {
+    const {handleFalsy, handleNext, handlePrev, handleTruthy, isTrue, onlyFour} = useForRecipeCarouselItems(data)
+    
+    // const [beginFrom, setBeginFrom] = useState(0);
+    // const [onlyFour, setOnlyFour] = useState<RecipeMealType[]>();
 
-    const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
+    // const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
-    const handleNext = () => {
-        // if(isTrue) {
-        //   // console.log("PAUSE from next")
-        //   return
-        // }
-        if (beginFrom > data.length) {
-            setBeginFrom(0)
-        } else {
-            // console.log("Now PAUSE from next, elseblck", isTrue)
-            !isTrue && setBeginFrom(prev => prev + 1)
-        }
-    }
+    // const handleNext = () => {
+    //     // if(isTrue) {
+    //     //   // console.log("PAUSE from next")
+    //     //   return
+    //     // }
+    //     if (beginFrom > data.length) {
+    //         setBeginFrom(0)
+    //     } else {
+    //         // console.log("Now PAUSE from next, elseblck", isTrue)
+    //         !isTrue && setBeginFrom(prev => prev + 1)
+    //     }
+    // }
 
-    const handlePrev = () => {
-        if (beginFrom === 0) {
-            setBeginFrom(data.length)
-        } else {
-            setBeginFrom(prev => prev - 1)
-        }
-    }
+    // const handlePrev = () => {
+    //     if (beginFrom === 0) {
+    //         setBeginFrom(data.length)
+    //     } else {
+    //         setBeginFrom(prev => prev - 1)
+    //     }
+    // }
 
-    const handleOnlyFour = () => {
-        let temp: number[] = [];
-        Array.from(Array(8).keys()).forEach((v => {
-            if (v + beginFrom >= 20) {
-                // console.log(v, beginFrom, v + beginFrom, "adjusted", (v + beginFrom) - 6)
-                temp.push((v + beginFrom) - 20)
-            } else {
-                // console.log(v, beginFrom, v + beginFrom)
-                temp.push(v + beginFrom)
-            }
-        }))
+    // const handleOnlyFour = () => {
+    //     let temp: number[] = [];
+    //     Array.from(Array(8).keys()).forEach((v => {
+    //         if (v + beginFrom >= 20) {
+    //             // console.log(v, beginFrom, v + beginFrom, "adjusted", (v + beginFrom) - 6)
+    //             temp.push((v + beginFrom) - 20)
+    //         } else {
+    //             // console.log(v, beginFrom, v + beginFrom)
+    //             temp.push(v + beginFrom)
+    //         }
+    //     }))
 
-        let fourCards: RecipeMealType[] = []
+    //     let fourCards: RecipeMealType[] = []
 
-        temp.forEach(v => {
-            data.forEach((item, idx) => {
-                // console.log(idx, v, "check")
-                if (idx === v) {
-                    fourCards.push(item)
-                    //   fourCards.push({category: item.category, name: item.name, nutrition: item.nuttrition, picture: item.picture})
-                }
-            })
-        })
+    //     temp.forEach(v => {
+    //         data.forEach((item, idx) => {
+    //             // console.log(idx, v, "check")
+    //             if (idx === v) {
+    //                 fourCards.push(item)
+    //                 //   fourCards.push({category: item.category, name: item.name, nutrition: item.nuttrition, picture: item.picture})
+    //             }
+    //         })
+    //     })
 
-        console.log(temp, fourCards)
-        setOnlyFour(fourCards)
-    }
+    //     console.log(temp, fourCards)
+    //     setOnlyFour(fourCards)
+    // }
 
-    useEffect(() => {
-        !isTrue && handleOnlyFour()
-    }, [beginFrom])
+    // useEffect(() => {
+    //     !isTrue && handleOnlyFour()
+    // }, [beginFrom])
 
     // const renderRecipes = () => data.map(item => <RenderRecipeForCarousel key={item.uri} {...item} />)
-    const renderRecipes = () => onlyFour?.map((item, idx) => <RenderRecipeForCarousel key={item.uri} rdata={item} lastCard={idx === 7} firstCard={idx===0} />)
 
-    useEffect(() => {
-        let timer = setInterval(() => {
+    // useEffect(() => {
+    //     let timer = setInterval(() => {
 
-            console.log(isTrue, "istryue!!", timer)
-            !isTrue ? handleNext() : clearInterval(timer)
+    //         console.log(isTrue, "istryue!!", timer)
+    //         !isTrue ? handleNext() : clearInterval(timer)
 
-            if (!isTrue) {
-                handleNext()
-                // console.log(beginFrom, "play from timer", !isTrue)
-            } else {
-                clearInterval(timer)
-                // console.log(beginFrom, "pause from timer else block!!", !isTrue, timer)
-                return
-            }
+    //         if (!isTrue) {
+    //             handleNext()
+    //             // console.log(beginFrom, "play from timer", !isTrue)
+    //         } else {
+    //             clearInterval(timer)
+    //             // console.log(beginFrom, "pause from timer else block!!", !isTrue, timer)
+    //             return
+    //         }
 
-            // console.log(beginFrom, "PAUSE from timer", isTrue)
-        }, 200000)
+    //         // console.log(beginFrom, "PAUSE from timer", isTrue)
+    //     }, 200000)
 
-        // !isTrue ? handleNext() : clearInterval(timer)
+    //     // !isTrue ? handleNext() : clearInterval(timer)
 
-        // setTimerRunning(timer)
-        return () => clearInterval(timer)
+    //     // setTimerRunning(timer)
+    //     return () => clearInterval(timer)
 
-    }, [beginFrom, isTrue])
+    // }, [beginFrom, isTrue])
 
     useEffect(() => {
         handleNext()
     }, [data])
+
+    const renderRecipes = () => onlyFour?.map((item, idx) => <RenderRecipeForCarousel key={item.uri} rdata={item} lastCard={idx === 7} firstCard={idx===0} />)
 
     return (
         <div className='flex gap-x-4 items-center justify-between h-48 bg-slate-600'>
@@ -148,13 +153,13 @@ const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) => {
     )
 }
 
-type ForCarouselTypes = {
+export type ForCarouselTypes = {
     rdata: RecipeMealType,
     firstCard: boolean,
     lastCard: boolean
 }
 
-const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarouselTypes) => {
+export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarouselTypes) => {
     const { cuisineType, dishType, images, label, mealType, uri } = rdata;
     const { height, url, width } = images.SMALL;
 
