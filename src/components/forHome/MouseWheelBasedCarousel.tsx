@@ -12,9 +12,10 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
 
     const {rndNum, handleRandomNumber, handleResetRandomNumber, dataset} = item;
 
-    const radius = 135
+    const radius = 125
 
     const wheelRef = useRef<HTMLDivElement>(window.document?.querySelector("#wheel") as HTMLDivElement)
+    // const wheelRef = useRef<HTMLDivElement>(null)
 
     const [centerOfWheel, setCenterOfWheel] = useState<{
         x: number;
@@ -141,7 +142,7 @@ const CarouselCard = ({ ...item }: {
     }
 
     return (
-        <div className={`absolute -translate-x-[50%] -translate-y-[50%] bg-accent-focus rounded-full flex justify-center items-center ${selected ? "bg-yellow-600" : ""} hover:scale-110 hover:z-20 hover:bg-slate-400`}
+        <div className={`absolute -translate-x-[50%] -translate-y-[50%] bg-accent-focus rounded-full flex justify-center items-center ${selected ? "bg-yellow-600 z-20" : ""} hover:scale-110 hover:z-20 hover:bg-slate-400`}
             style={{...styles.card, left: `${center.x + newCoords.x}px`, top: `${center.y + newCoords.y}px`, 
             // clipPath: "polygon(2% 1%, 90% 0, 56% 100%, 39% 100%)"
         }}
@@ -149,7 +150,7 @@ const CarouselCard = ({ ...item }: {
             <h2 title={title} className='' 
                 // style={{transform: `rotate(${theta * 45}deg)`}}
             >
-                {title.length > 9 ? ellipsedText(title, 9) : title} 
+                {title?.length > 9 ? ellipsedText(title, 9) : title} 
                 {/* {theta} */}
             </h2>
         </div>
@@ -160,11 +161,11 @@ const styles = {
     card: {
         // left: "50%",
         // top: "50%",
-        height: "80px",
+        height: "60px",
         width: "170px",
         // height: "9rem",
         // width: "9rem",
-        borderRadius: "50%"
+        // borderRadius: "50%"
     }
 }
 

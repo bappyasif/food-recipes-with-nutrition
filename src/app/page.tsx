@@ -25,10 +25,10 @@ export default function Home() {
 
       {/* <VerticalCarousel /> */}
 
-      <div className="flex items-center gap-x-20 justify-center">
+      {/* <div className="flex items-center gap-x-20 justify-center">
         <RecentlyViewedMealsScroller />
         <DuoCarousels />
-      </div>
+      </div> */}
     </div>
   )
 }
