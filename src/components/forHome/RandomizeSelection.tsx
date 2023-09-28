@@ -79,49 +79,103 @@ const ReuseableBoxedRandomizer = () => {
 
     const [count, setCount] = useState(0);
 
+    // transitions to start and end depending on isTrue be true or false
     const spinningEffect = () => {
-        
-            for(let i = 0; i < withCloned.length - 1; i++) {
-                setCount(prev => {
-                    if (ref.current !== null) { 
-                        if (prev < (112 * withCloned.length)) {
-                            ref.current.style.transitionDuration = ".5s"
-                            ref.current.style.transform = `translateY(-${prev + 112}px)`
-                            // setCount(prev => prev + 112)
-                            // setCurrCardNumber(prev => prev + 1)
-                            console.log("transformed", count, withCloned.length)
-                            return prev + 112
-                        }
-            
-                        if (count >= (withCloned.length * 112)) {
-                            ref.current.style.transitionDuration = "0.0s"
-                            ref.current.style.transform = `translateY(-112px)`
-                            // setCount(112)
-                            // setCurrCardNumber(1)
-                            console.log("snapped", count, withCloned.length)
 
-                            return 0
-                        }
+        for (let i = 0; i < withCloned.length - 1; i++) {
+            setCount(prev => {
+                if (ref.current !== null) {
+                    if (prev < (112 * withCloned.length)) {
+                        ref.current.style.transitionDuration = "1s"
+                        ref.current.style.transform = `translateY(-${prev + 112}px)`
+                        // setCount(prev => prev + 112)
+                        // setCurrCardNumber(prev => prev + 1)
+                        console.log("transformed", count, withCloned.length)
+                        return prev + 112
                     }
 
-                    return prev
+                    if (count >= (withCloned.length * 112)) {
+                        ref.current.style.transitionDuration = "0.0ms"
+                        ref.current.style.transform = `translateY(0px)`
+                        // setCount(112)
+                        // setCurrCardNumber(1)
+                        console.log("snapped", count, withCloned.length)
+
+                        return 0
+                    }
+                }
+
+                return prev
+            })
+        }
+    }
+
+    const [newCount, setNewCount] = useState(0);
+    // const [HIGHVAL, setHighVal] = useState(4000);
+
+
+    const spinningEffectRandomAmount = () => {
+        // const temp = [72, 92, 101, 119, 128, 141]
+        // const rnd = temp[Math.round(Math.random() * temp.length)]
+
+        if (ref.current !== null) {
+            // for (let i = 0; i < 72; i++) {
+            for (let i = 0; i < (Math.round(Math.random() * 72) + 72); i++) {
+            // for (let i = 0; i < rnd; i++) {
+                // !HIGHVAL && handleFalsy()
+                // while (HIGHVAL > 0) {
+                // !HIGHVAL && handleFalsy()
+
+                // ref.current!.style.transitionDuration = ".6s"
+                // ref.current!.style.transform = `translateY(-${newCount + 100}px)`
+
+                setNewCount(prev => {
+                    if (prev < 800) {
+                        // setHighVal(prev => prev - 100)
+                        ref.current!.style.transitionDuration = ".6s"
+                        ref.current!.style.transform = `translateY(-${prev + 100}px)`
+                        console.log(prev, "if blk")
+                        return prev + 100
+                    } else {
+                        // ref.current!.style.transitionDuration = ".2s"
+                        ref.current!.style.transform = `translateY(${0}px)`                        
+                        // setHighVal(0)
+                        console.log(prev)
+                        return 0
+                    }
                 })
             }
+
+            handleFalsy()
+        }
+
     }
 
     const runFourTimesForAnimation = () => {
-        // for (let i = 0; i < withCloned.length - 1; i++) {
-        //     // handleTruthy()
-        //     spinningEffect()
-        // }
-        spinningEffect()
+        for (let i = 0; i < withCloned.length - 1; i++) {
+            // handleTruthy()
+            spinningEffect()
+        }
+        // spinningEffect()
 
         handleFalsy()
     }
 
+    // useEffect(() => {
+    //     !HIGHVAL && handleFalsy()
+    // }, [HIGHVAL, newCount])
+
+    // useEffect(() => {
+    //     ref.current!.style.transitionDuration = ".6s"
+    //     ref.current!.style.transform = `translateY(-${newCount + 100}px)`
+    //     console.log("runnning", newCount)
+    // }, [newCount])
+
     useEffect(() => {
         // isTrue && runThis()  // per click
-        isTrue && runFourTimesForAnimation()
+        // isTrue && runFourTimesForAnimation()
+        isTrue && spinningEffectRandomAmount()
+        !isTrue && setNewCount(0)
     }, [isTrue])
 
     return (
