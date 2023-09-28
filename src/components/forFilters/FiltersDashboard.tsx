@@ -1,7 +1,7 @@
 "use client"
 
 import { useAppSelector } from '@/hooks/forRedux'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Label } from '../ui/label'
 import { Checkbox } from '../ui/checkbox'
@@ -9,7 +9,7 @@ import { Button } from '../ui/button'
 import { searchRecipes } from '@/utils/dataFetching'
 // import { useRouter } from 'next/router'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useForExtractingQueriesFromUrl } from '@/hooks/forComponents'
+import { useForExtractingQueriesFromUrl, useForInputTextChange } from '@/hooks/forComponents'
 import { RecipesView } from './RecipesView'
 import { Badge } from '../ui/badge'
 import { FiltersTypes } from '@/types'
@@ -25,12 +25,12 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
     const getFiltered = (data: string, key: string) => {
         let filtered = null;
 
-        for(let k in filters) {
-            if(k !== "q") {
+        for (let k in filters) {
+            if (k !== "q") {
                 // console.log(k === "q")
                 // return
 
-                if(filters[k as keyof FiltersTypes]?.length) {
+                if (filters[k as keyof FiltersTypes]?.length) {
                     filtered = (filters[k as keyof FiltersTypes] as string[]).filter(item => !item.includes(data));
                 }
             }
@@ -59,10 +59,10 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
         // posible solution in this
         for (let k in filters) {
             if (filters[k as keyof FiltersTypes] as FiltersTypes) {
-                if (k === "q") {}
+                if (k === "q") { }
 
                 if (k === key) {
-                    found = (filters[k as keyof FiltersTypes] as string[]).findIndex(item => item === data)
+                    found = (filters[k as keyof FiltersTypes] as string[])?.findIndex(item => item === data)
                 }
             }
         }
@@ -86,21 +86,28 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     const handleFiltersChange = (data: string, key: string) => {
         // console.log("cuisines!!", data)
+        // console.log(data, key, "<><>")
         setFilters(prev => {
-            let found = checkIfFound(data, key)
-
-            if (found !== -1) {
-                // const filtered = prev.cuisineType?.filter(d => d !== data)
-                // console.log("cuisines!!", data, found)
-
-                const filtered = getFiltered(data, key)
-                console.log({ ...prev, [key]: filtered }, ">!>!>!")
-                return { ...prev, [key]: filtered }
+            if (key === "q" && data) {
+                // console.log("q bitch", { ...prev, q: data })
+                // return prev
+                return { ...prev, q: data }
             } else {
-                // const updatedList = prev.cuisineType?.concat(data)
-                const updatedList = prev[key as keyof FiltersTypes]?.concat(data)
-                // console.log({ ...prev, [key]: updatedList }, "FKFKFKF")
-                return { ...prev, [key]: updatedList }
+                let found = checkIfFound(data, key)
+
+                if (found !== -1) {
+                    // const filtered = prev.cuisineType?.filter(d => d !== data)
+                    // console.log("cuisines!!", data, found)
+
+                    const filtered = getFiltered(data, key)
+                    console.log({ ...prev, [key]: filtered }, ">!>!>!")
+                    return { ...prev, [key]: filtered }
+                } else {
+                    // const updatedList = prev.cuisineType?.concat(data)
+                    const updatedList = prev[key as keyof FiltersTypes]?.concat(data)
+                    // console.log({ ...prev, [key]: updatedList }, "FKFKFKF")
+                    return { ...prev, [key]: updatedList }
+                }
             }
         })
     }
@@ -124,10 +131,16 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     const querifyFilters = () => {
         let str = "?type=public&";
+        
         const querified = (items: string[], propKey: string) => items.forEach(item => str += `${propKey}=${item}&`)
+
         for (let k in filters) {
             if (filters[k as keyof FiltersTypes]?.length) {
-                querified(filters[k as keyof FiltersTypes] as string[], k)
+                if(k !== "q") {
+                    querified(filters[k as keyof FiltersTypes] as string[], k)
+                } else {
+                    str += `q=${filters.q}&`
+                }
             }
         }
         // console.log(str, "STR!!", str.lastIndexOf("&"), str.slice(0, 143))
@@ -136,32 +149,36 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     const handleSearchNow = () => {
         const params = new URLSearchParams();
-        
+
         params.append("app_id", `${process.env.NEXT_PUBLIC_EDAMAM_APP_ID}`);
         params.append("app_key", `${process.env.NEXT_PUBLIC_EDAMAM_APP_KEY}`);
         params.append("type", "public");
-        params.append("q", "beef")
-        
-        for(let k in filters) {
-            if(filters[k as keyof FiltersTypes]?.length) {
-                appendParam(params, filters[k as keyof FiltersTypes] as string[], k)
+        // params.append("q", "beef")
+
+        for (let k in filters) {
+            if (filters[k as keyof FiltersTypes]?.length) {
+                if(k === "q" && filters?.q) {
+                    params.append("q", filters.q!)
+                } else {
+                    appendParam(params, filters[k as keyof FiltersTypes] as string[], k)
+                }
             }
         }
-        
+
         // filters.health?.length && appendParam(params, filters.health!, "health")
         // filters.diet?.length && appendParam(params, filters.diet!, "diet")
         // filters.cuisineType?.length && appendParam(params, filters.cuisineType!, "cuisineType")
         // filters.mealType?.length && appendParam(params, filters.mealType!, "mealType")
         // filters.dishType?.length && appendParam(params, filters.dishType!, "dishType")
-        
+
         // params.append("health", `${filters.health![0]}`)
         // params.append("health", `${filters.health![1]}`)
-        
-        // axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
-        //     console.log(d.data)
-        //     const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
-        //     onlyRecipes?.length && handleRecipesFound(onlyRecipes)
-        // }).catch(err => console.log(err))
+
+        axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
+            console.log(d.data)
+            const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
+            onlyRecipes?.length && handleRecipesFound(onlyRecipes)
+        }).catch(err => console.log(err))
 
         querifyFilters();
 
@@ -172,13 +189,22 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
         // searchRecipes({params: params.entries()}).then(d => console.log(d)).catch(err => console.log(err))
     }
 
-    console.log(filters)
+    const { handleTextChange, text } = useForInputTextChange()
+
+    useEffect(() => {
+        handleFiltersChange(text, "q")
+    }, [text])
+
+    // console.log(filters, text)
 
     return (
         <div>
             <h1>FiltersDashboard</h1>
             <h2>{filters.diet} ---- {filters.cuisineType} ----</h2>
-            <div className='flex justify-center gap-x-6'>
+            <div className='flex flex-col gap-y-4 justify-center items-center'>
+                
+                <input type="text" placeholder='search your recipe here by name....' className='w-1/3 py-1 px-2' value={text} onChange={handleTextChange} />
+
                 <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
                 {/* <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />
                 <CuisinesCheckboxes handleFiltersChange={handleFiltersChange} /> */}
@@ -191,7 +217,10 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
 const MultipleSelectableFilters = ({ handleFiltersChange }: FilterChangeTypes) => {
     return (
-        <div className='grid grid-cols-2'>
+        <div
+            // className='grid grid-cols-2'
+            className='columns-2xl gap-2'
+        >
             <RenderCheckboxTypes propKey={"mealType"} data={meals} title='Meal Types' handleFiltersChange={handleFiltersChange} />
             <RenderCheckboxTypes propKey={"diet"} data={diets} title='Diet Types' handleFiltersChange={handleFiltersChange} />
             <RenderCheckboxTypes propKey={"dishType"} data={dishes} title='Dish Types' handleFiltersChange={handleFiltersChange} />
@@ -211,7 +240,7 @@ const RenderCheckboxTypes = ({ ...items }: ReuseableCheckboxTypes) => {
     const rendertypes = () => data.map(text => <RenderCheckbox key={text} name={text} handleFiltersChange={handleFiltersChange} propKey={propKey} />)
 
     return (
-        <div>
+        <div className='my-2'>
             <h2>{title}</h2>
             <div className='flex flex-wrap gap-4'>{rendertypes()}</div>
         </div>
@@ -233,7 +262,7 @@ const RenderCheckbox = ({ name, handleFiltersChange, propKey }: CheckboxTypes) =
     // console.log(name, propKey, "test!!")
 
     return (
-        <Badge variant={'secondary'} className="flex space-x-2 px-4 py-1">
+        <Badge variant={'secondary'} className="flex space-x-2 px-4 py-1 min-w-fit h-8">
             {/* <Checkbox id={name} onClick={() => handleFiltersChange(name, "cuisines")} /> */}
             <Checkbox id={name} onClick={() => handleFiltersChange(name, propKey)} />
 
@@ -253,7 +282,7 @@ const diets = ["balanced", "high-fiber", "high-protein", "low-carb", "low-fat", 
 
 const health = ["alcohol-free", "alchohol-cocktail", "celery-free", "crustacean-free", "dairy-free", "DASH", "egg-free", "fish-free", "fodmap-free", "gluten-free", "immuno-supportive", "keto-friendly", "kidney-friendly", "kosher", "low-fat-abs", "low-potassium", "low-sugar", "lupine-free", "mediterranean", "mollusk-free", "mustard-free", "no-oil-added", "paleo", "peanut-free", "pescaterian", "pork-free", "red-meat-free", "sesame-free", "shellfish-free", "soy-free", "sugar-conscious", "sulfite-free", "tree-nut-free", "vegan", "vegetarian", "wheat-free"]
 
-const cuisines = ["American", "Asian", "British", "Caribbean", "Central europe", "chinese", "eastern europe", "french", "indian", "italian", "japanese", "kosher", "mediterranean", "mexican", "middle eastern", "nordic", "south-american", "south east asian", "bengali"]
+const cuisines = ["American", "Asian", "British", "Caribbean", "Central europe", "chinese", "eastern europe", "french", "indian", "italian", "japanese", "kosher", "mediterranean", "mexican", "middle eastern", "nordic", "south-american", "south east asian"]
 
 const meals = ["Breakfast", "dinner", "lunch", "snack", "teatime"]
 

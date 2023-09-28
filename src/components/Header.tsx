@@ -4,10 +4,13 @@ import { useForInputTextChange } from '@/hooks/forComponents'
 import { NavType, RecipeTypes } from '@/types'
 import { searchRecipesByNameFromApi } from '@/utils/dataFetching'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 export const Header = () => {
   const renderNavs = () => navs.map(item => <RenderNav key={item.name} icon={item.icon} name={item.name} path={item.path} />)
+
+  const pathName = usePathname()
   
   return (
     <div className='w-full h-20 text-2xl flex justify-between'>
@@ -15,7 +18,11 @@ export const Header = () => {
       <nav className='flex gap-x-4'>
         {renderNavs()}
       </nav>
-      <SearchRecipes />
+      {
+        pathName !== "/filter-recipes"
+        ? <SearchRecipes />
+        : null
+      }
     </div>
   )
 }
