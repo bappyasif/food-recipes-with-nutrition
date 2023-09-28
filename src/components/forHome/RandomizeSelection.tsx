@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from 'react'
 import { MouseWheelBasedCarousel } from './MouseWheelBasedCarousel'
-import { categories, cuisines } from './DuoCarousels';
+// import { categories, cuisines } from './DuoCarousels';
 import { CategoriesCuisinesCarouselType } from '@/types';
+import { cuisines, diets, dishes } from '../forFilters/FiltersDashboard';
 
 export const RandomizeSelection = () => {
-    const [rnds, setRnds] = useState({ category: -1, cuisine: -1 })
+    const [rnds, setRnds] = useState({ diet: -1, cuisine: -1, health: -1, meals: -1, dish: -1 })
 
     const updateRnds = (val: number, key: string) => {
         setRnds(prev => ({ ...prev, [key]: val }))
@@ -18,9 +19,9 @@ export const RandomizeSelection = () => {
 
             <div className='flex justify-start h-full'>
                 <div className='flex gap-x-48 justify-between px-28 w-1/2'>
-                    <ReuseableWheelCarousel dataset={categories} title='Choosing Category' updateRnds={updateRnds} />
-
                     <ReuseableWheelCarousel dataset={cuisines} title='Choosing Cuisines' updateRnds={updateRnds} />
+
+                    <ReuseableWheelCarousel dataset={dishes} title='Choosing Dishes' updateRnds={updateRnds} />
                 </div>
 
                 <ShowRecipes rnds={rnds} />
@@ -31,7 +32,7 @@ export const RandomizeSelection = () => {
 
 const ShowRecipes = ({ rnds }: {
     rnds: {
-        category: number,
+        dish: number,
         cuisine: number
     }
 }) => {
@@ -48,21 +49,23 @@ const ShowRecipes = ({ rnds }: {
 
 const ShowTitle = ({ rnds }: {
     rnds: {
-        category: number,
+        dish: number,
         cuisine: number
     }
 }) => {
-    const { category, cuisine } = rnds
+    const { dish, cuisine } = rnds
 
     return (
         <div className='flex gap-x-4'>
             <h2 className='flex flex-col gap-y-2'>
-                <span>Category</span>
-                <span>{categories[category]?.name ? categories[category].name : "intrim spin"}</span>
+                <span>Dish</span>
+                {/* <span>{categories[diet]?.name ? categories[diet].name : "intrim spin"}</span> */}
+                <span>{dishes[dish] ? dishes[dish] : "intrim spin"}</span>
             </h2>
             <h2 className='flex flex-col gap-y-2'>
                 <span>Cuisine</span>
-                <span>{cuisines[cuisine]?.name ? cuisines[cuisine].name : "intrim spin"}</span>
+                <span>{cuisines[cuisine] ? cuisines[cuisine] : "intrim spin"}</span>
+                {/* <span>{cuisines[cuisine]?.name ? cuisines[cuisine].name : "intrim spin"}</span> */}
             </h2>
         </div>
     )
@@ -70,7 +73,8 @@ const ShowTitle = ({ rnds }: {
 
 
 const ReuseableWheelCarousel = ({ dataset, title, updateRnds }: {
-    dataset: CategoriesCuisinesCarouselType[],
+    // dataset: CategoriesCuisinesCarouselType[],
+    dataset: string[],
     title: string,
     updateRnds: (v: number, t: string) => void
 }) => {
@@ -80,11 +84,11 @@ const ReuseableWheelCarousel = ({ dataset, title, updateRnds }: {
 
     const handleResetRandomNumber = () => setRndNum(-1)
 
-    const isItForCategory = () => title.includes("Category")
+    const isItForCategory = () => title.includes("Dish")
 
     useEffect(() => {
         console.log(isItForCategory())
-        updateRnds(rndNum, isItForCategory() ? "category" : "cuisine")
+        updateRnds(rndNum, isItForCategory() ? "dish" : "cuisine")
     }, [rndNum])
 
     // ${title.includes("Category") ? "justify-start" : "justify-end"}

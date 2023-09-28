@@ -14,10 +14,10 @@ export default function Home() {
   return (
     <div className="h-[100vh] bg-primary">
       <h1>Home Page</h1>
-      <SimpleCounter />
+      {/* <SimpleCounter /> */}
       <HomeHero />
-      <Scheduler />
-      <DragAndDrop />
+      {/* <Scheduler /> */}
+      {/* <DragAndDrop /> */}
       <RandomizeSelection />
       {/* <Button variant={"ghost"} className="bg-primary-content hover:bg-primary-foreground">Button Here</Button> */}
 

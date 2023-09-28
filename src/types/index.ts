@@ -33,7 +33,8 @@ export type MouseWheelBasedCarouselType = {
     rndNum: number,
     handleRandomNumber: () => void,
     handleResetRandomNumber: () => void,
-    dataset: CategoriesCuisinesCarouselType[]
+    // dataset: CategoriesCuisinesCarouselType[]
+    dataset: string[]
 }
 
 export type DynamicStringKeyType = {

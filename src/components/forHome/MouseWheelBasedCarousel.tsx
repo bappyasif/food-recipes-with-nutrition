@@ -4,15 +4,17 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '../ui/button'
 
 import { MouseWheelBasedCarouselType } from '@/types'
+import { useForTruthToggle } from '@/hooks/forComponents'
+import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 
 export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) => {
     const [cards, setCards] = useState<React.JSX.Element[]>([])
 
     const {rndNum, handleRandomNumber, handleResetRandomNumber, dataset} = item;
 
-    const radius = 150
+    const radius = 135
 
-    const wheelRef = useRef<HTMLDivElement>(document.querySelector("#wheel") as HTMLDivElement)
+    const wheelRef = useRef<HTMLDivElement>(window.document?.querySelector("#wheel") as HTMLDivElement)
 
     const [centerOfWheel, setCenterOfWheel] = useState<{
         x: number;
@@ -32,7 +34,9 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
         const newCards:React.JSX.Element[] = [];
 
         for(let i=0; i<8; i++) {
-            newCards.push(<MemoizedCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} title={dataset[i].name} selected={dataset[i].name === dataset[rndNum]?.name} />)
+            // newCards.push(<MemoizedCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} title={dataset[i].name} selected={dataset[i].name === dataset[rndNum]?.name} />)
+
+            newCards.push(<MemoizedCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} title={dataset[i]} selected={dataset[i] === dataset[rndNum]} />)
             
             // newCards.push(<CarouselCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} title={categories[i].name} selected={categories[i].name === categories[rndNum].name} />)
         }
@@ -77,9 +81,15 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
     const handleSpin = () => {
         handleResetRandomNumber()
 
-        wheelRef.current.style.transform = `translate(-50%, -50%) rotate(${Math.round(Math.random() * 3600)}deg)`
+        // wheelRef.current.style.transform = `translate(-50%, -50%) rotate(${Math.round(Math.random() * 3600)}deg)`
+
+        wheelRef.current.style.transform = `translate(-50%, -50%) rotate(${Math.round(1500 + Math.round(Math.random() * 3600))}deg)`
+        
         wheelRef.current.style.transition = "transform 2s ease-in-out"
+        
         const timer = setTimeout(() => {
+            wheelRef.current.style.transition = "transform 0s ease-in-out"
+            wheelRef.current.style.transform = `translate(-50%, -50%) rotate(0deg)`
             handleRandomNumber();
         }, 2002)
 
@@ -93,10 +103,12 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
                 id='wheel'
                 ref={wheelRef}
                 className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-primary-focus'
+                // className={`absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-primary-focus transition-all duration-1000 ${isTrue ? "rotate-[270deg]" : "rotate-0"}`}
+                // className={`absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-primary-focus transition-all duration-1000 ${isTrue ? "animate-pulse" : ""}`}
                 // className='absolute top-[50%] -translate-y-[50%] bg-primary-focus'
                 style={{
-                    width: "180px",
-                    height: "180px",
+                    width: "110px",
+                    height: "110px",
                     borderRadius: "50%",
                     // clipPath: "polygon(2% 1%, 90% 0, 56% 100%, 39% 100%)"
                 }}
@@ -106,7 +118,10 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
                 {cards}
             </div>
             {/* <WheelParts /> */}
-            <Button variant={'destructive'} className='absolute rounded-full' onClick={handleSpin}>Spin</Button>
+            <Button variant={'destructive'} 
+            className='absolute transition-all duration-500 bg-transparent hover:bg-transparent hover:text-2xl' 
+            onClick={handleSpin}
+            >Spin</Button>
         </div>
     )
 }
@@ -126,15 +141,15 @@ const CarouselCard = ({ ...item }: {
     }
 
     return (
-        <div className={`absolute -translate-x-[50%] -translate-y-[50%] bg-accent-focus rounded-full flex justify-center items-center ${selected ? "bg-yellow-600" : ""}`}
+        <div className={`absolute -translate-x-[50%] -translate-y-[50%] bg-accent-focus rounded-full flex justify-center items-center ${selected ? "bg-yellow-600" : ""} hover:scale-110 hover:z-20 hover:bg-slate-400`}
             style={{...styles.card, left: `${center.x + newCoords.x}px`, top: `${center.y + newCoords.y}px`, 
             // clipPath: "polygon(2% 1%, 90% 0, 56% 100%, 39% 100%)"
         }}
         >
-            <h2 className='' 
+            <h2 title={title} className='' 
                 // style={{transform: `rotate(${theta * 45}deg)`}}
             >
-                {title} 
+                {title.length > 9 ? ellipsedText(title, 9) : title} 
                 {/* {theta} */}
             </h2>
         </div>
@@ -146,7 +161,9 @@ const styles = {
         // left: "50%",
         // top: "50%",
         height: "80px",
-        width: "110px",
+        width: "170px",
+        // height: "9rem",
+        // width: "9rem",
         borderRadius: "50%"
     }
 }
