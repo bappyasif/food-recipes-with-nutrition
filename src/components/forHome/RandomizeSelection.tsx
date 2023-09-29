@@ -41,8 +41,9 @@ export const RandomizeSelection = () => {
 }
 
 const ReuseableBoxedRandomizer = () => {
-    const withCloned = ([] as string[]).concat(diets[diets.length - 1], diets, diets[0])
-    const renderDivs = () => withCloned.map((name, idx) => <div className='h-28 w-28 bg-primary-focus' key={name + idx}>{name}</div>)
+    // const withCloned = ([] as string[]).concat(diets[diets.length - 1], diets, diets[0])
+    const clonedDiets = diets.concat(diets, diets, diets, diets, diets, diets)
+    const renderDivs = () => clonedDiets.map((name, idx) => <div className={`h-8 w-28 flex justify-center items-center bg-sky-800 text-primary ${idx === prevSlideShown ? "bg-red-400" : ""}`} key={name + idx}>{name}</div>)
 
     const ref = useRef<HTMLDivElement>(null)
 
@@ -51,24 +52,24 @@ const ReuseableBoxedRandomizer = () => {
     const [currCardNumber, setCurrCardNumber] = useState(1)
 
     // click based slides transform
-    const runThis = () => {
-        handleFalsy();
+    // const runThis = () => {
+    //     handleFalsy();
 
-        if (ref.current !== null) {
-            if (currCardNumber < withCloned.length - 1) {
-                ref.current.style.transitionDuration = ".5s"
-                ref.current.style.transform = `translateY(-${currCardNumber * 112}px)`
-                setCurrCardNumber(prev => prev + 1)
-                // console.log("transformed", currCardNumber, withCloned)
-            }
+    //     if (ref.current !== null) {
+    //         if (currCardNumber < withCloned.length - 1) {
+    //             ref.current.style.transitionDuration = ".5s"
+    //             ref.current.style.transform = `translateY(-${currCardNumber * 112}px)`
+    //             setCurrCardNumber(prev => prev + 1)
+    //             // console.log("transformed", currCardNumber, withCloned)
+    //         }
 
-            if (currCardNumber === withCloned.length - 1) {
-                ref.current.style.transitionDuration = "0.0s"
-                ref.current.style.transform = `translateY(0px)`
-                setCurrCardNumber(1)
-            }
-        }
-    }
+    //         if (currCardNumber === withCloned.length - 1) {
+    //             ref.current.style.transitionDuration = "0.0s"
+    //             ref.current.style.transform = `translateY(0px)`
+    //             setCurrCardNumber(1)
+    //         }
+    //     }
+    // }
 
     useEffect(() => {
         if (ref.current !== null) {
@@ -80,86 +81,180 @@ const ReuseableBoxedRandomizer = () => {
     const [count, setCount] = useState(0);
 
     // transitions to start and end depending on isTrue be true or false
-    const spinningEffect = () => {
+    // const spinningEffect = () => {
 
-        for (let i = 0; i < withCloned.length - 1; i++) {
-            setCount(prev => {
-                if (ref.current !== null) {
-                    if (prev < (112 * withCloned.length)) {
-                        ref.current.style.transitionDuration = "1s"
-                        ref.current.style.transform = `translateY(-${prev + 112}px)`
-                        // setCount(prev => prev + 112)
-                        // setCurrCardNumber(prev => prev + 1)
-                        console.log("transformed", count, withCloned.length)
-                        return prev + 112
-                    }
+    //     for (let i = 0; i < withCloned.length - 1; i++) {
+    //         setCount(prev => {
+    //             if (ref.current !== null) {
+    //                 if (prev < (112 * withCloned.length)) {
+    //                     ref.current.style.transitionDuration = "1s"
+    //                     ref.current.style.transform = `translateY(-${prev + 112}px)`
+    //                     // setCount(prev => prev + 112)
+    //                     // setCurrCardNumber(prev => prev + 1)
+    //                     console.log("transformed", count, withCloned.length)
+    //                     return prev + 112
+    //                 }
 
-                    if (count >= (withCloned.length * 112)) {
-                        ref.current.style.transitionDuration = "0.0ms"
-                        ref.current.style.transform = `translateY(0px)`
-                        // setCount(112)
-                        // setCurrCardNumber(1)
-                        console.log("snapped", count, withCloned.length)
+    //                 if (count >= (withCloned.length * 112)) {
+    //                     ref.current.style.transitionDuration = "0.0ms"
+    //                     ref.current.style.transform = `translateY(0px)`
+    //                     // setCount(112)
+    //                     // setCurrCardNumber(1)
+    //                     console.log("snapped", count, withCloned.length)
 
-                        return 0
-                    }
-                }
+    //                     return 0
+    //                 }
+    //             }
 
-                return prev
-            })
-        }
-    }
+    //             return prev
+    //         })
+    //     }
+    // }
 
     const [newCount, setNewCount] = useState(0);
     // const [HIGHVAL, setHighVal] = useState(4000);
 
 
+    // const spinningEffectRandomAmount = () => {
+    //     // const temp = [72, 92, 101, 119, 128, 141]
+    //     // const rnd = temp[Math.round(Math.random() * temp.length)]
+
+    //     if (ref.current !== null) {
+    //         // for (let i = 0; i < 72; i++) {
+    //         for (let i = 0; i < (Math.round(Math.random() * 72) + 2720); i++) {
+    //         // for (let i = 0; i < rnd; i++) {
+    //             // !HIGHVAL && handleFalsy()
+    //             // while (HIGHVAL > 0) {
+    //             // !HIGHVAL && handleFalsy()
+
+    //             // ref.current!.style.transitionDuration = ".6s"
+    //             // ref.current!.style.transform = `translateY(-${newCount + 100}px)`
+
+    //             setNewCount(prev => {
+    //                 if (prev < 800) {
+    //                     // setHighVal(prev => prev - 100)
+    //                     ref.current!.style.transitionDuration = ".6s"
+    //                     ref.current!.style.transform = `translateY(-${prev + 100}px)`
+    //                     console.log(prev, "if blk")
+    //                     return prev + 100
+    //                 } else {
+    //                     // ref.current!.style.transitionDuration = ".2s"
+    //                     ref.current!.style.transform = `translateY(${0}px)`;
+    //                     // setHighVal(0)
+    //                     console.log(prev)
+    //                     return 0
+    //                 }
+    //             })
+    //         }
+
+    //         handleFalsy()
+    //     }
+
+    // }
+
+    // const spinningEffectRandomAmount = () => {
+    //     // const temp = [72, 92, 101, 119, 128, 141]
+    //     // const rnd = temp[Math.round(Math.random() * temp.length)]
+
+    //     if (ref.current !== null) {
+    //         // for (let i = 0; i < 72; i++) {
+    //         let calc = (Math.round(Math.random() * 800))
+    //         // if(calc > 800) calc = (Math.round(Math.random() * 720))
+    //         if (calc > 600) {
+    //             ref.current!.style.transitionDuration = "2s"
+    //             ref.current!.style.transform = `translateY(-${calc < 800 ? calc : 800-calc}px)`
+    //         } else {
+    //             calc = (Math.round(Math.random() * 800))
+    //         }
+
+    //         console.log(calc)
+
+    //         handleFalsy()
+    //     }
+
+    // }
+
+    // this some what works!!
+    // const spinningEffectRandomAmount = () => {
+    //     // const temp = [72, 92, 101, 119, 128, 141]
+    //     // const rnd = temp[Math.round(Math.random() * temp.length)]
+
+    //     if (ref.current !== null) {
+    //         let calc = (Math.round(Math.random() * 800))
+    //         for (let i = 0; i < calc; i++) {
+    //             // if(calc > 800) calc = (Math.round(Math.random() * 720))
+    //             ref.current!.style.transitionDuration = ".6s"
+    //             ref.current!.style.transform = `translateY(-${i}px)`
+
+    //             console.log(calc, i)
+    //         }
+
+    //         handleFalsy()
+    //     }
+
+    // }
+
+    const [prevSlideShown, setPrevSlideShown] = useState(0);
+
     const spinningEffectRandomAmount = () => {
         // const temp = [72, 92, 101, 119, 128, 141]
         // const rnd = temp[Math.round(Math.random() * temp.length)]
+        const clonedDiets = diets.concat(diets, diets, diets, diets, diets, diets)
+
+        const chooseSlide = () => Math.floor(Math.random() * clonedDiets.length)
+
 
         if (ref.current !== null) {
-            // for (let i = 0; i < 72; i++) {
-            for (let i = 0; i < (Math.round(Math.random() * 72) + 72); i++) {
-            // for (let i = 0; i < rnd; i++) {
-                // !HIGHVAL && handleFalsy()
-                // while (HIGHVAL > 0) {
-                // !HIGHVAL && handleFalsy()
+            let calc = (Math.round(Math.random() * (diets.length * 33)))
+            for (let i = 0; i < calc; i++) {
+                // if(calc > 800) calc = (Math.round(Math.random() * 720))
+                ref.current!.style.transitionDuration = ".6s"
+                ref.current!.style.transform = `translateY(-${i}px)`
 
-                // ref.current!.style.transitionDuration = ".6s"
-                // ref.current!.style.transform = `translateY(-${newCount + 100}px)`
-
-                setNewCount(prev => {
-                    if (prev < 800) {
-                        // setHighVal(prev => prev - 100)
-                        ref.current!.style.transitionDuration = ".6s"
-                        ref.current!.style.transform = `translateY(-${prev + 100}px)`
-                        console.log(prev, "if blk")
-                        return prev + 100
-                    } else {
-                        // ref.current!.style.transitionDuration = ".2s"
-                        ref.current!.style.transform = `translateY(${0}px)`                        
-                        // setHighVal(0)
-                        console.log(prev)
-                        return 0
-                    }
-                })
+                console.log(calc, i)
             }
 
             handleFalsy()
         }
+        
+        // this works
+        const slide = chooseSlide()
 
+        // console.log(slide, "slide!!", )
+        ref.current!.style.transitionDuration = ".6s"
+        ref.current!.style.transform = `translateY(-${slide * 34}px)`
+        // need to find a way to scrollinto view correctly to show randomly chosen slide
+
+        setPrevSlideShown(slide)
+
+        // need to figure out on every turn how to keep slide number apart from each other by 10 or more
+
+        // const slide = chooseSlide()
+        // while (slide > prevSlideShown + 10) {
+        //     if(prevSlideShown !== slide) {
+        //         if(slide + 10 > clonedDiets.length) {
+        //             setPrevSlideShown(0)
+        //         } else {
+        //             setPrevSlideShown(slide+10)
+        //             ref.current!.style.transitionDuration = ".6s"
+        //             ref.current!.style.transform = `translateY(-${prevSlideShown * 39}px)`
+        //         }
+        //     }   
+        //     break;
+        // }
+
+        console.log(slide, "slide!!", clonedDiets[slide])
     }
 
-    const runFourTimesForAnimation = () => {
-        for (let i = 0; i < withCloned.length - 1; i++) {
-            // handleTruthy()
-            spinningEffect()
-        }
-        // spinningEffect()
+    // const runFourTimesForAnimation = () => {
+    //     for (let i = 0; i < withCloned.length - 1; i++) {
+    //         // handleTruthy()
+    //         spinningEffect()
+    //     }
+    //     // spinningEffect()
 
-        handleFalsy()
-    }
+    //     handleFalsy()
+    // }
 
     // useEffect(() => {
     //     !HIGHVAL && handleFalsy()
@@ -175,14 +270,14 @@ const ReuseableBoxedRandomizer = () => {
         // isTrue && runThis()  // per click
         // isTrue && runFourTimesForAnimation()
         isTrue && spinningEffectRandomAmount()
-        !isTrue && setNewCount(0)
+        // !isTrue && setNewCount(0)
     }, [isTrue])
 
     return (
         <div>
-            <h2>Bees Tees</h2>
-            <div className="viewport bg-secondary-content h-28 overflow-hidden">
-                <div className="flex flex-col gap-y-0" ref={ref}>
+            <h2>Bees Tees </h2>
+            <div className="viewport bg-secondary-content h-14 overflow-hidden border border-primary-foreground">
+                <div className="flex flex-col gap-y-2 items-center justify-center" ref={ref}>
                     {renderDivs()}
                 </div>
             </div>
