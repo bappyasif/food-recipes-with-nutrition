@@ -43,7 +43,7 @@ export const RandomizeSelection = () => {
 const ReuseableBoxedRandomizer = () => {
     // const withCloned = ([] as string[]).concat(diets[diets.length - 1], diets, diets[0])
     const clonedDiets = diets.concat(diets, diets, diets, diets, diets, diets)
-    const renderDivs = () => clonedDiets.map((name, idx) => <div className={`h-8 w-28 flex justify-center items-center bg-sky-800 text-primary ${idx === prevSlideShown ? "bg-red-400" : ""}`} key={name + idx}>{name}</div>)
+    const renderDivs = () => clonedDiets.map((name, idx) => <div className={`h-8 w-28 flex justify-center items-center text-primary ${idx === prevSlideShown ? "bg-red-400" : "bg-sky-800"}`} key={name + idx}>{name}</div>)
 
     const ref = useRef<HTMLDivElement>(null)
 
@@ -194,6 +194,96 @@ const ReuseableBoxedRandomizer = () => {
 
     // }
 
+    // const spinningEffectRandomAmount = () => {
+    //     // const temp = [72, 92, 101, 119, 128, 141]
+    //     // const rnd = temp[Math.round(Math.random() * temp.length)]
+    //     const clonedDiets = diets.concat(diets, diets, diets, diets, diets, diets)
+
+    //     const chooseSlide = () => Math.floor(Math.random() * clonedDiets.length)
+
+    //     if (ref.current !== null) {
+    //         ref.current!.style.transitionDuration = "0s"
+    //         ref.current!.style.transform = `translateY(0px)`
+
+    //         // let calc = (Math.round(Math.random() * (diets.length * 33)))
+    //         let calc = (Math.round(Math.random() * diets.length) * 33)
+    //         for (let i = 0; i < calc; i++) {
+    //             // if(calc > 800) calc = (Math.round(Math.random() * 720))
+    //             // ref.current!.style.transform = `translateY(0px)`
+    //             console.log(calc > prevSlideShown + 100, prevSlideShown, "whatr what!!")
+    //             const temp = diets.length * 33 + 200 - calc
+
+    //             if( calc > prevSlideShown + 100 ) {
+    //                 ref.current!.style.transitionDuration = ".6s"
+    //             // ref.current!.style.transform = `translateY(-${i}px)`
+    //             console.log(temp, "TEMP!!IFFFF")
+    //             ref.current!.style.transform = `translateY(-${calc + temp + i}px)`
+    //             } else {
+    //                 ref.current!.style.transitionDuration = ".6s"
+    //                 // const temp = diets.length * 33 + 200 - calc
+    //                 console.log(temp, "TEMP!!")
+    //             ref.current!.style.transform = `translateY(-${i + temp}px)`
+    //             }
+    //             // ref.current!.style.transitionDuration = ".6s"
+    //             // ref.current!.style.transform = `translateY(-${i}px)`
+
+    //             console.log(calc, i)
+    //         }
+
+    //         handleFalsy()
+    //         // ref.current!.style.transform = `translateY(0px)`
+    //     }
+
+    //     // this works
+    //     const slide = chooseSlide()
+
+    //     // console.log(slide, "slide!!", )
+    //     ref.current!.style.transitionDuration = ".6s"
+    //     ref.current!.style.transform = `translateY(-${slide * 34}px)`
+
+    //     setPrevSlideShown(slide)
+
+    //     // // need to find a way to scrollinto view correctly to show randomly chosen slide
+
+    //     // const slide = chooseSlide()
+    //     // // if (prevSlideShown + 20 < slide) {
+    //     // //     ref.current!.style.transitionDuration = ".6s"
+    //     // //     ref.current!.style.transform = `translateY(-${slide * 34}px)`
+    //     // // } else 
+    //     // if(prevSlideShown + 20 < slide) {
+    //     //     ref.current!.style.transitionDuration = ".6s"
+
+    //     //     if(prevSlideShown + 20 > clonedDiets.length) {
+    //     //         let temp = Math.abs(prevSlideShown + 20 - clonedDiets.length)
+    //     //         ref.current!.style.transform = `translateY(-${temp * 34}px)`
+    //     //         console.log(temp, "bigger!!")
+    //     //         setPrevSlideShown(temp)
+    //     //     } else {
+    //     //         ref.current!.style.transform = `translateY(-${slide * 34}px)`
+    //     //         console.log(slide, "slide!!", clonedDiets[slide])
+    //     //         setPrevSlideShown(slide)
+    //     //     }
+    //     // }
+
+    //     // need to figure out on every turn how to keep slide number apart from each other by 10 or more
+
+    //     // const slide = chooseSlide()
+    //     // while (slide > prevSlideShown + 10) {
+    //     //     if(prevSlideShown !== slide) {
+    //     //         if(slide + 10 > clonedDiets.length) {
+    //     //             setPrevSlideShown(0)
+    //     //         } else {
+    //     //             setPrevSlideShown(slide+10)
+    //     //             ref.current!.style.transitionDuration = ".6s"
+    //     //             ref.current!.style.transform = `translateY(-${prevSlideShown * 39}px)`
+    //     //         }
+    //     //     }   
+    //     //     break;
+    //     // }
+
+    //     // console.log(slide, "slide!!", clonedDiets[slide])
+    // }
+
     const [prevSlideShown, setPrevSlideShown] = useState(0);
 
     const spinningEffectRandomAmount = () => {
@@ -211,18 +301,56 @@ const ReuseableBoxedRandomizer = () => {
                 ref.current!.style.transitionDuration = ".6s"
                 ref.current!.style.transform = `translateY(-${i}px)`
 
-                console.log(calc, i)
+                // console.log(calc, i)
             }
 
             handleFalsy()
         }
         
         // this works
-        const slide = chooseSlide()
+        // const slide = chooseSlide()
+
+        // // console.log(slide, "slide!!", )
+        // ref.current!.style.transitionDuration = ".6s"
+        // ref.current!.style.transform = `translateY(-${slide * 34}px)`
+        // // need to find a way to scrollinto view correctly to show randomly chosen slide
+
+        // setPrevSlideShown(slide)
+
+        let slide = chooseSlide()
+
+        // while (slide === prevSlideShown) {
+        //     slide = chooseSlide()
+        //     console.log("while", slide, prevSlideShown)
+        // }
+
+        // console.log(Math.abs(prevSlideShown - slide) > 100, Math.abs(prevSlideShown - slide) < 100,  "check")
+
+        let keepingTracks = 0
+
+        // this transitions nicey bu gives bigger slide number thjan it is available in dataset
+        // while (Math.abs(prevSlideShown - slide) < 100 && keepingTracks < 19) {
+        //     // slide = keepingTracks === 18 ? chooseSlide() + 100 : chooseSlide()
+        //     // slide = keepingTracks === 18 ? chooseSlide() + (Math.round(clonedDiets.length - slide / 2)) : chooseSlide()
+        //     const safeRange = clonedDiets.length - prevSlideShown
+        //     slide = keepingTracks === 18 ? safeRange : chooseSlide()
+        //     // console.log("while", slide, prevSlideShown, keepingTracks, safeRange)
+        //     keepingTracks++
+        // }
+
+        while (Math.abs(prevSlideShown - slide) < 10 && keepingTracks < 9) {
+            // slide = keepingTracks === 18 ? chooseSlide() + 100 : chooseSlide()
+            // slide = keepingTracks === 18 ? chooseSlide() + (Math.round(clonedDiets.length - slide / 2)) : chooseSlide()
+            const safeRange = Math.abs(clonedDiets.length - prevSlideShown)
+            slide = keepingTracks === 8 ? safeRange : chooseSlide()
+            console.log("while", slide, prevSlideShown, keepingTracks, safeRange)
+            keepingTracks++
+        }
 
         // console.log(slide, "slide!!", )
         ref.current!.style.transitionDuration = ".6s"
-        ref.current!.style.transform = `translateY(-${slide * 34}px)`
+        // ref.current!.style.transform = `translateY(-${slide * 36}px)`
+        ref.current!.style.transform = `translateY(-${slide * 2.22}rem)`
         // need to find a way to scrollinto view correctly to show randomly chosen slide
 
         setPrevSlideShown(slide)
@@ -243,7 +371,7 @@ const ReuseableBoxedRandomizer = () => {
         //     break;
         // }
 
-        console.log(slide, "slide!!", clonedDiets[slide])
+        console.log(slide, "slide!!", clonedDiets[slide], clonedDiets.length)
     }
 
     // const runFourTimesForAnimation = () => {
@@ -277,7 +405,7 @@ const ReuseableBoxedRandomizer = () => {
         <div>
             <h2>Bees Tees </h2>
             <div className="viewport bg-secondary-content h-14 overflow-hidden border border-primary-foreground">
-                <div className="flex flex-col gap-y-2 items-center justify-center" ref={ref}>
+                <div className="flex flex-col gap-y-1 items-center justify-center" ref={ref}>
                     {renderDivs()}
                 </div>
             </div>
