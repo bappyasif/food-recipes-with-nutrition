@@ -35,6 +35,7 @@ export const RandomizeSelection = () => {
                     <ReuseableBoxedRandomizer data={diets} title={"Choose Diets"} updateRndNames={updateRndNames} />
                     <ReuseableBoxedRandomizer data={meals} title={"Choose Meals"} updateRndNames={updateRndNames} />
                     {/* <ReuseableBoxedRandomizer data={health} /> */}
+                    <GoingOffRandomizer />
                 </div>
 
                 {/* <div className='flex gap-x-0 justify-between px-28 w-1/2'>
@@ -43,6 +44,51 @@ export const RandomizeSelection = () => {
                     <ReuseableWheelCarousel dataset={meals} title='Choosing Meals' updateRnds={updateRnds} />
                 </div> */}
             </div>
+        </div>
+    )
+}
+
+const GoingOffRandomizer = () => {
+    const [rnd, setRnd] = useState<number>(0);
+
+    const ref = useRef<HTMLDivElement>(null)
+
+    const clonedData = health.concat(health, health);
+
+    const chooseRnd = () => setRnd(Math.round(Math.random() * clonedData.length))
+
+    const renderDivs = () => clonedData.map((name, idx) => idx <= rnd && <div key={name+ idx} className='absolute'>{name}- {rnd}</div>)
+
+    // const spewingOut = () => {
+    //     for(let i=0; i<rnd; i++) {
+    //         console.log(rnd, i, "?!?!")
+    //     }
+    // }
+
+    const spewingOut = () => {
+        if(ref.current) {
+            // console.log(ref.current.childNodes.length, ">!>!")
+            ref.current.childNodes.forEach((divItm, idx) => {
+                (divItm as HTMLDivElement).style.transitionDuration = ".6s";
+                (divItm as HTMLDivElement).style.transform = `translateY(-${idx}px)`;
+            })
+        }
+    }
+
+    useEffect(() => {
+        spewingOut()
+        // renderDivs()
+    }, [rnd])
+
+    useEffect(() => {
+        chooseRnd()
+    }, [])
+
+    return (
+        <div className='flex flex-col gap-y-9'>
+            Choosing Health Labels {renderDivs().length} {rnd}
+            <div ref={ref} className="viewport flex flex-col justify-center items-center">{renderDivs().slice(0, rnd)}</div>
+            <Button variant={"secondary"} onClick={chooseRnd}>Spin</Button>
         </div>
     )
 }
@@ -58,10 +104,10 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
 
     const [prevSlideShown, setPrevSlideShown] = useState(0);
 
+    const decideKey = () => title.includes("Diets") ? "diet" : "meal"
+
     const spinningEffectRandomAmount = () => {
-        // const temp = [72, 92, 101, 119, 128, 141]
-        // const rnd = temp[Math.round(Math.random() * temp.length)]
-        // const clonedData = diets.concat(diets, diets, diets, diets, diets, diets)
+        updateRndNames("intrim spin!!", decideKey())
 
         const chooseSlide = () => Math.floor(Math.random() * clonedData.length)
 
@@ -96,18 +142,24 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
 
         setPrevSlideShown(slide)
 
-        console.log(slide, "slide!!", clonedData[slide], clonedData.length, clonedData)
-        updateRndNames(clonedData[slide], decideKey())
+        // console.log(slide, "slide!!", clonedData[slide], clonedData.length, clonedData)
+        const timer = setTimeout(() => {
+            updateRndNames(clonedData[slide], decideKey())
+        }, 600)
+
+        return () => clearTimeout(timer)
     }
 
-    const decideKey = () => title.includes("Diets") ? "diet" : "meal"
+    useEffect(() => {
+        updateRndNames("Spin it", decideKey())
+    }, [])
 
     useEffect(() => {
         isTrue && spinningEffectRandomAmount()
     }, [isTrue])
 
     return (
-        <div className='w-full'>
+        <div className='w-full flex flex-col gap-y-1'>
             <h2>{title} </h2>
             <div className="viewport bg-secondary-content h-14 overflow-hidden border border-primary-foreground">
                 <div className="flex flex-col gap-y-1 items-center justify-center" ref={ref}>
@@ -115,7 +167,7 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
                 </div>
             </div>
             {/* <Button variant={"secondary"} onClick={runFourTimesForAnimation}>Spin</Button> */}
-            <Button variant={"secondary"} onClick={handleTruthy}>Spin</Button>
+            <Button className='w-full' variant={"secondary"} onClick={handleTruthy}>Spin</Button>
         </div>
     )
 }
@@ -153,7 +205,8 @@ const ShowRandomlySelectedOptions = ({rndNames}: {rndNames: {
             <h2 className='flex flex-col gap-y-2'>
                 <span>Diet</span>
                 {/* <span>{categories[diet]?.name ? categories[diet].name : "intrim spin"}</span> */}
-                <span>{diet ? diet : "intrim spin"}</span>
+                {/* <span>{diet ? diet : "intrim spin"}</span> */}
+                <span>{diet}</span>
             </h2>
 
             <h2 className='flex flex-col gap-y-2'>
