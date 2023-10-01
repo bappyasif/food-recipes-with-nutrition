@@ -64,7 +64,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
     // const chooseRnd = () => setRnd(Math.round((Math.random() + .01) * clonedData.length))
     const chooseRnd = () => {
         setRnd(-1)
-        updateRndNames("Intrim-spin", "health");
+        // updateRndNames("Intrim-spin", "health");
 
         const timer = setTimeout(() => {
             let calc = () => Math.round((Math.random() + .01) * clonedData.length)
@@ -91,6 +91,15 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
             // console.log(ref.current.childNodes.length, ">!>!")
             ref.current.childNodes.forEach((divItm, idx) => {
 
+                if(rnd === -2) {
+                    (divItm as HTMLDivElement).style.transform = `translateY(0px) translateX(0px)`;
+                    // console.log("last item!!", divItm.textContent);
+                    updateRndNames("", "health");
+                    (divItm as HTMLDivElement).style.opacity = "1";
+                    // (divItm as HTMLDivElement).textContent = "Intrim Spin"
+                    return
+                }
+
                 // console.log(idx === rnd - 2, idx, rnd - 2);
                 if (idx === rnd - 1) {
                     (divItm as HTMLDivElement).style.transform = `translateY(0px) translateX(0px)`;
@@ -101,16 +110,17 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
                 }
 
                 const rndNum = Math.random();
-                (divItm as HTMLDivElement).style.transitionDuration = `${1}s`;
+                (divItm as HTMLDivElement).style.transitionDuration = `${.6}s`;
                 // (divItm as HTMLDivElement).style.transform = `translateY(-${idx}px)`;
-                (divItm as HTMLDivElement).style.transform = rndNum < .2 ? `translateX(${29}px)` : rndNum < .4 ? `translateY(-${29}px)` : rndNum < .6 ? `translateY(${29}px)` : `translateX(-${29}px)`;
+                (divItm as HTMLDivElement).style.transform = rndNum < .2 ? `translateX(${36}px)` : rndNum < .4 ? `translateY(-${36}px)` : rndNum < .6 ? `translateY(${36}px)` : `translateX(-${36}px)`;
                 (divItm as HTMLDivElement).style.opacity = `0`;
             })
         }
     }
 
     useEffect(() => {
-        chooseRnd()
+        // chooseRnd()
+        setRnd(-2)
     }, [])
 
     // const [showingOptions, setShowingOptions] = useState<string[]>([])
@@ -122,15 +132,16 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
     useEffect(() => {
         spewingOut()
         // renderDivs()
+        rnd === -1 && updateRndNames("Intrim-spin", "health");
     }, [rnd])
 
     return (
-        <div className='flex flex-col gap-y-2 w-48'>
+        <div className='flex flex-col gap-y-2 w-60'>
             Choosing Health Labels
             <div ref={ref} className="viewport flex flex-col justify-center items-center h-20 bg-yellow-800 rounded-full">
                 {/* {renderDivs().slice(0, rnd)} */}
                 {/* { rnd !== -1 ? renderDivs() : <span>"spin it!!"</span>} */}
-                {rnd !== -1 ? renderDivs() : null}
+                {rnd > 0 ? renderDivs() : rnd === -2 ? <span>"Spin It!!"</span> : null}
             </div>
             <Button className='z-10' variant={"secondary"} onClick={chooseRnd}>Spin</Button>
         </div>
@@ -146,7 +157,7 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
 
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
-    const [prevSlideShown, setPrevSlideShown] = useState(0);
+    const [prevSlideShown, setPrevSlideShown] = useState(-1);
 
     const decideKey = () => title.includes("Diets") ? "diet" : "meal"
 
