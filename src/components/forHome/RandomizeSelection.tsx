@@ -10,13 +10,13 @@ import { useForTruthToggle } from '@/hooks/forComponents';
 
 export const RandomizeSelection = () => {
     const [rnds, setRnds] = useState({ cuisine: -1, dish: -1 })
-    const [rndNames, setRndNames] = useState({diet: "", meal: ""})
+    const [rndNames, setRndNames] = useState({ diet: "", meal: "", health: "" })
 
     const updateRnds = (val: number, key: string) => {
         setRnds(prev => ({ ...prev, [key]: val }))
     }
 
-    const updateRndNames = (val:string, key: string) => setRndNames(prev => ({ ...prev, [key]: val }))
+    const updateRndNames = (val: string, key: string) => setRndNames(prev => ({ ...prev, [key]: val }))
 
     return (
         <div className='w-full h-96 bg-primary-content'>
@@ -29,13 +29,15 @@ export const RandomizeSelection = () => {
                     <ReuseableWheelCarousel dataset={dishes} title='Choosing Dishes' updateRnds={updateRnds} />
                 </div>
 
-                <ShowRecipes rnds={rnds} rndNames={rndNames} />
+                {/* <ShowRecipes rnds={rnds} rndNames={rndNames} /> */}
+                <div className='w-1/2 flex gap-x-8 justify-evenly items-center'>
+                    <GoingOffRandomizer updateRndNames={updateRndNames} />
 
-                <div className='flex flex-col gap-y-4 justify-between items-center w-48'>
-                    <ReuseableBoxedRandomizer data={diets} title={"Choose Diets"} updateRndNames={updateRndNames} />
-                    <ReuseableBoxedRandomizer data={meals} title={"Choose Meals"} updateRndNames={updateRndNames} />
-                    {/* <ReuseableBoxedRandomizer data={health} /> */}
-                    <GoingOffRandomizer />
+                    <div className='flex flex-col gap-y-4 justify-between items-center w-56'>
+                        <ReuseableBoxedRandomizer data={diets} title={"Choose Diets"} updateRndNames={updateRndNames} />
+                        <ReuseableBoxedRandomizer data={meals} title={"Choose Meals"} updateRndNames={updateRndNames} />
+                        {/* <ReuseableBoxedRandomizer data={health} /> */}
+                    </div>
                 </div>
 
                 {/* <div className='flex gap-x-0 justify-between px-28 w-1/2'>
@@ -44,20 +46,35 @@ export const RandomizeSelection = () => {
                     <ReuseableWheelCarousel dataset={meals} title='Choosing Meals' updateRnds={updateRnds} />
                 </div> */}
             </div>
+
+            <ShowRecipes rnds={rnds} rndNames={rndNames} />
         </div>
     )
 }
 
-const GoingOffRandomizer = () => {
-    const [rnd, setRnd] = useState<number>(0);
+const GoingOffRandomizer = ({updateRndNames}: {updateRndNames: (v:string, k: string) => void}) => {
+    const [rnd, setRnd] = useState<number>(-1);
 
     const ref = useRef<HTMLDivElement>(null)
 
     const clonedData = health.concat(health, health);
 
-    const chooseRnd = () => setRnd(Math.round(Math.random() * clonedData.length))
+    // const chooseRnd = () => setRnd(Math.round((Math.random() + .01) * clonedData.length))
+    const chooseRnd = () => {
+        setRnd(-1)
+        const timer = setTimeout(() => {
+            let calc = () => Math.round((Math.random() + .01) * clonedData.length)
+            while (rnd === calc()) {
+                calc()
+            }
 
-    const renderDivs = () => clonedData.map((name, idx) => idx <= rnd && <div key={name+ idx} className='absolute'>{name}- {rnd}</div>)
+            setRnd(calc())
+        }, 600)
+
+        return () => clearTimeout(timer)
+    }
+
+    const renderDivs = () => (rnd >= 0 ? clonedData.slice(0, rnd) : clonedData).map((name, idx) => <div key={name + idx} className='absolute z-0'>{name}</div>)
 
     // const spewingOut = () => {
     //     for(let i=0; i<rnd; i++) {
@@ -66,29 +83,52 @@ const GoingOffRandomizer = () => {
     // }
 
     const spewingOut = () => {
-        if(ref.current) {
+        if (ref.current) {
             // console.log(ref.current.childNodes.length, ">!>!")
             ref.current.childNodes.forEach((divItm, idx) => {
-                (divItm as HTMLDivElement).style.transitionDuration = ".6s";
-                (divItm as HTMLDivElement).style.transform = `translateY(-${idx}px)`;
+
+                // console.log(idx === rnd - 2, idx, rnd - 2);
+                if (idx === rnd - 1) {
+                    (divItm as HTMLDivElement).style.transform = `translateY(0px) translateX(0px)`;
+                    console.log("last item!!", divItm.textContent);
+                    updateRndNames(divItm.textContent!, "health");
+                    (divItm as HTMLDivElement).style.opacity = "1";
+                    return
+                }
+
+                const rndNum = Math.random();
+                (divItm as HTMLDivElement).style.transitionDuration = `${1}s`;
+                // (divItm as HTMLDivElement).style.transform = `translateY(-${idx}px)`;
+                (divItm as HTMLDivElement).style.transform = rndNum < .2 ? `translateX(${29}px)` : rndNum < .4 ? `translateY(-${29}px)` : rndNum < .6 ? `translateY(${29}px)` : `translateX(-${29}px)`;
+                (divItm as HTMLDivElement).style.opacity = `0`;
             })
         }
     }
+
+    useEffect(() => {
+        chooseRnd()
+    }, [])
+
+    // const [showingOptions, setShowingOptions] = useState<string[]>([])
+
+    // const renderOptions = () => {
+
+    // }
 
     useEffect(() => {
         spewingOut()
         // renderDivs()
     }, [rnd])
 
-    useEffect(() => {
-        chooseRnd()
-    }, [])
-
     return (
-        <div className='flex flex-col gap-y-9'>
-            Choosing Health Labels {renderDivs().length} {rnd}
-            <div ref={ref} className="viewport flex flex-col justify-center items-center">{renderDivs().slice(0, rnd)}</div>
-            <Button variant={"secondary"} onClick={chooseRnd}>Spin</Button>
+        <div className='flex flex-col gap-y-2 w-48'>
+            Choosing Health Labels
+            <div ref={ref} className="viewport flex flex-col justify-center items-center h-20 bg-yellow-800 rounded-full">
+                {/* {renderDivs().slice(0, rnd)} */}
+                {/* { rnd !== -1 ? renderDivs() : <span>"spin it!!"</span>} */}
+                { rnd !== -1 ? renderDivs() : null}
+            </div>
+            <Button className='z-10' variant={"secondary"} onClick={chooseRnd}>Spin</Button>
         </div>
     )
 }
@@ -172,16 +212,19 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
     )
 }
 
+type RndNamesTypes = {
+    diet: string;
+    meal: string;
+    health: string
+}
+
 
 const ShowRecipes = ({ rnds, rndNames }: {
     rnds: {
         dish: number,
-        cuisine: number
-    }, 
-    rndNames: {
-        diet: string;
-        meal: string;
-    }
+        cuisine: number,
+    },
+    rndNames: RndNamesTypes
 }) => {
     // const {category, cuisine} = rnds
 
@@ -195,11 +238,10 @@ const ShowRecipes = ({ rnds, rndNames }: {
     )
 }
 
-const ShowRandomlySelectedOptions = ({rndNames}: {rndNames: {
-    diet: string;
-    meal: string;
-}}) => {
-    const {diet, meal} = rndNames
+const ShowRandomlySelectedOptions = ({ rndNames }: {
+    rndNames: RndNamesTypes
+}) => {
+    const { diet, meal, health } = rndNames
     return (
         <div className='flex gap-x-4'>
             <h2 className='flex flex-col gap-y-2'>
@@ -213,6 +255,12 @@ const ShowRandomlySelectedOptions = ({rndNames}: {rndNames: {
                 <span>Meal</span>
                 {/* <span>{categories[diet]?.name ? categories[diet].name : "intrim spin"}</span> */}
                 <span>{meal ? meal : "intrim spin"}</span>
+            </h2>
+
+            <h2 className='flex flex-col gap-y-2'>
+                <span>Health</span>
+                {/* <span>{categories[diet]?.name ? categories[diet].name : "intrim spin"}</span> */}
+                <span>{health ? health : "intrim spin"}</span>
             </h2>
         </div>
     )
