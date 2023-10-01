@@ -79,13 +79,16 @@ const RenderBasicTextInfo = ({text, val}: {text: string, val: string | number}) 
     )
 }
 
-const ReusableModal = ({ children, triggerText, title }: { children: any, triggerText: string, title: string }) => {
+export const ReusableModal = ({ children, triggerText, title, changeWidth }: { children: any, triggerText: string, title: string, changeWidth?: boolean }) => {
     return (
         <Dialog>
             {/* <DialogTitle>{props.title}</DialogTitle>
             <DialogHeader>{props.title}</DialogHeader> */}
-            <DialogTrigger><Button variant={'secondary'} className='w-full'>{triggerText}</Button></DialogTrigger>
-            <DialogContent className='bg-primary-focus'>
+            <DialogTrigger><Badge variant={'secondary'} className='w-full'>{triggerText}</Badge></DialogTrigger>
+            <DialogContent 
+                className='bg-primary-focus'
+                style={{ minWidth: changeWidth ? "80%" : "auto" }}
+            >
                 <DialogHeader>
                     <DialogTitle className='text-primary-content'>{title}</DialogTitle>
 

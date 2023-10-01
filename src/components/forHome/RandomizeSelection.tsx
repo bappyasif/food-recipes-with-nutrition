@@ -3,10 +3,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { MouseWheelBasedCarousel } from './MouseWheelBasedCarousel'
 // import { categories, cuisines } from './DuoCarousels';
-import { CategoriesCuisinesCarouselType } from '@/types';
+import { CategoriesCuisinesCarouselType, RecipeMealType } from '@/types';
 import { cuisines, diets, dishes, health, meals } from '../forFilters/FiltersDashboard';
 import { Button } from '../ui/button';
 import { useForTruthToggle } from '@/hooks/forComponents';
+import { searchRecipes } from '@/utils/dataFetching';
+import { RandomizedRecipesView } from './RandomizedRecipesView';
 
 export const RandomizeSelection = () => {
     const [rnds, setRnds] = useState({ cuisine: -1, dish: -1 })
@@ -19,7 +21,7 @@ export const RandomizeSelection = () => {
     const updateRndNames = (val: string, key: string) => setRndNames(prev => ({ ...prev, [key]: val }))
 
     return (
-        <div className='w-full h-96 bg-primary-content'>
+        <div className='w-full h-fit bg-primary-content'>
             <h2>Lets Randomly Choose Recipe</h2>
 
             <div className='flex justify-start h-full'>
@@ -52,7 +54,7 @@ export const RandomizeSelection = () => {
     )
 }
 
-const GoingOffRandomizer = ({updateRndNames}: {updateRndNames: (v:string, k: string) => void}) => {
+const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k: string) => void }) => {
     const [rnd, setRnd] = useState<number>(-1);
 
     const ref = useRef<HTMLDivElement>(null)
@@ -62,6 +64,8 @@ const GoingOffRandomizer = ({updateRndNames}: {updateRndNames: (v:string, k: str
     // const chooseRnd = () => setRnd(Math.round((Math.random() + .01) * clonedData.length))
     const chooseRnd = () => {
         setRnd(-1)
+        updateRndNames("Intrim-spin", "health");
+
         const timer = setTimeout(() => {
             let calc = () => Math.round((Math.random() + .01) * clonedData.length)
             while (rnd === calc()) {
@@ -90,7 +94,7 @@ const GoingOffRandomizer = ({updateRndNames}: {updateRndNames: (v:string, k: str
                 // console.log(idx === rnd - 2, idx, rnd - 2);
                 if (idx === rnd - 1) {
                     (divItm as HTMLDivElement).style.transform = `translateY(0px) translateX(0px)`;
-                    console.log("last item!!", divItm.textContent);
+                    // console.log("last item!!", divItm.textContent);
                     updateRndNames(divItm.textContent!, "health");
                     (divItm as HTMLDivElement).style.opacity = "1";
                     return
@@ -126,7 +130,7 @@ const GoingOffRandomizer = ({updateRndNames}: {updateRndNames: (v:string, k: str
             <div ref={ref} className="viewport flex flex-col justify-center items-center h-20 bg-yellow-800 rounded-full">
                 {/* {renderDivs().slice(0, rnd)} */}
                 {/* { rnd !== -1 ? renderDivs() : <span>"spin it!!"</span>} */}
-                { rnd !== -1 ? renderDivs() : null}
+                {rnd !== -1 ? renderDivs() : null}
             </div>
             <Button className='z-10' variant={"secondary"} onClick={chooseRnd}>Spin</Button>
         </div>
@@ -227,14 +231,45 @@ const ShowRecipes = ({ rnds, rndNames }: {
     rndNames: RndNamesTypes
 }) => {
     // const {category, cuisine} = rnds
+    const { cuisine, dish } = rnds;
+    const { diet, health, meal } = rndNames;
+
+    const [recipes, setRecipes] = useState<RecipeMealType[]>([])
+
+    const handleClick = () => {
+        console.log(diet, health, meal)
+        const params = {
+            mealType: !meal.includes("Spin it") ? meal : null,
+            diet: !diet.includes("Spin it") ? diet.toLocaleLowerCase() : null,
+            dishType: dishes[dish],
+            cuisine: cuisines[cuisine],
+            health: health,
+            random: true,
+            type: "public",
+            app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
+            app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY
+        }
+
+        searchRecipes(params).then(res => {
+            console.log(res, "response!!")
+            const onlyRecipes = res?.hits.map((item: any) => item.recipe)
+            onlyRecipes?.length && setRecipes(onlyRecipes)
+        })
+    }
 
     return (
-        <div className='flex flex-col gap-y-4 items-center justify-center w-1/2 self-end h-full'>
-            Lets find Recipes From These Types
-            {/* {rnds["category"]} {rnds["cuisine"]} */}
-            <ShowTitle rnds={rnds} />
-            <ShowRandomlySelectedOptions rndNames={rndNames} />
-        </div>
+        <>
+            <div className='flex flex-col gap-y-4 items-center justify-center w-full self-end h-full'>
+                Lets find Recipes From These Types
+                {/* {rnds["category"]} {rnds["cuisine"]} */}
+                <div className='flex gap-x-4'>
+                    <ShowTitle rnds={rnds} />
+                    <ShowRandomlySelectedOptions rndNames={rndNames} />
+                </div>
+                <Button onClick={handleClick} variant={'secondary'}>Click To See Recipes</Button>
+            </div>
+            <RandomizedRecipesView recipes={recipes} />
+        </>
     )
 }
 
@@ -244,25 +279,30 @@ const ShowRandomlySelectedOptions = ({ rndNames }: {
     const { diet, meal, health } = rndNames
     return (
         <div className='flex gap-x-4'>
-            <h2 className='flex flex-col gap-y-2'>
+            {/* <h2 className='flex flex-col gap-y-2'>
                 <span>Diet</span>
-                {/* <span>{categories[diet]?.name ? categories[diet].name : "intrim spin"}</span> */}
-                {/* <span>{diet ? diet : "intrim spin"}</span> */}
                 <span>{diet}</span>
             </h2>
 
             <h2 className='flex flex-col gap-y-2'>
                 <span>Meal</span>
-                {/* <span>{categories[diet]?.name ? categories[diet].name : "intrim spin"}</span> */}
                 <span>{meal ? meal : "intrim spin"}</span>
-            </h2>
+            </h2> */}
+            <ShowOptionSelected title='Diet' val={diet} />
 
-            <h2 className='flex flex-col gap-y-2'>
-                <span>Health</span>
-                {/* <span>{categories[diet]?.name ? categories[diet].name : "intrim spin"}</span> */}
-                <span>{health ? health : "intrim spin"}</span>
-            </h2>
+            <ShowOptionSelected title='Meal' val={meal} />
+
+            <ShowOptionSelected title='Health' val={health} />
         </div>
+    )
+}
+
+const ShowOptionSelected = ({ title, val }: { title: string, val: string }) => {
+    return (
+        <h2 className='flex flex-col gap-y-2'>
+            <span>{title}</span>
+            <span>{val ? val : "intrim spin"}</span>
+        </h2>
     )
 }
 
