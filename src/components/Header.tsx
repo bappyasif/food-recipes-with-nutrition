@@ -13,9 +13,9 @@ export const Header = () => {
   const pathName = usePathname()
   
   return (
-    <div className='w-full h-20 text-2xl flex justify-between'>
+    <div className='w-full text-2xl flex justify-between bg-primary-focus'>
       <h1>Company Logo!!</h1>
-      <nav className='flex gap-x-4'>
+      <nav className='flex gap-x-4 h-20'>
         {renderNavs()}
       </nav>
       {

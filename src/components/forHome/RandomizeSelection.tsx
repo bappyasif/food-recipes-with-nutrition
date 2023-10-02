@@ -91,7 +91,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
             // console.log(ref.current.childNodes.length, ">!>!")
             ref.current.childNodes.forEach((divItm, idx) => {
 
-                if(rnd === -2) {
+                if (rnd === -2) {
                     (divItm as HTMLDivElement).style.transform = `translateY(0px) translateX(0px)`;
                     // console.log("last item!!", divItm.textContent);
                     updateRndNames("", "health");
@@ -101,19 +101,20 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
                 }
 
                 // console.log(idx === rnd - 2, idx, rnd - 2);
+
                 if (idx === rnd - 1) {
                     (divItm as HTMLDivElement).style.transform = `translateY(0px) translateX(0px)`;
-                    // console.log("last item!!", divItm.textContent);
+                    console.log("last item!!", divItm.textContent);
                     updateRndNames(divItm.textContent!, "health");
                     (divItm as HTMLDivElement).style.opacity = "1";
-                    return
+                    // return
+                } else {
+                    const rndNum = Math.random();
+                    (divItm as HTMLDivElement).style.transitionDuration = `${.6}s`;
+                    // (divItm as HTMLDivElement).style.transform = `translateY(-${idx}px)`;
+                    (divItm as HTMLDivElement).style.transform = rndNum < .2 ? `translateX(${36}px)` : rndNum < .4 ? `translateY(-${36}px)` : rndNum < .6 ? `translateY(${36}px)` : `translateX(-${36}px)`;
+                    (divItm as HTMLDivElement).style.opacity = `0`;
                 }
-
-                const rndNum = Math.random();
-                (divItm as HTMLDivElement).style.transitionDuration = `${.6}s`;
-                // (divItm as HTMLDivElement).style.transform = `translateY(-${idx}px)`;
-                (divItm as HTMLDivElement).style.transform = rndNum < .2 ? `translateX(${36}px)` : rndNum < .4 ? `translateY(-${36}px)` : rndNum < .6 ? `translateY(${36}px)` : `translateX(-${36}px)`;
-                (divItm as HTMLDivElement).style.opacity = `0`;
             })
         }
     }
@@ -277,7 +278,7 @@ const ShowRecipes = ({ rnds, rndNames }: {
                     <ShowTitle rnds={rnds} />
                     <ShowRandomlySelectedOptions rndNames={rndNames} />
                 </div>
-                <Button onClick={handleClick} variant={'secondary'}>Click To See Recipes</Button>
+                <Button onClick={handleClick} variant={'secondary'}>Click To Find Recipes</Button>
             </div>
             <RandomizedRecipesView recipes={recipes} />
         </>
