@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from 'react'
 // import { ITEMS } from './WithDnd'
 import { DialogModal, DialogModalForEditOrDelete, EventItemTypes, EventOptionsDropDown, ITEMS, localizer } from './WithoutDnd'
@@ -23,7 +25,7 @@ export const WithMostFunctionalities = () => {
 
     const [currnetlyViewingEventId, setCurrentlyViewingEventId] = useState(1)
 
-    const updateCurrentlyViewingEventChanges = (title:string) => {
+    const updateCurrentlyViewingEventChanges = (title: string) => {
         const updatedEvents = events.map(item => item.id === currnetlyViewingEventId ? item.title = title : item)
 
         console.log("updated", updatedEvents)
@@ -51,11 +53,11 @@ export const WithMostFunctionalities = () => {
         handleTruthy()
     }
 
-    const handleMoveEvent = (e:EventInteractionArgs<object>) => {
-        const {end, event, start} = e;
+    const handleMoveEvent = (e: EventInteractionArgs<object>) => {
+        const { end, event, start } = e;
 
         const foundIdx = events.findIndex(item => item === event)
-        const updatedEvent:any = {...event, end, start}
+        const updatedEvent: any = { ...event, end, start }
 
         const nextEvents: typeof events = [...events]
         nextEvents.splice(foundIdx, 1, updatedEvent)
@@ -64,11 +66,11 @@ export const WithMostFunctionalities = () => {
         // console.log("moving event", foundIdx, events[foundIdx].title)
     }
 
-    const handleResizeEvent:withDragAndDropProps["onEventDrop"] = (data) => {
-        const {end, start, event} = data;
+    const handleResizeEvent: withDragAndDropProps["onEventDrop"] = (data) => {
+        const { end, start, event } = data;
 
         const nextEvents = events.map(item => {
-            return item.id === event?.id ? {...item, start, end} : item
+            return item.id === event?.id ? { ...item, start, end } : item
         })
 
         setEvents(nextEvents)
@@ -76,10 +78,10 @@ export const WithMostFunctionalities = () => {
         console.log(event?.id, "!!", event)
     }
 
-  return (
-    <div>
-        WithMostFunctionalities
-        <DragAndDropCalendar
+    return (
+        <div className='h-80 w-[560px]'>
+            {/* WithMostFunctionalities */}
+            <DragAndDropCalendar
                 localizer={localizer}
                 events={events}
                 selectable
@@ -91,22 +93,23 @@ export const WithMostFunctionalities = () => {
                 // defaultDate={new Date(2015, 3, 12)}
                 // dragFromOutsideItem={handleDraggedFromOutside}
                 // onDropFromOutside={handleDroppedFromOutside}
-                onDropFromOutside={({ start, end, allDay }) => {console.log(start, end, "!!")}}
+                onDropFromOutside={({ start, end, allDay }) => { console.log(start, end, "!!") }}
 
                 components={{
                     event: props => (<EventOptionsDropDown remove={handleRemoveFromList} edit={forDDTruthy} {...props} />)
-                  }}
+                }}
 
-                  step={2}
+                step={4}
                 // selectable={true}
                 onSelectEvent={handleOnSelectEvent}
                 onSelectSlot={handleOnSelectSlot}
 
                 style={{
-                    height: "40vh"
+                    // height: "40vh"
+                    // height: "100%"
                 }}
             />
-        {/* <Calendar
+            {/* <Calendar
                 localizer={localizer}
                 defaultView='month'
                 defaultDate={new Date()}
@@ -131,6 +134,6 @@ export const WithMostFunctionalities = () => {
                     ? <DialogModalForEditOrDelete handleClose={forDDFalsy} open={forDD} handleRemoveFromList={handleRemoveFromList} handleEdit={updateCurrentlyViewingEventChanges} />
                     : null
             }
-    </div>
-  )
+        </div>
+    )
 }

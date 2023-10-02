@@ -1,4 +1,11 @@
+"use client"
+
 import React from 'react'
+import { Scheduler } from '../forUtilities/bigCalender/tryouts-II/Scheduler'
+import { WithMostFunctionalities } from '../forUtilities/bigCalender/tryouts-II/WithMostFunctionalities'
+import { Button } from '../ui/button'
+import { useForTruthToggle } from '@/hooks/forComponents'
+import { DragAndDrop } from '../forUtilities/dragAndDrop/DragAndDrop'
 
 // export const HomeHero = () => {
 //     return (
@@ -20,8 +27,11 @@ import React from 'react'
 
 export const HomeHero = () => {
     return (
+        <>
+         <TwoExtensions />
+        
         <div 
-            className='w-2/4 mx-auto relative text-primary-foreground h-[16.01rem]'
+            className='w-2/4 mt-8 mx-auto relative text-primary-foreground h-[16.01rem] flex items-center'
             // style={{
             //     backgroundImage: "url('https://source.unsplash.com/random/200?food=1')",
             //     backgroundSize: "cover",
@@ -67,6 +77,47 @@ export const HomeHero = () => {
                     </div>
                 </div>
             </div>
+        </div>
+        </>
+    )
+}
+
+const TwoExtensions = () => {
+    return (
+        <div className='relative flex justify-between w-full z-40 overflow-x-clip'>
+            <LeftExtension />
+            <RightExtension />    
+        </div>
+    )
+}
+
+const RightExtension = () => {
+    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+    return (
+        <div 
+            // className='absolute bg-primary-content z-40'
+            // className={`absolute bg-primary-content z-40 transition-all duration-1000 ${isTrue ? "translate-x-0" : "translate-x-[29rem]"}`}
+            // className={`absolute flex gap-4 items-center right-0 transition-all duration-1000 ${isTrue ? "-translate-x-4" : "translate-x-[28rem]"}`}
+            className={`absolute flex gap-4 items-center right-0 transition-all duration-1000 ${isTrue ? "-translate-x-[6.3rem]" : "translate-x-[22rem]"} w-[22rem]`}
+        >
+            <Button onClick={isTrue ? handleFalsy : handleTruthy} variant={'secondary'} className='absolute -left-16 top-0 h-full bg-slate-400 text-7xl flex items-center rounded-r-none'>[</Button>
+            
+            <DragAndDrop />
+            {/* <WithMostFunctionalities /> */}
+        </div>
+    )
+}
+
+const LeftExtension = () => {
+    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+    return (
+        <div 
+            // className='absolute bg-primary-content z-40'
+            // className={`absolute bg-primary-content z-40 transition-all duration-1000 ${isTrue ? "translate-x-16" : "-translate-x-[29rem]"}`}
+            className={`flex gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${isTrue ? "translate-x-4" : "-translate-x-[28rem]"}`}
+        >
+                <WithMostFunctionalities />
+                <Button onClick={isTrue ? handleFalsy : handleTruthy} variant={'secondary'} className='absolute -right-16 top-0 h-full bg-slate-400 text-7xl flex items-center rounded-l-none'>]</Button>
         </div>
     )
 }

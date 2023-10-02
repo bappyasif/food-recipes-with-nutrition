@@ -16,9 +16,13 @@ export default function Home() {
       <h1>Home Page</h1>
       {/* <SimpleCounter /> */}
       <HomeHero />
+      
       {/* <Scheduler /> */}
+      
       {/* <DragAndDrop /> */}
-      <RandomizeSelection />
+      
+      {/* <RandomizeSelection /> */}
+      
       {/* <Button variant={"ghost"} className="bg-primary-content hover:bg-primary-foreground">Button Here</Button> */}
 
       {/* <CarouselVertical /> */}
