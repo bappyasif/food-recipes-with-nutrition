@@ -4,6 +4,7 @@ import { searchRecipesByNameFromApi } from '@/utils/dataFetching'
 import React, { CSSProperties, useEffect, useState } from 'react'
 // import { BoxProps } from './Box'
 import { useDrag } from 'react-dnd'
+import { Bucket } from './Bucket'
 
 type RecipeCardType = {
     id: number,
@@ -13,27 +14,32 @@ type RecipeCardType = {
 }
 
 export const RecipesList = () => {
-    const [recipeCards, SetRecipeCards] = useState<RecipeCardType[]>([])
+    const [recipeCards, setRecipeCards] = useState<CardBoxProps[]>([])
+    const addToCards = (item: CardBoxProps) => setRecipeCards(prev => [...prev, item])
+    const updateCards = (dataset: CardBoxProps[]) => setRecipeCards(dataset)
+
+    console.log(recipeCards, "recipeCards!!")
 
     return (
-        <div>
-            <SearchRecipesByName />
+        <div className='flex gap-2 justify-between'>
+            <Bucket cards={recipeCards} updateCards={updateCards} />
+            <SearchRecipesByName addToCards={addToCards} />
         </div>
     )
 }
 
-const SearchRecipesByName = () => {
+const SearchRecipesByName = ({addToCards}: {addToCards: (d: any) => void}) => {
     const { handleTextChange, text } = useForInputTextChange();
 
     return (
         <div className='relative'>
             <input type="text" placeholder='seacrh recipes by name' value={text} onChange={handleTextChange} />
-            <ShowAllFoundRecipes text={text} />
+            <ShowAllFoundRecipes text={text} addToCards={addToCards} />
         </div>
     )
 }
 
-const ShowAllFoundRecipes = ({ text }: { text: string }) => {
+const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (d:any) => void }) => {
     const [recipes, setRecipes] = useState<RecipeTypes[]>([])
 
     useEffect(() => {
@@ -51,10 +57,14 @@ const ShowAllFoundRecipes = ({ text }: { text: string }) => {
     //     )
     // })
 
-    const renderRecipes = () => recipes.map(item => <Box id={item.idMeal} imgSrc={item.strMealThumb} label={item.strMeal} key={item.idMeal} />)
+    // const renderRecipes = () => recipes.map(item => <CardBox id={item.idMeal} imgSrc={item.strMealThumb} label={item.strMeal} key={item.idMeal} />)
+
+    const returnNeededData = (item : RecipeTypes) => ({label: item.strMeal, id: item.idMeal, imgSrc: item.strMealThumb})
+
+    const renderRecipes = () => recipes.map(item => <CardBox key={item.idMeal} data={returnNeededData(item)} addToCards={addToCards} />)
 
     return (
-        <div className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-40" : "h-0"} overflow-y-scroll`}>
+        <div className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-72" : "h-0"} overflow-y-scroll`}>
             {recipes?.length ? renderRecipes() : null}
         </div>
     )
@@ -65,23 +75,35 @@ interface DropResult {
     id: number
 }
 
-type BoxProps = {
+export type CardBoxProps = {
     label: string, 
     imgSrc: string,
     id: string,
     // handleAddToList: ()
+    // addToCards: (d: CardBoxProps) => void
 }
 
-const Box = ({ ...items }: BoxProps) => {
-    const {label} = items;
-    const [{ isDragging }, drag] = useDrag(() => ({
+type RecipeCardBoxProps = {
+    data: CardBoxProps,
+    addToCards: (d: CardBoxProps) => void
+}
+
+// const CardBox = ({ ...items }: CardBoxProps) => {
+const CardBox = ({ ...items }: RecipeCardBoxProps) => {
+    const {addToCards,data} = items
+    
+    const {label, id, imgSrc} = data;
+
+    const [{ isDragging, handlerId }, drag] = useDrag(() => ({
         //   type: ItemTypes.BOX,
-        type: "box",
-        item: { label },
+        // type: "box",
+        type: "card",
+        item: { label, id, imgSrc },
         end: (item, monitor) => {
             const dropResult = monitor.getDropResult<DropResult>()
             if (item && dropResult) {
                 // handleAddToList(item.name)
+                addToCards({label, id, imgSrc})
                 console.log(label, "dropped!!")
                 // alert(`You dropped ${item.name} into ${dropResult.name}!`)
             }
@@ -93,6 +115,7 @@ const Box = ({ ...items }: BoxProps) => {
     }))
 
     const opacity = isDragging ? 0.4 : 1
+    
     return (
         <div
             className='p-2 bg-primary-foreground'
@@ -100,7 +123,8 @@ const Box = ({ ...items }: BoxProps) => {
             style={{ ...style, opacity }}
         // data-testid={`box`}
         >
-            {label}
+            <h2 className='text-primary text-xl'>{label} - {handlerId?.toString()}</h2>
+            <img src={imgSrc} width={60} height={60} alt={label} className='w-11 h-11 rounded-full' />
         </div>
     )
 }

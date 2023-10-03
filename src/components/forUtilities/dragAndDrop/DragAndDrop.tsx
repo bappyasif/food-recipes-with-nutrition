@@ -9,7 +9,7 @@ import { RecipesList } from './RecipesList'
 export const DragAndDrop = () => {
   return (
     <DndProvider backend={HTML5Backend}>
-        <Container />
+        {/* <Container /> */}
         <RecipesList />
     </DndProvider>
   )
