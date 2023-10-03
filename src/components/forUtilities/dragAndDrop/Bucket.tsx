@@ -117,7 +117,7 @@ const RenderCardBoxes = ({ cards, updateCards }: { cards: CardBoxProps[], update
 
 
 
-    const renderCardBoxes = () => cards.map(item => <BucketCard key={item.id} data={item} findCard={findCard} moveCard={moveCard} />)
+    const renderCardBoxes = () => cards.map(item => <BucketCard key={item?.id} data={item} findCard={findCard} moveCard={moveCard} />)
 
     const [, drop] = useDrop(() => ({ accept: "card" }))
 
@@ -136,25 +136,30 @@ type BucketCardProps = {
 
 const BucketCard = ({ ...items }: BucketCardProps) => {
     const { data, findCard, moveCard } = items
+    
+    if(!data?.id) return
+
     const { id, imgSrc, label } = data;
 
     const originalIdx = findCard(id).idx
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "card",
-        // item: data,
-        item: {id, originalIdx},
+        item: data,
+        // item: {id, originalIdx},
         collect(monitor) {
             return {
                 isDragging: monitor.isDragging()
             }
         },
         end(draggedItem, monitor) {
-            const {id, originalIdx} = draggedItem;
+            // const {id, originalIdx} = draggedItem;
+            const {id} = draggedItem
             const didDrop = monitor.didDrop()
 
             if(didDrop) {
                 moveCard(id, originalIdx)
+                // console.log("dropped!!", id, originalIdx)
                 // console.log(id, "moving from drag", originalIdx)
             }
         },

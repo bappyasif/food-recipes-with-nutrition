@@ -1,11 +1,11 @@
 "use client"
 
 import React from 'react'
-import { Scheduler } from '../forUtilities/bigCalender/tryouts-II/Scheduler'
 import { WithMostFunctionalities } from '../forUtilities/bigCalender/tryouts-II/WithMostFunctionalities'
 import { Button } from '../ui/button'
 import { useForTruthToggle } from '@/hooks/forComponents'
 import { DragAndDrop } from '../forUtilities/dragAndDrop/DragAndDrop'
+import { Scheduler } from '../forUtilities/bigCalender/Scheduler'
 
 // export const HomeHero = () => {
 //     return (
@@ -43,14 +43,14 @@ export const HomeHero = () => {
             <div className='w-full z-20 absolute'>
                 <div className='grid grid-cols-3 place-items-center items-center h-[4rem]'>
                     <div className='h-full w-full rounded-s-xl rounded-xl bg-transparent flex justify-between'>
-                        <span className='border border-primary-focus w-1/2'></span>
-                        <span className='border border-primary-focus w-1/2'></span>
+                        <span className='border border-primary-focus border-b-0 w-1/2'></span>
+                        <span className='border border-primary-focus border-b-0 w-1/2'></span>
                     </div>
-                    <h2 className='col-span-2 text-4xl font-extrabold h-full bg-primary-focus flex items-center w-full text-center pl-[.38rem]'>Make Cooking Adventurous</h2>
+                    <h2 className='col-span-2 text-4xl font-extrabold h-full bg-primary-focus flex items-center w-full text-center pl-[.38rem] opacity-90'>Make Cooking Adventurous</h2>
                 </div>
                 
                 <div className='grid grid-cols-3 place-items-center items-center h-[4rem]'>
-                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-focus flex items-center justify-center'>Healthy</h2>
+                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-focus flex items-center justify-center opacity-90'>Healthy</h2>
                     <div className='col-span-2 h-full w-full bg-transparent flex justify-between'>
                         <span className='border border-x-primary-focus border-y-0 w-1/4'></span>
                         <span className='border border-x-primary-focus border-y-0 w-1/4'></span>
@@ -66,11 +66,11 @@ export const HomeHero = () => {
                         <span className='border border-x-primary-focus border-y-primary-focus w-1/4'></span>
                         <span className='border border-x-primary-focus border-y-primary-focus w-1/4'></span>
                     </div>
-                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-focus flex items-center justify-center'>Fun</h2>
+                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-focus flex items-center justify-center opacity-90'>Fun</h2>
                 </div>
 
                 <div className='grid grid-cols-3 place-items-center items-center h-[4rem]'>
-                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-focus flex items-center justify-center col-span-2'>And Really Delicious</h2>
+                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-focus flex items-center justify-center col-span-2 opacity-90'>And Really Delicious</h2>
                     <div className='h-full w-full rounded-l-box bg-transparent flex justify-between'>
                         <span className='border border-primary-focus w-1/2'></span>
                         <span className='border border-primary-focus w-1/2'></span>
@@ -116,7 +116,8 @@ const LeftExtension = () => {
             // className={`absolute bg-primary-content z-40 transition-all duration-1000 ${isTrue ? "translate-x-16" : "-translate-x-[29rem]"}`}
             className={`flex gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${isTrue ? "translate-x-4" : "-translate-x-[28rem]"}`}
         >
-                <WithMostFunctionalities />
+                {/* <WithMostFunctionalities /> */}
+                <Scheduler />
                 <Button onClick={isTrue ? handleFalsy : handleTruthy} variant={'secondary'} className='absolute -right-16 top-0 h-full bg-slate-400 text-7xl flex items-center rounded-l-none'>]</Button>
         </div>
     )
