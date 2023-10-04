@@ -40,7 +40,12 @@ export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFrom
                     </DialogDescription> */}
                     <RenderTitleAndDescription descText={descText || eventItem?.description} handleDesc={textChangeForDesc} handleTitle={handleTextChange} titleText={text || eventItem?.title} />
 
+                    {/* <h2>Recipes Snapshot When Added</h2> */}
+                    {/* <RenderRecipesList hasCooking={eventItem?.cooking?.recipes.length ? true : false} items={eventItem?.cooking?.recipes || []} /> */}
+                    <RenderRecipesList hasCooking={eventItem?.recipes?.length ? true : false} items={eventItem?.recipes || []} />
+
                     <DialogTrigger className='text-primary bg-accent font-bold' onClick={handleConfirmEdit}>Confirm Edit</DialogTrigger>
+
                     <hr />
                     <DialogTitle className='bg-accent text-primary'>Reday To Delete?</DialogTitle>
                     {/* <Button className='w-6 bg-secondary-focus'>X</Button> */}
@@ -52,6 +57,28 @@ export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFrom
                 </DialogHeader>
             </DialogContent>
         </Dialog>
+    )
+}
+
+const RenderRecipesList = ({hasCooking, items}: {hasCooking: boolean, items: {name: string, imgSrc: string}[]}) => {
+    
+    const renderList = () => items.map(item => {
+        return (
+            <span key={item.name} className="flex flex-col justify-center items-center outline outline-primary-content w-full rounded-md">
+                <span>{item.name}</span>
+                <img src={item.imgSrc} alt={item.name} width={60} height={60} className='w-11 h-11 rounded-full' />
+            </span>
+        )
+    })
+
+    return (
+        hasCooking
+            ?
+            <div className="bg-accent text-primary">
+                <h2>Recipes Snapshot When Added</h2>
+                <div className="grid grid-cols-2 justify-items-center place-items-center gap-4">{renderList()}</div>
+            </div>
+            : null
     )
 }
 

@@ -25,6 +25,14 @@ export type EventItemTypes = {
     id: number | string;
     title: string;
     description: string;
+    recipes?: {
+        name: string,
+        imgSrc: string
+    }[]
+    // cooking?: {
+    //     name: string,
+    //     recipes: string[]
+    // }
 }
 
 export const Scheduler = () => {
@@ -116,6 +124,10 @@ export const Scheduler = () => {
         setEvents(ITEMS)
     }, [])
 
+    useEffect(() => {
+        setEvents(ITEMS)
+    }, [ITEMS])
+
     // const { defaultDate, views } = useMemo(
     //     () => ({
     //         //   components: {
@@ -186,7 +198,7 @@ export const Scheduler = () => {
 }
 
 
-const ITEMS = [
+export const ITEMS:EventItemTypes[] = [
     {
         start: moment().toDate(),
         end: moment().add(1, "days").toDate(),
