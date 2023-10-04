@@ -35,7 +35,7 @@ export type EventItemTypes = {
     // }
 }
 
-export const Scheduler = () => {
+export const Scheduler = ({open}: {open: boolean}) => {
     // const [events, setEvents] = useState<typeof ITEMS>([])
     const [events, setEvents] = useState<EventItemTypes[]>([])
 
@@ -151,7 +151,7 @@ export const Scheduler = () => {
     console.log(events, "events!!")
 
     return (
-        <div className='h-[690px] w-[830px]'>
+        <div className={`transition-all duration-1000 ${open ? "h-[690px] w-[830px]" : "h-80 w-[830px]"}`}>
             <DnDCalendar
                 // ref={ref}
                 localizer={localizer}
