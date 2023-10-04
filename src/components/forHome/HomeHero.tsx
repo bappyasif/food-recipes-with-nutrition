@@ -114,7 +114,7 @@ const LeftExtension = () => {
         <div 
             // className='absolute bg-primary-content z-40'
             // className={`absolute bg-primary-content z-40 transition-all duration-1000 ${isTrue ? "translate-x-16" : "-translate-x-[29rem]"}`}
-            className={`flex gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${isTrue ? "translate-x-4" : "-translate-x-[28rem]"}`}
+            className={`flex gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${isTrue ? "translate-x-4" : "-translate-x-[42rem]"}`}
         >
                 {/* <WithMostFunctionalities /> */}
                 <Scheduler />

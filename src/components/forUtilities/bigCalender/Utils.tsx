@@ -4,18 +4,22 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { useForInputTextChange } from "@/hooks/forComponents"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { SlotInfo } from "react-big-calendar"
+import { EventItemTypes } from "./Scheduler"
+import { ChangeEvent } from "react"
 
-export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFromList, handleEdit }: { open: boolean, handleClose: () => void, handleRemoveFromList: () => void, handleEdit: (t:string) => void }) => {
-    
+export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFromList, handleEdit, eventItem }: { open: boolean, handleClose: () => void, handleRemoveFromList: () => void, handleEdit: (t: string, d: string) => void, eventItem: EventItemTypes }) => {
+
     const handleDelete = () => {
         handleRemoveFromList()
         handleClose()
     }
 
-    const {handleTextChange, text} = useForInputTextChange()
+    const { handleTextChange, text } = useForInputTextChange()
+
+    const { handleTextChange: textChangeForDesc, text: descText } = useForInputTextChange()
 
     const handleConfirmEdit = () => {
-        handleEdit(text)
+        handleEdit(text, descText)
         handleClose()
     }
 
@@ -23,17 +27,27 @@ export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFrom
         <Dialog open={open}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle className='text-accent-focus'>Ready To Edit?</DialogTitle>
-                    <DialogDescription>
-                        <input type="text" value={text || "test!!"} onChange={handleTextChange} className='bg-primary-focus' />
-                    </DialogDescription>
-                    <DialogTrigger className='text-primary-content' onClick={handleConfirmEdit}>Confirm Edit</DialogTrigger>
+                    <DialogTitle className='text-accent-foreground'>Ready To Edit? - {eventItem?.title}</DialogTitle>
+                    {/* <DialogDescription className="flex flex-col gap-y-2">
+                        <span>
+                            <span>Title</span>
+                            <input type="text" value={text || eventItem?.title || "test!!"} onChange={handleTextChange} className='bg-secondary w-full' />
+                        </span>
+                        <span>
+                            <span>Descriptions</span>
+                            <textarea name="description" id="description" className="w-full bg-secondary" rows={6} value={descText || eventItem?.description} onChange={textChangeForDesc}></textarea>
+                        </span>
+                    </DialogDescription> */}
+                    <RenderTitleAndDescription descText={descText || eventItem?.description} handleDesc={textChangeForDesc} handleTitle={handleTextChange} titleText={text || eventItem?.title} />
+
+                    <DialogTrigger className='text-primary bg-accent font-bold' onClick={handleConfirmEdit}>Confirm Edit</DialogTrigger>
                     <hr />
-                    <DialogTitle className='bg-primary-focus'>Reday To Delete?</DialogTitle>
+                    <DialogTitle className='bg-accent text-primary'>Reday To Delete?</DialogTitle>
                     {/* <Button className='w-6 bg-secondary-focus'>X</Button> */}
-                    <DialogClose onClick={handleClose} className='w-6 bg-secondary-focus'>X</DialogClose>
-                    <DialogDescription>
-                        <Button onClick={handleDelete}>Delete</Button>
+                    {/* <DialogClose onClick={handleClose} className='w-6 bg-secondary-focus' title="Close Modal">X</DialogClose> */}
+                    <DialogDescription className="flex justify-between">
+                        <Button variant={"destructive"} onClick={handleDelete}>Yes, Delete</Button>
+                        <DialogClose onClick={handleClose} className='w-fit bg-secondary-content font-bold px-4 rounded-sm text-secondary-focus' title="Close Modal">Cancel [X]</DialogClose>
                     </DialogDescription>
                 </DialogHeader>
             </DialogContent>
@@ -43,39 +57,71 @@ export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFrom
 
 export const DialogModal = ({ open, handleClose, slotData, handleAddToList }: { open: boolean, handleClose: () => void, slotData: SlotInfo | undefined, handleAddToList: (d: any) => void }) => {
     const { handleTextChange, text } = useForInputTextChange()
+    const { handleTextChange: textChangeForDesc, text: descText } = useForInputTextChange()
 
     const handleAdd = () => {
         const data = {
             start: slotData?.start,
             end: slotData?.end,
             title: text,
-            description: "bees"
+            description: descText || "No description is noted"
         }
-        handleAddToList(data)
-        handleClose()
+        if (!text) {
+            alert("Title cant be missing!!")
+        } else {
+            handleAddToList(data)
+            handleClose()
+        }
     }
 
     return (
         <Dialog open={open}>
-            <DialogTrigger className='text-primary-content'>Open</DialogTrigger>
+            {/* <DialogTrigger className='text-primary-content'>Open</DialogTrigger> */}
             <DialogContent>
-                <DialogHeader>
+                <DialogHeader className="relative">
                     <DialogTitle className='bg-primary-focus'>Add A New Event</DialogTitle>
+                    {/* <Button onClick={handleClose} className='w-6 bg-secondary-focus absolute -right-3 -top-6'></Button> */}
+                    {/* <DialogTrigger>
+                    <Button onClick={handleClose} className='w-6 bg-secondary-focus'>X</Button>
+                    </DialogTrigger> */}
                     {/* <Button className='w-6 bg-secondary-focus'>X</Button> */}
-                    <DialogClose onClick={handleClose} className='w-6 bg-secondary-focus'>X</DialogClose>
-                    <DialogDescription>
+                    {/* <DialogClose onClick={handleClose} className='w-6 bg-secondary-focus absolute right-4 -top-6 text-primary-content p-4'></DialogClose> */}
+                    {/* <DialogDescription>
                         <input className='bg-secondary-content' type="text" onChange={handleTextChange} />
-                    </DialogDescription>
-                    <hr />
-                    <Button className='w-6 bg-secondary-focus' onClick={handleAdd}>Add</Button>
+                    </DialogDescription> */}
                 </DialogHeader>
+
+                <RenderTitleAndDescription descText={descText} handleDesc={textChangeForDesc} handleTitle={handleTextChange} titleText={text} />
+
+                <hr />
+                <DialogTrigger className="flex justify-evenly">
+                    <Button className='w-40 bg-secondary-focus' onClick={handleAdd}>Add</Button>
+                    <DialogClose onClick={handleClose} className='w-40 bg-secondary-focus text-primary-content p-2 rounded-sm'>Cancel</DialogClose>
+                </DialogTrigger>
+
             </DialogContent>
         </Dialog>
 
     )
 }
 
-export const EventOptionsDropDown = (props:any) => {
+const RenderTitleAndDescription = ({ titleText, descText, handleTitle, handleDesc }: { titleText: string, descText: string, handleTitle: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void, handleDesc: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void }) => {
+    return (
+        <DialogDescription>
+            <span>
+                <span>Title</span>
+                <input type="text" value={titleText} onChange={handleTitle} className='bg-secondary w-full' required />
+            </span>
+
+            <span>
+                <span>Descriptions</span>
+                <textarea name="description" id="description" className="w-full bg-secondary" rows={6} value={descText} onChange={handleDesc}></textarea>
+            </span>
+        </DialogDescription>
+    )
+}
+
+export const EventOptionsDropDown = (props: any) => {
     return (
         <div className='flex justify-between'>
             {/* <h2>{event.title}</h2> */}

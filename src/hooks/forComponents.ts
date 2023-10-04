@@ -41,7 +41,7 @@ export const useForTruthToggle = () => {
 export const useForInputTextChange = () => {
     const [text, setText] = useState("");
 
-    const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => setText(e.target.value)
+    const handleTextChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setText(e.target.value)
 
     return { text, handleTextChange }
 }
