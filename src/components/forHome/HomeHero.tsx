@@ -96,11 +96,14 @@ const TwoExtensions = () => {
 }
 
 const RightExtension = ({extOpen, handleExtensionsOpen}: ExtensionProps) => {
-    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+    // const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
     const handleClicked = () => {
-        isTrue ? handleFalsy() : handleTruthy()
+        // isTrue ? handleFalsy() : handleTruthy()
         // isTrue ? handleExtensionsOpen("right")
-        !isTrue ? handleExtensionsOpen("right") : handleExtensionsOpen("")
+        // !isTrue ? handleExtensionsOpen("right") : handleExtensionsOpen("")
+        // extOpen !== "right" && handleExtensionsOpen("right")
+        // handleExtensionsOpen("right")
+        extOpen !== "right" ? handleExtensionsOpen("right") : handleExtensionsOpen("")
     }
 
     // useEffect(() => {
@@ -112,11 +115,12 @@ const RightExtension = ({extOpen, handleExtensionsOpen}: ExtensionProps) => {
             // className='absolute bg-primary-content z-40'
             // className={`absolute bg-primary-content z-40 transition-all duration-1000 ${isTrue ? "translate-x-0" : "translate-x-[29rem]"}`}
             // className={`absolute flex gap-4 items-center right-0 transition-all duration-1000 ${isTrue ? "-translate-x-4" : "translate-x-[28rem]"}`}
-            className={`absolute flex gap-4 items-center right-0 transition-all duration-1000 ${(isTrue && extOpen === "right") ? "-translate-x-[6.3rem]" : "translate-x-[22rem]"} w-[22rem]`}
+            // className={`absolute flex gap-4 items-center right-0 transition-all duration-1000 ${(isTrue && extOpen === "right") ? "-translate-x-[6.3rem]" : "translate-x-[22rem]"} w-[22rem]`}
+            className={`absolute flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-[6.3rem]" : "translate-x-[24rem]"} w-[24rem]`}
         >
             <Button onClick={handleClicked} variant={'secondary'} className='absolute -left-16 top-0 h-full bg-slate-400 text-7xl flex items-center rounded-r-none'>[</Button>
             
-            <DragAndDrop />
+            <DragAndDrop open={extOpen === "right"} />
             {/* <WithMostFunctionalities /> */}
         </div>
     )
@@ -125,10 +129,13 @@ const RightExtension = ({extOpen, handleExtensionsOpen}: ExtensionProps) => {
 type ExtensionProps = {extOpen: string, handleExtensionsOpen: (n:string) => void}
 
 const LeftExtension = ({extOpen, handleExtensionsOpen}: ExtensionProps) => {
-    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+    // const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
     const handleClicked = () => {
-        isTrue ? handleFalsy() : handleTruthy()
-        !isTrue ? handleExtensionsOpen("left") : handleExtensionsOpen("")
+        // isTrue ? handleFalsy() : handleTruthy()
+        // !isTrue ? handleExtensionsOpen("left") : handleExtensionsOpen("")
+        // extOpen !== "left" && handleExtensionsOpen("left")
+        // handleExtensionsOpen("left")
+        extOpen !== "left" ? handleExtensionsOpen("left") : handleExtensionsOpen("")
     }
     // useEffect(() => {
     //     isTrue ? handleExtensionsOpen("left") : handleExtensionsOpen("")
@@ -138,10 +145,12 @@ const LeftExtension = ({extOpen, handleExtensionsOpen}: ExtensionProps) => {
         <div 
             // className='absolute bg-primary-content z-40'
             // className={`absolute bg-primary-content z-40 transition-all duration-1000 ${isTrue ? "translate-x-16" : "-translate-x-[29rem]"}`}
-            className={`flex gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(isTrue && extOpen === "left") ? "translate-x-4" : "-translate-x-[42rem]"}`}
+            // className={`flex gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(isTrue && extOpen === "left") ? "translate-x-4" : "-translate-x-[42rem]"}`}
+            className={`flex gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-4" : "-translate-x-[42rem]"}`}
+            // className={`flex gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${((extOpen === "left") || (isTrue)) ? "translate-x-4" : "-translate-x-[42rem]"}`}
         >
                 {/* <WithMostFunctionalities /> */}
-                <Scheduler open={isTrue && extOpen === "left"} />
+                <Scheduler open={extOpen === "left"} />
                 <Button onClick={handleClicked} variant={'secondary'} className={`absolute -right-16 top-0 transition-all duration-1000 h-full bg-slate-400 text-7xl flex items-center rounded-l-none`}>]</Button>
         </div>
     )

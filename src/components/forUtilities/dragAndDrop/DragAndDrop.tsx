@@ -6,11 +6,11 @@ import {HTML5Backend} from "react-dnd-html5-backend"
 import { Container } from './Container'
 import { RecipesList } from './RecipesList'
 
-export const DragAndDrop = () => {
+export const DragAndDrop = ({open}: {open: boolean}) => {
   return (
     <DndProvider backend={HTML5Backend}>
         {/* <Container /> */}
-        <RecipesList />
+        <RecipesList open={open} />
     </DndProvider>
   )
 }

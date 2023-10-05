@@ -87,12 +87,12 @@ export const Bucket = ({ cards, updateCards }: BucketProps) => {
             {/* we can directly use this for drop and drag of recipes card but have to make cards item compliance with already implemented module */}
             <RenderCardBoxes cards={cards} updateCards={updateCards} />
 
-            <UserActions cards={cards} />
+            <UserActions cards={cards} updateCards={updateCards} />
         </div>
     )
 }
 
-const UserActions = ({ cards }: { cards: CardBoxProps[] }) => {
+const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCards: (data: CardBoxProps[]) => void }) => {
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle();
 
     const {handleTextChange, text} = useForInputTextChange()
@@ -121,6 +121,9 @@ const UserActions = ({ cards }: { cards: CardBoxProps[] }) => {
         ITEMS.push(eventItem)
 
         console.log(eventItem)
+        
+        updateCards([])
+        
         handleFalsy()
     }
 

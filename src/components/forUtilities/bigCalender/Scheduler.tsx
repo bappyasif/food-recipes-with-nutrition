@@ -151,7 +151,7 @@ export const Scheduler = ({open}: {open: boolean}) => {
     console.log(events, "events!!")
 
     return (
-        <div className={`transition-all duration-1000 ${open ? "h-[690px] w-[830px]" : "h-80 w-[830px]"}`}>
+        <div className={`transition-all duration-1000 ${open ? "h-[690px] w-[830px]" : "h-72 w-[830px]"}`}>
             <DnDCalendar
                 // ref={ref}
                 localizer={localizer}

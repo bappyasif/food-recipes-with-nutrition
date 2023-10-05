@@ -13,7 +13,7 @@ type RecipeCardType = {
     uri: string
 }
 
-export const RecipesList = () => {
+export const RecipesList = ({open}: {open: boolean}) => {
     const [recipeCards, setRecipeCards] = useState<CardBoxProps[]>([])
     const addToCards = (item: CardBoxProps) => setRecipeCards(prev => [...prev, item])
     const updateCards = (dataset: CardBoxProps[]) => setRecipeCards(dataset)
@@ -21,7 +21,7 @@ export const RecipesList = () => {
     console.log(recipeCards, "recipeCards!!")
 
     return (
-        <div className='flex gap-2 justify-between'>
+        <div className={`flex gap-2 justify-between transition-all duration-1000 ${open ? "h-96" : "h-72"}`}>
             <Bucket cards={recipeCards} updateCards={updateCards} />
             <SearchRecipesByName addToCards={addToCards} />
         </div>
@@ -64,7 +64,7 @@ const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (
     const renderRecipes = () => recipes.map(item => <CardBox key={item.idMeal} data={returnNeededData(item)} addToCards={addToCards} />)
 
     return (
-        <div className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-72" : "h-0"} overflow-y-scroll`}>
+        <div className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-80 overflow-y-scroll" : "h-0"}`}>
             {recipes?.length ? renderRecipes() : null}
         </div>
     )
@@ -118,12 +118,12 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
     
     return (
         <div
-            className='p-2 bg-primary-foreground'
+            className='p-2 bg-primary-foreground flex gap-2 items-center justify-between'
             ref={drag}
             style={{ ...style, opacity }}
         // data-testid={`box`}
         >
-            <h2 className='text-primary text-xl'>{label} - {handlerId?.toString()}</h2>
+            <h2 className='text-primary text-xl'>{label}</h2>
             <img src={imgSrc} width={60} height={60} alt={label} className='w-11 h-11 rounded-full' />
         </div>
     )
