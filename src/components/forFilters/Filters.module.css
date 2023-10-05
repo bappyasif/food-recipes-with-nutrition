@@ -1,0 +1,66 @@
+.flipCard:hover,
+.flipCard,
+.flipCardBack,
+.whenFlipped,
+.whenNotFlipped {
+    position: relative;
+    transition: all;
+    transition-duration: 2s;
+    transition-timing-function: ease-in-out;
+}
+
+.flipCard:hover {
+    transform: rotateY(180deg);
+}
+
+.flipCard {
+    transform: rotateY(0deg);
+}
+
+/* .flipCard:hover > .flipCard::before */
+.flipCardBack
+ {
+    /* content: ""; */
+    position: absolute;
+    /* background-color: goldenrod; */
+    opacity: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.flipCard:hover .flipCardBack {
+    /* background-color: goldenrod; */
+    opacity: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.whenFlipped {
+    display: none;
+}
+
+.flipCard:hover .whenFlipped,
+.whenNotFlipped {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+}
+
+.flipCard:hover .whenFlipped {
+    transform: rotateY(180deg);
+}
+
+.flipCard:hover .whenNotFlipped {
+    display: none;
+    /* opacity: 0; */
+}
+
+/* .flipCard:hover .whenNotFlipped img {
+    opacity: 0;
+} */
+
+/* .whenNotFlipped {
+    display: flex;
+} */
+
+/* .backImg */

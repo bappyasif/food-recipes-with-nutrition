@@ -14,7 +14,9 @@ const FilterRecipesPage = () => {
   const {mealsRecipes} = useForExtractingQueriesFromUrl()
 
   return (
-    <div className='h-[100vh]'>
+    <div 
+      className={`${(mealsRecipes.length || recipesFound?.length) ? "h-fit" : "min-h-[100vh]"}`}
+    >
       FilterRecipesPage {recipesFound?.length}
       <FiltersDashboard handleRecipesFound={handleRecipesFound} />
       <RecipesView recipes={ recipesFound?.length ? recipesFound : mealsRecipes} />

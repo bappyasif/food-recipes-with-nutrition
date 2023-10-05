@@ -14,6 +14,7 @@ import { RecipesView } from './RecipesView'
 import { Badge } from '../ui/badge'
 import { FiltersTypes } from '@/types'
 import axios from 'axios'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
 
 type FiltersDashboardPropsType = {
     handleRecipesFound: (d: any) => void
@@ -131,12 +132,12 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     const querifyFilters = () => {
         let str = "?type=public&";
-        
+
         const querified = (items: string[], propKey: string) => items.forEach(item => str += `${propKey}=${item}&`)
 
         for (let k in filters) {
             if (filters[k as keyof FiltersTypes]?.length) {
-                if(k !== "q") {
+                if (k !== "q") {
                     querified(filters[k as keyof FiltersTypes] as string[], k)
                 } else {
                     str += `q=${filters.q}&`
@@ -157,7 +158,7 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
         for (let k in filters) {
             if (filters[k as keyof FiltersTypes]?.length) {
-                if(k === "q" && filters?.q) {
+                if (k === "q" && filters?.q) {
                     params.append("q", filters.q!)
                 } else {
                     appendParam(params, filters[k as keyof FiltersTypes] as string[], k)
@@ -198,12 +199,12 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
     // console.log(filters, text)
 
     return (
-        <div>
-            <h1>FiltersDashboard</h1>
-            <h2>{filters.diet} ---- {filters.cuisineType} ----</h2>
+        <div className='flex flex-col gap-y-4 justify-center items-center h-fit'>
+            <h1 className='text-4xl'>Refine Your Searches Using These Filters</h1>
+            {/* <h2>{filters.diet} ---- {filters.cuisineType} ----</h2> */}
             <div className='flex flex-col gap-y-4 justify-center items-center'>
-                
-                <input type="text" placeholder='search your recipe here by name....' className='w-1/3 py-1 px-2' value={text} onChange={handleTextChange} />
+
+                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2' value={text} onChange={handleTextChange} />
 
                 <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
                 {/* <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />
@@ -215,20 +216,59 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
     )
 }
 
-const MultipleSelectableFilters = ({ handleFiltersChange }: FilterChangeTypes) => {
+const ReusuableAccordionItem = ({ handleFiltersChange, trigText, propKey, data }: FilterChangeTypes & { trigText: string, propKey: string, data: string[] }) => {
     return (
-        <div
-            // className='grid grid-cols-2'
-            className='columns-2xl gap-2'
-        >
-            <RenderCheckboxTypes propKey={"mealType"} data={meals} title='Meal Types' handleFiltersChange={handleFiltersChange} />
-            <RenderCheckboxTypes propKey={"diet"} data={diets} title='Diet Types' handleFiltersChange={handleFiltersChange} />
-            <RenderCheckboxTypes propKey={"dishType"} data={dishes} title='Dish Types' handleFiltersChange={handleFiltersChange} />
-            <RenderCheckboxTypes propKey={"health"} data={health} title='Health Labels' handleFiltersChange={handleFiltersChange} />
-            <RenderCheckboxTypes propKey={"cuisineType"} data={cuisines} title='Cuisines' handleFiltersChange={handleFiltersChange} />
-        </div>
+        <AccordionItem value={propKey} className='min-w-[380px]'>
+            <AccordionTrigger>{trigText}</AccordionTrigger>
+            <AccordionContent>
+                <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText} handleFiltersChange={handleFiltersChange} />
+            </AccordionContent>
+        </AccordionItem>
     )
 }
+
+const MultipleSelectableFilters = ({ handleFiltersChange }: FilterChangeTypes) => {
+    return (
+        <Accordion type='multiple' className='columns-3 gap-2'>
+            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='mealType' trigText='Meal Types' data={meals} />
+
+            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='diet' trigText='Diet Types' data={diets} />
+
+            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='dishType' trigText='Dish Types' data={dishes} />
+
+            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='health' trigText='Health Lables' data={health} />
+
+            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='cusineType' trigText='Cuisines Types' data={cuisines} />
+        </Accordion>
+    )
+}
+
+// const MultipleSelectableFilters = ({ handleFiltersChange }: FilterChangeTypes) => {
+//     return (
+//         <div
+//         // className='grid grid-cols-2'
+//         // className='columns-2xl gap-2'
+//         >
+//             <Accordion type='multiple' className='columns-2xl gap-2'>
+//                 <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='mealType' trigText='Meal Types' data={meals} />
+
+//                 <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='diet' trigText='Diet Types' data={diets} />
+
+//                 <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='dishType' trigText='Dish Types' data={dishes} />
+
+//                 <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='health' trigText='Health Lables' data={health} />
+
+//                 <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='cusineType' trigText='Cuisines Types' data={cuisines} />
+//             </Accordion>
+
+//             {/* <RenderCheckboxTypes propKey={"mealType"} data={meals} title='Meal Types' handleFiltersChange={handleFiltersChange} /> */}
+//             {/* <RenderCheckboxTypes propKey={"diet"} data={diets} title='Diet Types' handleFiltersChange={handleFiltersChange} /> */}
+//             {/* <RenderCheckboxTypes propKey={"dishType"} data={dishes} title='Dish Types' handleFiltersChange={handleFiltersChange} /> */}
+//             {/* <RenderCheckboxTypes propKey={"health"} data={health} title='Health Labels' handleFiltersChange={handleFiltersChange} /> */}
+//             {/* <RenderCheckboxTypes propKey={"cuisineType"} data={cuisines} title='Cuisines' handleFiltersChange={handleFiltersChange} /> */}
+//         </div>
+//     )
+// }
 
 type ReuseableCheckboxTypes = {
     data: string[], title: string, propKey: keyof FiltersTypes, handleFiltersChange: (d: string, k: string) => void
@@ -241,7 +281,7 @@ const RenderCheckboxTypes = ({ ...items }: ReuseableCheckboxTypes) => {
 
     return (
         <div className='my-2'>
-            <h2>{title}</h2>
+            {/* <h2>{title}</h2> */}
             <div className='flex flex-wrap gap-4'>{rendertypes()}</div>
         </div>
     )
