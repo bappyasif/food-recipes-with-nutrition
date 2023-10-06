@@ -1,16 +1,26 @@
 "use client"
 
-import { CategoriesCuisinesCarouselType, ReuseableCarouselType } from '@/types'
+import { CategoriesCuisinesCarouselType, FiltersTypes, ReuseableCarouselType } from '@/types'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CarouselVertical } from './CarouselVertical'
 import { Button } from '../ui/button'
+import { cuisines, dishes } from '../forFilters/FiltersDashboard'
+import { useForQuerifiedParams } from '@/hooks/forComponents'
 
 export const DuoCarousels = () => {
+    const newDishes = dishes.map(name => ({name: name, picture: `https://source.unsplash.com/random/200?meal=${name.split(" ").join("")}`}))
+
+    const newCuisines = cuisines.map(name => ({name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}`}))
+
+    // https://source.unsplash.com/random/200?sig=1
+
+    // console.log(newCuisines, "cuisines")
+
     return (
         <div className='flex gap-4'>
-            <ReusableCarousel title='Categories' items={categories} />
-            <ReusableCarousel title='Cuisines' items={cuisines} />
+            <ReusableCarousel title='Dishes' items={newDishes} />
+            <ReusableCarousel title='Cuisines' items={newCuisines} />
         </div>
     )
 }
@@ -21,18 +31,48 @@ const ReusableCarousel = ({ ...item }: ReuseableCarouselType) => {
     return (
         <div className='flex flex-col gap-y-4 justify-center items-center'>
             <h2 className='text-xl'>{title}</h2>
-            <CarouselVertical items={items} />
+            <CarouselVertical items={items} title={title} />
         </div>
     )
 }
 
-export const ReusableCarouselCard = ({ ...item }: CategoriesCuisinesCarouselType) => {
+export const ReusableCarouselCard = ({carouselType, ...item }: CategoriesCuisinesCarouselType & {carouselType: string}) => {
     const { name, picture } = item;
 
+    const [params, setParams] = useState<FiltersTypes>({})
+
+    // const params:FiltersTypes = {
+    //     // mealType: mealType,
+    //     // diet: diet.toLocaleLowerCase(),
+    //     // dishType: dishType,
+    //     // random: true,
+    //     // type: "public",
+    //     // app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
+    //     // app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY
+    // }
+
+    const prepareForDataFetching = () => {
+        if(carouselType === "Dishes") {
+            // params.dishType = [name]
+            setParams(prev => ({dishType: [name]}))
+        } else {
+            // params.mealType = [name]
+            setParams(prev => ({cuisineType: [name]}))
+        }
+
+        console.log(params, "params!!")
+    }
+
+    const {querifyFilters} = useForQuerifiedParams(params)
+
+    useEffect(() => {
+        (params.cuisineType || params.dishType) ? querifyFilters() : null
+    }, [params])
+
     return (
-        <Button variant={'link'} className='flex flex-col-reverse text-primary-content gap-x-4 p-1 justify-center items-center h-16 text-primary-foreground transition-all duration-500 hover:scale-110 hover:bg-primary-focus'>
+        <Button variant={'link'} onClick={prepareForDataFetching} className='flex flex-col-reverse text-primary-content gap-x-4 p-1 justify-center items-center h-16 text-primary-foreground transition-all duration-500 hover:scale-110 hover:bg-primary-focus -z-0'>
             <Image
-                className='w-28 h-16 object-cover relative'
+                className='w-44 h-11 object-cover relative'
                 // fill={true}
                 placeholder='blur'
                 blurDataURL={picture}
@@ -42,7 +82,7 @@ export const ReusableCarouselCard = ({ ...item }: CategoriesCuisinesCarouselType
                 alt={`${name}`}
                 src={picture}
             />
-            <p className='absolute bg-secondary-focus px-4 capitalize opacity-80'>{name}</p>
+            <p className='absolute bg-secondary-focus px-2 capitalize opacity-80 text-sm'>{name}</p>
         </Button>
     )
 }
@@ -60,15 +100,15 @@ export const categories = [
     { name: "lentils", picture: "https://source.unsplash.com/random/200?lentils" }
 ]
 
-export const cuisines = [
-    { name: "american", picture: "https://source.unsplash.com/random/200?cuisine,american" },
-    { name: "british", picture: "https://source.unsplash.com/random/200?cuisine,british" },
-    { name: "chinese", picture: "https://source.unsplash.com/random/200?cuisine,chinese" },
-    { name: "french", picture: "https://source.unsplash.com/random/200?cuisine,french" },
-    { name: "italian", picture: "https://source.unsplash.com/random/200?cuisine,italian" },
-    { name: "jamaican", picture: "https://source.unsplash.com/random/200?cuisine,jamaican" },
-    { name: "bengali", picture: "https://source.unsplash.com/random/200?cuisine,bengali" },
-    { name: "indian", picture: "https://source.unsplash.com/random/200?cuisine,indian" },
-    { name: "african", picture: "https://source.unsplash.com/random/200?cuisine,african" },
-    { name: "japanese", picture: "https://source.unsplash.com/random/200?cuisine,japanese" },
-]
+// export const cuisines = [
+//     { name: "american", picture: "https://source.unsplash.com/random/200?cuisine,american" },
+//     { name: "british", picture: "https://source.unsplash.com/random/200?cuisine,british" },
+//     { name: "chinese", picture: "https://source.unsplash.com/random/200?cuisine,chinese" },
+//     { name: "french", picture: "https://source.unsplash.com/random/200?cuisine,french" },
+//     { name: "italian", picture: "https://source.unsplash.com/random/200?cuisine,italian" },
+//     { name: "jamaican", picture: "https://source.unsplash.com/random/200?cuisine,jamaican" },
+//     { name: "bengali", picture: "https://source.unsplash.com/random/200?cuisine,bengali" },
+//     { name: "indian", picture: "https://source.unsplash.com/random/200?cuisine,indian" },
+//     { name: "african", picture: "https://source.unsplash.com/random/200?cuisine,african" },
+//     { name: "japanese", picture: "https://source.unsplash.com/random/200?cuisine,japanese" },
+// ]

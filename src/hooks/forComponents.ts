@@ -1,7 +1,7 @@
-import { RecipeMealType, ShallowRoutingTypes } from "@/types";
+import { FiltersTypes, RecipeMealType, ShallowRoutingTypes } from "@/types";
 import { searchRecipes } from "@/utils/dataFetching";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
 export const useForPauseAndPlayMealScroll = () => {
@@ -138,7 +138,7 @@ export const useForRandomRecipesList = (mealType:string, diet:string, dishType:s
         const params = {
             mealType: mealType,
             diet: diet.toLocaleLowerCase(),
-            dishyType: dishType,
+            dishType: dishType,
             random: true,
             type: "public",
             app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
@@ -252,4 +252,29 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
     }, [data])
 
     return {onlyFour, handleNext, handlePrev, handleFalsy, handleTruthy, isTrue}
+}
+
+export const useForQuerifiedParams = (filters: FiltersTypes) => {
+    const router = useRouter()
+
+    const querifyFilters = () => {
+        let str = "?type=public&";
+
+        const querified = (items: string[], propKey: string) => items.forEach(item => str += `${propKey}=${item}&`)
+
+        for (let k in filters) {
+            if (filters[k as keyof FiltersTypes]?.length) {
+                if (k !== "q") {
+                    querified(filters[k as keyof FiltersTypes] as string[], k)
+                } else {
+                    str += `q=${filters.q}&`
+                }
+            }
+        }
+        // console.log(str, "STR!!", str.lastIndexOf("&"), str.slice(0, 143))
+        console.log(str, "querified!!")
+        router.push(str.slice(0, str.lastIndexOf("&")), undefined)
+    }
+
+    return {querifyFilters}
 }
