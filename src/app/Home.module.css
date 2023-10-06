@@ -18,14 +18,22 @@
 
 .dissolvePhoto {
     animation-name: phasedOut;
-    animation-duration: 9000ms;
+    animation-duration: 6009ms;
     animation-timing-function: ease-in-out;
     animation-delay: 0ms;
     animation-iteration-count: infinite;
 }
 
-.dissolvePhoto:nth-child(n+1) {
-    animation-delay: 600ms;
+.dissolvePhoto:hover {
+  animation: none;
+}
+
+.dissolvePhoto:nth-child(2n) {
+    animation-delay: 2400ms;
+}
+
+.dissolvePhoto:nth-child(2n+1) {
+  animation-delay: 3600ms;
 }
 
 @keyframes phasedOut {

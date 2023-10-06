@@ -4,8 +4,9 @@ import { ViewedMealCardType } from '@/types'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
-import { useForTruthToggle } from '@/hooks/forComponents'
+import { useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
 import styles from "@/app/Home.module.css"
+import { Badge } from '../ui/badge'
 
 export const RecentlyViewedMealsScroller = () => {
   const [onlyFour, setOnlyFour] = useState<ViewedMealCardType[]>();
@@ -75,6 +76,8 @@ export const RecentlyViewedMealsScroller = () => {
 
       // !isTrue ? handleNext() : clearInterval(timer)
       if(!isTrue) {
+        // setOnlyFour([])
+
         handleNext()
         // console.log(beginFrom, "play from timer", !isTrue)
       } else {
@@ -84,28 +87,32 @@ export const RecentlyViewedMealsScroller = () => {
       }
 
       // console.log(beginFrom, "PAUSE from timer", isTrue)
-    }, 6009)
+    }, 6000)
     
     // setTimerRunning(timer)
     return () => clearInterval(timer)
 
   }, [beginFrom, isTrue])
 
+  // const {handleFalsy, handleNext, handlePrev, handleTruthy, isTrue, onlyFour} = useForRecipeCarouselItems(data)
+
   // console.log(beginFrom, isTrue)
 
-  const renderCards = () => onlyFour?.map(item => <RenderDeliciousMealCard key={item.name} category={item.category} name={item.name} nutrition={item.nutrition} picture={item.picture} />)
+  const renderCards = () => onlyFour?.map((item, idx) => <RenderDeliciousMealCard key={item.name} category={item.category} name={item.name} nutrition={item.nutrition} picture={item.picture} idx={idx} />)
 
   return (
     <div>
       <h2>Some Recently Viewed Meals</h2>
       <div>
-      <Button onClick={handlePrev}>prev</Button>
-      <Button onClick={handleNext}>next</Button>
-      <button onClick={handleTruthy}>pause</button>
-      <button onClick={handleFalsy}>play</button>
+      {/* <Button onClick={handlePrev}>prev</Button>
+      <Button onClick={handleNext}>next</Button> */}
+      {/* <button onClick={handleTruthy}>pause</button>
+      <button onClick={handleFalsy}>play</button> */}
       </div>
       <div 
-        className='grid grid-cols-4 gap-x-4 overflow-x-scroll place-content-center place-items-center'
+        className='grid grid-cols-4 gap-x-4 place-content-center place-items-center'
+        onMouseEnter={handleTruthy}
+        onMouseLeave={handleFalsy}
       >
         {renderCards()}
       </div>
@@ -113,20 +120,33 @@ export const RecentlyViewedMealsScroller = () => {
   )
 }
 
-const RenderDeliciousMealCard = ({ ...item }: ViewedMealCardType) => {
+const RenderDeliciousMealCard = ({idx,  ...item}: ViewedMealCardType & {idx: number}) => {
   const { category, name, nutrition, picture } = item;
 
   // console.log(picture, "picture")
   const [sec, setSec] = useState(0);
-  const upTick = () => null
+  const upTick = () => {
+    const timer = setTimeout(() => {
+      setSec(1)
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }
+
+  useEffect(() => {
+    upTick()
+  }, [idx, item])
+
+  const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
 
   return (
     <div 
       // className={`${styles.moveToLeft}`}
-      className={`${styles.dissolvePhoto}`}
+      className={`${styles.dissolvePhoto} h-56 overflow-clip`}
+      // className={`h-56 overflow-clip transition-all duration-1000 ${sec ? "-translate-x-20" : "translate-x-0"}`}
     >
       <Image
-        className='w-60 h-48 object-cover'
+        className='w-60 h-48 object-cover hover:h-36 hover:object-cover'
         // fill={true}
         placeholder='blur'
         blurDataURL= {picture}
@@ -136,11 +156,21 @@ const RenderDeliciousMealCard = ({ ...item }: ViewedMealCardType) => {
         alt={`${name}, ${category}, ${nutrition}`}
         src={picture}
       />
-      <p>
-        <span>cal:</span>
-        <span>{nutrition}</span>
-      </p>
+      <div className='flex flex-col gap-y-2 items-center justify-center'>
+        <ReusableBadge text={nutrition} title='Calorie' />
+        <ReusableBadge text={category} title='Category' />
+        <ReusableBadge text={name} title='Name' />
+      </div>
     </div>
+  )
+}
+
+const ReusableBadge = ({title, text}: {title: string, text: string | number}) => {
+  return (
+    <Badge className='flex gap-x-4 justify-between items-center'>
+      <span>{title}:</span>
+      <span>{text}</span>
+    </Badge>
   )
 }
 
