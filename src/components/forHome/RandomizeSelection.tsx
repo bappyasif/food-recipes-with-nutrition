@@ -9,6 +9,8 @@ import { Button } from '../ui/button';
 import { useForTruthToggle } from '@/hooks/forComponents';
 import { searchRecipes } from '@/utils/dataFetching';
 import { RandomizedRecipesView } from './RandomizedRecipesView';
+import spewOffimg from "../../../public/blob-s2R2.svg"
+import heroImg from "../../../public/heroImg.png"
 
 export const RandomizeSelection = () => {
     const [rnds, setRnds] = useState({ cuisine: -1, dish: -1 })
@@ -21,7 +23,17 @@ export const RandomizeSelection = () => {
     const updateRndNames = (val: string, key: string) => setRndNames(prev => ({ ...prev, [key]: val }))
 
     return (
-        <div className='w-full h-fit bg-primary-content'>
+        <div 
+            className='w-full h-fit bg-primary-content relative'
+            // style={{
+            //     backgroundImage: `url(${heroImg.src})`,
+            //     backgroundSize: "100% 100%",
+            //     objectFit: "cover",
+            //     backgroundRepeat: "no-repeat",
+            //     backgroundColor: "rgba(17,17,17,0.6)",
+            //     backgroundBlendMode: "darken",
+            // }}    
+        >
             <h2>Lets Randomly Choose Recipe</h2>
 
             <div className='flex justify-start h-full'>
@@ -136,10 +148,16 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
         rnd === -1 && updateRndNames("Intrim-spin", "health");
     }, [rnd])
 
+    console.log(spewOffimg.src, "svg!!")
+
     return (
-        <div className='flex flex-col gap-y-2 w-60'>
+        <div className='flex flex-col gap-y-2 w-60 relative'>
             Choosing Health Labels
-            <div ref={ref} className="viewport flex flex-col justify-center items-center h-20 bg-yellow-800 rounded-full">
+            <img src={spewOffimg.src} alt="" width={20} height={20} className='absolute h-24 w-60 bg-black bg-blend-darken top-6 object-cover rounded-xl' />
+            <div
+                ref={ref}
+                className="viewport flex flex-col justify-center items-center h-20"
+            >
                 {/* {renderDivs().slice(0, rnd)} */}
                 {/* { rnd !== -1 ? renderDivs() : <span>"spin it!!"</span>} */}
                 {rnd > 0 ? renderDivs() : rnd === -2 ? <span>"Spin It!!"</span> : null}
@@ -215,9 +233,11 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
     }, [isTrue])
 
     return (
-        <div className='w-full flex flex-col gap-y-1'>
+        <div className='w-full flex flex-col gap-y-1 relative'>
             <h2>{title} </h2>
-            <div className="viewport bg-secondary-content h-14 overflow-hidden border border-primary-foreground">
+            <img src={spewOffimg.src} alt="" width={20} height={20} className='absolute top-7 h-14 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
+
+            <div className="viewport bg-secondary-content h-14 overflow-hidden border border-primary-foreground mix-blend-lighten rounded-lg">
                 <div className="flex flex-col gap-y-1 items-center justify-center" ref={ref}>
                     {renderDivs()}
                 </div>

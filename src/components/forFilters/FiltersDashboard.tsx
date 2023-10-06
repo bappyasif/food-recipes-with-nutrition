@@ -206,11 +206,13 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
                 <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2' value={text} onChange={handleTextChange} />
 
+                <Button onClick={handleSearchNow}>Search Now</Button>
+                
                 <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
                 {/* <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />
                 <CuisinesCheckboxes handleFiltersChange={handleFiltersChange} /> */}
             </div>
-            <Button onClick={handleSearchNow}>Search Now</Button>
+            {/* <Button onClick={handleSearchNow}>Search Now</Button> */}
             {/* <RecipesView recipes={mealsRecipes} /> */}
         </div>
     )
