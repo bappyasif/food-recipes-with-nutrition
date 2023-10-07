@@ -27,35 +27,35 @@ import { Scheduler } from '../forUtilities/bigCalender/Scheduler'
 
 export const HomeHero = () => {
     return (
-        <>
+        <div className='relative mt-20'>
          <TwoExtensions />
         
         <div 
-            className='w-2/4 mt-8 mx-auto relative text-primary-foreground h-[16.01rem] flex items-center'
+            className='w-2/4 mt-4 mx-auto relative text-primary-foreground h-[16.01rem] flex items-center'
             // style={{
             //     backgroundImage: "url('https://source.unsplash.com/random/200?food=1')",
             //     backgroundSize: "cover",
             //     // height: "240px"
             // }}
         >
-            <img className='absolute h-full w-full object-cover -z-0' src="https://source.unsplash.com/random/200?food=1" alt="" />
+            <img className='absolute h-full w-full object-cover -z-0' src="https://source.unsplash.com/random/200?food=1" alt="a rondom food recipe background image from unsplash" />
            
             <div className='w-full z-20 absolute'>
                 <div className='grid grid-cols-3 place-items-center items-center h-[4rem]'>
                     <div className='h-full w-full rounded-s-xl rounded-xl bg-transparent flex justify-between'>
-                        <span className='border border-primary-focus border-b-0 w-1/2'></span>
-                        <span className='border border-primary-focus border-b-0 w-1/2'></span>
+                        <span className='border border-primary-focus w-1/2'></span>
+                        <span className='border border-primary-focus w-1/2'></span>
                     </div>
-                    <h2 className='col-span-2 text-4xl font-extrabold h-full bg-primary-focus flex items-center w-full text-center pl-[.38rem] opacity-90'>Make Cooking Adventurous</h2>
+                    <h2 className='col-span-2 text-4xl font-extrabold h-full bg-primary-content flex items-center w-full text-center pl-[.38rem] opacity-90'>Make Cooking Adventurous</h2>
                 </div>
                 
                 <div className='grid grid-cols-3 place-items-center items-center h-[4rem]'>
-                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-focus flex items-center justify-center opacity-90'>Healthy</h2>
+                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-content flex items-center justify-center opacity-90'>Healthy</h2>
                     <div className='col-span-2 h-full w-full bg-transparent flex justify-between'>
-                        <span className='border border-x-primary-focus border-y-0 w-1/4'></span>
-                        <span className='border border-x-primary-focus border-y-0 w-1/4'></span>
-                        <span className='border border-x-primary-focus border-y-0 w-1/4'></span>
-                        <span className='border border-x-primary-focus border-y-0 w-1/4'></span>
+                        <span className='border border-primary-focus border-b-0 w-1/4'></span>
+                        <span className='border border-primary-focus border-b-0 w-1/4'></span>
+                        <span className='border border-primary-focus w-1/4'></span>
+                        <span className='border border-primary-focus w-1/4'></span>
                     </div>
                 </div>
 
@@ -66,11 +66,11 @@ export const HomeHero = () => {
                         <span className='border border-x-primary-focus border-y-primary-focus w-1/4'></span>
                         <span className='border border-x-primary-focus border-y-primary-focus w-1/4'></span>
                     </div>
-                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-focus flex items-center justify-center opacity-90'>Fun</h2>
+                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-content flex items-center justify-center opacity-90'>Fun</h2>
                 </div>
 
                 <div className='grid grid-cols-3 place-items-center items-center h-[4rem]'>
-                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-focus flex items-center justify-center col-span-2 opacity-90'>And Really Delicious</h2>
+                    <h2 className='text-4xl font-extrabold h-full w-full bg-primary-content flex items-center justify-center col-span-2 opacity-90'>And Really Delicious</h2>
                     <div className='h-full w-full rounded-l-box bg-transparent flex justify-between'>
                         <span className='border border-primary-focus w-1/2'></span>
                         <span className='border border-primary-focus w-1/2'></span>
@@ -78,7 +78,7 @@ export const HomeHero = () => {
                 </div>
             </div>
         </div>
-        </>
+        </div>
     )
 }
 
@@ -146,12 +146,12 @@ const LeftExtension = ({extOpen, handleExtensionsOpen}: ExtensionProps) => {
             // className='absolute bg-primary-content z-40'
             // className={`absolute bg-primary-content z-40 transition-all duration-1000 ${isTrue ? "translate-x-16" : "-translate-x-[29rem]"}`}
             // className={`flex gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(isTrue && extOpen === "left") ? "translate-x-4" : "-translate-x-[42rem]"}`}
-            className={`flex bg-primary-content gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-4" : "-translate-x-[42rem]"}`}
+            className={`flex bg-primary-content gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-4" : "-translate-x-[41.6rem]"}`}
             // className={`flex gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${((extOpen === "left") || (isTrue)) ? "translate-x-4" : "-translate-x-[42rem]"}`}
         >
                 {/* <WithMostFunctionalities /> */}
                 <Scheduler open={extOpen === "left"} />
-                <Button onClick={handleClicked} variant={'secondary'} className={`absolute -right-16 top-0 transition-all duration-1000 h-full bg-primary-focus text-7xl flex items-center rounded-l-none`}>]</Button>
+                <Button onClick={handleClicked} variant={'secondary'} className={`absolute -right-16 bottom-0 transition-all duration-1000 h-full bg-primary-focus text-7xl flex items-center rounded-l-none`}>]</Button>
         </div>
     )
 }

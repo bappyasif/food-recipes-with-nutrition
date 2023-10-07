@@ -12,8 +12,8 @@ import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="bg-primary">
-      <h1>Home Page</h1>
+    <div className="bg-primary-content flex flex-col gap-y-20">
+      {/* <h1>Home Page</h1> */}
       {/* <SimpleCounter /> */}
       <HomeHero />
       
@@ -21,7 +21,7 @@ export default function Home() {
       
       {/* <DragAndDrop /> */}
       
-      {/* <RandomizeSelection /> */}
+      <RandomizeSelection />
       
       {/* <Button variant={"ghost"} className="bg-primary-content hover:bg-primary-foreground">Button Here</Button> */}
 
