@@ -28,7 +28,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
     return (
         <div className={`flex flex-col gap-y-4 justify-center items-center ${styles.flipCard}`}>
             <p 
-                className={`${styles.flipCardBack}`}
+                className={`${styles.flipCardBack} h-80 w-96 rounded-sm`}
                 style={{
                     backgroundImage: `url(${images.SMALL.url})`,
                     backgroundSize: "100% 100%",

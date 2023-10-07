@@ -1,8 +1,10 @@
+
+/* .whenFlipped,
+.whenNotFlipped,
+.flipCard:hover .whenFlipped , */
 .flipCard:hover,
 .flipCard,
-.flipCardBack,
-.whenFlipped,
-.whenNotFlipped {
+.flipCardBack {
     position: relative;
     transition: all;
     transition-duration: 2s;
@@ -24,36 +26,59 @@
     position: absolute;
     /* background-color: goldenrod; */
     opacity: 0;
-    height: 100%;
-    width: 100%;
+    /* height: 100%;
+    width: 100%; */
+    top: 0;
 }
 
 .flipCard:hover .flipCardBack {
     /* background-color: goldenrod; */
     opacity: 1;
-    height: 100%;
-    width: 100%;
+    /* height: 100%; */
+    /* height: 380px; */
+    /* width: 100%; */
+    /* position: absolute; */
+    /* top: 0; */
 }
 
 .whenFlipped {
-    display: none;
+    /* display: none; */
+    opacity: 0;
+    /* opacity: 1; */
+    scale: 0;
 }
 
 .flipCard:hover .whenFlipped,
 .whenNotFlipped {
+    transition: all;
+    transition-duration: 2s;
+    transition-timing-function: ease-in-out;
     display: flex;
     flex-direction: column;
     row-gap: 4px;
+    /* opacity: 1; */
+    /* height: 380px; */
 }
 
 .flipCard:hover .whenFlipped {
     transform: rotateY(180deg);
+    /* color: brown; */
+    scale: 1.1;
+    opacity: 1;
+    position: absolute;
+    top: 7.1%;
 }
 
 .flipCard:hover .whenNotFlipped {
-    display: none;
-    /* opacity: 0; */
+    /* display: none; */
+    scale: 0;
+    position: absolute;
+    top: 0;
 }
+
+/* .flipCard:hover .whenFlipped {
+    opacity: 1;
+} */
 
 /* .flipCard:hover .whenNotFlipped img {
     opacity: 0;
