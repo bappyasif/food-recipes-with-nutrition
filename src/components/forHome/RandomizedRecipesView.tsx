@@ -9,11 +9,11 @@ export const RandomizedRecipesView = ({ recipes }: { recipes: RecipeMealType[] }
     const renderRecipes = () => recipes.map(item => <RenderRecipeItem key={item.uri} data={item} />)
 
     return (
-        <div>
-            RandomizedRecipesView - {recipes.length}
+        <div className='font-bold text-xl'>
+            <Badge className='bg-success-content hover:bg-accent-content text-primary-content my-2'>{recipes.length ? `Recipes Found - ${recipes.length}` : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
             {
                 recipes.length
-                    ? <ReusableModal title='Randomly Chosen Recipes Based On Chosen Filters' triggerText='Recipes Found' changeWidth={true}>
+                    ? <ReusableModal title='Randomly Chosen Recipes Based On Chosen Filters' triggerText='Click To View' changeWidth={true}>
                         {/* <DialogDescription className='text-primary flex flex-col gap-y-4'>
                             
                         </DialogDescription> */}

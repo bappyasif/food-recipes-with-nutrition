@@ -67,7 +67,7 @@ export type RecipeTypes = {
 export type NavType = {
     name: string,
     path: string,
-    icon: string
+    icon: string | React.ReactNode
 }
 
 export type CategoryTypes = {
