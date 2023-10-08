@@ -50,13 +50,13 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     return (
         <div className='flex flex-col gap-y-20'>
             <section>
-                <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0]} />
+                <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
             </section>
             <section className='flex justify-between items-center gap-x-6 mx-6'>
 
                 <RecipeImage {...data} />
 
-                <div className='absolute right-0 w-3/5 flex flex-col justify-center gap-y-11 z-40 bg-primary'>
+                <div className='absolute right-0 w-3/5 flex flex-col justify-center gap-y-11 z-40 bg-primary-content'>
 
                     <RecipeIngredientsAndInstructions ingredients={ingredients} />
 
@@ -72,7 +72,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                         <RenderDigestTable heading='Digest' labels={digest} />
                     </div>
                 </div>
-                <FewNonRelatedRecipes />
+                <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
             </section>
         </div>
     )

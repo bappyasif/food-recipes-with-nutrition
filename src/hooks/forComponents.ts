@@ -136,9 +136,9 @@ export const useForRandomRecipesList = (mealType:string, diet:string, dishType:s
     const [recipes, setRecipes] = useState<RecipeMealType[]>([])
     const readySimilarRcipesRequest = () => {
         const params = {
-            mealType: mealType,
+            mealType: mealType[0].toUpperCase()+mealType.substring(1),
             diet: diet.toLocaleLowerCase(),
-            dishType: dishType,
+            dishType: dishType[0].toUpperCase()+dishType.substring(1),
             random: true,
             type: "public",
             app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
@@ -146,7 +146,7 @@ export const useForRandomRecipesList = (mealType:string, diet:string, dishType:s
         }
 
         searchRecipes(params).then(d => {
-            // console.log(d, "!!")
+            console.log(d, "!!")
             const onlyRecipes = d?.hits.map((item: any) => item.recipe)
             onlyRecipes?.length && setRecipes(onlyRecipes)
         }).catch(err => console.log(err))
@@ -154,7 +154,7 @@ export const useForRandomRecipesList = (mealType:string, diet:string, dishType:s
     }
 
     useEffect(() => {
-        readySimilarRcipesRequest()
+        mealType && diet && dishType && readySimilarRcipesRequest()
     }, [mealType, diet, dishType])
 
     return {recipes}

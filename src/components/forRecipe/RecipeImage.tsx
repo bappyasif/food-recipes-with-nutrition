@@ -27,7 +27,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
 
                 <SquareElem showIt={isTrue} data={data} />
 
-                <img className={`transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-32 rotate-[360deg]` : `h-64 translate-x-0 w-64 rotate-[-360deg]`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative`} src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
+                <img className={`transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-32 rotate-[360deg]` : `h-64 translate-x-0 rotate-[-360deg]`} w-64 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-4`} src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
 
                 {/* <CircleElem stopIt={!isTrue} /> */}
             </div>
