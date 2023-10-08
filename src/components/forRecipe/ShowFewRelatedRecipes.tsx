@@ -7,6 +7,7 @@ import { Button } from '../ui/button'
 import styles from "./Recipe.module.css"
 import { Badge } from '../ui/badge'
 import { extractRecipeId } from '../forFilters/RecipesView'
+import { ellipsedText } from './FewNonRelatedRecipes'
 
 export const ShowFewRelatedRecipes = ({ mealType, diet, dishType }: { mealType: string, diet: string, dishType: string }) => {
     // const [recipes, setRecipes] = useState<RecipeMealType[]>([])
@@ -38,7 +39,8 @@ export const ShowFewRelatedRecipes = ({ mealType, diet, dishType }: { mealType: 
 
     return (
         <div className='h-fit'>
-            ShowFewRelatedRecipes -- {recipes.length} -- {recipes.filter(item=>item.dishType.length).length}
+            ShowFewRelatedRecipes -- {recipes.length} -- {recipes.filter(item=>item.dishType.length).length} -- {mealType} -- {diet} -- {dishType}
+            <h2 className='text-xl font-bold'>A Few Related Recipes</h2>
             <RenderRecipesListCarousel data={recipes.filter(item=>item.dishType.length)} />
         </div>
     )
@@ -181,7 +183,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
             </div>
             <div className={`absolute top-0 transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>
                 {/* <h2>{label}</h2> */}
-                <Link className={`${isTrue ? "text-xl" : ""}`} href={`/recipe/${recipeId}`}>{label}</Link>
+                <Link className={`${isTrue ? "text-xl" : ""}`} href={`/recipe/${recipeId}`} title={label}>{label.length > 11 ? ellipsedText(label, 11) : label}</Link>
                 {/* <Badge>{label}</Badge> */}
                 <Badge>{mealType[0]}</Badge>
                 <Badge>{dishType[0]}</Badge>

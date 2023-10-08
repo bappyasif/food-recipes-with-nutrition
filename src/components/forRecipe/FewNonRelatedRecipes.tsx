@@ -42,14 +42,15 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
     const renderRecipes = () => onlyFour?.map((item, idx) => <RenderNonRelatedRecipe key={item.uri} rdata={item} lastCard={idx === 7} firstCard={idx === 0} />)
 
     return (
-        <div className='w-2/3'>
-            FewNonRelatedRecipes - {recipes.length}
+        <div className='w-full'>
+            FewNonRelatedRecipes - {recipes.length} - {onlyFour?.length}
+            <h2 className='text-xl font-bold'>Few Non Related Recipes</h2>
             <div className='flex gap-x-4 justify-between mx-4'>
                 <Button className='self-center' variant={'destructive'} onClick={handlePrev}>Prev</Button>
                 <div
                     // className='flex gap-4 flex-nowrap overflow-hidden h-40' 
                     // className='grid auto-rows-max grid-flow-col gap-4 place-content-start place-items-start'
-                    className='grid grid-flow-row grid-cols-4 gap-4 justify-items-center place-items-center'
+                    className='grid grid-flow-row grid-cols-8 gap-4 justify-items-center place-items-center'
                     // className='columns-3 gap-4'
                     onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                 >
@@ -87,13 +88,13 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
             </div>
             <div
                 // className={`absolute top-0 transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-100"} flex flex-col gap-y-1 text-primary-foreground`}
-                className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center`}
+                className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center flex flex-col gap-y-2`}
             >
                 {/* <h2>{label}</h2> */}
                 <Link className={`${isTrue ? "text-lg" : ""} hover:underline`} href={`/recipe/${recipeId}`} title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</Link>
                 {/* <Badge>{label}</Badge> */}
-                <Badge>{mealType[0]}</Badge>
-                <Badge>{dishType[0]}</Badge>
+                <Badge className='w-fit'>{mealType[0]}</Badge>
+                <Badge className='w-fit'>{dishType[0]}</Badge>
             </div>
         </div>
     )

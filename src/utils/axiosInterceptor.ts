@@ -26,6 +26,20 @@ export const edamamApiRequestInterceptor = ({...options}) => {
     return client(options).then(onSuccess).catch(onError)
 }
 
+const YOUTUBE_API_URL = `https://www.googleapis.com/youtube/v3`
+
+export const youtubeApiRequestInterceptor = ({...options}) => {
+    const client = axios.create({ baseURL: YOUTUBE_API_URL })
+
+    const onSuccess = (resp:AxiosResponse) => resp
+
+    const onError = (err:AxiosResponse) => err
+
+    console.log(options, "options")
+
+    return client(options).then(onSuccess).catch(onError)
+}
+
 // export const makeRequest = () => {
 //     const method = "GET"
 //     const url = endpoint

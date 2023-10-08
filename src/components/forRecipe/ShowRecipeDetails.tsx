@@ -11,6 +11,7 @@ import { ShowFewRelatedRecipes } from './ShowFewRelatedRecipes'
 import { RecipeImage } from './RecipeImage'
 import { FewNonRelatedRecipes } from './FewNonRelatedRecipes'
 import { Button } from '../ui/button'
+import { ShowYoutubeVids } from './ShowYoutubeVids'
 
 export const ShowRecipeDetails = () => {
     const [recipeData, setRecipeData] = useState<RecipeMealType>()
@@ -62,18 +63,20 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
                     <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
 
-                    <Button variant={'secondary'}>Source: <a href={url} target='_blank'>{source}</a></Button>
+                    <Button variant={'secondary'} className='flex gap-2 bg-primary-focus text-xl'><span className='font-bold'>Source:</span> <a href={url} target='_blank'>{source}</a></Button>
                 </div>
             </section>
-            <section className='flex justify-between'>
+            <section className='flex justify-around items-center'>
                 <div className='w-2/3'>
-                    <h2 className='text-xl mb-6 mt-2'>Digest Labels</h2>
-                    <div className='h-72 overflow-y-scroll scroll-smooth appearance-none'>
+                    <h2 className='text-xl mb-6 mt-2 font-bold'>Digest Labels</h2>
+                    <div className='h-80 overflow-y-scroll scroll-smooth no-scrollbar'>
                         <RenderDigestTable heading='Digest' labels={digest} />
                     </div>
                 </div>
-                <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
+                <ShowYoutubeVids recipeStr={label} />
+                {/* <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} /> */}
             </section>
+            <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
         </div>
     )
 }
@@ -99,14 +102,14 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels }: { diges
         <Accordion type='single' collapsible={true}>
             {/* <div>{renderAcordionItems()}</div> */}
             <AccordionItem value={"health"}>
-                <AccordionTrigger>Health Labels</AccordionTrigger>
+                <AccordionTrigger className='font-bold text-xl'>Health Labels</AccordionTrigger>
                 <AccordionContent>
                     {renderAcordionItemsForHealthLabels()}
                 </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value={"diet"}>
-                <AccordionTrigger>Diet Labels</AccordionTrigger>
+                <AccordionTrigger className='font-bold text-xl'>Diet Labels</AccordionTrigger>
                 <AccordionContent>
                     {renderAcordionItemsForDietLabels()}
                     {/* "oos coos" */}
@@ -135,7 +138,7 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     return (
         <Accordion type='multiple'>
             <AccordionItem value='ingredients-and-measurements' className='relative'>
-                <AccordionTrigger><h2>Ingredients And Measurements</h2></AccordionTrigger>
+                <AccordionTrigger><h2 className='font-bold text-xl'>Ingredients And Measurements</h2></AccordionTrigger>
                 <AccordionContent>
                     <div className='flex flex-col gap-y-2 justify-center items-center'>
                         {renderIngredientsAndMeasurements()}
@@ -144,7 +147,7 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
             </AccordionItem>
 
             <AccordionItem value='instructions'>
-                <AccordionTrigger>Instructions</AccordionTrigger>
+                <AccordionTrigger className='font-bold text-xl'>Instructions</AccordionTrigger>
                 <AccordionContent >
                     <div className='grid grid-flow-col grid-rows-2 gap-4'>{renderInstructions()}</div>
                 </AccordionContent>
@@ -218,7 +221,7 @@ const RenderDigestTable = ({ labels, heading }: { labels: DigestItemType[], head
         // console.log(Object.values(item))
 
         return (
-            <tr>
+            <tr className=''>
                 {/* {renderRows()} */}
 
                 {/* {dataCells()} */}
@@ -251,16 +254,16 @@ const RenderDigestTable = ({ labels, heading }: { labels: DigestItemType[], head
     return (<table className="relative w-full border">
         <thead>
             <tr className='text-sm'>
-                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">Tag</th>
-                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">Daily</th>
-                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">SchemaOrgTag</th>
-                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">Label</th>
-                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">HasRDI</th>
-                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">Total</th>
-                <th className="sticky top-0 px-6 py-3 text-red-900 bg-primary-content">Unit</th>
+                <th className="sticky top-0 px-6 py-3 text-primary-focus bg-primary-content">Tag</th>
+                <th className="sticky top-0 px-6 py-3 text-primary-focus bg-primary-content">Daily</th>
+                <th className="sticky top-0 px-6 py-3 text-primary-focus bg-primary-content">SchemaOrgTag</th>
+                <th className="sticky top-0 px-6 py-3 text-primary-focus bg-primary-content">Label</th>
+                <th className="sticky top-0 px-6 py-3 text-primary-focus bg-primary-content">HasRDI</th>
+                <th className="sticky top-0 px-6 py-3 text-primary-focus bg-primary-content">Total</th>
+                <th className="sticky top-0 px-6 py-3 text-primary-focus bg-primary-content">Unit</th>
             </tr>
         </thead>
-        <tbody className="divide-y bg-primary-focus text-center text-xs">
+        <tbody className="divide-y bg-accent-foreground text-center text-xs">
             {renderTableRows()}
         </tbody>
     </table>
