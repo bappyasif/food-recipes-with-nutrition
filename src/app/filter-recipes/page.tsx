@@ -15,7 +15,7 @@ const FilterRecipesPage = () => {
 
   return (
     <div 
-      className={`${(mealsRecipes.length || recipesFound?.length) ? "h-fit" : "min-h-[100vh]"}`}
+      className={`${(mealsRecipes.length || recipesFound?.length) ? "h-fit" : "min-h-[100vh]"} bg-primary-content`}
     >
       FilterRecipesPage {recipesFound?.length}
       <FiltersDashboard handleRecipesFound={handleRecipesFound} />

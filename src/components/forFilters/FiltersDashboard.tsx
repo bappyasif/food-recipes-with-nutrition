@@ -1,7 +1,7 @@
 "use client"
 
 import { useAppSelector } from '@/hooks/forRedux'
-import React, { useEffect, useState } from 'react'
+import React, { KeyboardEvent, KeyboardEventHandler, useEffect, useState } from 'react'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Label } from '../ui/label'
 import { Checkbox } from '../ui/checkbox'
@@ -176,8 +176,8 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
         // params.append("health", `${filters.health![1]}`)
 
         axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
-            console.log(d.data)
             const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
+            console.log(d.data, onlyRecipes)
             onlyRecipes?.length && handleRecipesFound(onlyRecipes)
         }).catch(err => console.log(err))
 
@@ -198,15 +198,22 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     // console.log(filters, text)
 
+    const handleEnterKeyPressed = (e:KeyboardEvent<HTMLInputElement>) => {
+        // console.log(e.code, "code!!")
+        if(e.code === "Enter") {
+            handleSearchNow()
+        }
+    }
+
     return (
         <div className='flex flex-col gap-y-4 justify-center items-center h-fit'>
             <h1 className='text-4xl'>Refine Your Searches Using These Filters</h1>
             {/* <h2>{filters.diet} ---- {filters.cuisineType} ----</h2> */}
             <div className='flex flex-col gap-y-4 justify-center items-center'>
 
-                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2' value={text} onChange={handleTextChange} />
+                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2' value={text} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
-                <Button onClick={handleSearchNow}>Search Now</Button>
+                <Button className='bg-primary-focus text-primary hover:text-secondary' onClick={handleSearchNow}>Search Now</Button>
                 
                 <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
                 {/* <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />

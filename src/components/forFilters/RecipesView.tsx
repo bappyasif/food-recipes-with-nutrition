@@ -26,9 +26,11 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
     const { calories, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, source, tags, totalWeight, url, yield: servings, uri } = items
 
     return (
-        <div className={`flex flex-col gap-y-4 justify-center items-center ${styles.flipCard}`}>
+        <div 
+            className={`flex flex-col gap-y-4 justify-center items-center ${styles.flipCard} h-80`}
+            >
             <p 
-                className={`${styles.flipCardBack} h-80 w-96 rounded-sm`}
+                className={`${styles.flipCardBack} h-80 w-[23.1rem] rounded-sm`}
                 style={{
                     backgroundImage: `url(${images.SMALL.url})`,
                     backgroundSize: "100% 100%",
@@ -43,7 +45,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
             <div className={`${styles.whenNotFlipped}`}>
                 <Link href={`/recipe/${extractRecipeId(uri)}`} className='flex items-center justify-center flex-col gap-y-2'>
-                    <h2>{label.length > 11 ? ellipsedText(label, 11) : label}</h2>
+                    <h2 className='font-bold text-lg'>{label.length > 11 ? ellipsedText(label, 11) : label}</h2>
                     <img className='w-64' src={images.SMALL.url} alt={label} width={images.SMALL.width} height={images.SMALL.height} />
                 </Link>    
                 <div className='flex justify-start gap-2'>
@@ -57,7 +59,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                 className={`${styles.whenFlipped}`}
             >
                 <Link href={`/recipe/${extractRecipeId(uri)}`}>
-                    <h2 className='text-center'>{label}</h2>
+                    <h2 className='text-center font-bold text-xl'>{label}</h2>
                 </Link>
                 <div className='flex justify-center gap-2'>
                     <RenderBadge text={dishType[0]} />
@@ -107,11 +109,11 @@ export const ReusableModal = ({ children, triggerText, title, changeWidth }: { c
             <DialogHeader>{props.title}</DialogHeader> */}
             <DialogTrigger><Badge variant={'secondary'} className='w-full'>{triggerText}</Badge></DialogTrigger>
             <DialogContent
-                className='bg-primary-focus'
+                className='bg-primary-content'
                 style={{ minWidth: changeWidth ? "80%" : "auto" }}
             >
                 <DialogHeader>
-                    <DialogTitle className='text-primary-content'>{title}</DialogTitle>
+                    <DialogTitle className='text-primary-focus'>{title}</DialogTitle>
 
                     {children}
                 </DialogHeader>
@@ -132,37 +134,93 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
     })
     return (
         <ReusableModal triggerText={"Recipe Ingredients"} title={"Ingredients And Measurements"}>
-            <DialogDescription className='text-primary flex flex-col gap-y-4'>
-                <span className='flex flex-col gap-y-2'>
+            <DialogDescription className='textarea-primary flex flex-col gap-y-4 h-[33rem]'>
+                <div className='grid grid-cols-4 place-content-center place-items-center'>
+                    <div>Name</div>
+                    <div>Picture</div>
+                    <div>Quantity</div>
+                    <div>Weight</div>
+
+                    {/* {renderIngredientsAndMeasurements()} */}
+                </div>
+                <span className='flex flex-col gap-y-2 h-96 overflow-y-scroll no-scrollbar'>
+                    {renderIngredientsAndMeasurements()}
+                </span>
+                <h2 className='font-bold'>Instructions</h2>
+                <span className='flex flex-col gap-y-2 h-40 overflow-y-scroll no-scrollbar'>{renderInstructions()}</span>
+            </DialogDescription>
+            
+            {/* <DialogDescription className='textarea-primary flex flex-col gap-y-4'>
+                <span className='flex flex-col gap-y-2 h-96 overflow-y-scroll no-scrollbar'>
                     {renderIngredientsAndMeasurements()}
                 </span>
                 <h2 className='font-bold'>Instructions</h2>
                 <span className='flex flex-col gap-y-2'>{renderInstructions()}</span>
-            </DialogDescription>
+            </DialogDescription> */}
         </ReusableModal>
     )
 }
+
+// export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType) => {
+//     const { food, foodCategory, measure, quantity, weight, image } = items;
+//     return (
+//         <div
+//             // className='grid grid-flow-col col-span-3 gap-x-2 justify-items-center place-items-center'
+//             className='flex justify-between items-center gap-x-4'
+//         >
+//             <div className='w-36'>{food}</div>
+//             <div className='w-40 flex flex-col justify-center items-center'>
+//                 <div className='text-[11px]'>{foodCategory}</div>
+//                 <img src={image} alt={food} width={60} height={39} />
+//             </div>
+//             <div className='flex gap-x-2 w-full'>
+//                 <h2><span className='font-semibold'>Quantity </span>{quantity.toFixed(2)} {measure}</h2>
+//                 <h2></h2>
+//                 <h2><span className='font-semibold'>Weight </span>{weight.toFixed(2)}</h2>
+//             </div>
+//         </div>
+//     )
+// }
 
 export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType) => {
     const { food, foodCategory, measure, quantity, weight, image } = items;
     return (
         <div
             // className='grid grid-flow-col col-span-3 gap-x-2 justify-items-center place-items-center'
-            className='flex justify-between items-center gap-x-4'
+            // className='flex justify-between items-center gap-x-4'
+            className='grid grid-cols-4 gap-4 place-content-center place-items-center'
         >
-            <div className='w-36'>{food}</div>
-            <div className='w-40 flex flex-col justify-center items-center'>
-                <div className='text-[11px]'>{foodCategory}</div>
+            <div className='capitalize'>{food}</div>
+            <div className='flex flex-col justify-center items-center'>
+                <div className='text-[11px] capitalize'>{foodCategory}</div>
                 <img src={image} alt={food} width={60} height={39} />
             </div>
-            <div className='flex gap-x-2 w-full'>
-                <h2><span className='font-semibold'>Quantity </span>{quantity} {measure}</h2>
-                <h2></h2>
-                <h2><span className='font-semibold'>Weight </span>{weight.toFixed(2)}</h2>
-            </div>
+            <h2 className='font-semibold capitalize'>{quantity.toFixed(2)} {measure}</h2>
+            <h2 className='font-semibold'>{weight.toFixed(2)}</h2>
         </div>
     )
 }
+
+// export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType) => {
+//     const { food, foodCategory, measure, quantity, weight, image } = items;
+//     return (
+//         <div
+//             // className='grid grid-flow-col col-span-3 gap-x-2 justify-items-center place-items-center'
+//             className='flex justify-between items-center gap-x-4'
+//         >
+//             <div className='w-36'>{food}</div>
+//             <div className='w-40 flex flex-col justify-center items-center'>
+//                 <div className='text-[11px]'>{foodCategory}</div>
+//                 <img src={image} alt={food} width={60} height={39} />
+//             </div>
+//             <div className='flex gap-x-2 w-full'>
+//                 <h2><span className='font-semibold'>Quantity </span>{quantity} {measure}</h2>
+//                 <h2></h2>
+//                 <h2><span className='font-semibold'>Weight </span>{weight.toFixed(2)}</h2>
+//             </div>
+//         </div>
+//     )
+// }
 
 const RenderRecipeTags = () => {
     return (
@@ -189,7 +247,7 @@ const RenderRecipeDigestInfo = ({ digestLabels }: { digestLabels: DigestItemType
 
     return (
         <ReusableModal triggerText={"Digest Info"} title={"Digest Info Details"}>
-            <DialogDescription className='flex flex-col gap-2 h-96 overflow-y-scroll'>
+            <DialogDescription className='flex flex-col gap-2 h-[28.1rem] overflow-y-scroll no-scrollbar'>
                 {renderItems()}
             </DialogDescription>
         </ReusableModal>
@@ -220,7 +278,7 @@ const RenderHealthLabels = ({ labels }: { labels: string[] }) => {
 }
 
 const useForIngredientsLabels = (labels: string[]) => {
-    const renderLabels = () => labels.map(txt => <Button key={txt} variant={'ghost'}>{txt}</Button>)
+    const renderLabels = () => labels.map(txt => <Button key={txt} variant={'ghost'} className='textarea-primary'>{txt}</Button>)
     return { renderLabels }
 }
 

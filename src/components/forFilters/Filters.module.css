@@ -73,7 +73,12 @@
     /* display: none; */
     scale: 0;
     position: absolute;
-    top: 0;
+    bottom: 0;
+}
+
+.whenNotFlipped {
+    position: absolute;
+    bottom: 0;
 }
 
 /* .flipCard:hover .whenFlipped {
