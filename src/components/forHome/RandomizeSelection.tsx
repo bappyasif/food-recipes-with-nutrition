@@ -6,11 +6,14 @@ import { MouseWheelBasedCarousel } from './MouseWheelBasedCarousel'
 import { CategoriesCuisinesCarouselType, RecipeMealType } from '@/types';
 import { cuisines, diets, dishes, health, meals } from '../forFilters/FiltersDashboard';
 import { Button } from '../ui/button';
-import { useForTruthToggle } from '@/hooks/forComponents';
+import { useForRanmoziedDataset, useForTruthToggle } from '@/hooks/forComponents';
 import { searchRecipes } from '@/utils/dataFetching';
 import { RandomizedRecipesView } from './RandomizedRecipesView';
 import spewOffimg from "../../../public/blob-s2R2.svg"
 import heroImg from "../../../public/heroImg.png"
+// import newImg from "../../../public/blob-s1f1.svg"
+// import newImg from "../../../public/blob-s3f1.svg"
+import newImg from "../../../public/blob-s4f1.svg"
 
 export const RandomizeSelection = () => {
     const [rnds, setRnds] = useState({ cuisine: -1, dish: -1 })
@@ -21,6 +24,32 @@ export const RandomizeSelection = () => {
     }
 
     const updateRndNames = (val: string, key: string) => setRndNames(prev => ({ ...prev, [key]: val }))
+
+    const { dataset: cuisinesRandomized } = useForRanmoziedDataset(cuisines)
+
+    const { dataset: dishesRandomized } = useForRanmoziedDataset(dishes)
+
+    const [randomizedDataset, setRandomizedDataset] = useState<{
+        forCuisines: string[];
+        forDishes: string[];
+    }>({ forCuisines: [], forDishes: [] })
+
+    useEffect(() => {
+        if (cuisinesRandomized.length === 8) {
+            setRandomizedDataset(prev => ({ ...prev, forCuisines: cuisinesRandomized }))
+        }
+
+        if (dishesRandomized.length === 8) {
+            setRandomizedDataset(prev => ({ ...prev, forDishes: dishesRandomized }))
+        }
+
+    }, [cuisinesRandomized, dishesRandomized])
+
+    useEffect(() => {
+        setRandomizedDataset({ forCuisines: cuisines, forDishes: dishes })
+    }, [])
+
+    console.log(randomizedDataset, "radnmoised")
 
     return (
         <div
@@ -42,9 +71,23 @@ export const RandomizeSelection = () => {
 
             <div className='flex justify-start h-full'>
                 <div className='flex gap-x-0 justify-between px-28 w-1/2'>
-                    <ReuseableWheelCarousel dataset={cuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
+                    {/* <ReuseableWheelCarousel dataset={cuisinesRandomized || cuisines} title='Randomize Cuisine' updateRnds={updateRnds} /> */}
+                    {/* <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
 
-                    <ReuseableWheelCarousel dataset={dishes} title='Randomize Dish Type' updateRnds={updateRnds} />
+                    <ReuseableWheelCarousel dataset={randomizedDataset.forDishes} title='Randomize Dish Type' updateRnds={updateRnds} /> */}
+
+                    {randomizedDataset.forCuisines.length === 8 ?
+                    <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
+                    : null
+                    }
+
+                    {
+                        randomizedDataset.forDishes.length === 8
+                        ? <ReuseableWheelCarousel dataset={randomizedDataset.forDishes} title='Randomize Dish Type' updateRnds={updateRnds} />
+                        : null
+                    }
+
+                    {/* <ReuseableWheelCarousel dataset={dishesRandomized || dishes} title='Randomize Dish Type' updateRnds={updateRnds} /> */}
                 </div>
 
                 {/* <ShowRecipes rnds={rnds} rndNames={rndNames} /> */}
@@ -152,22 +195,23 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
         rnd === -1 && updateRndNames("Intrim-spin", "health");
     }, [rnd])
 
-    console.log(spewOffimg.src, "svg!!")
+    // console.log(spewOffimg.src, "svg!!")
 
     return (
         <div className='flex flex-col gap-y-9 w-60 relative'>
             <h2 className='text-center font-bold text-lg'>Randomize Health Labels</h2>
             <div>
-            <img src={spewOffimg.src} alt="" width={20} height={20} className='absolute h-20 w-60 bg-black bg-blend-darken top-14 object-cover rounded-xl' />
-            <div
-                ref={ref}
-                className="viewport flex flex-col justify-center items-center h-20 font-extrabold"
-            >
-                {/* {renderDivs().slice(0, rnd)} */}
-                {/* { rnd !== -1 ? renderDivs() : <span>"spin it!!"</span>} */}
-                {rnd > 0 ? renderDivs() : rnd === -2 ? <span>"Spin It!!"</span> : null}
-            </div>
-            <Button className='z-10 w-full bg-primary-focus' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-primary'>Spin</span></Button>
+                {/* <img src={spewOffimg.src} alt="" width={20} height={20} className='absolute h-20 w-60 bg-black bg-blend-darken top-14 object-cover rounded-xl' /> */}
+                <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-full bg-black bg-blend-darken top-14 object-cover rounded-xl' />
+                <div
+                    ref={ref}
+                    className="viewport flex flex-col justify-center items-center h-20 font-extrabold"
+                >
+                    {/* {renderDivs().slice(0, rnd)} */}
+                    {/* { rnd !== -1 ? renderDivs() : <span>"spin it!!"</span>} */}
+                    {rnd > 0 ? renderDivs() : rnd === -2 ? <span>"Spin It!!"</span> : null}
+                </div>
+                <Button className='z-10 w-full bg-primary-focus' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-primary'>Spin</span></Button>
             </div>
         </div>
     )
@@ -242,7 +286,9 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
         <div className='w-full flex flex-col gap-y-4 relative'>
             <h2 className='text-center font-bold text-lg'>{title} </h2>
             <div className='my-0'>
-                <img src={spewOffimg.src} alt="" width={20} height={20} className='absolute top-8 h-14 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
+                {/* <img src={spewOffimg.src} alt="" width={20} height={20} className='absolute top-8 h-14 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' /> */}
+
+                <img src={newImg.src} alt="" width={20} height={20} className='absolute top-8 h-20 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
 
                 <div className="viewport bg-primary h-14 overflow-hidden mix-blend-luminosity rounded-lg">
                     <div className="flex flex-col gap-y-1 items-center justify-center" ref={ref}>
@@ -383,11 +429,11 @@ const ReuseableWheelCarousel = ({ dataset, title, updateRnds }: {
 
     const handleResetRandomNumber = () => setRndNum(-1)
 
-    const isItForCategory = () => title.includes("Dish")
+    const isItForDish = () => title.includes("Dish")
 
     useEffect(() => {
-        console.log(isItForCategory())
-        updateRnds(rndNum, isItForCategory() ? "dish" : "cuisine")
+        // console.log(isItForDish())
+        updateRnds(rndNum, isItForDish() ? "dish" : "cuisine")
     }, [rndNum])
 
     // ${title.includes("Category") ? "justify-start" : "justify-end"}

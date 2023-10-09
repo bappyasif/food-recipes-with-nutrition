@@ -5,10 +5,7 @@ import React, { useEffect, useState } from 'react'
 export const ShowYoutubeVids = ({recipeStr}: {recipeStr: string}) => {
   const [vidId, setVidId] = useState("")
   const fetchDataFromYoutube = () => {
-    // const KEY = "AIzaSyDdSkfsfb0xWlU-Y_I1oXVA9DOux5F0x9s";
-    // const KEY = "AIzaSyB_2qgCYqGoj4MuwguXHVPZPFzaYIhgj30";
     const KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
-    const BASE_URL = "https://www.googleapis.com/youtube/v3"
     const ENDPOINT = "/search"
     const params = {
       q: recipeStr || "Glazed Pork Tenderloins",

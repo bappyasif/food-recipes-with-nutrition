@@ -142,7 +142,7 @@ const CarouselCard = ({ ...item }: {
     }
 
     return (
-        <div className={`absolute -translate-x-[50%] -translate-y-[50%] bg-accent-focus rounded-full flex justify-center items-center ${selected ? "bg-yellow-600 z-20" : ""} hover:scale-110 hover:z-20 hover:bg-slate-400`}
+        <div className={`absolute -translate-x-[50%] -translate-y-[50%] bg-primary-content rounded-full flex justify-center items-center ${selected ? "bg-yellow-600 z-20" : ""} hover:scale-110 hover:z-20 hover:bg-slate-400`}
             style={{...styles.card, left: `${center.x + newCoords.x}px`, top: `${center.y + newCoords.y}px`, 
             // clipPath: "polygon(2% 1%, 90% 0, 56% 100%, 39% 100%)"
         }}

@@ -278,3 +278,37 @@ export const useForQuerifiedParams = (filters: FiltersTypes) => {
 
     return {querifyFilters}
 }
+
+export const useForRanmoziedDataset = (items: string[]) => {
+    const [dataset, setDataset] = useState<string[]>([])
+    const [rndNum, setRndNum] = useState<number>(-1)
+
+    const randomizeOnce = () => {
+        const rndNum = Math.floor(Math.random() * items.length)
+        setRndNum(rndNum)
+    }
+
+    const addOneToDataset = () => {
+        const checkIfExistsAlready = dataset.findIndex((val) => val === items[rndNum])
+        
+        console.log(checkIfExistsAlready, "exists!!")
+        if(checkIfExistsAlready === -1 && items[rndNum]) {
+            setDataset(prev => [...prev, items[rndNum]])
+        }
+    }
+
+    useEffect(() => {
+        if(dataset.length < 8 && rndNum !== -1) {
+            addOneToDataset()
+            randomizeOnce()
+        }
+    }, [dataset, rndNum])
+
+    useEffect(() => {
+        randomizeOnce()
+    }, [])
+
+    // dataset.length && console.log(dataset)
+
+    return {dataset}
+}

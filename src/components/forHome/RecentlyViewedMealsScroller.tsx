@@ -57,7 +57,7 @@ export const RecentlyViewedMealsScroller = () => {
       })
     })
     
-    console.log(temp, fourCards)
+    // console.log(temp, fourCards)
     setOnlyFour(fourCards)
   }
 

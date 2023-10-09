@@ -25,7 +25,7 @@ export const DuoCarousels = () => {
     )
 }
 
-const ReusableCarousel = ({ ...item }: ReuseableCarouselType) => {
+export const ReusableCarousel = ({ ...item }: ReuseableCarouselType) => {
     const {items, title} = item;
 
     return (
@@ -70,7 +70,7 @@ export const ReusableCarouselCard = ({carouselType, ...item }: CategoriesCuisine
     }, [params])
 
     return (
-        <Button variant={'link'} onClick={prepareForDataFetching} className='flex flex-col-reverse text-primary-content gap-x-4 p-1 justify-center items-center h-16 text-primary-foreground transition-all duration-500 hover:scale-110 hover:bg-primary-focus -z-0'>
+        <Button variant={'link'} onClick={prepareForDataFetching} className='flex flex-col-reverse gap-x-4 p-1 justify-center items-center h-16 transition-all duration-500 hover:scale-110 -z-0'>
             <Image
                 className='w-44 h-11 object-cover relative'
                 // fill={true}
@@ -82,7 +82,7 @@ export const ReusableCarouselCard = ({carouselType, ...item }: CategoriesCuisine
                 alt={`${name}`}
                 src={picture}
             />
-            <p className='absolute bg-secondary-focus px-2 capitalize opacity-80 text-sm'>{name}</p>
+            <p className='absolute bg-primary-content text-primary-foreground px-2 capitalize opacity-80 text-sm'>{name}</p>
         </Button>
     )
 }
