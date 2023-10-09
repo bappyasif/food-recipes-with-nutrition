@@ -49,11 +49,11 @@ export const RandomizeSelection = () => {
         setRandomizedDataset({ forCuisines: cuisines, forDishes: dishes })
     }, [])
 
-    console.log(randomizedDataset, "radnmoised")
+    // console.log(randomizedDataset, "radnmoised")
 
     return (
         <div
-            className='w-full h-fit bg-primary-content relative flex flex-col gap-y-6'
+            className='w-full h-fit relative flex flex-col gap-y-6 text-muted-foreground'
         // style={{
         //     backgroundImage: `url(${heroImg.src})`,
         //     backgroundSize: "100% 100%",
@@ -202,7 +202,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
             <h2 className='text-center font-bold text-lg'>Randomize Health Labels</h2>
             <div>
                 {/* <img src={spewOffimg.src} alt="" width={20} height={20} className='absolute h-20 w-60 bg-black bg-blend-darken top-14 object-cover rounded-xl' /> */}
-                <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-full bg-black bg-blend-darken top-14 object-cover rounded-xl' />
+                <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-full bg-black bg-blend-darken top-[3.9rem] object-cover rounded-xl' />
                 <div
                     ref={ref}
                     className="viewport flex flex-col justify-center items-center h-20 font-extrabold"
@@ -211,7 +211,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
                     {/* { rnd !== -1 ? renderDivs() : <span>"spin it!!"</span>} */}
                     {rnd > 0 ? renderDivs() : rnd === -2 ? <span>"Spin It!!"</span> : null}
                 </div>
-                <Button className='z-10 w-full bg-primary-focus' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-primary'>Spin</span></Button>
+                <Button className='z-10 w-full bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-secondary'>Spin</span></Button>
             </div>
         </div>
     )
@@ -220,7 +220,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
 const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: string[], title: string, updateRndNames: (v: string, t: string) => void }) => {
     // const withCloned = ([] as string[]).concat(diets[diets.length - 1], diets, diets[0])
     const clonedData = data.concat(data, data, data, data, data, data)
-    const renderDivs = () => clonedData.map((name, idx) => <div className={`h-8 w-full flex justify-center items-center text-primary ${idx === prevSlideShown ? "bg-red-400 font-bold" : "bg-sky-800"}`} key={name + idx}>{name}</div>)
+    const renderDivs = () => clonedData.map((name, idx) => <div className={`h-8 w-full flex justify-center items-center text-primary-foreground ${idx === prevSlideShown ? "bg-primary font-bold" : "bg-secondary"}`} key={name + idx}>{name}</div>)
 
     const ref = useRef<HTMLDivElement>(null)
 
@@ -290,13 +290,13 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
 
                 <img src={newImg.src} alt="" width={20} height={20} className='absolute top-8 h-20 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
 
-                <div className="viewport bg-primary h-14 overflow-hidden mix-blend-luminosity rounded-lg">
+                <div className="viewport bg-secondary h-14 overflow-hidden mix-blend-lighten rounded-lg">
                     <div className="flex flex-col gap-y-1 items-center justify-center" ref={ref}>
                         {renderDivs()}
                     </div>
                 </div>
                 {/* <Button variant={"secondary"} onClick={runFourTimesForAnimation}>Spin</Button> */}
-                <Button className='w-full z-10 bg-primary-focus' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-primary'>Spin</span></Button>
+                <Button className='mt-3 w-full z-10 bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-muted'>Spin</span></Button>
             </div>
         </div>
     )
@@ -352,7 +352,7 @@ const ShowRecipes = ({ rnds, rndNames }: {
                     <ShowTitle rnds={rnds} />
                     <ShowRandomlySelectedOptions rndNames={rndNames} />
                 </div>
-                <Button className='bg-primary-focus font-bold w-fit' onClick={handleClick} variant={'secondary'}><span className='transition-all duration-1000 hover:scale-110 w-full text-secondary hover:text-primary'>Click To Find Recipes</span></Button>
+                <Button className='bg-primary font-bold w-fit hover:bg-card-foreground' onClick={handleClick} variant={'secondary'}><span className='transition-all duration-1000 hover:scale-110 w-full text-secondary hover:text-primary'>Click To Find Recipes</span></Button>
             </div>
             <RandomizedRecipesView recipes={recipes} />
         </>

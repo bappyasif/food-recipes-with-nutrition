@@ -107,7 +107,7 @@ export const ReusableModal = ({ children, triggerText, title, changeWidth }: { c
         <Dialog>
             {/* <DialogTitle>{props.title}</DialogTitle>
             <DialogHeader>{props.title}</DialogHeader> */}
-            <DialogTrigger><Badge variant={'secondary'} className='w-full'>{triggerText}</Badge></DialogTrigger>
+            <DialogTrigger><Badge variant={'secondary'} className='w-full text-primary-foreground bg-muted-foreground hover:bg-primary'>{triggerText}</Badge></DialogTrigger>
             <DialogContent
                 className='bg-primary-content'
                 style={{ minWidth: changeWidth ? "80%" : "auto" }}

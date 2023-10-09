@@ -10,14 +10,14 @@ export const RandomizedRecipesView = ({ recipes }: { recipes: RecipeMealType[] }
 
     return (
         <div className='font-bold text-xl'>
-            <Badge className='bg-success-content hover:bg-accent-content text-primary-content my-2'>{recipes.length ? `Recipes Found - ${recipes.length}` : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
+            <Badge className='bg-accent hover:bg-accent-foreground text-primary my-2'>{recipes.length ? `Recipes Found - ${recipes.length}` : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
             {
                 recipes.length
                     ? <ReusableModal title='Randomly Chosen Recipes Based On Chosen Filters' triggerText='Click To View' changeWidth={true}>
                         {/* <DialogDescription className='text-primary flex flex-col gap-y-4'>
                             
                         </DialogDescription> */}
-                        <div className='grid grid-cols-3 h-[650px] justify-items-center place-items-center gap-4 overflow-y-scroll scroll-smooth'>
+                        <div className='grid grid-cols-3 h-[650px] justify-items-center place-items-center gap-4 overflow-y-scroll scroll-smooth no-scrollbar'>
                             {renderRecipes()}
                         </div>
                     </ReusableModal>
@@ -67,7 +67,7 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
 
 const RenderReusableBadgeItem = ({ title, text }: { title: string, text: string }) => {
     return (
-        <Badge className='flex justify-around gap-x-4'>
+        <Badge className='flex justify-around gap-x-4 bg-muted text-muted-foreground'>
             <span>{title}</span>
             <span>{text}</span>
         </Badge>

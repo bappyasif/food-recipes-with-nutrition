@@ -18,7 +18,7 @@ export default function Home() {
   const newCuisines = cuisines.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}` }))
 
   return (
-    <div className="bg-primary-content flex flex-col gap-y-20">
+    <div className="bg-secondary flex flex-col gap-y-20">
       {/* <h1>Home Page</h1> */}
       {/* <SimpleCounter /> */}
       <HomeHero />
@@ -35,7 +35,7 @@ export default function Home() {
 
       {/* <VerticalCarousel /> */}
 
-      <div className="flex items-center gap-x-20 justify-center">
+      <div className="flex items-center gap-x-20 justify-center text-muted-foreground">
         <ReusableCarousel title='Dishes' items={newDishes} />
         <RecentlyViewedMealsScroller />
         {/* <DuoCarousels /> */}

@@ -11,8 +11,17 @@ module.exports = {
     container: {
       center: true,
       padding: "2rem",
+      // screens: {
+      //   "2xl": "1400px",
+      // },
       screens: {
-        "2xl": "1400px",
+        "xxs": "0px",
+        "xs": '479px',
+        "sm": '624px',
+        "md": '768px',
+        "lg": '1062px',
+        "xl": '1350px',
+        "2xl": '1590px'
       },
     },
     extend: {
@@ -74,32 +83,32 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
   // daisyui theme
-  daisyui: {
-    themes: [
-      {
-        mytheme: {
+  // daisyui: {
+  //   themes: [
+  //     {
+  //       mytheme: {
 
-          "primary": "#99b22c",
+  //         "primary": "#99b22c",
 
-          "secondary": "#9e1e20",
+  //         "secondary": "#9e1e20",
 
-          "accent": "#5f4ae2",
+  //         "accent": "#5f4ae2",
 
-          "neutral": "#1b161d",
+  //         "neutral": "#1b161d",
 
-          "base-100": "#28373e",
+  //         "base-100": "#28373e",
 
-          "info": "#3676ec",
+  //         "info": "#3676ec",
 
-          "success": "#128151",
+  //         "success": "#128151",
 
-          "warning": "#f8ac3a",
+  //         "warning": "#f8ac3a",
 
-          "error": "#e71848",
-        },
-      },
-    ],
-  },
+  //         "error": "#e71848",
+  //       },
+  //     },
+  //   ],
+  // },
   // add daisyUI plugin
-  plugins: [require("daisyui")],
+  // plugins: [require("daisyui")],
 }

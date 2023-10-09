@@ -167,7 +167,7 @@ const RenderDeliciousMealCard = ({idx,  ...item}: ViewedMealCardType & {idx: num
 
 const ReusableBadge = ({title, text}: {title: string, text: string | number}) => {
   return (
-    <Badge className='flex gap-x-4 justify-between items-center'>
+    <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted'>
       <span>{title}:</span>
       <span>{text}</span>
     </Badge>

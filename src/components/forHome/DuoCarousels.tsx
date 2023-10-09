@@ -30,7 +30,7 @@ export const ReusableCarousel = ({ ...item }: ReuseableCarouselType) => {
 
     return (
         <div className='flex flex-col gap-y-4 justify-center items-center'>
-            <h2 className='text-xl'>{title}</h2>
+            <h2 className='text-xl font-bold'>{title}</h2>
             <CarouselVertical items={items} title={title} />
         </div>
     )
@@ -82,7 +82,7 @@ export const ReusableCarouselCard = ({carouselType, ...item }: CategoriesCuisine
                 alt={`${name}`}
                 src={picture}
             />
-            <p className='absolute bg-primary-content text-primary-foreground px-2 capitalize opacity-80 text-sm'>{name}</p>
+            <p className='absolute bg-muted-foreground text-muted px-2 capitalize opacity-80 text-sm'>{name}</p>
         </Button>
     )
 }

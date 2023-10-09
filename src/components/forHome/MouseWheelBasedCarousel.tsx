@@ -103,7 +103,7 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
                 onWheel={handleScroll}
                 id='wheel'
                 ref={wheelRef}
-                className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-primary-focus'
+                className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-muted-foreground'
                 // className={`absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-primary-focus transition-all duration-1000 ${isTrue ? "rotate-[270deg]" : "rotate-0"}`}
                 // className={`absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-primary-focus transition-all duration-1000 ${isTrue ? "animate-pulse" : ""}`}
                 // className='absolute top-[50%] -translate-y-[50%] bg-primary-focus'
@@ -142,7 +142,7 @@ const CarouselCard = ({ ...item }: {
     }
 
     return (
-        <div className={`absolute -translate-x-[50%] -translate-y-[50%] bg-primary-content rounded-full flex justify-center items-center ${selected ? "bg-yellow-600 z-20" : ""} hover:scale-110 hover:z-20 hover:bg-slate-400`}
+        <div className={`absolute -translate-x-[50%] -translate-y-[50%] bg-muted text-muted-foreground rounded-full flex justify-center items-center ${selected ? "bg-primary z-20 text-primary-foreground" : ""} hover:scale-110 hover:z-20 hover:bg-muted-foreground hover:text-muted`}
             style={{...styles.card, left: `${center.x + newCoords.x}px`, top: `${center.y + newCoords.y}px`, 
             // clipPath: "polygon(2% 1%, 90% 0, 56% 100%, 39% 100%)"
         }}
