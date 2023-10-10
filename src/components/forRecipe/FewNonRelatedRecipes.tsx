@@ -26,7 +26,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
     }
 
     useEffect(() => {
-        diet && dishType && mealType && randomlyChooseFromFilteredDataset()
+        (mealType && diet && dishType) && setTimeout(() => randomlyChooseFromFilteredDataset(), 900)
     }, [diet, dishType, mealType])
 
     // const {recipes} = useForRandomRecipesList("lunch", "balanced", "side dish")

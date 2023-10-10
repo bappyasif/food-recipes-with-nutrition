@@ -177,8 +177,12 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
         axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
             const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
-            console.log(d.data, onlyRecipes)
-            onlyRecipes?.length && handleRecipesFound(onlyRecipes)
+            
+            const readyForRendering = onlyRecipes.map((item:any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item:any) => item).filter((v:any, idx:number, self:any) => idx === self.findIndex((t:any) => t.label === v.label))
+
+            // console.log(d.data, onlyRecipes, readyForRendering)
+            // onlyRecipes?.length && handleRecipesFound(onlyRecipes)
+            readyForRendering?.length && handleRecipesFound(readyForRendering)
         }).catch(err => console.log(err))
 
         querifyFilters();
@@ -193,7 +197,7 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
     const { handleTextChange, text } = useForInputTextChange()
 
     useEffect(() => {
-        handleFiltersChange(text, "q")
+        text && handleFiltersChange(text, "q")
     }, [text])
 
     // console.log(filters, text)

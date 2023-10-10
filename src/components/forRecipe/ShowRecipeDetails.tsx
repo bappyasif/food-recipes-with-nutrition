@@ -74,7 +74,6 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                     </div>
                 </div>
                 <ShowYoutubeVids recipeStr={label} />
-                {/* <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} /> */}
             </section>
             <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
         </div>

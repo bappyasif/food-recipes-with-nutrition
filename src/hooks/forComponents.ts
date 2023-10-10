@@ -142,13 +142,21 @@ export const useForRandomRecipesList = (mealType:string, diet:string, dishType:s
             random: true,
             type: "public",
             app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
-            app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY
+            app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
+            from: 1,
+            to: 100
         }
 
         searchRecipes(params).then(d => {
             console.log(d, "!!")
             const onlyRecipes = d?.hits.map((item: any) => item.recipe)
-            onlyRecipes?.length && setRecipes(onlyRecipes)
+            // onlyRecipes?.length && setRecipes(onlyRecipes)
+
+            const readyForRendering = onlyRecipes?.map((item:any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item:any) => item).filter((v:any, idx:number, self:any) => idx === self.findIndex((t:any) => t.label === v.label))
+            
+            readyForRendering?.length && setRecipes(readyForRendering)
+            console.log(readyForRendering.length, "readyForRendeing")
+
         }).catch(err => console.log(err))
 
     }
