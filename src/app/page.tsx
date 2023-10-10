@@ -35,7 +35,15 @@ export default function Home() {
 
       {/* <VerticalCarousel /> */}
 
-      <div className="flex items-center gap-x-20 justify-center text-muted-foreground">
+      <div className="xxs:flex xxs:flex-col xl:hidden items-center gap-x-20 justify-center text-muted-foreground">
+        {/* <ReusableCarousel title='Dishes' items={newDishes} /> */}
+        <RecentlyViewedMealsScroller />
+        <DuoCarousels />
+        {/* <ReusableCarousel title='Cuisines' items={newCuisines} /> */}
+      </div>
+
+      {/* bigger screen */}
+      <div className="xxs:hidden xl:flex flex-row items-center gap-x-20 justify-center text-muted-foreground">
         <ReusableCarousel title='Dishes' items={newDishes} />
         <RecentlyViewedMealsScroller />
         {/* <DuoCarousels /> */}

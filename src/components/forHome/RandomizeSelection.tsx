@@ -69,8 +69,8 @@ export const RandomizeSelection = () => {
 
             <h2 className='text-2xl font-extrabold w-full text-center'>Lets Randomly Choose Recipe</h2>
 
-            <div className='flex justify-start h-full'>
-                <div className='flex gap-x-0 justify-between px-28 w-1/2'>
+            <div className='flex xxs:flex-col lg:flex-row justify-start h-full'>
+                <div className='flex xxs:flex-col lg:flex-row gap-x-0 justify-between px-28 xxs:w-full lg:w-1/2'>
                     {/* <ReuseableWheelCarousel dataset={cuisinesRandomized || cuisines} title='Randomize Cuisine' updateRnds={updateRnds} /> */}
                     {/* <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
 
@@ -91,7 +91,7 @@ export const RandomizeSelection = () => {
                 </div>
 
                 {/* <ShowRecipes rnds={rnds} rndNames={rndNames} /> */}
-                <div className='w-1/2 flex gap-x-8 justify-evenly items-center'>
+                <div className='xxs:w-full lg:w-1/2 flex gap-x-8 justify-evenly items-center'>
                     <GoingOffRandomizer updateRndNames={updateRndNames} />
 
                     <div className='flex flex-col gap-y-4 justify-between items-center w-56'>

@@ -8,20 +8,20 @@ module.exports = {
     './src/**/*.{ts,tsx}',
   ],
   theme: {
+    screens: {
+      "xxs": "0px",
+      "xs": '479px',
+      "sm": '624px',
+      "md": '768px',
+      "lg": '1062px',
+      "xl": '1350px',
+      "2xl": '1590px'
+    },
     container: {
       center: true,
       padding: "2rem",
-      // screens: {
-      //   "2xl": "1400px",
-      // },
       screens: {
-        "xxs": "0px",
-        "xs": '479px',
-        "sm": '624px',
-        "md": '768px',
-        "lg": '1062px',
-        "xl": '1350px',
-        "2xl": '1590px'
+        "2xl": "1400px",
       },
     },
     extend: {

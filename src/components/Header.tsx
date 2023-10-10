@@ -30,7 +30,7 @@ export const Header = () => {
       {/* <img src={logo.src} className="w-40 h-20" alt="what's cooking yo!! logo" height={logo.height} width={logo.width} /> */}
 
       <div className="bg-card flex justify-center gap-x-10 w-full py-2">
-        <nav className='flex gap-x-9 justify-end text-2xl '>
+        <nav className='flex gap-x-9 justify-end xs:text-[.71rem] md:text-lg xl:text-2xl'>
           {renderNavs()}
         </nav>
         {
@@ -48,7 +48,7 @@ const SearchRecipes = () => {
   const { handleTextChange, text } = useForInputTextChange();
 
   return (
-    <div className='relative w-1/4 flex items-center text-xl'>
+    <div className='relative w-1/4 flex items-center xs:text-xs sm:text-sm lg:text-xl'>
       <input className="w-full h-full rounded-sm pl-4 text-primary bg-transparent border-0 border-b-2 border-b-primary" type="text" placeholder='search recipes by name' value={text} onChange={handleTextChange} />
       <ShowAllFoundRecipes text={text} />
     </div>

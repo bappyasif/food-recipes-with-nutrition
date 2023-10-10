@@ -46,11 +46,11 @@ export const HomeHero = () => {
                         <span className='border border-primary-focus w-1/2'></span>
                         <span className='border border-primary-focus w-1/2'></span>
                     </div>
-                    <h2 className='col-span-2 text-4xl font-extrabold h-full bg-card flex items-center w-full text-center pl-[.38rem] opacity-90'>Make Cooking Adventurous</h2>
+                    <h2 className='col-span-2 sm:text-xl md:text-2xl xl:text-4xl font-extrabold h-full bg-card flex items-center w-full text-center pl-[.38rem] opacity-90'>Make Cooking Adventurous</h2>
                 </div>
                 
                 <div className='grid grid-cols-3 place-items-center items-center h-[4rem]'>
-                    <h2 className='text-4xl font-extrabold h-full w-full bg-card flex items-center justify-center opacity-90'>Healthy</h2>
+                    <h2 className='sm:text-xl md:text-2xl xl:text-4xl font-extrabold h-full w-full bg-card flex items-center justify-center opacity-90'>Healthy</h2>
                     <div className='col-span-2 h-full w-full bg-transparent flex justify-between'>
                         <span className='border border-primary-focus border-b-0 w-1/4'></span>
                         <span className='border border-primary-focus border-b-0 w-1/4'></span>
@@ -66,11 +66,11 @@ export const HomeHero = () => {
                         <span className='border border-x-primary-focus border-y-primary-focus w-1/4'></span>
                         <span className='border border-x-primary-focus border-y-primary-focus w-1/4'></span>
                     </div>
-                    <h2 className='text-4xl font-extrabold h-full w-full bg-card flex items-center justify-center opacity-90'>Fun</h2>
+                    <h2 className='sm:text-xl md:text-2xl xl:text-4xl font-extrabold h-full w-full bg-card flex items-center justify-center opacity-90'>Fun</h2>
                 </div>
 
                 <div className='grid grid-cols-3 place-items-center items-center h-[4rem]'>
-                    <h2 className='text-4xl font-extrabold h-full w-full bg-card flex items-center justify-center col-span-2 opacity-90'>And Really Delicious</h2>
+                    <h2 className='sm:text-xl md:text-2xl xl:text-4xl font-extrabold h-full w-full bg-card flex items-center justify-center col-span-2 opacity-90'>And Really Delicious</h2>
                     <div className='h-full w-full rounded-l-box bg-transparent flex justify-between'>
                         <span className='border border-primary-focus w-1/2'></span>
                         <span className='border border-primary-focus w-1/2'></span>
