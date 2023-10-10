@@ -207,13 +207,13 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     return (
         <div className='flex flex-col gap-y-4 justify-center items-center h-fit'>
-            <h1 className='text-4xl'>Refine Your Searches Using These Filters</h1>
+            <h1 className='text-4xl font-bold'>Refine Your Searches Using These Filters</h1>
             {/* <h2>{filters.diet} ---- {filters.cuisineType} ----</h2> */}
             <div className='flex flex-col gap-y-4 justify-center items-center'>
 
                 <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2' value={text} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
-                <Button className='bg-primary-focus text-primary hover:text-secondary' onClick={handleSearchNow}>Search Now</Button>
+                <Button className='bg-primary text-muted font-bold text-lg hover:text-secondary' onClick={handleSearchNow}>Search Now</Button>
                 
                 <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
                 {/* <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />
@@ -228,7 +228,7 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 const ReusuableAccordionItem = ({ handleFiltersChange, trigText, propKey, data }: FilterChangeTypes & { trigText: string, propKey: string, data: string[] }) => {
     return (
         <AccordionItem value={propKey} className='min-w-[380px]'>
-            <AccordionTrigger>{trigText}</AccordionTrigger>
+            <AccordionTrigger className='text-lg font-semibold'>{trigText}</AccordionTrigger>
             <AccordionContent>
                 <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText} handleFiltersChange={handleFiltersChange} />
             </AccordionContent>
@@ -238,7 +238,7 @@ const ReusuableAccordionItem = ({ handleFiltersChange, trigText, propKey, data }
 
 const MultipleSelectableFilters = ({ handleFiltersChange }: FilterChangeTypes) => {
     return (
-        <Accordion type='multiple' className='columns-3 gap-2'>
+        <Accordion type='multiple' className='columns-3 gap-2 bg-popover'>
             <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='mealType' trigText='Meal Types' data={meals} />
 
             <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='diet' trigText='Diet Types' data={diets} />
@@ -311,7 +311,7 @@ const RenderCheckbox = ({ name, handleFiltersChange, propKey }: CheckboxTypes) =
     // console.log(name, propKey, "test!!")
 
     return (
-        <Badge variant={'secondary'} className="flex space-x-2 px-4 py-1 min-w-fit h-8">
+        <Badge variant={'secondary'} className="flex space-x-2 py-1 min-w-fit h-8">
             {/* <Checkbox id={name} onClick={() => handleFiltersChange(name, "cuisines")} /> */}
             <Checkbox id={name} onClick={() => handleFiltersChange(name, propKey)} />
 
@@ -319,7 +319,7 @@ const RenderCheckbox = ({ name, handleFiltersChange, propKey }: CheckboxTypes) =
             {/* <input type="checkbox" id={name} onChange={e => console.log(e.target.value)} /> */}
             <label
                 htmlFor={name}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm w-full font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
                 {name}
             </label>

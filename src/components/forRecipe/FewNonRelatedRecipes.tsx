@@ -46,7 +46,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
             FewNonRelatedRecipes - {recipes.length} - {onlyFour?.length}
             <h2 className='text-xl font-bold'>Few Non Related Recipes</h2>
             <div className='flex gap-x-4 justify-between mx-4'>
-                <Button className='self-center' variant={'destructive'} onClick={handlePrev}>Prev</Button>
+                <Button className='self-center text-primary font-bold bg-card hover:bg-transparent' variant={'default'} onClick={handlePrev}>Prev</Button>
                 <div
                     // className='flex gap-4 flex-nowrap overflow-hidden h-40' 
                     // className='grid auto-rows-max grid-flow-col gap-4 place-content-start place-items-start'
@@ -56,7 +56,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
                 >
                     {renderRecipes()}
                 </div>
-                <Button className='self-center' variant={'destructive'} onClick={handleNext}>Next</Button>
+                <Button className='self-center text-primary font-bold bg-card hover:bg-transparent' variant={'default'} onClick={handleNext}>Next</Button>
             </div>
         </div>
     )

@@ -19,7 +19,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
             className='relative w-1/3 rounded flex flex-col gap-y-6 items-center'
             onClick={handleClick}
         >
-            <h1 className='text-4xl'>{label}</h1>
+            <h1 className='text-4xl font-bold'>{label}</h1>
 
             {/* <SquareElem showIt={isTrue} data={data} /> */}
 
@@ -46,9 +46,9 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
                 <div className='flex flex-col gap-y-4 justify-between'>
                     
                     <div className='flex flex-col gap-y-1'>
-                        <Badge className='text-lg flex gap justify-between'><span>Meal Type</span> <span>{mealType}</span></Badge>
-                        <Badge className='text-lg flex gap justify-between'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>
-                        <Badge className='text-lg flex gap justify-between'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
+                        <Badge className='text-lg flex gap justify-between bg-accent'><span>Meal Type</span> <span>{mealType}</span></Badge>
+                        <Badge className='text-lg flex gap justify-between bg-accent'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>
+                        <Badge className='text-lg flex gap justify-between bg-accent'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
                     </div>
 
                     <div className='flex flex-col gap-y-1'>
@@ -71,7 +71,7 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
 
 const ReusableBadge = ({ text, val }: { text: string, val: string | number }) => {
     return (
-        <Badge className='px-4 flex gap-x-4 w-64 justify-between text-xl'><span>{text} </span>{val}</Badge>
+        <Badge className='px-4 flex gap-x-4 w-64 justify-between text-xl bg-accent'><span>{text} </span>{val}</Badge>
     )
 }
 

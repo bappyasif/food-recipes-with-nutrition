@@ -142,7 +142,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
 
     return (
         <div className='flex gap-x-4 items-center justify-between h-48 bg-slate-600'>
-            <Button className='absolute left-0 bg-primary-content h-48 z-40 w-20 text-primary-focus font-extrabold bg-blend-multiply' onClick={handlePrev} variant={'secondary'}>Prev</Button>
+            <Button className='absolute left-0 bg-accent h-48 z-40 w-20 text-primary font-extrabold bg-blend-multiply' onClick={handlePrev} variant={'secondary'}>Prev</Button>
             <div
                 className='flex gap-4 flex-nowrap overflow-hidden h-40' 
                 // className='grid grid-rows-1 grid-flow-col gap-4 place-content-start place-items-start'
@@ -150,7 +150,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
             >
                 {renderRecipes()}
             </div>
-            <Button className='absolute right-0 bg-primary-content h-48 z-40 w-20 text-primary-focus font-extrabold' onClick={handleNext} variant={'secondary'}>Next</Button>
+            <Button className='absolute right-0 bg-accent text-primary h-48 z-40 w-20 font-extrabold' onClick={handleNext} variant={'secondary'}>Next</Button>
         </div>
     )
 }

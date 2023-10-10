@@ -59,27 +59,34 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                 className={`${styles.whenFlipped}`}
             >
                 <Link href={`/recipe/${extractRecipeId(uri)}`}>
-                    <h2 className='text-center font-bold text-xl'>{label}</h2>
+                    <h2 className='text-center font-bold text-xl text-primary'>{label}</h2>
                 </Link>
-                <div className='flex justify-center gap-2'>
+                
+                <div className='flex justify-center gap-2 my-1'>
                     <RenderBadge text={dishType[0]} />
                     <RenderBadge text={cuisineType[0]} />
                     <RenderBadge text={mealType[0]} />
                 </div>
-                <div className='grid grid-cols-2 gap-2'>
+                
+                <div className='grid grid-cols-2 gap-y-2 my-1'>
                     <RenderBasicTextInfo text="Calories" val={calories.toFixed(2)} />
                     <RenderBasicTextInfo text="carbon footprint" val={co2EmissionsClass} />
                     <RenderBasicTextInfo text="servings" val={servings} />
                     <RenderBasicTextInfo text="weight" val={totalWeight.toFixed(2)} />
                 </div>
-                <div className='grid grid-cols-2 gap-2'>
+                
+                <div className='grid grid-cols-2 gap-2 my-1'>
                     <RenderRecipeIngredients ingredients={ingredients} />
                     <RenderHealthLabels labels={healthLabels} />
                     <RenderDietLabels labels={dietLabels} />
                     <RenderRecipeDigestInfo digestLabels={digest} />
                 </div>
-                <Button variant={"destructive"} title={url}><a target='_blank' href={url}>Recipe Source Site</a></Button>
-                <RenderBasicTextInfo text='Source' val={source} />
+
+               <div className='w-full my-1'>
+                    <RenderBasicTextInfo text='Source' val={source} />
+                    <Button variant={"destructive"} title={url} className='w-full'><a target='_blank' href={url}>Recipe Source Site</a></Button>
+               </div>
+                {/* <RenderBasicTextInfo text='Source' val={source} /> */}
             </div>
             
             {/* <RenderRecipeTags /> */}
@@ -107,13 +114,13 @@ export const ReusableModal = ({ children, triggerText, title, changeWidth }: { c
         <Dialog>
             {/* <DialogTitle>{props.title}</DialogTitle>
             <DialogHeader>{props.title}</DialogHeader> */}
-            <DialogTrigger><Badge variant={'secondary'} className='w-full text-primary-foreground bg-muted-foreground hover:bg-primary'>{triggerText}</Badge></DialogTrigger>
+            <DialogTrigger><Badge variant={'secondary'} className='w-full text-secondary bg-muted-foreground transition-colors duration-1000 hover:bg-primary'>{triggerText}</Badge></DialogTrigger>
             <DialogContent
-                className='bg-primary-content'
+                className='bg-accent border-ring'
                 style={{ minWidth: changeWidth ? "80%" : "auto" }}
             >
                 <DialogHeader>
-                    <DialogTitle className='text-primary-focus'>{title}</DialogTitle>
+                    <DialogTitle className='text-primary'>{title}</DialogTitle>
 
                     {children}
                 </DialogHeader>
@@ -135,7 +142,7 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
     return (
         <ReusableModal triggerText={"Recipe Ingredients"} title={"Ingredients And Measurements"}>
             <DialogDescription className='textarea-primary flex flex-col gap-y-4 h-[33rem]'>
-                <div className='grid grid-cols-4 place-content-center place-items-center'>
+                <div className='grid grid-cols-4 place-content-center place-items-center font-bold text-lg'>
                     <div>Name</div>
                     <div>Picture</div>
                     <div>Quantity</div>
@@ -146,7 +153,7 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
                 <span className='flex flex-col gap-y-2 h-96 overflow-y-scroll no-scrollbar'>
                     {renderIngredientsAndMeasurements()}
                 </span>
-                <h2 className='font-bold'>Instructions</h2>
+                <h2 className='font-bold text-lg text-primary'>Instructions</h2>
                 <span className='flex flex-col gap-y-2 h-40 overflow-y-scroll no-scrollbar'>{renderInstructions()}</span>
             </DialogDescription>
             
@@ -278,7 +285,7 @@ const RenderHealthLabels = ({ labels }: { labels: string[] }) => {
 }
 
 const useForIngredientsLabels = (labels: string[]) => {
-    const renderLabels = () => labels.map(txt => <Button key={txt} variant={'ghost'} className='textarea-primary'>{txt}</Button>)
+    const renderLabels = () => labels.map(txt => <Button key={txt} variant={'ghost'} className='text-muted-foreground'>{txt}</Button>)
     return { renderLabels }
 }
 

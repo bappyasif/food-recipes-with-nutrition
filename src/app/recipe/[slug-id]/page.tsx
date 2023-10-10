@@ -3,7 +3,7 @@ import React from 'react'
 
 const RecipeFullViewPage = () => {
   return (
-    <div className='bg-primary-content'>
+    <div className='bg-accent text-muted-foreground'>
       <h1>RecipeFullViewPage</h1>
       <ShowRecipeDetails />
     </div>
