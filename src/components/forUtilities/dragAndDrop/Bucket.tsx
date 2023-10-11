@@ -70,7 +70,7 @@ export const Bucket = ({ cards, updateCards }: BucketProps) => {
     // const renderCardBoxes = () => test.map(item => <BucketCard key={item.id} {...item} />)
 
     return (
-        <div className='flex flex-col gap-y-2 w-60'>
+        <div className='flex xxs:flex-col-reverse  md:flex-col gap-y-2 w-60'>
             <div
                 className='bg-primary-focus'
                 ref={drop}

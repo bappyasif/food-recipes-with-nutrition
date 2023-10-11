@@ -21,7 +21,7 @@ export const RecipesList = ({open}: {open: boolean}) => {
     console.log(recipeCards, "recipeCards!!")
 
     return (
-        <div className={`flex gap-2 justify-between transition-all duration-1000 ${open ? "h-96" : "h-72"}`}>
+        <div className={`flex xxs:flex-col xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "h-96" : "h-72"}`}>
             <Bucket cards={recipeCards} updateCards={updateCards} />
             <SearchRecipesByName addToCards={addToCards} />
         </div>
@@ -32,8 +32,8 @@ const SearchRecipesByName = ({addToCards}: {addToCards: (d: any) => void}) => {
     const { handleTextChange, text } = useForInputTextChange();
 
     return (
-        <div className='relative'>
-            <input type="text" placeholder='seacrh recipes by name' value={text} onChange={handleTextChange} />
+        <div className='relative bg-accent'>
+            <input type="text" placeholder='seacrh recipes by name' value={text} onChange={handleTextChange} className='bg-transparent' />
             <ShowAllFoundRecipes text={text} addToCards={addToCards} />
         </div>
     )

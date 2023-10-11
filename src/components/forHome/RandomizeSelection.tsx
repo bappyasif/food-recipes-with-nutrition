@@ -198,14 +198,14 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
     // console.log(spewOffimg.src, "svg!!")
 
     return (
-        <div className='flex flex-col gap-y-9 w-60 relative'>
+        <div className='flex flex-col xxs:gap-y-0 md:gap-y-9 w-60 relative'>
             <h2 className='text-center font-bold text-lg'>Randomize Health Labels</h2>
             <div>
                 {/* <img src={spewOffimg.src} alt="" width={20} height={20} className='absolute h-20 w-60 bg-black bg-blend-darken top-14 object-cover rounded-xl' /> */}
                 <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-full bg-black bg-blend-darken top-[3.9rem] object-cover rounded-xl' />
                 <div
                     ref={ref}
-                    className="viewport flex flex-col justify-center items-center h-20 font-extrabold"
+                    className="viewport flex flex-col justify-center items-center xxs:mt-2 md:mt-0 h-20 font-extrabold"
                 >
                     {/* {renderDivs().slice(0, rnd)} */}
                     {/* { rnd !== -1 ? renderDivs() : <span>"spin it!!"</span>} */}
@@ -283,7 +283,7 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
     }, [isTrue])
 
     return (
-        <div className='w-full flex flex-col gap-y-4 relative'>
+        <div className='w-full flex flex-col xxs:gap-y-0 md:gap-y-4 relative'>
             <h2 className='text-center font-bold text-lg'>{title} </h2>
             <div className='my-0'>
                 {/* <img src={spewOffimg.src} alt="" width={20} height={20} className='absolute top-8 h-14 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' /> */}
@@ -296,7 +296,7 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
                     </div>
                 </div>
                 {/* <Button variant={"secondary"} onClick={runFourTimesForAnimation}>Spin</Button> */}
-                <Button className='mt-3 w-full z-10 bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-muted'>Spin</span></Button>
+                <Button className='md:mt-3 w-full z-10 bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-muted'>Spin</span></Button>
             </div>
         </div>
     )
@@ -339,7 +339,11 @@ const ShowRecipes = ({ rnds, rndNames }: {
         searchRecipes(params).then(res => {
             console.log(res, "response!!")
             const onlyRecipes = res?.hits.map((item: any) => item.recipe)
-            onlyRecipes?.length && setRecipes(onlyRecipes)
+            
+            const readyForRendering = onlyRecipes.map((item:any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item:any) => item).filter((v:any, idx:number, self:any) => idx === self.findIndex((t:any) => t.label === v.label))
+            
+            readyForRendering?.length && setRecipes(readyForRendering)
+            // onlyRecipes?.length && setRecipes(onlyRecipes)
         })
     }
 

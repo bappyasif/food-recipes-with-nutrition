@@ -110,7 +110,7 @@ export const RecentlyViewedMealsScroller = () => {
       <button onClick={handleFalsy}>play</button> */}
       </div>
       <div 
-        className='grid grid-cols-4 gap-x-4 place-content-center place-items-center'
+        className='grid xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center'
         onMouseEnter={handleTruthy}
         onMouseLeave={handleFalsy}
       >
@@ -146,7 +146,7 @@ const RenderDeliciousMealCard = ({idx,  ...item}: ViewedMealCardType & {idx: num
       // className={`h-56 overflow-clip transition-all duration-1000 ${sec ? "-translate-x-20" : "translate-x-0"}`}
     >
       <Image
-        className='w-60 h-48 object-cover hover:h-36 hover:object-cover'
+        className=' w-60 h-48 object-cover hover:h-36 hover:object-cover'
         // fill={true}
         placeholder='blur'
         blurDataURL= {picture}

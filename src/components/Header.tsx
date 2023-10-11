@@ -86,7 +86,7 @@ const RenderNav = ({ ...item }: NavType) => {
   return (
     <Link href={path} className="flex gap-1 items-center font-bold text-primary">
       <span>{icon}</span>
-      <span>{name}</span>
+      <span className="xxs:hidden md:block">{name}</span>
     </Link>
   )
 }

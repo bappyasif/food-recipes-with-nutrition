@@ -17,7 +17,7 @@ export const RandomizedRecipesView = ({ recipes }: { recipes: RecipeMealType[] }
                         {/* <DialogDescription className='text-primary flex flex-col gap-y-4'>
                             
                         </DialogDescription> */}
-                        <div className='grid grid-cols-3 h-[650px] justify-items-center place-items-center gap-4 overflow-y-scroll scroll-smooth no-scrollbar'>
+                        <div className='grid xxs:grid-cols-1 md:grid-cols-3 h-[650px] justify-items-center place-items-center gap-4 overflow-y-scroll scroll-smooth no-scrollbar'>
                             {renderRecipes()}
                         </div>
                     </ReusableModal>
