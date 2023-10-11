@@ -211,13 +211,13 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     return (
         <div className='flex flex-col gap-y-4 justify-center items-center h-fit'>
-            <h1 className='text-4xl font-bold'>Refine Your Searches Using These Filters</h1>
+            <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold'>Refine Your Searches Using These Filters</h1>
             {/* <h2>{filters.diet} ---- {filters.cuisineType} ----</h2> */}
             <div className='flex flex-col gap-y-4 justify-center items-center'>
 
                 <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2' value={text} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
-                <Button className='bg-primary text-muted font-bold text-lg hover:text-secondary' onClick={handleSearchNow}>Search Now</Button>
+                <Button className='bg-primary text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary' onClick={handleSearchNow}>Search Now</Button>
                 
                 <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
                 {/* <CategoriesRadioOptions handleFiltersChange={handleFiltersChange} />
@@ -242,7 +242,7 @@ const ReusuableAccordionItem = ({ handleFiltersChange, trigText, propKey, data }
 
 const MultipleSelectableFilters = ({ handleFiltersChange }: FilterChangeTypes) => {
     return (
-        <Accordion type='multiple' className='columns-3 gap-2 bg-popover'>
+        <Accordion type='multiple' className='xxs:columns-1 md:columns-2 xl:columns-3 gap-2 bg-popover'>
             <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='mealType' trigText='Meal Types' data={meals} />
 
             <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='diet' trigText='Diet Types' data={diets} />

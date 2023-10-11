@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className + ` flex flex-col justify-between h-[100vh] bg-accent text-primary-foreground`}>
+      <body className={inter.className + ` flex flex-col justify-between min-h-[100vh] bg-accent text-primary-foreground`}>
         <ReduxStoreProvider>
           <Header />
           {children}

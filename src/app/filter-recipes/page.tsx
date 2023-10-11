@@ -15,9 +15,9 @@ const FilterRecipesPage = () => {
 
   return (
     <div 
-      className={`${(mealsRecipes.length || recipesFound?.length) ? "h-fit" : "min-h-[100vh]"} bg-secondary text-muted-foreground`}
+      className={`${(mealsRecipes.length || recipesFound?.length) ? "h-fit" : "min-h-[100vh]"} bg-secondary text-muted-foreground flex flex-col gap-y-4`}
     >
-      FilterRecipesPage {recipesFound?.length}
+      FilterRecipesPage {recipesFound?.length} {mealsRecipes.length}
       <FiltersDashboard handleRecipesFound={handleRecipesFound} />
       <RecipesView recipes={ recipesFound?.length ? recipesFound : mealsRecipes} />
     </div>
