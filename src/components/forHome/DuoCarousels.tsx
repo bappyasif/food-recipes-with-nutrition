@@ -13,10 +13,6 @@ export const DuoCarousels = () => {
 
     const newCuisines = cuisines.map(name => ({name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}`}))
 
-    // https://source.unsplash.com/random/200?sig=1
-
-    // console.log(newCuisines, "cuisines")
-
     return (
         <div className='flex gap-4'>
             <ReusableCarousel title='Dishes' items={newDishes} />
@@ -41,26 +37,14 @@ export const ReusableCarouselCard = ({carouselType, ...item }: CategoriesCuisine
 
     const [params, setParams] = useState<FiltersTypes>({})
 
-    // const params:FiltersTypes = {
-    //     // mealType: mealType,
-    //     // diet: diet.toLocaleLowerCase(),
-    //     // dishType: dishType,
-    //     // random: true,
-    //     // type: "public",
-    //     // app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
-    //     // app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY
-    // }
-
     const prepareForDataFetching = () => {
         if(carouselType === "Dishes") {
-            // params.dishType = [name]
             setParams(prev => ({dishType: [name]}))
         } else {
-            // params.mealType = [name]
             setParams(prev => ({cuisineType: [name]}))
         }
 
-        console.log(params, "params!!")
+        // console.log(params, "params!!")
     }
 
     const {querifyFilters} = useForQuerifiedParams(params)
@@ -86,29 +70,3 @@ export const ReusableCarouselCard = ({carouselType, ...item }: CategoriesCuisine
         </Button>
     )
 }
-
-export const categories = [
-    { name: "vegetables", picture: "https://source.unsplash.com/random/200?vegetables" },
-    { name: "beef", picture: "https://source.unsplash.com/random/200?beef" },
-    { name: "chicken", picture: "https://source.unsplash.com/random/200?chicken" },
-    { name: "fish", picture: "https://source.unsplash.com/random/200?fish" },
-    { name: "duck", picture: "https://source.unsplash.com/random/200?duck" },
-    { name: "seafood", picture: "https://source.unsplash.com/random/200?seafood" },
-    { name: "pork", picture: "https://source.unsplash.com/random/200?pork" },
-    { name: "eggs", picture: "https://source.unsplash.com/random/200?egg" },
-    { name: "dairy", picture: "https://source.unsplash.com/random/200?dairy" },
-    { name: "lentils", picture: "https://source.unsplash.com/random/200?lentils" }
-]
-
-// export const cuisines = [
-//     { name: "american", picture: "https://source.unsplash.com/random/200?cuisine,american" },
-//     { name: "british", picture: "https://source.unsplash.com/random/200?cuisine,british" },
-//     { name: "chinese", picture: "https://source.unsplash.com/random/200?cuisine,chinese" },
-//     { name: "french", picture: "https://source.unsplash.com/random/200?cuisine,french" },
-//     { name: "italian", picture: "https://source.unsplash.com/random/200?cuisine,italian" },
-//     { name: "jamaican", picture: "https://source.unsplash.com/random/200?cuisine,jamaican" },
-//     { name: "bengali", picture: "https://source.unsplash.com/random/200?cuisine,bengali" },
-//     { name: "indian", picture: "https://source.unsplash.com/random/200?cuisine,indian" },
-//     { name: "african", picture: "https://source.unsplash.com/random/200?cuisine,african" },
-//     { name: "japanese", picture: "https://source.unsplash.com/random/200?cuisine,japanese" },
-// ]

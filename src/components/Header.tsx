@@ -1,7 +1,6 @@
 "use client"
 
-import { TbBrandGoogleHome } from "react-icons/tb"
-import { MdFoodBank, MdRestaurant, MdRestaurantMenu } from "react-icons/md"
+import { MdFoodBank, MdRestaurantMenu } from "react-icons/md"
 import { IoIosColorFilter } from "react-icons/io"
 import { useForInputTextChange } from '@/hooks/forComponents'
 import { NavType, RecipeTypes } from '@/types'
@@ -25,10 +24,6 @@ export const Header = () => {
         <img src={logo.src} className="w-24 h-24 rounded-full" alt="what's cooking yo!! logo" height={logo.height} width={logo.width} />
       </Link>
 
-      {/* <div className='w-full flex justify-between'> */}
-      {/* <h1>Company Logo!!</h1> */}
-      {/* <img src={logo.src} className="w-40 h-20" alt="what's cooking yo!! logo" height={logo.height} width={logo.width} /> */}
-
       <div className="bg-card flex justify-center gap-x-10 w-full py-2">
         <nav className='flex gap-x-9 justify-end xs:text-[.71rem] md:text-lg xl:text-2xl'>
           {renderNavs()}
@@ -39,7 +34,6 @@ export const Header = () => {
             : null
         }
       </div>
-      {/* </div> */}
     </div>
   )
 }

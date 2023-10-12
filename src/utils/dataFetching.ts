@@ -1,4 +1,4 @@
-import { MEAL_DB_URL, edamamApiRequestInterceptor, mealdbApiRequestInterceptor } from "./axiosInterceptor"
+import { edamamApiRequestInterceptor, mealdbApiRequestInterceptor } from "./axiosInterceptor"
 
 export const SEARCH = "/search.php"
 

@@ -6,7 +6,6 @@ import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Badge } from '../ui/badge'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { ShowFewRelatedRecipes } from './ShowFewRelatedRecipes'
 import { RecipeImage } from './RecipeImage'
 import { FewNonRelatedRecipes } from './FewNonRelatedRecipes'
@@ -27,10 +26,9 @@ export const ShowRecipeDetails = () => {
         }
 
         searchRecipeById(params, dynamicParams["slug-id"] as string).then(d => {
-            console.log(d)
+            // console.log(d)
             d.recipe && setRecipeData(d.recipe)
         }).catch(err => console.log(err))
-        // searchRecipes(params).then(d=> console.log(d)).catch(err => console.log(err))
     }
 
     useEffect(() => {
@@ -99,7 +97,6 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels }: { diges
 
     return (
         <Accordion type='single' collapsible={true}>
-            {/* <div>{renderAcordionItems()}</div> */}
             <AccordionItem value={"health"}>
                 <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>Health Labels</AccordionTrigger>
                 <AccordionContent>
@@ -111,16 +108,8 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels }: { diges
                 <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>Diet Labels</AccordionTrigger>
                 <AccordionContent>
                     {renderAcordionItemsForDietLabels()}
-                    {/* "oos coos" */}
                 </AccordionContent>
             </AccordionItem>
-
-            {/* <AccordionItem value='digest'>
-                <AccordionTrigger>Digest Labels</AccordionTrigger>
-                <AccordionContent>
-                    <RenderDigestTable heading='Digest' labels={digest} />
-                </AccordionContent>
-            </AccordionItem> */}
         </Accordion>
     )
 }
@@ -163,12 +152,6 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     )
 }
 
-// const ReusableBadge = ({ text, val }: { text: string, val: string | number }) => {
-//     return (
-//         <Badge className='px-4 flex gap-x-4 w-64 justify-between text-xl'><span>{text} </span>{val}</Badge>
-//     )
-// }
-
 const RednerIngredients = ({ ...items }: IngredientItemType) => {
     const { food, foodCategory, foodId, image, measure, quantity, text, weight } = items
 
@@ -189,65 +172,14 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
     )
 
     return contents
-    // <div
-    //     className='grid grid-cols-4 gap-x-2 w-full place-content-center place-items-center pl-9'
-    // // className='flex justify-between items-center gap-x-4'
-    // >
-    //     <div className='w-96 flex items-center justify-around'>
-    //         <img className='' src={image} alt={food} width={60} height={39} />
-
-    //         <div className='w-36'>{food}</div>
-    //     </div>
-
-    //     <div className=''>{foodCategory}</div>
-
-    //     <h2>
-    //         <span className='font-semibold'>Quantity </span>
-    //         <span>{quantity} {measure}</span>
-    //     </h2>
-
-    //     <h2>
-    //         <span className='font-semibold'>Weight </span>
-    //         <span>{weight.toFixed(2)}</span>
-    //     </h2>
-    // </div>
-
 }
 
 const RenderDigestTable = ({ labels, heading }: { labels: DigestItemType[], heading: string }) => {
-
-    // const renderTableRows = () => labels.map(item => {
-    //     const { daily, hasRDI, label, schemaOrgTag, tag, total, unit } = item;
-
-    //     // console.log(Object.values(item))
-
-    //     return (
-    //         <TableRow>
-    //             {/* {renderRows()} */}
-
-    //             {/* {dataCells()} */}
-    //             <TableCell>{tag}</TableCell>
-    //             <TableCell>{daily.toFixed(2)}</TableCell>
-    //             <TableCell>{schemaOrgTag}</TableCell>
-    //             <TableCell>{label}</TableCell>
-    //             <TableCell>{hasRDI ? "True" : "False"}</TableCell>
-
-    //             <TableCell>{total.toFixed(2)}</TableCell>
-    //             <TableCell>{unit}</TableCell>
-    //         </TableRow>
-    //     )
-    // })
-
     const renderTableRows = () => labels.map(item => {
         const { daily, hasRDI, label, schemaOrgTag, tag, total, unit } = item;
 
-        // console.log(Object.values(item))
-
         return (
             <tr className='' key={tag}>
-                {/* {renderRows()} */}
-
-                {/* {dataCells()} */}
                 <td>{tag}</td>
                 <td>{daily.toFixed(2)}</td>
                 <td>{schemaOrgTag}</td>
@@ -259,20 +191,6 @@ const RenderDigestTable = ({ labels, heading }: { labels: DigestItemType[], head
             </tr>
         )
     })
-
-    const renderHeads = () => {
-        return (
-            <TableRow className='font-bold bg-primary sticky'>
-                <TableHead>Tag</TableHead>
-                <TableHead>Daily</TableHead>
-                <TableHead>SchemaOrgTag</TableHead>
-                <TableHead>Label</TableHead>
-                <TableHead>HasRDI</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Unit</TableHead>
-            </TableRow>
-        )
-    }
 
     return (<table className="relative w-full border border-ring">
         <thead>
@@ -290,16 +208,5 @@ const RenderDigestTable = ({ labels, heading }: { labels: DigestItemType[], head
             {renderTableRows()}
         </tbody>
     </table>
-        // <Table className=''>
-        //     <TableHeader className='text-sm bg-white border-b sticky top-0'>
-        //         <TableRow>
-        //             {renderTableHeads()}
-        //         </TableRow>
-        //         {renderHeads()}
-        //     </TableHeader>
-        //     <TableBody className='text-xs'>
-        //         {renderTableRows()}
-        //     </TableBody>
-        // </Table>
     )
 }

@@ -1,6 +1,5 @@
-import { FiltersTypes, RecipeMealType, ShallowRoutingTypes } from "@/types";
+import { FiltersTypes, RecipeMealType } from "@/types";
 import { searchRecipes } from "@/utils/dataFetching";
-import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -67,28 +66,9 @@ export const useForExtractingQueriesFromUrl = () => {
         })
 
         setParams(params2)
-
-        // console.log(tokenized.length, "tokenized!!", tokenized, params2)
-
-        // if (searchParams.get("health")) {
-        //     updateParams(searchParams.get("health")!, "health")
-        // } else if (searchParams.get("cuisineType")) {
-        //     updateParams(searchParams.get("cuisineType")!, "cuisineType")
-        // } else if (searchParams.get("mealType")) {
-        //     updateParams(searchParams.get("mealType")!, "mealType")
-        // } else if (searchParams.get("dishType")) {
-        //     updateParams(searchParams.get("dishType")!, "dishType")
-        // } else if (searchParams.get("q")) {
-        //     updateParams(searchParams.get("q")!, "q")
-        // }
     }
 
     useEffect(() => {
-        // setParams(prev => ({
-        //     ...prev, type: "public", app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
-        //     app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
-        //     q: searchParams.get("q") as string
-        // }))
         updateParams(process.env.NEXT_PUBLIC_EDAMAM_APP_ID!, "app_id")
         updateParams(process.env.NEXT_PUBLIC_EDAMAM_APP_KEY!, "app_key")
         searchParams.get("q") && updateParams(searchParams.get("q")!, "q")
@@ -105,22 +85,9 @@ export const useForExtractingQueriesFromUrl = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             console.log(params)
-            // params?.q && searchRecipes(params).then(d =>{
-            //     console.log(d)
-            //     const onlyRecipes = d?.hits.map((item:any) => item.recipe)
-            //     onlyRecipes?.length &&  setMealsRecipes(onlyRecipes)
-            // }).catch(err => console.log(err))
-
-            // going with this way
-            // params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
-            //     // console.log(d.data)
-            //     const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
-            //     onlyRecipes?.length && setMealsRecipes(onlyRecipes)
-            // }).catch(err => console.log(err))
-
         }, 1001)
 
-        console.log(params2, "running!!", params, searchParams.keys(), searchParams.toString(), searchParams.values())
+        // console.log(params2, "running!!", params, searchParams.keys(), searchParams.toString(), searchParams.values())
 
         return () => clearTimeout(timer)
     }, [params])
@@ -148,14 +115,14 @@ export const useForRandomRecipesList = (mealType:string, diet:string, dishType:s
         }
 
         searchRecipes(params).then(d => {
-            console.log(d, "!!")
+            // console.log(d, "!!")
             const onlyRecipes = d?.hits.map((item: any) => item.recipe)
             // onlyRecipes?.length && setRecipes(onlyRecipes)
 
             const readyForRendering = onlyRecipes?.map((item:any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item:any) => item).filter((v:any, idx:number, self:any) => idx === self.findIndex((t:any) => t.label === v.label))
             
             readyForRendering?.length && setRecipes(readyForRendering)
-            console.log(readyForRendering.length, "readyForRendeing")
+            // console.log(readyForRendering.length, "readyForRendeing")
 
         }).catch(err => console.log(err))
 
@@ -175,10 +142,6 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
     const handleNext = () => {
-        // if(isTrue) {
-        //   // console.log("PAUSE from next")
-        //   return
-        // }
         if (beginFrom > data.length) {
             setBeginFrom(0)
         } else {
@@ -199,10 +162,8 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
         let temp: number[] = [];
         Array.from(Array(8).keys()).forEach((v => {
             if (v + beginFrom >= 20) {
-                // console.log(v, beginFrom, v + beginFrom, "adjusted", (v + beginFrom) - 6)
                 temp.push((v + beginFrom) - 20)
             } else {
-                // console.log(v, beginFrom, v + beginFrom)
                 temp.push(v + beginFrom)
             }
         }))
@@ -211,15 +172,13 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
 
         temp.forEach(v => {
             data.forEach((item, idx) => {
-                // console.log(idx, v, "check")
                 if (idx === v) {
                     fourCards.push(item)
-                    //   fourCards.push({category: item.category, name: item.name, nutrition: item.nuttrition, picture: item.picture})
                 }
             })
         })
 
-        console.log(temp, fourCards)
+        // console.log(temp, fourCards)
         setOnlyFour(fourCards)
     }
 
@@ -227,30 +186,21 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
         !isTrue && handleOnlyFour()
     }, [beginFrom])
 
-    // const renderRecipes = () => data.map(item => <RenderRecipeForCarousel key={item.uri} {...item} />)
-    // const renderRecipes = () => onlyFour?.map((item, idx) => <RenderRecipeForCarousel key={item.uri} rdata={item} lastCard={idx === 7} firstCard={idx===0} />)
-
     useEffect(() => {
         let timer = setInterval(() => {
 
-            console.log(isTrue, "istryue!!", timer)
+            // console.log(isTrue, "istryue!!", timer)
             !isTrue ? handleNext() : clearInterval(timer)
 
             if (!isTrue) {
                 handleNext()
-                // console.log(beginFrom, "play from timer", !isTrue)
             } else {
                 clearInterval(timer)
-                // console.log(beginFrom, "pause from timer else block!!", !isTrue, timer)
                 return
             }
 
-            // console.log(beginFrom, "PAUSE from timer", isTrue)
         }, 200000)
 
-        // !isTrue ? handleNext() : clearInterval(timer)
-
-        // setTimerRunning(timer)
         return () => clearInterval(timer)
 
     }, [beginFrom, isTrue])
@@ -279,8 +229,8 @@ export const useForQuerifiedParams = (filters: FiltersTypes) => {
                 }
             }
         }
-        // console.log(str, "STR!!", str.lastIndexOf("&"), str.slice(0, 143))
-        console.log(str, "querified!!")
+
+        // console.log(str, "querified!!")
         router.push(str.slice(0, str.lastIndexOf("&")), undefined)
     }
 
@@ -299,7 +249,7 @@ export const useForRanmoziedDataset = (items: string[]) => {
     const addOneToDataset = () => {
         const checkIfExistsAlready = dataset.findIndex((val) => val === items[rndNum])
         
-        console.log(checkIfExistsAlready, "exists!!")
+        // console.log(checkIfExistsAlready, "exists!!")
         if(checkIfExistsAlready === -1 && items[rndNum]) {
             setDataset(prev => [...prev, items[rndNum]])
         }
@@ -315,8 +265,6 @@ export const useForRanmoziedDataset = (items: string[]) => {
     useEffect(() => {
         randomizeOnce()
     }, [])
-
-    // dataset.length && console.log(dataset)
 
     return {dataset}
 }

@@ -1,5 +1,4 @@
 import { youtubeApiRequestInterceptor } from '@/utils/axiosInterceptor';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 export const ShowYoutubeVids = ({recipeStr}: {recipeStr: string}) => {
@@ -14,13 +13,9 @@ export const ShowYoutubeVids = ({recipeStr}: {recipeStr: string}) => {
     }
 
     youtubeApiRequestInterceptor({ url: ENDPOINT, params }).then(data => {
-      console.log(data, "data from youtube")
-      // https://www.youtube.com/watch?v=LkaTx6u0rSU
+      // console.log(data, "data from youtube")
       data.data.items[0]?.id.videoId && setVidId(data.data.items[0]?.id.videoId)
     }).catch(err => console.log("fetch failed!!", err))
-
-    // const client = axios.create({baseURL: BASE_URL})
-    // client.get(ENDPOINT, {params}).then(data => console.log(data, "data from youtube")).catch(err => console.log("fetch failed!!", err))
   }
 
   useEffect(() => {

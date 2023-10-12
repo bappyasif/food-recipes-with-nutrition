@@ -2,25 +2,15 @@
 
 import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
-import styles from "@/app/Home.module.css"
 import { CategoriesCuisinesCarouselType, ReuseableCarouselType } from '@/types'
 import { ReusableCarouselCard } from './DuoCarousels'
 
-type VerticalType = Pick<ReuseableCarouselType, "items">
-
-// export const CarouselVertical = ({items:data}: VerticalType) => {
 export const CarouselVertical = ({...items}: ReuseableCarouselType) => {
-    // const data = ["een", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien"]
-
     const {items:data, title} = items
 
     const [activeIdx, setActiveIdx] = useState(0)
 
     const [currentlyViewing, setCurrentlyViewing] = useState<CategoriesCuisinesCarouselType[]>([])
-
-    // const renderData = () => data.map(item => <Button variant={'secondary'} className='w-60'>{item}</Button>)
-
-    // const renderData = () => currentlyViewing.map(item => <Button variant={'secondary'} className={`w-60 ${styles["carousel-vertical-card-item"]}`} key={item.name}>{item.name}</Button>)
 
     const renderData = () => currentlyViewing.slice(0,5).map(item => <ReusableCarouselCard name={item.name} picture={item.picture} key={item.name} carouselType={title}  />)
 

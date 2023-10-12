@@ -1,5 +1,5 @@
 import { useForInputTextChange } from '@/hooks/forComponents'
-import { RecipeMealType, RecipeTypes } from '@/types'
+import { RecipeTypes } from '@/types'
 import { searchRecipesByNameFromApi } from '@/utils/dataFetching'
 import React, { CSSProperties, useEffect, useState } from 'react'
 // import { BoxProps } from './Box'
@@ -18,7 +18,7 @@ export const RecipesList = ({open}: {open: boolean}) => {
     const addToCards = (item: CardBoxProps) => setRecipeCards(prev => [...prev, item])
     const updateCards = (dataset: CardBoxProps[]) => setRecipeCards(dataset)
 
-    console.log(recipeCards, "recipeCards!!")
+    // console.log(recipeCards, "recipeCards!!")
 
     return (
         <div className={`flex xxs:flex-col xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "h-96" : "h-72"}`}>
@@ -46,18 +46,6 @@ const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (
         text && searchRecipesByNameFromApi(text).then(data => setRecipes(data.meals)).catch(err => console.log(err))
         !text && setRecipes([])
     }, [text])
-
-    // const renderRecipes = () => recipes.map(item => {
-    //     return (
-    //         <div key={item.idMeal} className='flex gap-x-2'>
-    //             <span>{item?.strMeal}</span>
-    //             <span>{item.strArea}</span>
-    //             <span>{item.strCategory}</span>
-    //         </div>
-    //     )
-    // })
-
-    // const renderRecipes = () => recipes.map(item => <CardBox id={item.idMeal} imgSrc={item.strMealThumb} label={item.strMeal} key={item.idMeal} />)
 
     const returnNeededData = (item : RecipeTypes) => ({label: item.strMeal, id: item.idMeal, imgSrc: item.strMealThumb})
 
@@ -104,7 +92,7 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
             if (item && dropResult) {
                 // handleAddToList(item.name)
                 addToCards({label, id, imgSrc})
-                console.log(label, "dropped!!")
+                // console.log(label, "dropped!!")
                 // alert(`You dropped ${item.name} into ${dropResult.name}!`)
             }
         },

@@ -14,9 +14,6 @@ export const RandomizedRecipesView = ({ recipes }: { recipes: RecipeMealType[] }
             {
                 recipes.length
                     ? <ReusableModal title='Randomly Chosen Recipes Based On Chosen Filters' triggerText='Click To View' changeWidth={true}>
-                        {/* <DialogDescription className='text-primary flex flex-col gap-y-4'>
-                            
-                        </DialogDescription> */}
                         <div className='grid xxs:grid-cols-1 md:grid-cols-3 h-[650px] justify-items-center place-items-center gap-4 overflow-y-scroll scroll-smooth no-scrollbar'>
                             {renderRecipes()}
                         </div>
@@ -26,25 +23,6 @@ export const RandomizedRecipesView = ({ recipes }: { recipes: RecipeMealType[] }
         </div>
     )
 }
-
-// const ReusableModal = ({ children, triggerText, title }: { children: any, triggerText: string, title: string }) => {
-//     return (
-//         <Dialog>
-//             {/* <DialogTitle>{props.title}</DialogTitle>
-//             <DialogHeader>{props.title}</DialogHeader> */}
-//             <DialogTrigger><Badge variant={'secondary'} className='w-full'>{triggerText}</Badge></DialogTrigger>
-//             <DialogContent className='bg-primary-focus CONTENT'
-//                 style={{ minWidth: "80%" }}
-//             >
-//                 <DialogHeader>
-//                     <DialogTitle className='text-primary-content'>{title}</DialogTitle>
-
-//                     {children}
-//                 </DialogHeader>
-//             </DialogContent>
-//         </Dialog>
-//     )
-// }
 
 const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     const { uri, label, calories, images, mealType, co2EmissionsClass } = data;

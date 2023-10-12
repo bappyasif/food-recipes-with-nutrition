@@ -1,11 +1,10 @@
 import { useForRandomRecipesList, useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
 import React, { useEffect, useState } from 'react'
-import { ForCarouselTypes, RenderRecipeForCarousel, RenderRecipesListCarousel } from './ShowFewRelatedRecipes'
+import { ForCarouselTypes } from './ShowFewRelatedRecipes'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import Link from 'next/link'
 import { extractRecipeId } from '../forFilters/RecipesView'
-import styles from "./Recipe.module.css"
 import { diets, dishes, meals } from '../forFilters/FiltersDashboard'
 
 export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: string, dishType: string, mealType: string }) => {
@@ -13,14 +12,18 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
     const randomlyChooseFromFilteredDataset = () => {
         const filteredDiet = diets.filter(name => name.toLocaleLowerCase() !== diet.toLocaleLowerCase())
+
         const filteredDishType = dishes.filter(name => name.toLocaleLowerCase() !== dishType.toLocaleLowerCase())
+        
         const filteredMealType = meals.filter(name => name.toLocaleLowerCase() !== mealType.toLocaleLowerCase())
 
         const rndForDiet = Math.floor(Math.random() * filteredDiet.length)
+        
         const rndForDishType = Math.floor(Math.random() * filteredDishType.length)
+        
         const rndForMealType = Math.floor(Math.random() * filteredMealType.length)
 
-        console.log(filteredDiet, filteredDishType, filteredMealType, "filtered!!", diet, dishType, mealType, filteredDiet[rndForDiet], filteredDishType[rndForDishType], filteredMealType[rndForMealType])
+        // console.log(filteredDiet, filteredDishType, filteredMealType, "filtered!!", diet, dishType, mealType, filteredDiet[rndForDiet], filteredDishType[rndForDishType], filteredMealType[rndForMealType])
 
         setRandomizedFilters({ diet: filteredDiet[rndForDiet], dishType: filteredDishType[rndForDishType], mealType: filteredMealType[rndForMealType] })
     }
@@ -29,8 +32,6 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
         (mealType && diet && dishType) && setTimeout(() => randomlyChooseFromFilteredDataset(), 900)
     }, [diet, dishType, mealType])
 
-    // const {recipes} = useForRandomRecipesList("lunch", "balanced", "side dish")
-    // const {recipes} = useForRandomRecipesList(filteredMealType[rndForMealType], filteredDiet[rndForDiet], filteredDishType[rndForDishType])
     const { recipes } = useForRandomRecipesList(randomizedFilters.mealType, randomizedFilters.diet, randomizedFilters.dishType)
 
     const { handleFalsy, handleNext, handlePrev, handleTruthy, isTrue, onlyFour } = useForRecipeCarouselItems(recipes)
@@ -50,11 +51,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
                 {/* smaller screen */}
                 <div
-                    // className='flex gap-4 flex-nowrap overflow-hidden h-40' 
-                    // className='grid auto-rows-max grid-flow-col gap-4 place-content-start place-items-start'
                     className='xxs:grid lg:hidden grid-flow-row grid-cols-2 gap-4 justify-items-center place-items-center'
-                    // className='grid grid-flow-row xxs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 justify-items-center place-items-center'
-                    // className='columns-3 gap-4'
                     onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                 >
                     {renderRecipes()?.slice(0,2)}
@@ -62,11 +59,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
                 {/* bigger screen */}
                 <div
-                    // className='flex gap-4 flex-nowrap overflow-hidden h-40' 
-                    // className='grid auto-rows-max grid-flow-col gap-4 place-content-start place-items-start'
                     className='xxs:hidden lg:grid grid-flow-row grid-cols-8 gap-4 justify-items-center place-items-center'
-                    // className='grid grid-flow-row xxs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 justify-items-center place-items-center'
-                    // className='columns-3 gap-4'
                     onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                 >
                     {renderRecipes()}
@@ -87,28 +80,21 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
 
     return (
         <div
-            // ${isTrue ? styles.cardHovered : ""}
-            // className={`${styles.fadeOutCard} relative ${(lastCard || firstCard) ? "pointer-events-none": "pointer-events-auto"}`}
-            // className={`relative ${(lastCard || firstCard) ? "pointer-events-none": "pointer-events-auto"}`}
             className='flex justify-center gap-x-4 relative'
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
-            {/* <h2>{label}</h2> */}
             <div
                 className={`transition-transform duration-500 ${isTrue ? "scale-0" : "z-20 scale-100"} text-center`}
             >
-                {/* <Badge>{cuisineType[0]} {firstCard ? "1" : null} {lastCard ? "8" : null}</Badge> */}
                 <Badge>{cuisineType[0]}</Badge>
                 <img className='w-36 h-32 object-cover rounded-sm' src={url} alt={label} height={height} width={width} />
             </div>
             <div
-                // className={`absolute top-0 transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-100"} flex flex-col gap-y-1 text-primary-foreground`}
                 className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center flex flex-col gap-y-2`}
             >
-                {/* <h2>{label}</h2> */}
                 <Link className={`${isTrue ? "text-lg" : ""} hover:underline`} href={`/recipe/${recipeId}`} title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</Link>
-                {/* <Badge>{label}</Badge> */}
+                
                 <Badge className='w-fit'>{mealType[0]}</Badge>
                 <Badge className='w-fit'>{dishType[0]}</Badge>
             </div>

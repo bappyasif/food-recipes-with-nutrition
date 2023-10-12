@@ -1,4 +1,4 @@
-import React, { CSSProperties, useCallback, useEffect, useState } from 'react'
+import React, { CSSProperties, useCallback } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { CardBoxProps } from './RecipesList'
 import update from 'immutability-helper'
@@ -7,7 +7,6 @@ import moment from 'moment'
 import { v4 } from 'uuid'
 import { EventItemTypes, ITEMS } from '../bigCalender/Scheduler'
 import { useForInputTextChange, useForTruthToggle } from '@/hooks/forComponents'
-import { Dialog } from '@/components/ui/dialog'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 const style: CSSProperties = {
@@ -29,17 +28,8 @@ type BucketProps = {
 }
 
 export const Bucket = ({ cards, updateCards }: BucketProps) => {
-    // const [test, setTest] = useState<any[]>([])
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         accept: "card",
-        // drop(item, monitor) {
-        //     setTest(prev => [...prev, monitor.getItem()])
-        //     console.log(item, monitor.getItem())
-        // },
-        // drop: () => ({ name: 'Dustbin bees!!' }),
-        // drop: () => {
-        //     console.log("dropping")
-        // },
         collect(monitor) {
             return ({
                 isOver: monitor.isOver(),
@@ -59,16 +49,6 @@ export const Bucket = ({ cards, updateCards }: BucketProps) => {
         backgroundColor = 'darkkhaki'
     }
 
-    // useEffect(() => {
-    //     itemDropped && setTest(prev => [...prev, itemDropped])
-    // }, [itemDropped])
-
-    // console.log(itemDropped, test)
-
-    // const updateCards = (data: CardBoxProps[]) => setTest(data)
-
-    // const renderCardBoxes = () => test.map(item => <BucketCard key={item.id} {...item} />)
-
     return (
         <div className='flex xxs:flex-col-reverse  md:flex-col gap-y-2 w-60'>
             <div
@@ -77,10 +57,6 @@ export const Bucket = ({ cards, updateCards }: BucketProps) => {
                 style={{ ...style, backgroundColor }}
             >
                 {isActive ? 'Release to drop' : 'Drag a box here'}
-
-               {/* ` <div className='flex flex-col gap-y-1'>
-                {renderCardBoxes()}
-            </div>` */}
             </div>
             Re-arrange Cards
             <hr />
@@ -111,16 +87,11 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
             title: text || "no title has provided",
             description: descText || "go gogogogoogog",
             recipes: getFourRecipes()
-            // recipes: [{name: "item a", imgSrc: ""}, {name: "item b", imgSrc: ""}]
-            // cooking: {
-            //     name: "cooking",
-            //     recipes: ["item a", "item b"]
-            // }
         }
 
         ITEMS.push(eventItem)
 
-        console.log(eventItem)
+        // console.log(eventItem)
         
         updateCards([])
         
@@ -180,7 +151,7 @@ const RenderCardBoxes = ({ cards, updateCards }: { cards: CardBoxProps[], update
     const moveCard = useCallback(
         (id: string, atIndex: number) => {
             const { idx, card } = findCard(id)
-            console.log(idx, card, atIndex)
+            // console.log(idx, card, atIndex)
             updateCards(
                 update(cards, {
                     $splice: [
