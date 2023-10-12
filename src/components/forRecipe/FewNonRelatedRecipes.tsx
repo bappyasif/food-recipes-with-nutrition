@@ -46,17 +46,32 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
             FewNonRelatedRecipes - {recipes.length} - {onlyFour?.length}
             <h2 className='text-xl font-bold'>Few Non Related Recipes</h2>
             <div className='flex gap-x-4 justify-between mx-4'>
-                <Button className='self-center text-primary font-bold bg-card hover:bg-transparent' variant={'default'} onClick={handlePrev}>Prev</Button>
+                <Button className='xxs:w-4 lg:w-20 self-center text-primary font-bold bg-card hover:bg-transparent' variant={'default'} onClick={handlePrev}>Prev</Button>
+
+                {/* smaller screen */}
                 <div
                     // className='flex gap-4 flex-nowrap overflow-hidden h-40' 
                     // className='grid auto-rows-max grid-flow-col gap-4 place-content-start place-items-start'
-                    className='grid grid-flow-row grid-cols-8 gap-4 justify-items-center place-items-center'
+                    className='xxs:grid lg:hidden grid-flow-row grid-cols-2 gap-4 justify-items-center place-items-center'
+                    // className='grid grid-flow-row xxs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 justify-items-center place-items-center'
+                    // className='columns-3 gap-4'
+                    onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
+                >
+                    {renderRecipes()?.slice(0,2)}
+                </div>
+
+                {/* bigger screen */}
+                <div
+                    // className='flex gap-4 flex-nowrap overflow-hidden h-40' 
+                    // className='grid auto-rows-max grid-flow-col gap-4 place-content-start place-items-start'
+                    className='xxs:hidden lg:grid grid-flow-row grid-cols-8 gap-4 justify-items-center place-items-center'
+                    // className='grid grid-flow-row xxs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 justify-items-center place-items-center'
                     // className='columns-3 gap-4'
                     onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                 >
                     {renderRecipes()}
                 </div>
-                <Button className='self-center text-primary font-bold bg-card hover:bg-transparent' variant={'default'} onClick={handleNext}>Next</Button>
+                <Button className='xxs:w-4 lg:w-20 self-center text-primary font-bold bg-card hover:bg-transparent' variant={'default'} onClick={handleNext}>Next</Button>
             </div>
         </div>
     )
@@ -83,7 +98,8 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
             <div
                 className={`transition-transform duration-500 ${isTrue ? "scale-0" : "z-20 scale-100"} text-center`}
             >
-                <Badge>{cuisineType[0]} {firstCard ? "1" : null} {lastCard ? "8" : null}</Badge>
+                {/* <Badge>{cuisineType[0]} {firstCard ? "1" : null} {lastCard ? "8" : null}</Badge> */}
+                <Badge>{cuisineType[0]}</Badge>
                 <img className='w-36 h-32 object-cover rounded-sm' src={url} alt={label} height={height} width={width} />
             </div>
             <div

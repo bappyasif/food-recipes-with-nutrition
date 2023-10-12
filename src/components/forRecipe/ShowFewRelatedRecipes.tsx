@@ -141,16 +141,27 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
     const renderRecipes = () => onlyFour?.map((item, idx) => <RenderRecipeForCarousel key={item.uri} rdata={item} lastCard={idx === 7} firstCard={idx===0} />)
 
     return (
-        <div className='flex gap-x-4 items-center justify-between h-48 bg-slate-600'>
-            <Button className='absolute left-0 bg-accent h-48 z-40 w-20 text-primary font-extrabold bg-blend-multiply' onClick={handlePrev} variant={'secondary'}>Prev</Button>
+        <div className='flex gap-x-4 items-center justify-between xxs:h-28 lg:h-48 bg-slate-600'>
+            <Button className='absolute left-0 bg-accent h-48 z-40 xxs:w-4 lg:w-20 text-primary font-extrabold bg-blend-multiply' onClick={handlePrev} variant={'secondary'}>Prev</Button>
+            {/* smaller screen */}
             <div
-                className='flex gap-4 flex-nowrap overflow-hidden h-40' 
+                // className='flex gap-4 flex-wrap h-40' 
+                className='xxs:flex lg:hidden gap-4 flex-nowrap overflow-hidden xxs:h-20 lg:h-40' 
+                onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
+            >
+                {renderRecipes()?.slice(0, 3)}
+            </div>
+
+            {/* bigger screen */}
+            <div
+                // className='flex gap-4 flex-wrap h-40' 
+                className='xxs:hidden lg:flex gap-4 flex-nowrap overflow-hidden h-40' 
                 // className='grid grid-rows-1 grid-flow-col gap-4 place-content-start place-items-start'
                 onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
             >
                 {renderRecipes()}
             </div>
-            <Button className='absolute right-0 bg-accent text-primary h-48 z-40 w-20 font-extrabold' onClick={handleNext} variant={'secondary'}>Next</Button>
+            <Button className='absolute right-0 bg-accent text-primary h-48 z-40 xxs:w-4 lg:w-20 font-extrabold' onClick={handleNext} variant={'secondary'}>Next</Button>
         </div>
     )
 }
@@ -178,7 +189,8 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
         >
             {/* <h2>{label}</h2> */}
             <div className={`absolute transition-transform duration-500 ${isTrue ? "-translate-y-48" : "z-20"} text-center`}>
-                <Badge>{cuisineType[0]} {firstCard ? "1" : null} {lastCard  ? "8" : null}</Badge>
+                {/* <Badge>{cuisineType[0]} {firstCard ? "1" : null} {lastCard  ? "8" : null}</Badge> */}
+                <Badge className='xxs:text-sm lg:text-lg'>{cuisineType[0]}</Badge>
                 <img className='w-40 h-full' src={url} alt={label} height={height} width={width} />
             </div>
             <div className={`absolute top-0 transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>

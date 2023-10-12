@@ -15,7 +15,7 @@ export const RecipesView = ({ recipes }: { recipes: RecipeMealType[] }) => {
     return (
         <div>
             <h1>Recipes View</h1>
-            <div className='grid xxs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+            <div className='grid xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 xxs:gap-11 lg:gap-11 place-content-center place-items-center'>
                 {renderRecipes()}
             </div>
         </div>
@@ -27,10 +27,10 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
     return (
         <div 
-            className={`flex flex-col gap-y-4 justify-center items-center ${styles.flipCard} h-80`}
+            className={`flex flex-col justify-center items-center ${styles.flipCard} h-[18.6rem] xxs:w-[18.9rem] sm:w-[20rem]`}
             >
             <p 
-                className={`${styles.flipCardBack} h-80 w-[23.1rem] rounded-sm`}
+                className={`${styles.flipCardBack} h-full w-full rounded-sm`}
                 style={{
                     backgroundImage: `url(${images.SMALL.url})`,
                     backgroundSize: "100% 100%",
@@ -56,10 +56,10 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
             </div>
 
             <div 
-                className={`${styles.whenFlipped}`}
+                className={`${styles.whenFlipped} px-1.5 items-center justify-center `}
             >
                 <Link href={`/recipe/${extractRecipeId(uri)}`}>
-                    <h2 className='text-center font-bold text-xl text-primary'>{label}</h2>
+                    <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary w-64' title={label}>{label.length > 24 ? ellipsedText(label, 24) : label}</h2>
                 </Link>
                 
                 <div className='flex justify-center gap-2 my-1'>
@@ -105,7 +105,7 @@ const RenderBadge = ({ text }: { text: string }) => {
 
 const RenderBasicTextInfo = ({ text, val }: { text: string, val: string | number }) => {
     return (
-        <h3 className='flex justify-between px-2 gap-2'><span className='font-semibold'>{text}</span>{val}</h3>
+        <h3 className='flex justify-between px-2 gap-2 xxs:text-xs lg:text-sm text-primary-foreground'><span className='font-semibold'>{text}</span>{val}</h3>
     )
 }
 

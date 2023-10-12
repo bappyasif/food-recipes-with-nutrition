@@ -49,25 +49,25 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     const { calories, cautions, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, shareAs, source, tags, totalWeight, uri, url, yield: servings, count } = data;
 
     return (
-        <div className='flex flex-col gap-y-20'>
+        <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20'>
             <section>
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
             </section>
-            <section className='flex justify-between items-center gap-x-6 mx-6'>
+            <section className='flex xxs:flex-col md:flex-row justify-between items-center gap-x-6 mx-6'>
 
                 <RecipeImage {...data} />
 
-                <div className='absolute right-0 w-3/5 flex flex-col justify-center gap-y-11 z-40 bg-accent'>
+                <div className='xxs:relative lg:absolute right-0 xxs:w-full lg:w-3/5 flex flex-col justify-center gap-y-11 z-40 bg-accent'>
 
                     <RecipeIngredientsAndInstructions ingredients={ingredients} />
 
                     <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
 
-                    <Button variant={'destructive'} className='flex gap-2 text-xl text-muted-foreground'><span className='font-bold'>Source:</span> <a href={url} target='_blank'>{source}</a></Button>
+                    <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-muted-foreground'><span className='font-bold'>Source:</span> <a href={url} target='_blank'>{source}</a></Button>
                 </div>
             </section>
-            <section className='flex justify-around items-center'>
-                <div className='w-2/3'>
+            <section className='flex xxs:flex-col lg:flex-row justify-around items-center'>
+                <div className='xxs:w-full lg:w-2/3'>
                     <h2 className='text-xl mb-6 mt-2 font-bold'>Digest Labels</h2>
                     <div className='h-80 overflow-y-scroll scroll-smooth no-scrollbar'>
                         <RenderDigestTable heading='Digest' labels={digest} />
@@ -91,7 +91,7 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels }: { diges
 
     const renderAcordionItemsForDietLabels = () => dietLabels.map(val => {
         return (
-            <Badge key={val}>
+            <Badge key={val} className='bg-muted-foreground text-muted'>
                 {val}
             </Badge>
         )
@@ -101,14 +101,14 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels }: { diges
         <Accordion type='single' collapsible={true}>
             {/* <div>{renderAcordionItems()}</div> */}
             <AccordionItem value={"health"}>
-                <AccordionTrigger className='font-bold text-xl'>Health Labels</AccordionTrigger>
+                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>Health Labels</AccordionTrigger>
                 <AccordionContent>
                     {renderAcordionItemsForHealthLabels()}
                 </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value={"diet"}>
-                <AccordionTrigger className='font-bold text-xl'>Diet Labels</AccordionTrigger>
+                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>Diet Labels</AccordionTrigger>
                 <AccordionContent>
                     {renderAcordionItemsForDietLabels()}
                     {/* "oos coos" */}
@@ -137,9 +137,9 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     return (
         <Accordion type='multiple'>
             <AccordionItem value='ingredients-and-measurements' className='relative'>
-                <AccordionTrigger><h2 className='font-bold text-xl'>Ingredients And Measurements</h2></AccordionTrigger>
+                <AccordionTrigger><h2 className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>Ingredients And Measurements</h2></AccordionTrigger>
                 <AccordionContent>
-                    <div className='grid grid-cols-5 justify-items-center place-items-center font-bold text-lg'>
+                    <div className='grid grid-cols-5 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm lg:text-lg'>
                         <div>Picture</div>
                         <div>Name</div>
                         <div>Category</div>
@@ -154,7 +154,7 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
             </AccordionItem>
 
             <AccordionItem value='instructions'>
-                <AccordionTrigger className='font-bold text-xl'>Instructions</AccordionTrigger>
+                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>Instructions</AccordionTrigger>
                 <AccordionContent >
                     <div className='grid grid-flow-col grid-rows-2 gap-4'>{renderInstructions()}</div>
                 </AccordionContent>
@@ -180,9 +180,7 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
 
             <div className=''>{foodCategory}</div>
 
-            <h2>
-                {quantity} {measure}
-            </h2>
+            <h2 className='flex gap-x-1'><span>{quantity}</span> <span>{measure}</span></h2>
 
             <h2>
                 {weight.toFixed(2)}

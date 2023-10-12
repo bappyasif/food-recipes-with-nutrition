@@ -16,18 +16,22 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
 
     return (
         <div
-            className='relative w-1/3 rounded flex flex-col gap-y-6 items-center'
+            className='relative xxs:w-full md:w-2/3 lg:w-1/3 rounded flex flex-col gap-y-6 items-center'
             onClick={handleClick}
         >
-            <h1 className='text-4xl font-bold'>{label}</h1>
+            <h1 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>{label}</h1>
 
             {/* <SquareElem showIt={isTrue} data={data} /> */}
 
-            <div title="Click To See More Info" className="flex justify-center items-start h-full">
+            <div title="Click To See More Info" className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-start h-full">
 
                 <SquareElem showIt={isTrue} data={data} />
 
-                <img className={`transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-32 rotate-[360deg]` : `h-64 translate-x-0 rotate-[-360deg]`} w-64 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-4`} src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
+                {/* smaller screen */}
+                <img className={`xxs:block lg:hidden transition-all duration-700 ${isTrue ? `h-[23.4rem] opacity-20 xxs:w-full sm:w-64 xxs:ml-0 rotate-180` : `h-64 translate-x-0 xxs:w-56 lg:w-64 lg:ml-4 -rotate-180`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover`} src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
+
+                {/* bigger screen */}
+                <img className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-32 rotate-[360deg]` : `h-64 translate-x-0 rotate-[-360deg]`} xxs:w-10 lg:w-64 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-4 object-cover`} src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
 
                 {/* <CircleElem stopIt={!isTrue} /> */}
             </div>
@@ -39,9 +43,9 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
     const { calories, cautions, co2EmissionsClass, cuisineType, dietLabels, dishType, mealType, yield: servings, totalWeight } = data;
 
     return (
-        <div className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit w-[650px]" : `bg-slate-800 h-64 w-[18.6rem] rounded-full ${styles.animateSpin} self-center`} pl-2`}>
+        <div className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-fit lg:w-[650px]" : `bg-slate-800 xxs:left-0 sm:left-[24%] h-64 xxs:w-[16rem] lg:w-[18.6rem] rounded-full ${styles.animateSpin} self-center`} xxs:pl-0 lg:pl-2`}>
 
-            <div className={`grid grid-cols-1 justify-items-start transition-all duration-700 ${!showIt ? "-translate-y-20 opacity-0 scale-0" : "translate-y-0 opacity-100 scale-100"} py-2`}>
+            <div className={`grid grid-cols-1 justify-items-start transition-all duration-700 ${!showIt ? "-translate-y-20 opacity-0 scale-0" : "translate-y-0 opacity-100 scale-100"} py-2 z-10`}>
                 
                 <div className='flex flex-col gap-y-4 justify-between'>
                     
