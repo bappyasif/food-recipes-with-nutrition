@@ -187,7 +187,7 @@ type BucketCardProps = {
 const BucketCard = ({ ...items }: BucketCardProps) => {
     const { data, findCard, moveCard } = items
 
-    if (!data?.id) return
+    // if (!data?.id) return
 
     const { id, imgSrc, label } = data;
 
@@ -231,6 +231,8 @@ const BucketCard = ({ ...items }: BucketCardProps) => {
     const opacity = isDragging ? 0 : 1
 
     // console.log(opacity, "opac")
+
+    if (!data?.id) return
 
     return (
         <div

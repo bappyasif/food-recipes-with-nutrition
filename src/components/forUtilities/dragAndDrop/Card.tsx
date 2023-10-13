@@ -57,3 +57,5 @@ export const Card = memo(({ id, text, moveCard, findCard }: CardProps) => {
         <div ref={node => drag(drop(node))} style={{...style, opacity}}>{text}</div>
     )
 })
+
+Card.displayName = "Card"
