@@ -12,7 +12,7 @@ export type CategoriesCuisinesCarouselType = {
 
 export type ReuseableCarouselType = {
     title: string,
-    items: CategoriesCuisinesCarouselType[]
+    items?: CategoriesCuisinesCarouselType[]
 }
 
 type SlideTypes = {

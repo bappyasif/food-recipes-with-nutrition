@@ -9,9 +9,9 @@ import { cuisines, dishes } from '../forFilters/FiltersDashboard'
 import { useForQuerifiedParams } from '@/hooks/forComponents'
 
 export const DuoCarousels = () => {
-    const newDishes = dishes.map(name => ({name: name, picture: `https://source.unsplash.com/random/200?meal=${name.split(" ").join("")}`}))
+    const newDishes = dishes.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?meal=${name.split(" ").join("")}` }))
 
-    const newCuisines = cuisines.map(name => ({name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}`}))
+    const newCuisines = cuisines.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}` }))
 
     return (
         <div className='flex gap-4'>
@@ -22,32 +22,37 @@ export const DuoCarousels = () => {
 }
 
 export const ReusableCarousel = ({ ...item }: ReuseableCarouselType) => {
-    const {items, title} = item;
+    const { items, title } = item;
+
+    const newDishes = dishes.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?meal=${name.split(" ").join("")}` }))
+
+    const newCuisines = cuisines.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}` }))
 
     return (
         <div className='flex flex-col gap-y-4 justify-center items-center'>
             <h2 className='text-xl font-bold'>{title}</h2>
-            <CarouselVertical items={items} title={title} />
+            {/* <CarouselVertical items={items} title={title} /> */}
+            <CarouselVertical items={title === "Dishes" ? newDishes : newCuisines} title={title} />
         </div>
     )
 }
 
-export const ReusableCarouselCard = ({carouselType, ...item }: CategoriesCuisinesCarouselType & {carouselType: string}) => {
+export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisinesCarouselType & { carouselType: string }) => {
     const { name, picture } = item;
 
     const [params, setParams] = useState<FiltersTypes>({})
 
     const prepareForDataFetching = () => {
-        if(carouselType === "Dishes") {
-            setParams(prev => ({dishType: [name]}))
+        if (carouselType === "Dishes") {
+            setParams(prev => ({ dishType: [name] }))
         } else {
-            setParams(prev => ({cuisineType: [name]}))
+            setParams(prev => ({ cuisineType: [name] }))
         }
 
         // console.log(params, "params!!")
     }
 
-    const {querifyFilters} = useForQuerifiedParams(params)
+    const { querifyFilters } = useForQuerifiedParams(params)
 
     useEffect(() => {
         (params.cuisineType || params.dishType) ? querifyFilters() : null
