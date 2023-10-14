@@ -87,6 +87,6 @@ const RenderNav = ({ ...item }: NavType) => {
 
 const navs = [
   { name: "Home", path: "/", icon: <MdFoodBank /> },
-  { name: "Popular Recipes", path: "/popular-recipes", icon: <MdRestaurantMenu /> },
+  // { name: "Popular Recipes", path: "/popular-recipes", icon: <MdRestaurantMenu /> },
   { name: "Filter Recipes", path: "/filter-recipes", icon: <IoIosColorFilter /> }
 ]

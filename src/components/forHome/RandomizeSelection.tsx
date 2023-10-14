@@ -55,14 +55,14 @@ export const RandomizeSelection = () => {
             <div className='flex xxs:flex-col lg:flex-row justify-start h-full'>
                 <div className='flex xxs:flex-col lg:flex-row gap-x-0 justify-between px-28 xxs:w-full lg:w-1/2'>
                     {randomizedDataset.forCuisines.length === 8 ?
-                    <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
-                    : null
+                        <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
+                        : null
                     }
 
                     {
                         randomizedDataset.forDishes.length === 8
-                        ? <ReuseableWheelCarousel dataset={randomizedDataset.forDishes} title='Randomize Dish Type' updateRnds={updateRnds} />
-                        : null
+                            ? <ReuseableWheelCarousel dataset={randomizedDataset.forDishes} title='Randomize Dish Type' updateRnds={updateRnds} />
+                            : null
                     }
                 </div>
 
@@ -76,7 +76,7 @@ export const RandomizeSelection = () => {
                 </div>
             </div>
 
-            <ShowRecipes rnds={rnds} rndNames={rndNames} />
+            <ShowRecipes rnds={rnds} rndNames={rndNames} wheelDataset={randomizedDataset} />
         </div>
     )
 }
@@ -242,12 +242,16 @@ type RndNamesTypes = {
 }
 
 
-const ShowRecipes = ({ rnds, rndNames }: {
+const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
     rnds: {
         dish: number,
-        cuisine: number,
+        cuisine: number
     },
-    rndNames: RndNamesTypes
+    rndNames: RndNamesTypes,
+    wheelDataset: {
+        forCuisines: string[];
+        forDishes: string[];
+    }
 }) => {
     const { cuisine, dish } = rnds;
     const { diet, health, meal } = rndNames;
@@ -255,7 +259,7 @@ const ShowRecipes = ({ rnds, rndNames }: {
     const [recipes, setRecipes] = useState<RecipeMealType[]>([])
 
     const handleClick = () => {
-        console.log(diet, health, meal)
+        // console.log(diet, health, meal)
         const params = {
             mealType: !meal.includes("Spin it") ? meal : null,
             diet: !diet.includes("Spin it") ? diet.toLocaleLowerCase() : null,
@@ -271,9 +275,9 @@ const ShowRecipes = ({ rnds, rndNames }: {
         searchRecipes(params).then(res => {
             // console.log(res, "response!!")
             const onlyRecipes = res?.hits.map((item: any) => item.recipe)
-            
-            const readyForRendering = onlyRecipes.map((item:any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item:any) => item).filter((v:any, idx:number, self:any) => idx === self.findIndex((t:any) => t.label === v.label))
-            
+
+            const readyForRendering = onlyRecipes.map((item: any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
+
             readyForRendering?.length && setRecipes(readyForRendering)
         })
     }
@@ -284,7 +288,7 @@ const ShowRecipes = ({ rnds, rndNames }: {
                 <h2 className='text-2xl font-bold'>Lets find Recipes From These Types</h2>
 
                 <div className='flex gap-x-4'>
-                    <ShowTitle rnds={rnds} />
+                    <ShowTitle rnds={rnds} wheelDataset={wheelDataset} />
                     <ShowRandomlySelectedOptions rndNames={rndNames} />
                 </div>
 
@@ -300,7 +304,7 @@ const ShowRandomlySelectedOptions = ({ rndNames }: {
 }) => {
     const { diet, meal, health } = rndNames
     return (
-        <div className='flex gap-x-4'> 
+        <div className='flex gap-x-4'>
             <ShowOptionSelected title='Diet' val={diet} />
 
             <ShowOptionSelected title='Meal' val={meal} />
@@ -319,10 +323,14 @@ const ShowOptionSelected = ({ title, val }: { title: string, val: string }) => {
     )
 }
 
-const ShowTitle = ({ rnds }: {
+const ShowTitle = ({ rnds, wheelDataset }: {
     rnds: {
         dish: number,
-        cuisine: number
+        cuisine: number,
+    },
+    wheelDataset: {
+        forCuisines: string[];
+        forDishes: string[];
     }
 }) => {
     const { dish, cuisine } = rnds
@@ -331,11 +339,13 @@ const ShowTitle = ({ rnds }: {
         <div className='flex gap-x-4'>
             <h2 className='flex flex-col gap-y-2'>
                 <span className='font-bold text-lg'>Dish</span>
-                <span className='font-semibold text-sm'>{dishes[dish] ? dishes[dish] : "intrim spin"}</span>
+                {/* <span className='font-semibold text-sm'>{dishes[dish] ? dishes[dish] : "intrim spin"}</span> */}
+                <span className='font-semibold text-sm'>{wheelDataset.forDishes[dish] ? wheelDataset.forDishes[dish] : "intrim spin"}</span>
             </h2>
             <h2 className='flex flex-col gap-y-2'>
                 <span className='font-bold text-lg'>Cuisine</span>
-                <span className='font-semibold text-sm'>{cuisines[cuisine] ? cuisines[cuisine] : "intrim spin"}</span>
+                {/* <span className='font-semibold text-sm'>{cuisines[cuisine] ? cuisines[cuisine] : "intrim spin"}</span> */}
+                <span className='font-semibold text-sm'>{wheelDataset.forCuisines[dish] ? wheelDataset.forCuisines[cuisine] : "intrim spin"}</span>
             </h2>
         </div>
     )

@@ -15,6 +15,8 @@ export const CarouselVertical = ({...items}: ReuseableCarouselType) => {
     const renderData = () => currentlyViewing.slice(0,5).map(item => <ReusableCarouselCard name={item.name} picture={item.picture} key={item.name} carouselType={title}  />)
 
     const handleCarousel = (direction:string) => {
+        if(!data) return
+        
         setActiveIdx(prevIdx => {
             if(direction === "prev") {
                 if(prevIdx === 0) return data.length - 1
@@ -32,6 +34,8 @@ export const CarouselVertical = ({...items}: ReuseableCarouselType) => {
     }
 
     const handleDataRendering = () => {
+        if(!data) return
+
         setCurrentlyViewing(prevElms => {
             let temp:CategoriesCuisinesCarouselType[] = []
 

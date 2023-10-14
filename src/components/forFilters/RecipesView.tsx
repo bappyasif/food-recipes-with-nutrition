@@ -58,7 +58,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                 className={`${styles.whenFlipped} px-1.5 items-center justify-center `}
             >
                 <Link href={`/recipe/${extractRecipeId(uri)}`}>
-                    <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary w-64' title={label}>{label.length > 24 ? ellipsedText(label, 24) : label}</h2>
+                    <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary w-64' title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</h2>
                 </Link>
                 
                 <div className='flex justify-center gap-2 my-1'>
