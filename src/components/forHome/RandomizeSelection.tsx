@@ -149,7 +149,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
                     ref={ref}
                     className="viewport flex flex-col justify-center items-center xxs:mt-2 md:mt-0 h-20 font-extrabold"
                 >
-                    {rnd > 0 ? renderDivs() : rnd === -2 ? <span>"Spin It!!"</span> : null}
+                    {rnd > 0 ? renderDivs() : rnd === -2 ? <span>Spin It</span> : null}
                 </div>
                 <Button className='z-10 w-full bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-secondary'>Spin</span></Button>
             </div>
