@@ -6,7 +6,7 @@ import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import moment from 'moment'
 // import events from './tryouts-I/events'
 import { useForTruthToggle } from '@/hooks/forComponents'
-import { DialogModal, DialogModalForEditOrDelete, EventOptionsDropDown } from './Utils'
+import { DialogModal, DialogModalForEditOrDelete, EventOptionsDropDown, ShowFullEventDetails } from './Utils'
 // import events from './events'
 import { v4 as uuidv4, v4 } from 'uuid';
 
@@ -44,6 +44,8 @@ export const Scheduler = ({open}: {open: boolean}) => {
     const [slotData, setSlotData] = useState<SlotInfo>()
 
     const { handleFalsy: forDDFalsy, handleTruthy: forDDTruthy, isTrue: forDD } = useForTruthToggle()
+
+    const { handleFalsy: handleForShowEventFalsy, handleTruthy: handleForShowEventTruthy, isTrue: forShowEvent } = useForTruthToggle()
 
     const [currentlyViewingEventId, setCurrentlyViewingEventId] = useState<string | number>(0)
 
@@ -83,6 +85,7 @@ export const Scheduler = ({open}: {open: boolean}) => {
         setCurrentlyViewingEventId(event.id)
         // forDDTruthy()
         // console.log(forDD, "dd")
+        handleForShowEventTruthy()
         console.log(event.id)
         // !forDD && currentlyViewingEventId && forDDTruthy()
     }
@@ -196,6 +199,8 @@ export const Scheduler = ({open}: {open: boolean}) => {
                     ? <DialogModalForEditOrDelete handleClose={forDDFalsy} open={forDD} handleRemoveFromList={handleRemoveFromList} handleEdit={updateCurrentlyViewingEventChanges} eventItem={events[getCurrentlyEditingItemIdx()]} />
                     : null
             }
+
+            <ShowFullEventDetails isOpen={forShowEvent} handleClose={handleForShowEventFalsy} />
         </div>
     )
 }

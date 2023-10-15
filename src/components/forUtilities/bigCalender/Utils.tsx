@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { useForInputTextChange } from "@/hooks/forComponents"
+import { useForInputTextChange, useForTruthToggle } from "@/hooks/forComponents"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { SlotInfo } from "react-big-calendar"
 import { EventItemTypes } from "./Scheduler"
@@ -25,7 +25,7 @@ export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFrom
 
     return (
         <Dialog open={open}>
-            <DialogContent>
+            <DialogContent className="fo">
                 <DialogHeader>
                     <DialogTitle className='text-accent-foreground'>Ready To Edit? - {eventItem?.title}</DialogTitle>
                     {/* <DialogDescription className="flex flex-col gap-y-2">
@@ -60,8 +60,8 @@ export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFrom
     )
 }
 
-const RenderRecipesList = ({hasCooking, items}: {hasCooking: boolean, items: {name: string, imgSrc: string}[]}) => {
-    
+const RenderRecipesList = ({ hasCooking, items }: { hasCooking: boolean, items: { name: string, imgSrc: string }[] }) => {
+
     const renderList = () => items.map(item => {
         return (
             <span key={item.name} className="flex flex-col justify-center items-center outline outline-primary-content w-full rounded-md">
@@ -104,7 +104,7 @@ export const DialogModal = ({ open, handleClose, slotData, handleAddToList }: { 
     return (
         <Dialog open={open}>
             {/* <DialogTrigger className='text-primary-content'>Open</DialogTrigger> */}
-            <DialogContent>
+            <DialogContent className="fo">
                 <DialogHeader className="relative">
                     <DialogTitle className='bg-primary-focus'>Add A New Event</DialogTitle>
                     {/* <Button onClick={handleClose} className='w-6 bg-secondary-focus absolute -right-3 -top-6'></Button> */}
@@ -174,5 +174,32 @@ export const EventOptionsDropDown = (props: any) => {
         //   <PopoverContent>Place content for the popover here.</PopoverContent>
         // </Popover>
 
+    )
+}
+
+export const ShowFullEventDetails = ({isOpen, handleClose}: {isOpen: boolean, handleClose: () => void}) => {
+    // const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
+    return (
+        <Dialog open={isOpen}>
+            {/* <DialogTrigger>Open</DialogTrigger> */}
+            <DialogContent className="fo">
+                <DialogHeader>
+                    <DialogClose className="absolute top-3 right-3 bg-accent z-20 px-2 hover:ring-1 ring-primary rounded-full" onClick={handleClose}>X</DialogClose>
+                    <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                    <DialogDescription>
+                        This action cannot be undone. This will permanently delete your account
+                        and remove your data from our servers.
+                    </DialogDescription>
+                </DialogHeader>
+            </DialogContent>
+        </Dialog>
+        // <Dialog open={true}>
+        //     <DialogContent>
+        //         content here
+        //     </DialogContent>
+        //     <DialogFooter>
+        //         user actions
+        //     </DialogFooter>
+        // </Dialog>
     )
 }
