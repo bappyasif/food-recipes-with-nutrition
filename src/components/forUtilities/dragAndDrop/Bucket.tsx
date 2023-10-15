@@ -101,7 +101,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     const handleClickedScheduler = () => handleTruthy()
 
     return (
-        <div>
+        <div className=''>
             <div className='flex justify-between'>
                 <Button className='text-xs' onClick={handleClickedScheduler}>Add To Scheduler</Button>
                 <Button className='text-xs'>Share In Social Media</Button>
@@ -110,7 +110,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                 isTrue
                     ?
                     <Popover open={isTrue}>
-                        <PopoverContent>
+                        <PopoverContent className='bg-card'>
                             <span>
                                 <span>Title</span>
                                 <input type="text" value={text} onChange={handleTextChange} className='bg-secondary w-full' required />
@@ -121,9 +121,13 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                                 <textarea name="description" id="description" className="w-full bg-secondary" rows={6} value={descText} onChange={handleDesc}></textarea>
                             </span>
                         </PopoverContent>
-                        <PopoverTrigger>
+                        {/* <span className='bg-card w-full'>
                             <Button onClick={handleScheduler}>Add</Button>
                             <Button onClick={handleFalsy}>Cancel</Button>
+                        </span> */}
+                        <PopoverTrigger className='bg-card flex gap-2 w-full my-1'>
+                            <Button onClick={handleScheduler} className='w-1/2'>Add</Button>
+                            <Button onClick={handleFalsy} className='w-1/2'>Cancel</Button>
                         </PopoverTrigger>
                     </Popover>
                     : null
@@ -189,21 +193,24 @@ const BucketCard = ({ ...items }: BucketCardProps) => {
 
     // if (!data?.id) return
 
-    const { id, imgSrc, label } = data;
+    // const { id, imgSrc, label } = data;
 
-    const originalIdx = findCard(id).idx
+    const originalIdx = findCard(data?.id).idx
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "card",
         item: data,
         // item: {id, originalIdx},
         collect(monitor) {
+            // if (!data?.id) return
             return {
-                isDragging: monitor.isDragging()
+                isDragging: data?.id ? monitor.isDragging() : false
             }
         },
         end(draggedItem, monitor) {
             // const {id, originalIdx} = draggedItem;
+            if (!data?.id) return
+
             const { id } = draggedItem
             const didDrop = monitor.didDrop()
 
@@ -213,15 +220,16 @@ const BucketCard = ({ ...items }: BucketCardProps) => {
                 // console.log(id, "moving from drag", originalIdx)
             }
         },
-    }), [id, originalIdx, moveCard])
+    }), [data?.id, originalIdx, moveCard])
 
     const [, drop] = useDrop(() => ({
         accept: "card",
         hover(item, monitor) {
+            if (!data?.id) return
             // console.log(item, "HOVERIBNG")
             const { id: draggedId } = item as CardBoxProps;
-            if (draggedId !== id) {
-                const { idx } = findCard(id)
+            if (draggedId !== data?.id) {
+                const { idx } = findCard(data?.id)
                 moveCard(draggedId, idx)
                 // console.log(idx, "moving from hover", draggedId, id)
             }
@@ -233,6 +241,8 @@ const BucketCard = ({ ...items }: BucketCardProps) => {
     // console.log(opacity, "opac")
 
     if (!data?.id) return
+
+    const { id, imgSrc, label } = data;
 
     return (
         <div

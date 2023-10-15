@@ -23,7 +23,7 @@ export const RecipesList = ({ open }: { open: boolean }) => {
 
     return (
         <div
-            className={`flex xxs:flex-col xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "xxs:w-52 sm:w-[26rem] md:w-[36rem] xl:w-[830px] scale-100 min-h-full h-[510px]" : "h-72 w-0 scale-0"}`}
+            className={`flex xxs:flex-col xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "xxs:w-52 sm:w-[14rem] md:w-[33rem] scale-100 min-h-full h-[510px]" : "h-72 w-0 scale-0"}`}
         // className={`flex xxs:flex-col xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "h-96 -translate-x-96" : "h-72 scale-0 translate-x-0"}`}
 
         // className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px] scale-100" : "h-72 w-0 scale-0"}`}
@@ -58,7 +58,7 @@ const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (
     const renderRecipes = () => recipes.map(item => <CardBox key={item.idMeal} data={returnNeededData(item)} addToCards={addToCards} />)
 
     return (
-        <div className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-80 overflow-y-scroll" : "h-0"}`}>
+        <div className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-[22.5rem] overflow-y-scroll" : "h-0"}`}>
             {recipes?.length ? renderRecipes() : null}
         </div>
     )
@@ -121,7 +121,7 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
                 <h2 className='text-primary text-xl'>{label}</h2>
                 <img src={imgSrc} width={60} height={60} alt={label} className='w-11 h-11 rounded-full' />
             </div>
-            <Button variant={'secondary'} onClick={() => {
+            <Button className='text-primary' variant={'secondary'} onClick={() => {
                 addToCards({ label, id, imgSrc })
             }}>Add Recipe To Bucket</Button>
         </div>
