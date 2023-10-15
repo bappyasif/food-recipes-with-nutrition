@@ -58,7 +58,7 @@ export const Scheduler = ({open}: {open: boolean}) => {
             return item
         })
 
-        console.log("updated", updatedEvents)
+        // console.log("updated", updatedEvents)
     }
 
     const handleRemoveFromList = () => {
@@ -148,10 +148,13 @@ export const Scheduler = ({open}: {open: boolean}) => {
         return foundItem
     }
 
-    console.log(events, "events!!")
+    // console.log(events, "events!!")
 
     return (
-        <div className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px]" : "h-72 w-[830px]"}`}>
+        <div 
+            // className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px]" : "h-72 w-[830px]"}`}
+            className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px] scale-100" : "h-72 w-0 scale-0"}`}
+        >
             <DnDCalendar
                 // ref={ref}
                 localizer={localizer}

@@ -5,6 +5,7 @@ import React, { CSSProperties, useEffect, useState } from 'react'
 // import { BoxProps } from './Box'
 import { useDrag } from 'react-dnd'
 import { Bucket } from './Bucket'
+import { Button } from '@/components/ui/button'
 
 type RecipeCardType = {
     id: number,
@@ -13,7 +14,7 @@ type RecipeCardType = {
     uri: string
 }
 
-export const RecipesList = ({open}: {open: boolean}) => {
+export const RecipesList = ({ open }: { open: boolean }) => {
     const [recipeCards, setRecipeCards] = useState<CardBoxProps[]>([])
     const addToCards = (item: CardBoxProps) => setRecipeCards(prev => [...prev, item])
     const updateCards = (dataset: CardBoxProps[]) => setRecipeCards(dataset)
@@ -21,25 +22,30 @@ export const RecipesList = ({open}: {open: boolean}) => {
     // console.log(recipeCards, "recipeCards!!")
 
     return (
-        <div className={`flex xxs:flex-col xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "h-96" : "h-72"}`}>
+        <div
+            className={`flex xxs:flex-col xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "xxs:w-52 sm:w-[26rem] md:w-[36rem] xl:w-[830px] scale-100 min-h-full h-[510px]" : "h-72 w-0 scale-0"}`}
+        // className={`flex xxs:flex-col xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "h-96 -translate-x-96" : "h-72 scale-0 translate-x-0"}`}
+
+        // className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px] scale-100" : "h-72 w-0 scale-0"}`}
+        >
             <Bucket cards={recipeCards} updateCards={updateCards} />
             <SearchRecipesByName addToCards={addToCards} />
         </div>
     )
 }
 
-const SearchRecipesByName = ({addToCards}: {addToCards: (d: any) => void}) => {
+const SearchRecipesByName = ({ addToCards }: { addToCards: (d: any) => void }) => {
     const { handleTextChange, text } = useForInputTextChange();
 
     return (
         <div className='relative bg-accent'>
-            <input type="text" placeholder='seacrh recipes by name' value={text} onChange={handleTextChange} className='bg-transparent' />
+            <input type="text" placeholder='seacrh recipes by name' value={text} onChange={handleTextChange} className='bg-transparent px-2 my-2 w-full border-b-2 rounded-lg' />
             <ShowAllFoundRecipes text={text} addToCards={addToCards} />
         </div>
     )
 }
 
-const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (d:any) => void }) => {
+const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (d: any) => void }) => {
     const [recipes, setRecipes] = useState<RecipeTypes[]>([])
 
     useEffect(() => {
@@ -47,7 +53,7 @@ const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (
         !text && setRecipes([])
     }, [text])
 
-    const returnNeededData = (item : RecipeTypes) => ({label: item.strMeal, id: item.idMeal, imgSrc: item.strMealThumb})
+    const returnNeededData = (item: RecipeTypes) => ({ label: item.strMeal, id: item.idMeal, imgSrc: item.strMealThumb })
 
     const renderRecipes = () => recipes.map(item => <CardBox key={item.idMeal} data={returnNeededData(item)} addToCards={addToCards} />)
 
@@ -64,7 +70,7 @@ interface DropResult {
 }
 
 export type CardBoxProps = {
-    label: string, 
+    label: string,
     imgSrc: string,
     id: string,
     // handleAddToList: ()
@@ -78,9 +84,9 @@ type RecipeCardBoxProps = {
 
 // const CardBox = ({ ...items }: CardBoxProps) => {
 const CardBox = ({ ...items }: RecipeCardBoxProps) => {
-    const {addToCards,data} = items
-    
-    const {label, id, imgSrc} = data;
+    const { addToCards, data } = items
+
+    const { label, id, imgSrc } = data;
 
     const [{ isDragging, handlerId }, drag] = useDrag(() => ({
         //   type: ItemTypes.BOX,
@@ -91,7 +97,7 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
             const dropResult = monitor.getDropResult<DropResult>()
             if (item && dropResult) {
                 // handleAddToList(item.name)
-                addToCards({label, id, imgSrc})
+                addToCards({ label, id, imgSrc })
                 // console.log(label, "dropped!!")
                 // alert(`You dropped ${item.name} into ${dropResult.name}!`)
             }
@@ -103,16 +109,21 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
     }))
 
     const opacity = isDragging ? 0.4 : 1
-    
+
     return (
         <div
-            className='p-2 bg-primary-foreground flex gap-2 items-center justify-between'
+            className='p-2 bg-primary-foreground flex flex-col gap-y-2 items-center justify-between'
             ref={drag}
             style={{ ...style, opacity }}
         // data-testid={`box`}
         >
-            <h2 className='text-primary text-xl'>{label}</h2>
-            <img src={imgSrc} width={60} height={60} alt={label} className='w-11 h-11 rounded-full' />
+            <div className='flex gap-x-2 items-center justify-between'>
+                <h2 className='text-primary text-xl'>{label}</h2>
+                <img src={imgSrc} width={60} height={60} alt={label} className='w-11 h-11 rounded-full' />
+            </div>
+            <Button variant={'secondary'} onClick={() => {
+                addToCards({ label, id, imgSrc })
+            }}>Add Recipe To Bucket</Button>
         </div>
     )
 }

@@ -7,7 +7,7 @@ import { Scheduler } from '../forUtilities/bigCalender/Scheduler'
 
 export const HomeHero = () => {
     return (
-        <div className='relative mt-20'>
+        <div className='relative mt-20 w-full'>
             <TwoExtensions />
 
             <div
@@ -77,9 +77,15 @@ const RightExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
     return (
         <div
-            className={`absolute bg-secondary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-[6.3rem]" : "xxs:translate-x-[10rem] md:translate-x-[24rem]"} xxs:w-40 md:w-[24rem] z-20`}
+            // className={`absolute bg-secondary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-[6.3rem]" : "xxs:translate-x-[10rem] md:translate-x-[24rem]"} xxs:w-40 md:w-[24rem] z-20`}
+
+            // className={`absolute bg-secondary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-4" : "translate-x-60"} xxs:w-fit md:w-[24rem] z-20`}
+
+            className={`absolute bg-secondary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-4" : "translate-x-0"} z-20`}
         >
-            <Button onClick={handleClicked} variant={'secondary'} className='absolute -left-16 top-0 h-full bg-card text-7xl flex items-center rounded-r-none text-muted-foreground'>[</Button>
+            <Button onClick={handleClicked} variant={'secondary'} className='absolute -left-16 top-0 transition-all duration-1000 h-full bg-card text-7xl flex items-center rounded-r-none text-muted-foreground'>[</Button>
+
+            {/* <Button onClick={handleClicked} variant={'secondary'} className='absolute -left-16 top-0 h-full bg-card text-7xl flex items-center rounded-r-none text-muted-foreground'>[</Button> */}
 
             <DragAndDrop open={extOpen === "right"} />
         </div>
@@ -95,9 +101,18 @@ const LeftExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
     return (
         <div
-            className={`flex bg-secondary gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-4" : "-translate-x-[41.6rem]"} z-20`}
+            // className={`flex bg-secondary gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "-translate-x-[41.6rem]"} ${extOpen === "left" ? "z-30" : "z-20"}`}
+            className={`flex bg-secondary gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "-translate-x-0"} ${extOpen === "left" ? "z-30" : "z-20"}`}
         >
+            {/* {
+                extOpen === "left"
+                ?
+                <Scheduler open={extOpen === "left"} />
+                : null
+            } */}
+
             <Scheduler open={extOpen === "left"} />
+            
             <Button onClick={handleClicked} variant={'secondary'} className={`absolute -right-16 bottom-0 transition-all duration-1000 h-full bg-card text-7xl flex items-center rounded-l-none text-muted-foreground`}>]</Button>
         </div>
     )
