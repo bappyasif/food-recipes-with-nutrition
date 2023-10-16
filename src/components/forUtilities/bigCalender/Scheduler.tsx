@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar, Event, SlotInfo, Views, momentLocalizer } from 'react-big-calendar'
 import withDragAndDrop, { EventInteractionArgs, withDragAndDropProps } from 'react-big-calendar/lib/addons/dragAndDrop'
 import "react-big-calendar/lib/css/react-big-calendar.css"
@@ -35,7 +35,7 @@ export type EventItemTypes = {
     // }
 }
 
-export const Scheduler = ({open}: {open: boolean}) => {
+export const Scheduler = ({ open }: { open: boolean }) => {
     // const [events, setEvents] = useState<typeof ITEMS>([])
     const [events, setEvents] = useState<EventItemTypes[]>([])
 
@@ -53,7 +53,7 @@ export const Scheduler = ({open}: {open: boolean}) => {
         // const updatedEvents = events.map(item => item.id === currentlyViewingEventId ? item.title = title : item)
 
         const updatedEvents = events.map(item => {
-            if(item.id === currentlyViewingEventId) {
+            if (item.id === currentlyViewingEventId) {
                 item.title = title ? title : item.title
                 item.description = description ? description : item.description
             }
@@ -86,6 +86,7 @@ export const Scheduler = ({open}: {open: boolean}) => {
         // forDDTruthy()
         // console.log(forDD, "dd")
         handleForShowEventTruthy()
+        // forShowEvent ? handleForShowEventFalsy() : handleForShowEventTruthy()
         console.log(event.id)
         // !forDD && currentlyViewingEventId && forDDTruthy()
     }
@@ -123,6 +124,15 @@ export const Scheduler = ({open}: {open: boolean}) => {
         // console.log(event?.id, "!!", event)
     }
 
+    // const handleEditAction = () => {
+    //     handleForShowEventFalsy();
+    //     forDDTruthy()
+    // }
+
+    useEffect(() => {
+        handleForShowEventFalsy()
+    }, [forDD])
+
     useEffect(() => {
         setEvents(ITEMS)
     }, [])
@@ -154,7 +164,7 @@ export const Scheduler = ({open}: {open: boolean}) => {
     // console.log(events, "events!!")
 
     return (
-        <div 
+        <div
             // className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px]" : "h-72 w-[830px]"}`}
             className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px] scale-100" : "h-72 w-0 scale-0"}`}
         >
@@ -184,29 +194,37 @@ export const Scheduler = ({open}: {open: boolean}) => {
                     event: props => (<EventOptionsDropDown remove={handleRemoveFromList} edit={forDDTruthy} {...props} />)
                 }}
 
+                // components={{
+                //     event: props => (<EventOptionsDropDown remove={handleRemoveFromList} edit={handleEditAction} {...props} />)
+                // }}
+
                 onSelectEvent={handleOnSelectEvent}
                 onSelectSlot={handleOnSelectSlot}
             />
 
-            {
+            {/* {
                 isTrue
                     ? <DialogModal handleClose={handleFalsy} open={isTrue} slotData={slotData} handleAddToList={handleAddToList} />
                     : null
-            }
+            } */}
 
-            {
+            {/* {
                 forDD
                     ? <DialogModalForEditOrDelete handleClose={forDDFalsy} open={forDD} handleRemoveFromList={handleRemoveFromList} handleEdit={updateCurrentlyViewingEventChanges} eventItem={events[getCurrentlyEditingItemIdx()]} />
                     : null
-            }
+            } */}
 
-            <ShowFullEventDetails isOpen={forShowEvent} handleClose={handleForShowEventFalsy} />
+            <DialogModal handleClose={handleFalsy} open={isTrue} slotData={slotData} handleAddToList={handleAddToList} />
+
+            <DialogModalForEditOrDelete handleClose={forDDFalsy} open={forDD} handleRemoveFromList={handleRemoveFromList} handleEdit={updateCurrentlyViewingEventChanges} eventItem={events[getCurrentlyEditingItemIdx()]} />
+
+            <ShowFullEventDetails isOpen={forShowEvent && !forDD} handleClose={handleForShowEventFalsy} eventItem={events[getCurrentlyEditingItemIdx()] || []} handleBeginEditing={forDDTruthy} handleRemoveFromList={handleRemoveFromList} />
         </div>
     )
 }
 
 
-export const ITEMS:EventItemTypes[] = [
+export const ITEMS: EventItemTypes[] = [
     {
         start: moment().toDate(),
         end: moment().add(1, "days").toDate(),
