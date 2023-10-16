@@ -4,7 +4,7 @@ import { ViewedMealCardType } from '@/types'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { useForTruthToggle } from '@/hooks/forComponents'
-import styles from "@/app/Home.module.css"
+import styles from "@/app/[locale]/Home.module.css"
 import { Badge } from '../ui/badge'
 
 export const RecentlyViewedMealsScroller = () => {

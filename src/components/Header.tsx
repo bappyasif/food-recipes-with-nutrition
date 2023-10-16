@@ -12,6 +12,7 @@ import logo from "../../public/logo-why.png"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import { ellipsedText } from "./forRecipe/FewNonRelatedRecipes"
+import { useTranslations, useLocale } from "use-intl"
 
 export const Header = () => {
   const renderNavs = () => navs.map(item => <RenderNav key={item.name} icon={item.icon} name={item.name} path={item.path} />)
@@ -77,10 +78,14 @@ const ShowAllFoundRecipes = ({ text }: { text: string }) => {
 const RenderNav = ({ ...item }: NavType) => {
   const { icon, name, path } = item
 
+  const t = useTranslations()
+
+  const locale = useLocale().toString()
+
   return (
-    <Link href={path} className="flex gap-1 items-center font-bold text-primary">
+    <Link href={`/${locale}/${path}`} className="flex gap-1 items-center font-bold text-primary">
       <span>{icon}</span>
-      <span className="xxs:hidden md:block">{name}</span>
+      <span className="xxs:hidden md:block">{t(`${name}`)}</span>
     </Link>
   )
 }
