@@ -268,3 +268,19 @@ export const useForRanmoziedDataset = (items: string[]) => {
 
     return {dataset}
 }
+
+export const useForOutsideClick = (ref:any, callback: () => void) => {
+    const handleClick = (e:MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        callback();
+      }
+    };
+  
+    useEffect(() => {
+      document.addEventListener("click", handleClick);
+  
+      return () => {
+        document.removeEventListener("click", handleClick);
+      };
+    });
+  };

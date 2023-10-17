@@ -13,8 +13,8 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
 
     const radius = 125
 
-    const wheelRef = useRef<HTMLDivElement>(window.document?.querySelector("#wheel") as HTMLDivElement)
-    // const wheelRef = useRef<HTMLDivElement>(null)
+    // const wheelRef = useRef<HTMLDivElement>(window.document?.querySelector("#wheel") as HTMLDivElement)
+    const wheelRef = useRef<HTMLDivElement>(null)
 
     const [centerOfWheel, setCenterOfWheel] = useState<{
         x: number;
@@ -22,6 +22,7 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
     }>({ x: 0, y: 0 })
 
     const getCenterOfWheel = () => {
+        if(!wheelRef.current) return
         const wheelCenter = {
             x: parseFloat(wheelRef.current.style.width) / 2.0,
             y: parseFloat(wheelRef.current.style.height) / 2.0,
@@ -54,6 +55,8 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
 
     const handleScroll = (event:React.WheelEvent<HTMLDivElement>) => {
         clearTimeout(timerId)
+
+        if(!wheelRef.current) return
         
         // console.log(event.deltaY, event);
         const temp_theta = thetaTracked + event.deltaY;
@@ -73,11 +76,15 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
     const handleSpin = () => {
         handleResetRandomNumber()
 
+        if(!wheelRef.current) return
+
         wheelRef.current.style.transform = `translate(-50%, -50%) rotate(${Math.round(1500 + Math.round(Math.random() * 3600))}deg)`
         
         wheelRef.current.style.transition = "transform 2s ease-in-out"
         
         const timer = setTimeout(() => {
+            if(!wheelRef.current) return
+            
             wheelRef.current.style.transition = "transform 0s ease-in-out"
             wheelRef.current.style.transform = `translate(-50%, -50%) rotate(0deg)`
             handleRandomNumber();
@@ -103,7 +110,7 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
                 {cards}
             </div>
             <Button variant={'destructive'} 
-            className='absolute transition-all duration-500 bg-transparent hover:bg-transparent hover:text-2xl' 
+            className='absolute transition-all duration-500 bg-transparent hover:bg-transparent hover:text-2xl text-secondary' 
             onClick={handleSpin}
             >Spin</Button>
         </div>

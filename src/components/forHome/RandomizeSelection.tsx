@@ -38,7 +38,7 @@ export const RandomizeSelection = () => {
             setRandomizedDataset(prev => ({ ...prev, forDishes: dishesRandomized }))
         }
 
-    }, [cuisinesRandomized, dishesRandomized])
+    }, [setRandomizedDataset, cuisinesRandomized, dishesRandomized])
 
     useEffect(() => {
         setRandomizedDataset({ forCuisines: cuisines, forDishes: dishes })
@@ -54,13 +54,16 @@ export const RandomizeSelection = () => {
 
             <div className='flex xxs:flex-col lg:flex-row justify-start h-full'>
                 <div className='flex xxs:flex-col lg:flex-row gap-x-0 justify-between px-28 xxs:w-full lg:w-1/2'>
-                    {randomizedDataset.forCuisines.length === 8 ?
+                    {randomizedDataset.forCuisines.length <= 8 ?
                         <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
                         : null
                     }
+                    {/* <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
+
+                    <ReuseableWheelCarousel dataset={randomizedDataset.forDishes} title='Randomize Dish Type' updateRnds={updateRnds} /> */}
 
                     {
-                        randomizedDataset.forDishes.length === 8
+                        randomizedDataset.forDishes.length
                             ? <ReuseableWheelCarousel dataset={randomizedDataset.forDishes} title='Randomize Dish Type' updateRnds={updateRnds} />
                             : null
                     }
@@ -345,7 +348,7 @@ const ShowTitle = ({ rnds, wheelDataset }: {
             <h2 className='flex flex-col gap-y-2'>
                 <span className='font-bold text-lg'>Cuisine</span>
                 {/* <span className='font-semibold text-sm'>{cuisines[cuisine] ? cuisines[cuisine] : "intrim spin"}</span> */}
-                <span className='font-semibold text-sm'>{wheelDataset.forCuisines[dish] ? wheelDataset.forCuisines[cuisine] : "intrim spin"}</span>
+                <span className='font-semibold text-sm'>{wheelDataset.forCuisines[cuisine] ? wheelDataset.forCuisines[cuisine] : "intrim spin"}</span>
             </h2>
         </div>
     )

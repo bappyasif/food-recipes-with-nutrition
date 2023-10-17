@@ -2,12 +2,12 @@
 
 import { MdFoodBank, MdRestaurantMenu } from "react-icons/md"
 import { IoIosColorFilter } from "react-icons/io"
-import { useForInputTextChange } from '@/hooks/forComponents'
-import { NavType, RecipeTypes } from '@/types'
-import { searchRecipesByNameFromApi } from '@/utils/dataFetching'
+import { useForInputTextChange, useForOutsideClick, useForTruthToggle } from '@/hooks/forComponents'
+import { NavType, RecipeMealType, RecipeTypes } from '@/types'
+import { searchRecipes, searchRecipesByNameFromApi } from '@/utils/dataFetching'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import logo from "../../public/logo-why.png"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
@@ -37,7 +37,7 @@ export const Header = () => {
             ? <SearchRecipes />
             : null
         }
-         <LocaleSwitcher />
+        <LocaleSwitcher />
       </div>
     </div>
   )
@@ -46,35 +46,86 @@ export const Header = () => {
 const SearchRecipes = () => {
   const { handleTextChange, text } = useForInputTextChange();
 
+  const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle();
+
+  const {handleFalsy:handleFalsyForFocused, handleTruthy: handleTruthyForFocused, isTrue:forFocused} = useForTruthToggle()
+
+  useEffect(() => {
+    handleFalsy()
+    // console.log(ref.current, "ref here!!")
+  }, [text])
+
+  const ref = useRef<HTMLDivElement>(null)
+
+  useForOutsideClick(ref, handleFalsyForFocused)
+
+  // console.log(forFocused, "is it")
+
   return (
-    <div className='relative w-1/4 flex items-center xs:text-xs sm:text-sm lg:text-xl'>
+    <div className='relative w-1/4 flex items-center xs:text-xs sm:text-sm lg:text-xl' ref={ref} onClick={handleTruthyForFocused}>
       <input className="w-full h-full rounded-sm pl-4 text-primary bg-transparent border-0 border-b-2 border-b-primary" type="text" placeholder='search recipes by name' value={text} onChange={handleTextChange} />
-      <ShowAllFoundRecipes text={text} />
+      <Button onClick={handleTruthy} variant={"ghost"} className="absolute right-0 h-6 text-muted-foreground font-semibold">Search</Button>
+      <ShowAllFoundRecipes text={text} isTrue={isTrue} showDropdown={forFocused} />
     </div>
   )
 }
 
-const ShowAllFoundRecipes = ({ text }: { text: string }) => {
-  const [recipes, setRecipes] = useState<RecipeTypes[]>([])
+const ShowAllFoundRecipes = ({ text, isTrue, showDropdown }: { text: string, isTrue: boolean, showDropdown: boolean }) => {
+  // const [recipes, setRecipes] = useState<RecipeTypes[]>([])
+  const [recipes, setRecipes] = useState<RecipeMealType[]>([])
+
+  const fetchRecipesFromApi = () => {
+    const params = {
+      app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
+      app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
+      q: text,
+      random: true,
+      type: "public",
+    }
+
+    fetchAndUpdateData(params, setRecipes)
+
+    // const doThis = searchRecipes(params).then(d => console.log(d, "found!!")).catch(err => console.log(err))
+
+    // const timer = setTimeout(() => text && doThis, 1899)
+
+    // return () => clearTimeout(timer)
+  }
 
   useEffect(() => {
-    text && searchRecipesByNameFromApi(text).then(data => setRecipes(data.meals)).catch(err => console.log(err))
+    // if limit goes beyond acceptable range then use this instead, whch uses mealdb api which is not restricted limited requests
+    // text && searchRecipesByNameFromApi(text).then(data => setRecipes(data.meals)).catch(err => console.log(err))
     !text && setRecipes([])
-  }, [text])
+
+    isTrue && text.length >= 2 && fetchRecipesFromApi()
+  }, [text, isTrue])
+
+  // const renderRecipes = () => recipes.map(item => {
+  //   return (
+  //     <Button variant={"link"} key={item.idMeal} className='flex gap-x-2 outline-dotted text-primary justify-between' title={item?.strMeal}>
+  //       <span className="text-lg">{item?.strMeal.length > 11 ? ellipsedText(item?.strMeal, 11) : item?.strMeal}</span>
+  //       <Badge>{item.strArea}</Badge>
+  //       <Badge>{item.strCategory}</Badge>
+  //     </Button>
+  //   )
+  // })
 
   const renderRecipes = () => recipes.map(item => {
+    const {label, uri, cuisineType, mealType} = item
     return (
-      <Button variant={"link"} key={item.idMeal} className='flex gap-x-2 outline-dotted text-primary justify-between' title={item?.strMeal}>
-        <span className="text-lg">{item?.strMeal.length > 11 ? ellipsedText(item?.strMeal, 11) : item?.strMeal}</span>
-        <Badge>{item.strArea}</Badge>
-        <Badge>{item.strCategory}</Badge>
+      <Button variant={"link"} key={uri} className='flex gap-x-2 outline-dotted text-primary justify-between' title={label}>
+        <span className="text-lg">{label.length > 11 ? ellipsedText(label, 11) : label}</span>
+        <Badge>{cuisineType[0]}</Badge>
+        <Badge>{mealType[0]}</Badge>
       </Button>
     )
   })
 
+  // console.log(recipes, "recipes!!")
+
   return (
-    <div className={`absolute w-full top-8 right-0 flex flex-col gap-y-2 ${recipes?.length ? "h-40" : "h-0"} overflow-y-scroll no-scrollbar z-40 bg-card`}>
-      {recipes?.length ? renderRecipes() : null}
+    <div className={`absolute w-full top-8 right-0 flex flex-col gap-y-2 ${recipes?.length && showDropdown ? "h-40" : "h-0"} overflow-y-scroll no-scrollbar z-40 bg-card`}>
+      {recipes?.length && showDropdown ? renderRecipes() : null}
     </div>
   )
 }
@@ -96,6 +147,20 @@ const RenderNav = ({ ...item }: NavType) => {
       <span className="xxs:hidden md:block">{t(`${name}`)}</span>
     </Link>
   )
+}
+
+export const fetchAndUpdateData = (params: any, setRecipes: any) => {
+  searchRecipes(params).then(d => {
+    // console.log(d, "!!")
+    const onlyRecipes = d?.hits.map((item: any) => item.recipe)
+    // onlyRecipes?.length && setRecipes(onlyRecipes)
+
+    const readyForRendering = onlyRecipes?.map((item: any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label)) || []
+
+    readyForRendering?.length && setRecipes(readyForRendering)
+    // console.log(readyForRendering.length, "readyForRendeing")
+
+  }).catch(err => console.log(err))
 }
 
 const navs = [
