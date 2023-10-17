@@ -13,11 +13,14 @@ import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import { ellipsedText } from "./forRecipe/FewNonRelatedRecipes"
 import { useTranslations, useLocale } from "use-intl"
+import { LocaleSwitcher } from "./LocaleSwitcher"
 
 export const Header = () => {
   const renderNavs = () => navs.map(item => <RenderNav key={item.name} icon={item.icon} name={item.name} path={item.path} />)
 
   const pathName = usePathname()
+
+  const locale = useLocale()
 
   return (
     <div className="flex flex-col justify-center items-center gap-y-6">
@@ -30,10 +33,11 @@ export const Header = () => {
           {renderNavs()}
         </nav>
         {
-          pathName !== "/filter-recipes"
+          pathName !== `/${locale}/filter-recipes`
             ? <SearchRecipes />
             : null
         }
+         <LocaleSwitcher />
       </div>
     </div>
   )
@@ -78,7 +82,11 @@ const ShowAllFoundRecipes = ({ text }: { text: string }) => {
 const RenderNav = ({ ...item }: NavType) => {
   const { icon, name, path } = item
 
-  const t = useTranslations()
+  // when using with react-intl
+  // const t = useTranslations()
+
+  // when using with "next-intl"
+  const t = useTranslations("default")
 
   const locale = useLocale().toString()
 

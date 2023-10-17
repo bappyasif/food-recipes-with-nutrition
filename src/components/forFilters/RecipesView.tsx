@@ -8,6 +8,7 @@ import { Badge } from '../ui/badge'
 import Link from 'next/link'
 import styles from "./Filters.module.css"
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
+import { useLocale } from 'next-intl'
 
 export const RecipesView = ({ recipes }: { recipes: RecipeMealType[] }) => {
     const renderRecipes = () => recipes.map(item => <RenderRecipe key={item.label} {...item} />)
@@ -23,6 +24,8 @@ export const RecipesView = ({ recipes }: { recipes: RecipeMealType[] }) => {
 
 const RenderRecipe = ({ ...items }: RecipeMealType) => {
     const { calories, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, source, tags, totalWeight, url, yield: servings, uri } = items
+
+    const locale = useLocale()
 
     return (
         <div 
@@ -43,7 +46,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
             </p>
 
             <div className={`${styles.whenNotFlipped}`}>
-                <Link href={`/recipe/${extractRecipeId(uri)}`} className='flex items-center justify-center flex-col gap-y-2'>
+                <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex items-center justify-center flex-col gap-y-2'>
                     <h2 className='font-bold text-lg'>{label.length > 11 ? ellipsedText(label, 11) : label}</h2>
                     <img className='w-64' src={images.SMALL.url} alt={label} width={images.SMALL.width} height={images.SMALL.height} />
                 </Link>    
@@ -57,7 +60,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
             <div 
                 className={`${styles.whenFlipped} px-1.5 items-center justify-center `}
             >
-                <Link href={`/recipe/${extractRecipeId(uri)}`}>
+                <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`}>
                     <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary w-64' title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</h2>
                 </Link>
                 

@@ -4,6 +4,7 @@ import { ReusableModal, extractRecipeId } from '../forFilters/RecipesView'
 import { Badge } from '../ui/badge'
 import Link from 'next/link'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
+import { useLocale } from 'next-intl'
 
 export const RandomizedRecipesView = ({ recipes }: { recipes: RecipeMealType[] }) => {
     const renderRecipes = () => recipes.map(item => <RenderRecipeItem key={item.uri} data={item} />)
@@ -27,9 +28,10 @@ export const RandomizedRecipesView = ({ recipes }: { recipes: RecipeMealType[] }
 const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     const { uri, label, calories, images, mealType, co2EmissionsClass } = data;
     const { LARGE, REGULAR, SMALL } = images;
+    const locale = useLocale()
     return (
         <div className='flex flex-col gap-y-2 justify-center items-center w-56'>
-            <Link href={`/recipe/${extractRecipeId(uri)}`} className='flex flex-col gap-y-2' title={label}>
+            <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex flex-col gap-y-2' title={label}>
                 <h2>{label.length > 13 ? ellipsedText(label, 13) : label}</h2>
                 <img src={REGULAR.url} height={REGULAR.height} width={REGULAR.width} alt={label} className='w-56 h-48 rounded-sm' />
             </Link>

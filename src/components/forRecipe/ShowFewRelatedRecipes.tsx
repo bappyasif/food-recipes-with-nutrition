@@ -7,6 +7,7 @@ import styles from "./Recipe.module.css"
 import { Badge } from '../ui/badge'
 import { extractRecipeId } from '../forFilters/RecipesView'
 import { ellipsedText } from './FewNonRelatedRecipes'
+import { useLocale } from 'next-intl'
 
 export const ShowFewRelatedRecipes = ({ mealType, diet, dishType }: { mealType: string, diet: string, dishType: string }) => {
     const {recipes} = useForRandomRecipesList(mealType, diet, dishType)
@@ -66,6 +67,8 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
 
     const recipeId = extractRecipeId(uri)
 
+    const locale = useLocale()
+
     return (
         <div
             className={`${styles.fadeOutCard} w-48 relative ${(lastCard || firstCard) ? "pointer-events-none": "pointer-events-auto"}`}
@@ -77,7 +80,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                 <img className='w-40 h-full' src={url} alt={label} height={height} width={width} />
             </div>
             <div className={`absolute top-0 transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>
-                <Link className={`${isTrue ? "text-xl" : ""}`} href={`/recipe/${recipeId}`} title={label}>{label.length > 11 ? ellipsedText(label, 11) : label}</Link>
+                <Link className={`${isTrue ? "text-xl" : ""}`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 11 ? ellipsedText(label, 11) : label}</Link>
                 <Badge>{mealType[0]}</Badge>
                 <Badge>{dishType[0]}</Badge>
             </div>

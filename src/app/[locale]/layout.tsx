@@ -5,6 +5,7 @@ import { ReduxStoreProvider } from '@/redux/provider'
 import { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
 import {createTranslator, NextIntlClientProvider} from 'next-intl';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   title: "What's Cooking Yo",
@@ -18,7 +19,11 @@ type Props = {
 
 async function getMessages(locale: string) {
   try {
-    return (await import(`../../../messages/${locale}/default.json`)).default;
+    // with react-intl library for locale management in i18nexus
+    // return (await import(`../../../messages/${locale}/default.json`)).default;
+
+    // this with next-intl library from i18nexus
+    return (await import(`../../../messages/${locale}.json`)).default;
   } catch (error) {
     notFound();
   }
@@ -56,6 +61,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
         <Header />
           {children}
+          <Analytics />
           <Footer />
         </NextIntlClientProvider>
         </ReduxStoreProvider>

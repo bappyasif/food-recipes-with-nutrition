@@ -6,6 +6,7 @@ import { Badge } from '../ui/badge'
 import Link from 'next/link'
 import { extractRecipeId } from '../forFilters/RecipesView'
 import { diets, dishes, meals } from '../forFilters/FiltersDashboard'
+import { useLocale } from 'next-intl'
 
 export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: string, dishType: string, mealType: string }) => {
     const [randomizedFilters, setRandomizedFilters] = useState({ diet: "", dishType: "", mealType: "" })
@@ -78,6 +79,8 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
 
     const recipeId = extractRecipeId(uri)
 
+    const locale = useLocale()
+
     return (
         <div
             className='flex justify-center gap-x-4 relative'
@@ -93,7 +96,7 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
             <div
                 className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center flex flex-col gap-y-2`}
             >
-                <Link className={`${isTrue ? "text-lg" : ""} hover:underline`} href={`/recipe/${recipeId}`} title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</Link>
+                <Link className={`${isTrue ? "text-lg" : ""} hover:underline`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</Link>
                 
                 <Badge className='w-fit'>{mealType[0]}</Badge>
                 <Badge className='w-fit'>{dishType[0]}</Badge>
