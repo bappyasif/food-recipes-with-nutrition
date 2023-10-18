@@ -9,15 +9,31 @@ import Link from 'next/link'
 import styles from "./Filters.module.css"
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
+import axios from 'axios'
 
-export const RecipesView = ({ recipes }: { recipes: RecipeMealType[] }) => {
+export const RecipesView = ({ recipes, nextHref, handleRecipesFound }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d:RecipeMealType[], href?: string) => void }) => {
     const renderRecipes = () => recipes.map(item => <RenderRecipe key={item.label} {...item} />)
+    const fetchMore = () => {
+        // console.log(nextHref)
+        if(nextHref) {
+            axios.get(nextHref).then(resp => {
+                console.log(resp.data, "lets see!!")
+                const onlyRecipes = resp.data?.hits.map((item: any) => item.recipe)
+
+                const readyForRendering = onlyRecipes.map((item: any) => item.mealType?.length && item.dishType?.length && item.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
+
+                readyForRendering?.length && handleRecipesFound(readyForRendering, resp.data?._links?.next?.href)
+
+            }).catch(err => console.log(err, "error!!"))
+        }
+    }
     return (
         <div>
             <h1>Recipes View</h1>
             <div className='grid xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 xxs:gap-11 lg:gap-11 place-content-center place-items-center'>
                 {renderRecipes()}
             </div>
+            <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={fetchMore} disabled={!nextHref}>See More</Button>
         </div>
     )
 }

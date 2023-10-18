@@ -48,9 +48,9 @@ export const useForInputTextChange = () => {
     return { text, handleTextChange }
 }
 
-export const useForExtractingQueriesFromUrl = (handleRecipesFound: (d: RecipeMealType[]) => void) => {
+export const useForExtractingQueriesFromUrl = (handleRecipesFound:(data: RecipeMealType[], nextHref?: string) => void) => {
     const [params, setParams] = useState<URLSearchParams>()
-    const [mealsRecipes, setMealsRecipes] = useState<RecipeMealType[]>([])
+    // const [mealsRecipes, setMealsRecipes] = useState<RecipeMealType[]>([])
 
     const searchParams = useSearchParams();
     // console.log(searchParams.get("q"), searchParams.size)
@@ -62,10 +62,13 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound: (d: RecipeMea
 
     const runOnce = () => {
         const queriesStr = searchParams.toString();
+        // console.log(queriesStr, "sytringify")
         const tokenized = queriesStr.split("&")
         tokenized.forEach(item => {
             const tokens = item.split("=")
-            updateParams(tokens[1], tokens[0])
+            // console.log(tokens[1].split("+").join(" "))
+            // updateParams(tokens[1], tokens[0])
+            updateParams(tokens[1]?.split("+").join(" "), tokens[0])
         })
 
         setParams(params2)
@@ -76,7 +79,8 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound: (d: RecipeMea
         updateParams(process.env.NEXT_PUBLIC_EDAMAM_APP_KEY!, "app_key")
         searchParams.get("q") && updateParams(searchParams.get("q")!, "q")
         !searchParams.get("type") && updateParams("public", "type")
-        updateParams("true", "random")
+        // if we use random then "nexthref" wont be available which is used to fetch next 20 results from api
+        // updateParams("true", "random")
 
         runOnce()
 
@@ -88,14 +92,18 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound: (d: RecipeMea
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            console.log(params, "ready for fetching data!!", searchParams.get("type"), params2, params?.get("app_id"), params?.toString())
+            // console.log(params, "ready for fetching data!!", searchParams.get("type"), params2, params?.get("app_id"), params?.toString(), params?.get("dishType"))
             // searchParams.get("type") && fetchAndUpdateData(params?.toString(), setMealsRecipes)
             params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
                 const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
 
                 const readyForRendering = onlyRecipes.map((item: any) => item.mealType?.length && item.dishType?.length && item.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
-                readyForRendering?.length && handleRecipesFound(readyForRendering)
+                readyForRendering?.length && handleRecipesFound(readyForRendering, d.data?._links?.next?.href)
+                
+                // console.log(d.data?._links?.next?.href, "href", d.data)
+
+                // readyForRendering?.length && setMealsRecipes(readyForRendering)
             })
         }, 1001)
 
@@ -104,11 +112,11 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound: (d: RecipeMea
         return () => clearTimeout(timer)
     }, [params])
 
-    useEffect(() => {
-        // handleRecipesFound(mealsRecipes)
-    }, [mealsRecipes])
+    // useEffect(() => {
+    //     // handleRecipesFound(mealsRecipes)
+    // }, [mealsRecipes])
 
-    return { mealsRecipes }
+    // return { mealsRecipes }
 }
 
 export const useForRandomRecipesList = (mealType: string, diet: string, dishType: string) => {

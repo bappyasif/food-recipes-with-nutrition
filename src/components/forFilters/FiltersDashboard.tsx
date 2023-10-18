@@ -11,7 +11,7 @@ import axios from 'axios'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
 
 type FiltersDashboardPropsType = {
-    handleRecipesFound: (d: any) => void
+    handleRecipesFound: (d: any, href?: string) => void
 }
 
 export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsType) => {
@@ -114,7 +114,7 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
             
             const readyForRendering = onlyRecipes.map((item:any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item:any) => item).filter((v:any, idx:number, self:any) => idx === self.findIndex((t:any) => t.label === v.label))
 
-            readyForRendering?.length && handleRecipesFound(readyForRendering)
+            readyForRendering?.length && handleRecipesFound(readyForRendering, d.data?._links?.next?.href)
         }).catch(err => console.log(err))
 
         querifyFilters();
