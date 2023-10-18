@@ -172,7 +172,7 @@ const MultipleSelectableFilters = ({ handleFiltersChange }: FilterChangeTypes) =
 
             <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='health' trigText='Health Lables' data={health} />
 
-            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='cusineType' trigText='Cuisines Types' data={cuisines} />
+            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='cuisineType' trigText='Cuisines Types' data={cuisines} />
         </Accordion>
     )
 }
@@ -222,8 +222,8 @@ export const diets = ["balanced", "high-fiber", "high-protein", "low-carb", "low
 
 export const health = ["alcohol-free", "alchohol-cocktail", "celery-free", "crustacean-free", "dairy-free", "DASH", "egg-free", "fish-free", "fodmap-free", "gluten-free", "immuno-supportive", "keto-friendly", "kidney-friendly", "kosher", "low-fat-abs", "low-potassium", "low-sugar", "lupine-free", "Mediterranean", "mollusk-free", "mustard-free", "no-oil-added", "paleo", "peanut-free", "pescaterian", "pork-free", "red-meat-free", "sesame-free", "shellfish-free", "soy-free", "sugar-conscious", "sulfite-free", "tree-nut-free", "vegan", "vegetarian", "wheat-free"]
 
-export const cuisines = ["American", "Asian", "British", "Caribbean", "Central europe", "chinese", "eastern europe", "french", "indian", "italian", "japanese", "kosher", "mediterranean", "mexican", "middle eastern", "nordic", "south-american", "south east asian"]
+export const cuisines = ["American", "Asian", "British", "Caribbean", "Central Europe", "Chinese", "Eastern Europe", "French", "Indian", "Italian", "Japanese", "Kosher", "Mediterranean", "Mexican", "Middle eastern", "Nordic", "South American", "South East Asian"]
 
-export const meals = ["Breakfast", "dinner", "lunch", "snack", "teatime"]
+export const meals = ["Breakfast", "Dinner", "Lunch", "Snack", "Teatime"]
 
-export const dishes = ["biscuits and cookies", "bread", "cereals", "condiments and sauces", "desserts", "drinks", "main course", "pan cake", "preps", "preserve", "salad", "sandwiches", "side dish", "soup", "starter", "sweets"]
+export const dishes = ["Biscuits and Cookies", "Bread", "Cereals", "Condiments and Sauces", "Desserts", "Drinks", "Main Course", "Pancake", "Preps", "Preserve", "Salad", "Sandwiches", "Side Dish", "Soup", "Starter", "Sweets"]

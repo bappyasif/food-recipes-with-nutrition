@@ -52,7 +52,7 @@ export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisin
         // console.log(params, "params!!")
     }
 
-    const { querifyFilters } = useForQuerifiedParams(params)
+    const { querifyFilters } = useForQuerifiedParams(params, true)
 
     useEffect(() => {
         (params.cuisineType || params.dishType) ? querifyFilters() : null

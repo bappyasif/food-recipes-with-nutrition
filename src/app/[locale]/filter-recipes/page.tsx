@@ -9,9 +9,9 @@ import React, { useState } from 'react'
 const FilterRecipesPage = () => {
   const [recipesFound, setRecipesFound] = useState<RecipeMealType[]>([])
  
-  const handleRecipesFound = (data:any) => setRecipesFound(data)
+  const handleRecipesFound = (data:RecipeMealType[]) => setRecipesFound(data)
 
-  const {mealsRecipes} = useForExtractingQueriesFromUrl()
+  const {mealsRecipes} = useForExtractingQueriesFromUrl(handleRecipesFound)
 
   return (
     <div 

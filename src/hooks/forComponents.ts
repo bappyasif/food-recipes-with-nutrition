@@ -1,5 +1,8 @@
+import { fetchAndUpdateData } from "@/components/Header";
 import { FiltersTypes, RecipeMealType } from "@/types";
 import { searchRecipes } from "@/utils/dataFetching";
+import axios from "axios";
+import { useLocale } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -45,12 +48,12 @@ export const useForInputTextChange = () => {
     return { text, handleTextChange }
 }
 
-export const useForExtractingQueriesFromUrl = () => {
+export const useForExtractingQueriesFromUrl = (handleRecipesFound: (d: RecipeMealType[]) => void) => {
     const [params, setParams] = useState<URLSearchParams>()
     const [mealsRecipes, setMealsRecipes] = useState<RecipeMealType[]>([])
 
     const searchParams = useSearchParams();
-    console.log(searchParams.get("q"), searchParams.size)
+    // console.log(searchParams.get("q"), searchParams.size)
 
     const params2 = new URLSearchParams();
 
@@ -73,6 +76,7 @@ export const useForExtractingQueriesFromUrl = () => {
         updateParams(process.env.NEXT_PUBLIC_EDAMAM_APP_KEY!, "app_key")
         searchParams.get("q") && updateParams(searchParams.get("q")!, "q")
         !searchParams.get("type") && updateParams("public", "type")
+        updateParams("true", "random")
 
         runOnce()
 
@@ -84,7 +88,15 @@ export const useForExtractingQueriesFromUrl = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            console.log(params)
+            console.log(params, "ready for fetching data!!", searchParams.get("type"), params2, params?.get("app_id"), params?.toString())
+            // searchParams.get("type") && fetchAndUpdateData(params?.toString(), setMealsRecipes)
+            params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
+                const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
+
+                const readyForRendering = onlyRecipes.map((item: any) => item.mealType?.length && item.dishType?.length && item.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
+
+                readyForRendering?.length && handleRecipesFound(readyForRendering)
+            })
         }, 1001)
 
         // console.log(params2, "running!!", params, searchParams.keys(), searchParams.toString(), searchParams.values())
@@ -99,13 +111,13 @@ export const useForExtractingQueriesFromUrl = () => {
     return { mealsRecipes }
 }
 
-export const useForRandomRecipesList = (mealType:string, diet:string, dishType:string) => {
+export const useForRandomRecipesList = (mealType: string, diet: string, dishType: string) => {
     const [recipes, setRecipes] = useState<RecipeMealType[]>([])
     const readySimilarRcipesRequest = () => {
         const params = {
-            mealType: mealType[0].toUpperCase()+mealType.substring(1),
+            mealType: mealType[0].toUpperCase() + mealType.substring(1),
             diet: diet.toLocaleLowerCase(),
-            dishType: dishType[0].toUpperCase()+dishType.substring(1),
+            dishType: dishType[0].toUpperCase() + dishType.substring(1),
             random: true,
             type: "public",
             app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
@@ -119,8 +131,8 @@ export const useForRandomRecipesList = (mealType:string, diet:string, dishType:s
             const onlyRecipes = d?.hits.map((item: any) => item.recipe)
             // onlyRecipes?.length && setRecipes(onlyRecipes)
 
-            const readyForRendering = onlyRecipes?.map((item:any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item:any) => item).filter((v:any, idx:number, self:any) => idx === self.findIndex((t:any) => t.label === v.label))
-            
+            const readyForRendering = onlyRecipes?.map((item: any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
+
             readyForRendering?.length && setRecipes(readyForRendering)
             // console.log(readyForRendering.length, "readyForRendeing")
 
@@ -132,7 +144,7 @@ export const useForRandomRecipesList = (mealType:string, diet:string, dishType:s
         mealType && diet && dishType && readySimilarRcipesRequest()
     }, [mealType, diet, dishType])
 
-    return {recipes}
+    return { recipes }
 }
 
 export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
@@ -209,14 +221,16 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
         handleNext()
     }, [data])
 
-    return {onlyFour, handleNext, handlePrev, handleFalsy, handleTruthy, isTrue}
+    return { onlyFour, handleNext, handlePrev, handleFalsy, handleTruthy, isTrue }
 }
 
-export const useForQuerifiedParams = (filters: FiltersTypes) => {
+export const useForQuerifiedParams = (filters: FiltersTypes, fromHome?: boolean) => {
     const router = useRouter()
 
+    const locale = useLocale()
+
     const querifyFilters = () => {
-        let str = "?type=public&";
+        let str = fromHome ? `/${locale}/filter-recipes?type=public&` : "?type=public&";
 
         const querified = (items: string[], propKey: string) => items.forEach(item => str += `${propKey}=${item}&`)
 
@@ -234,7 +248,7 @@ export const useForQuerifiedParams = (filters: FiltersTypes) => {
         router.push(str.slice(0, str.lastIndexOf("&")), undefined)
     }
 
-    return {querifyFilters}
+    return { querifyFilters }
 }
 
 export const useForRanmoziedDataset = (items: string[]) => {
@@ -248,15 +262,15 @@ export const useForRanmoziedDataset = (items: string[]) => {
 
     const addOneToDataset = () => {
         const checkIfExistsAlready = dataset.findIndex((val) => val === items[rndNum])
-        
+
         // console.log(checkIfExistsAlready, "exists!!")
-        if(checkIfExistsAlready === -1 && items[rndNum]) {
+        if (checkIfExistsAlready === -1 && items[rndNum]) {
             setDataset(prev => [...prev, items[rndNum]])
         }
     }
 
     useEffect(() => {
-        if(dataset.length < 8 && rndNum !== -1) {
+        if (dataset.length < 8 && rndNum !== -1) {
             addOneToDataset()
             randomizeOnce()
         }
@@ -266,21 +280,21 @@ export const useForRanmoziedDataset = (items: string[]) => {
         randomizeOnce()
     }, [])
 
-    return {dataset}
+    return { dataset }
 }
 
-export const useForOutsideClick = (ref:any, callback: () => void) => {
-    const handleClick = (e:MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        callback();
-      }
+export const useForOutsideClick = (ref: any, callback: () => void) => {
+    const handleClick = (e: MouseEvent) => {
+        if (ref.current && !ref.current.contains(e.target)) {
+            callback();
+        }
     };
-  
+
     useEffect(() => {
-      document.addEventListener("click", handleClick);
-  
-      return () => {
-        document.removeEventListener("click", handleClick);
-      };
+        document.addEventListener("click", handleClick);
+
+        return () => {
+            document.removeEventListener("click", handleClick);
+        };
     });
-  };
+};
