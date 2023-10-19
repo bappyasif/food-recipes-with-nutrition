@@ -7,6 +7,7 @@ import { CarouselVertical } from './CarouselVertical'
 import { Button } from '../ui/button'
 import { cuisines, dishes } from '../forFilters/FiltersDashboard'
 import { useForQuerifiedParams } from '@/hooks/forComponents'
+import { useTranslations } from 'use-intl';
 
 export const DuoCarousels = () => {
     const newDishes = dishes.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?meal=${name.split(" ").join("")}` }))
@@ -15,8 +16,8 @@ export const DuoCarousels = () => {
 
     return (
         <div className='flex gap-4'>
-            <ReusableCarousel title='Dishes' items={newDishes} />
-            <ReusableCarousel title='Cuisines' items={newCuisines} />
+            <ReusableCarousel title='Dish' items={newDishes} />
+            <ReusableCarousel title='Cuisine' items={newCuisines} />
         </div>
     )
 }
@@ -28,11 +29,13 @@ export const ReusableCarousel = ({ ...item }: ReuseableCarouselType) => {
 
     const newCuisines = cuisines.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}` }))
 
+    const t = useTranslations("default")
+
     return (
         <div className='flex flex-col gap-y-4 justify-center items-center'>
-            <h2 className='text-xl font-bold'>{title}</h2>
+            <h2 className='text-xl font-bold'>{t(`${title}`)}</h2>
             {/* <CarouselVertical items={items} title={title} /> */}
-            <CarouselVertical items={title === "Dishes" ? newDishes : newCuisines} title={title} />
+            <CarouselVertical items={title === "Dish" ? newDishes : newCuisines} title={title} />
         </div>
     )
 }

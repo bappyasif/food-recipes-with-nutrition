@@ -26,9 +26,9 @@ export default function Home() {
       {/* bigger screen */}
       <div className="xxs:hidden xl:flex flex-row items-center gap-x-20 justify-center text-muted-foreground">
         {/* <ReusableCarousel title='Dishes' items={newDishes} /> */}
-        <ReusableCarousel title='Dishes' />
+        <ReusableCarousel title='Dish' />
         <RecentlyViewedMealsScroller />
-        <ReusableCarousel title='Cuisines' />
+        <ReusableCarousel title='Cuisine' />
         {/* <ReusableCarousel title='Cuisines' items={newCuisines} /> */}
       </div>
     </div>

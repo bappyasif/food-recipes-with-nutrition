@@ -9,6 +9,7 @@ import { Badge } from '../ui/badge'
 import { FiltersTypes } from '@/types'
 import axios from 'axios'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
+import { useTranslations } from 'use-intl';
 
 type FiltersDashboardPropsType = {
     handleRecipesFound: (d: any, href?: string) => void
@@ -134,15 +135,17 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
         }
     }
 
+    const t = useTranslations("default")
+
     return (
         <div className='flex flex-col gap-y-4 justify-center items-center h-fit'>
-            <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold'>Refine Your Searches Using These Filters</h1>
+            <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold'>{t("Refine Searches Using Filters")}</h1>
 
             <div className='flex flex-col gap-y-4 justify-center items-center'>
 
                 <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2' value={text} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
-                <Button className='bg-primary text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary' onClick={handleSearchNow}>Search Now</Button>
+                <Button className='bg-primary text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary' onClick={handleSearchNow}>{t("Search")}</Button>
                 
                 <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
             </div>
@@ -151,9 +154,10 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 }
 
 const ReusuableAccordionItem = ({ handleFiltersChange, trigText, propKey, data }: FilterChangeTypes & { trigText: string, propKey: string, data: string[] }) => {
+    const t = useTranslations("default")
     return (
         <AccordionItem value={propKey} className='min-w-[380px]'>
-            <AccordionTrigger className='text-lg font-semibold'>{trigText}</AccordionTrigger>
+            <AccordionTrigger className='text-lg font-semibold'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
             <AccordionContent>
                 <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText} handleFiltersChange={handleFiltersChange} />
             </AccordionContent>
@@ -170,9 +174,9 @@ const MultipleSelectableFilters = ({ handleFiltersChange }: FilterChangeTypes) =
 
             <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='dishType' trigText='Dish Types' data={dishes} />
 
-            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='health' trigText='Health Lables' data={health} />
+            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='health' trigText='Health Label Types' data={health} />
 
-            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='cuisineType' trigText='Cuisines Types' data={cuisines} />
+            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='cuisineType' trigText='Cuisine Types' data={cuisines} />
         </Accordion>
     )
 }

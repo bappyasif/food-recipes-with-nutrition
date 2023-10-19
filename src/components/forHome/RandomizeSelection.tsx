@@ -9,6 +9,7 @@ import { useForRanmoziedDataset, useForTruthToggle } from '@/hooks/forComponents
 import { searchRecipes } from '@/utils/dataFetching';
 import { RandomizedRecipesView } from './RandomizedRecipesView';
 import newImg from "../../../public/blob-s4f1.svg"
+import { useTranslations } from 'use-intl';
 
 export const RandomizeSelection = () => {
     const [rnds, setRnds] = useState({ cuisine: -1, dish: -1 })
@@ -46,11 +47,13 @@ export const RandomizeSelection = () => {
 
     // console.log(randomizedDataset, "radnmoised")
 
+    const t = useTranslations("default")
+
     return (
         <div
             className='w-full h-fit relative flex flex-col gap-y-6 text-muted-foreground'
         >
-            <h2 className='text-2xl font-extrabold w-full text-center'>Lets Randomly Choose Recipe</h2>
+            <h2 className='text-2xl font-extrabold w-full text-center'>{t("Randomly Recipe Finding Game")}</h2>
 
             <div className='flex xxs:flex-col lg:flex-row justify-start h-full'>
                 <div className='flex xxs:flex-col lg:flex-row gap-x-0 justify-between px-28 xxs:w-full lg:w-1/2'>
@@ -143,9 +146,11 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
         rnd === -1 && updateRndNames("Intrim-spin", "health");
     }, [rnd])
 
+    const t = useTranslations("default")
+
     return (
         <div className='flex flex-col xxs:gap-y-0 md:gap-y-9 w-60 relative'>
-            <h2 className='text-center font-bold text-lg'>Randomize Health Labels</h2>
+            <h2 className='text-center font-bold text-lg'>{t("Randomize")} {t("Health")} {t("Label")}</h2>
             <div>
                 <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-full bg-black bg-blend-darken top-[3.9rem] object-cover rounded-xl' />
                 <div
@@ -154,7 +159,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
                 >
                     {rnd > 0 ? renderDivs() : rnd === -2 ? <span>Spin It!!</span> : null}
                 </div>
-                <Button className='z-10 w-full bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-secondary'>Spin</span></Button>
+                <Button className='z-10 w-full bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-secondary'>{t("Spin")}</span></Button>
             </div>
         </div>
     )
@@ -220,9 +225,11 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
         isTrue && spinningEffectRandomAmount()
     }, [isTrue])
 
+    const t = useTranslations("default")
+
     return (
         <div className='w-full flex flex-col xxs:gap-y-0 md:gap-y-4 relative'>
-            <h2 className='text-center font-bold text-lg'>{title} </h2>
+            <h2 className='text-center font-bold text-lg'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
             <div className='my-0'>
                 <img src={newImg.src} alt="" width={20} height={20} className='absolute top-8 h-20 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
 
@@ -232,7 +239,7 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
                     </div>
                 </div>
 
-                <Button className='md:mt-3 w-full z-10 bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-muted'>Spin</span></Button>
+                <Button className='md:mt-3 w-full z-10 bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-muted'>{t("Spin")}</span></Button>
             </div>
         </div>
     )
@@ -288,17 +295,19 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
         })
     }
 
+    const t = useTranslations("default")
+
     return (
         <>
             <div className='flex flex-col gap-y-4 items-center justify-center w-full self-end h-full'>
-                <h2 className='text-2xl font-bold'>Lets find Recipes From These Types</h2>
+                <h2 className='text-2xl font-bold'>{t("Existing Filters")}</h2>
 
                 <div className='flex gap-x-4'>
                     <ShowTitle rnds={rnds} wheelDataset={wheelDataset} />
                     <ShowRandomlySelectedOptions rndNames={rndNames} />
                 </div>
 
-                <Button className='bg-primary font-bold w-fit hover:bg-card-foreground' onClick={handleClick} variant={'secondary'}><span className='transition-all duration-1000 hover:scale-110 w-full text-secondary hover:text-primary'>Click To Find Recipes</span></Button>
+                <Button className='bg-primary font-bold w-fit hover:bg-card-foreground' onClick={handleClick} variant={'secondary'}><span className='transition-all duration-1000 hover:scale-110 w-full text-secondary hover:text-primary'>{t("Find Recipes")}</span></Button>
             </div>
             <RandomizedRecipesView recipes={recipes} handleClick={handleClick} />
         </>
@@ -315,15 +324,17 @@ const ShowRandomlySelectedOptions = ({ rndNames }: {
 
             <ShowOptionSelected title='Meal' val={meal} />
 
-            <ShowOptionSelected title='Health' val={health} />
+            <ShowOptionSelected title='Health Label' val={health} />
         </div>
     )
 }
 
 const ShowOptionSelected = ({ title, val }: { title: string, val: string }) => {
+    const t = useTranslations("default")
     return (
         <h2 className='flex flex-col gap-y-2'>
-            <span className='font-bold text-lg'>{title}</span>
+            {/* <span className='font-bold text-lg'>{t(`${title}`)}</span> */}
+            <span className='font-bold text-lg'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</span>
             <span className='font-semibold text-sm'>{val ? val : "intrim spin"}</span>
         </h2>
     )
@@ -341,15 +352,17 @@ const ShowTitle = ({ rnds, wheelDataset }: {
 }) => {
     const { dish, cuisine } = rnds
 
+    const t = useTranslations("default")
+
     return (
         <div className='flex gap-x-4'>
             <h2 className='flex flex-col gap-y-2'>
-                <span className='font-bold text-lg'>Dish</span>
+                <span className='font-bold text-lg'>{t("Dish")}</span>
                 {/* <span className='font-semibold text-sm'>{dishes[dish] ? dishes[dish] : "intrim spin"}</span> */}
                 <span className='font-semibold text-sm'>{wheelDataset.forDishes[dish] ? wheelDataset.forDishes[dish] : "intrim spin"}</span>
             </h2>
             <h2 className='flex flex-col gap-y-2'>
-                <span className='font-bold text-lg'>Cuisine</span>
+                <span className='font-bold text-lg'>{t("Cuisine")}</span>
                 {/* <span className='font-semibold text-sm'>{cuisines[cuisine] ? cuisines[cuisine] : "intrim spin"}</span> */}
                 <span className='font-semibold text-sm'>{wheelDataset.forCuisines[cuisine] ? wheelDataset.forCuisines[cuisine] : "intrim spin"}</span>
             </h2>
@@ -375,9 +388,11 @@ const ReuseableWheelCarousel = ({ dataset, title, updateRnds }: {
         updateRnds(rndNum, isItForDish() ? "dish" : "cuisine")
     }, [rndNum])
 
+    const t = useTranslations("default")
+
     return (
         <div className={`flex justify-center relative z-20 h-96`}>
-            <h2 className='text-center font-bold text-lg'>{title}</h2>
+            <h2 className='text-center font-bold text-lg'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
             <MouseWheelBasedCarousel handleRandomNumber={handleRandomNumber} rndNum={rndNum} handleResetRandomNumber={handleResetRandomNumber} dataset={dataset} />
         </div>
     )

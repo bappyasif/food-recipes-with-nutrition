@@ -5,6 +5,7 @@ import { Button } from '../ui/button'
 
 import { MouseWheelBasedCarouselType } from '@/types'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
+import {useTranslations} from "use-intl"
 
 export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) => {
     const [cards, setCards] = useState<React.JSX.Element[]>([])
@@ -93,6 +94,8 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
         return () => clearTimeout(timer)
     }
 
+    const t = useTranslations("default")
+
     return (
         <div className='absolute top-[50%] flex justify-center items-center'>
             <div
@@ -112,7 +115,7 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
             <Button variant={'destructive'} 
             className='absolute transition-all duration-500 bg-transparent hover:bg-transparent hover:text-2xl text-secondary' 
             onClick={handleSpin}
-            >Spin</Button>
+            >{t("Spin")}</Button>
         </div>
     )
 }
