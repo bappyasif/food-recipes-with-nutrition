@@ -5,20 +5,46 @@ import { Badge } from '../ui/badge'
 import Link from 'next/link'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
+import { Button } from '../ui/button'
+import { useForTruthToggle } from '@/hooks/forComponents'
 
-export const RandomizedRecipesView = ({ recipes }: { recipes: RecipeMealType[] }) => {
+export const RandomizedRecipesView = ({ recipes, handleClick }: { recipes: RecipeMealType[], handleClick: () => void }) => {
+    const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
+
+    const processRefetch = () => {
+        handleFalsy()
+        handleClick()
+    }
+
+    const afterOneSecond = () => {
+        const timer = setTimeout(() => handleTruthy(), 1000)
+
+        return () => clearTimeout(timer)
+    }
+
     const renderRecipes = () => recipes.map(item => <RenderRecipeItem key={item.uri} data={item} />)
+
+
 
     return (
         <div className='font-bold text-xl'>
-            <Badge className='bg-accent hover:bg-accent-foreground text-primary my-2'>{recipes.length ? `Recipes Found - ${recipes.length}` : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
+            <Badge
+                // onClick={recipes.length ? handleTruthy : () => null} 
+                // onClick={handleTruthy} 
+                className={`bg-accent hover:bg-accent-foreground text-primary my-2 `}>{recipes.length ? `Recipes Found - ${recipes.length}` : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
             {
                 recipes.length
-                    ? <ReusableModal title='Randomly Chosen Recipes Based On Chosen Filters' triggerText='Click To View' changeWidth={true}>
-                        <div className='grid xxs:grid-cols-1 md:grid-cols-3 h-[650px] justify-items-center place-items-center gap-4 overflow-y-scroll scroll-smooth no-scrollbar'>
+                    ? <ReusableModal title='Randomly Chosen Recipes Based On Chosen Filters' triggerText='Click To View' changeWidth={true} handleTrigger={afterOneSecond}>
+                        <span className='grid xxs:grid-cols-1 md:grid-cols-3 h-[650px] justify-items-center place-items-center gap-4 overflow-y-scroll scroll-smooth no-scrollbar'>
                             {renderRecipes()}
-                        </div>
+                        </span>
                     </ReusableModal>
+                    : null
+            }
+
+            {
+                recipes.length && isTrue
+                    ? <Badge>Want To See More? <Button className='my-0 py-0 text-sm h-4' onClick={processRefetch}>Click Here</Button></Badge>
                     : null
             }
         </div>
@@ -30,26 +56,26 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     const { LARGE, REGULAR, SMALL } = images;
     const locale = useLocale()
     return (
-        <div className='flex flex-col gap-y-2 justify-center items-center w-56'>
+        <span className='flex flex-col gap-y-2 justify-center items-center w-56'>
             <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex flex-col gap-y-2' title={label}>
-                <h2>{label.length > 13 ? ellipsedText(label, 13) : label}</h2>
+                <span className='font-bold text-lg'>{label.length > 13 ? ellipsedText(label, 13) : label}</span>
                 <img src={REGULAR.url} height={REGULAR.height} width={REGULAR.width} alt={label} className='w-56 h-48 rounded-sm' />
             </Link>
-            
-            <div className='flex flex-col gap-y-1.5'>
+
+            <span className='flex flex-col gap-y-1.5'>
                 <RenderReusableBadgeItem text={`${calories.toFixed(2)}`} title='Calories' />
                 <RenderReusableBadgeItem title='Meal Type' text={mealType[0]} />
                 <RenderReusableBadgeItem title='CO2 Emission Rating' text={co2EmissionsClass} />
-            </div>
-        </div>
+            </span>
+        </span>
     )
 }
 
 const RenderReusableBadgeItem = ({ title, text }: { title: string, text: string }) => {
     return (
-        <Badge className='flex justify-around gap-x-4 bg-muted text-muted-foreground'>
+        <span className='flex justify-around gap-x-4 bg-muted text-muted-foreground'>
             <span>{title}</span>
             <span>{text}</span>
-        </Badge>
+        </span>
     )
 }

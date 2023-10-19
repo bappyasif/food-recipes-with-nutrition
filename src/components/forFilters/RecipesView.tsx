@@ -121,19 +121,21 @@ const RenderBasicTextInfo = ({ text, val }: { text: string, val: string | number
     )
 }
 
-export const ReusableModal = ({ children, triggerText, title, changeWidth }: { children: any, triggerText: string, title: string, changeWidth?: boolean }) => {
+export const ReusableModal = ({ children, triggerText, title, changeWidth, handleTrigger }: { children: any, triggerText: string, title: string, changeWidth?: boolean, handleTrigger?: () => void }) => {
     return (
         <Dialog>
-            <DialogTrigger><Badge variant={'secondary'} className='w-full text-secondary bg-muted-foreground transition-colors duration-1000 hover:bg-primary'>{triggerText}</Badge></DialogTrigger>
+            <DialogTrigger onClick={() => handleTrigger && handleTrigger()}><Badge variant={'secondary'} className='w-full text-secondary bg-muted-foreground transition-colors duration-1000 hover:bg-primary'>{triggerText}</Badge></DialogTrigger>
             <DialogContent
                 className='bg-accent border-ring'
                 style={{ minWidth: changeWidth ? "80%" : "auto" }}
             >
                 <DialogHeader>
                     <DialogTitle className='text-primary'>{title}</DialogTitle>
-
-                    {children}
                 </DialogHeader>
+
+                <DialogDescription>
+                    {children}
+                </DialogDescription>
             </DialogContent>
         </Dialog>
     )

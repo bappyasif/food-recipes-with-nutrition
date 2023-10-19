@@ -64,7 +64,7 @@ export const RandomizeSelection = () => {
 
                     {
                         randomizedDataset.forDishes.length
-                            ? <ReuseableWheelCarousel dataset={randomizedDataset.forDishes} title='Randomize Dish Type' updateRnds={updateRnds} />
+                            ? <ReuseableWheelCarousel dataset={randomizedDataset.forDishes} title='Randomize Dish' updateRnds={updateRnds} />
                             : null
                     }
                 </div>
@@ -73,8 +73,8 @@ export const RandomizeSelection = () => {
                     <GoingOffRandomizer updateRndNames={updateRndNames} />
 
                     <div className='flex flex-col gap-y-4 justify-between items-center w-56'>
-                        <ReuseableBoxedRandomizer data={diets} title={"Randomize Diets"} updateRndNames={updateRndNames} />
-                        <ReuseableBoxedRandomizer data={meals} title={"Randomize Meals"} updateRndNames={updateRndNames} />
+                        <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} />
+                        <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} />
                     </div>
                 </div>
             </div>
@@ -163,7 +163,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
 const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: string[], title: string, updateRndNames: (v: string, t: string) => void }) => {
     const clonedData = data.concat(data, data, data, data, data, data)
 
-    const renderDivs = () => clonedData.map((name, idx) => <div className={`h-8 w-full flex justify-center items-center text-primary-foreground ${idx === prevSlideShown ? "bg-primary font-bold" : "bg-secondary"}`} key={name + idx}>{name}</div>)
+    const renderDivs = () => clonedData.map((name, idx) => <div className={`h-8 w-full flex justify-center items-center text-muted-foreground ${idx === prevSlideShown ? "bg-primary font-bold text-secondary" : "bg-secondary"}`} key={name + idx}>{name}</div>)
 
     const ref = useRef<HTMLDivElement>(null)
 
@@ -171,7 +171,7 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
 
     const [prevSlideShown, setPrevSlideShown] = useState(-1);
 
-    const decideKey = () => title.includes("Diets") ? "diet" : "meal"
+    const decideKey = () => title.includes("Diet") ? "diet" : "meal"
 
     const spinningEffectRandomAmount = () => {
         updateRndNames("intrim spin!!", decideKey())
@@ -263,6 +263,9 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
 
     const handleClick = () => {
         // console.log(diet, health, meal)
+        // resetting previously existing recipes
+        setRecipes([]);
+
         const params = {
             mealType: !meal.includes("Spin it") ? meal : null,
             diet: !diet.includes("Spin it") ? diet.toLocaleLowerCase() : null,
@@ -297,7 +300,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
 
                 <Button className='bg-primary font-bold w-fit hover:bg-card-foreground' onClick={handleClick} variant={'secondary'}><span className='transition-all duration-1000 hover:scale-110 w-full text-secondary hover:text-primary'>Click To Find Recipes</span></Button>
             </div>
-            <RandomizedRecipesView recipes={recipes} />
+            <RandomizedRecipesView recipes={recipes} handleClick={handleClick} />
         </>
     )
 }
