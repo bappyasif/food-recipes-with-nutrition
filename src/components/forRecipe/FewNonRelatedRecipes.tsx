@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { extractRecipeId } from '../forFilters/RecipesView'
 import { diets, dishes, meals } from '../forFilters/FiltersDashboard'
 import { useLocale } from 'next-intl'
+import {useTranslations} from "use-intl"
 
 export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: string, dishType: string, mealType: string }) => {
     const [randomizedFilters, setRandomizedFilters] = useState({ diet: "", dishType: "", mealType: "" })
@@ -43,6 +44,8 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
     const renderRecipes = () => onlyFour?.map((item, idx) => <RenderNonRelatedRecipe key={item.uri} rdata={item} lastCard={idx === 7} firstCard={idx === 0} />)
 
+    const t = useTranslations("default")
+
     if(recipes.length < 2) {
         return 
     }
@@ -50,7 +53,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
     return (
         <div className='w-full'>
             FewNonRelatedRecipes - {recipes.length} - {onlyFour?.length}
-            <h2 className='text-xl font-bold'>Few Non Related Recipes</h2>
+            <h2 className='text-xl font-bold'>{t("You Might Like")}</h2>
             <div className='flex gap-x-4 justify-between mx-4'>
                 <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card hover:bg-transparent' variant={'default'} onClick={handlePrev}>Prev</Button>
 

@@ -11,6 +11,7 @@ import { RecipeImage } from './RecipeImage'
 import { FewNonRelatedRecipes } from './FewNonRelatedRecipes'
 import { Button } from '../ui/button'
 import { ShowYoutubeVids } from './ShowYoutubeVids'
+import {useTranslations} from "use-intl"
 
 export const ShowRecipeDetails = () => {
     const [recipeData, setRecipeData] = useState<RecipeMealType>()
@@ -27,7 +28,7 @@ export const ShowRecipeDetails = () => {
 
         searchRecipeById(params, dynamicParams["slug-id"] as string).then(d => {
             // console.log(d)
-            d.recipe && setRecipeData(d?.recipe)
+            d?.recipe && setRecipeData(d?.recipe)
         }).catch(err => console.log(err))
     }
 
@@ -46,6 +47,8 @@ export const ShowRecipeDetails = () => {
 const RenderRecipe = ({ ...data }: RecipeMealType) => {
     const { calories, cautions, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, shareAs, source, tags, totalWeight, uri, url, yield: servings, count } = data;
 
+    const t = useTranslations("default")
+
     return (
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20'>
             <section>
@@ -61,12 +64,12 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
                     <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
 
-                    <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-muted-foreground'><span className='font-bold'>Source:</span> <a href={url} target='_blank'>{source}</a></Button>
+                    <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-muted-foreground'><span className='font-bold'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
                 </div>
             </section>
             <section className='flex xxs:flex-col lg:flex-row justify-around items-center'>
                 <div className='xxs:w-full lg:w-2/4'>
-                    <h2 className='text-xl mb-6 mt-2 font-bold'>Digest Labels</h2>
+                    <h2 className='text-xl mb-6 mt-2 font-bold'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
                     <div className='h-80 overflow-y-scroll scroll-smooth no-scrollbar'>
                         <RenderDigestTable heading='Digest' labels={digest} />
                     </div>
@@ -81,7 +84,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels }: { digest: DigestItemType[], healthLabels: string[], dietLabels: string[] }) => {
     const renderAcordionItemsForHealthLabels = () => healthLabels.map(val => {
         return (
-            <Badge key={val} className='bg-muted-foreground text-muted'>
+            <Badge key={val} className='bg-muted-foreground text-muted xs:text-sm lg:text-[1.01rem] m-1'>
                 {val}
             </Badge>
         )
@@ -89,23 +92,25 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels }: { diges
 
     const renderAcordionItemsForDietLabels = () => dietLabels.map(val => {
         return (
-            <Badge key={val} className='bg-muted-foreground text-muted'>
+            <Badge key={val} className='bg-muted-foreground text-muted xs:text-sm lg:text-[1.01rem] m-1'>
                 {val}
             </Badge>
         )
     })
 
+    const t = useTranslations("default")
+
     return (
         <Accordion type='single' collapsible={true}>
             <AccordionItem value={"health"}>
-                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>Health Labels</AccordionTrigger>
+                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>{t("Health")} {t("Label")}</AccordionTrigger>
                 <AccordionContent>
                     {renderAcordionItemsForHealthLabels()}
                 </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value={"diet"}>
-                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>Diet Labels</AccordionTrigger>
+                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>{t("Diet")} {t("Label")}</AccordionTrigger>
                 <AccordionContent>
                     {renderAcordionItemsForDietLabels()}
                 </AccordionContent>
@@ -123,10 +128,12 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
         )
     })
 
+    const t = useTranslations("default")
+
     return (
         <Accordion type='multiple'>
             <AccordionItem value='ingredients-and-measurements' className='relative'>
-                <AccordionTrigger><h2 className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>Ingredients And Measurements</h2></AccordionTrigger>
+                <AccordionTrigger><h2 className='font-bold xxs:text-sm sm:text-lg lg:text-xl'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2></AccordionTrigger>
                 <AccordionContent>
                     <div className='grid grid-cols-5 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm lg:text-lg'>
                         <div>Picture</div>
@@ -143,9 +150,9 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
             </AccordionItem>
 
             <AccordionItem value='instructions'>
-                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>Instructions</AccordionTrigger>
+                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl'>{t("Instructions")}</AccordionTrigger>
                 <AccordionContent >
-                    <div className='grid grid-flow-col grid-rows-2 gap-4'>{renderInstructions()}</div>
+                    <div className='grid grid-flow-col grid-rows-2 gap-4 xs:text-sm lg:text-lg'>{renderInstructions()}</div>
                 </AccordionContent>
             </AccordionItem>
         </Accordion>
@@ -156,7 +163,7 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
     const { food, foodCategory, foodId, image, measure, quantity, text, weight } = items
 
     const contents = (
-        <div className='grid grid-cols-5 justify-items-center place-items-center w-full capitalize'>
+        <div className='grid grid-cols-5 justify-items-center place-items-center w-full capitalize xs:text-sm lg:text-[1.01rem]'>
             <img className='' src={image} alt={food} width={60} height={39} />
 
             <div className=''>{food}</div>

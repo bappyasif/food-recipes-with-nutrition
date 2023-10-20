@@ -8,14 +8,17 @@ import { Badge } from '../ui/badge'
 import { extractRecipeId } from '../forFilters/RecipesView'
 import { ellipsedText } from './FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
+import { useTranslations } from 'use-intl';
 
 export const ShowFewRelatedRecipes = ({ mealType, diet, dishType, uri }: { mealType: string, diet: string, dishType: string, uri?: string }) => {
     const {recipes} = useForRandomRecipesList(mealType, diet, dishType, uri)
 
+    const t = useTranslations("default")
+
     return (
         <div className='h-fit'>
             ShowFewRelatedRecipes -- {recipes.length} -- {recipes.filter(item=>item.dishType.length).length} -- {mealType} -- {diet} -- {dishType}
-            <h2 className='text-xl font-bold'>A Few Related Recipes</h2>
+            <h2 className='text-xl font-bold'>{t("Similar Recipes")}</h2>
             <RenderRecipesListCarousel data={recipes.filter(item=>item.dishType.length)} />
         </div>
     )

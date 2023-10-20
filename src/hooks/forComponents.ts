@@ -145,9 +145,10 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
 
             const readyForRendering = onlyRecipes?.map((item: RecipeMealType) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
-            if(readyForRendering?.length < 13) {
+            if(count < 4) {
                 // readySimilarRcipesRequest()
                 count += 1;
+                // console.log(count, "count")
             }
 
             if(uri) {
