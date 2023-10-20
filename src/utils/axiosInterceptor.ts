@@ -21,7 +21,7 @@ export const edamamApiRequestInterceptor = ({...options}) => {
 
     const onError = (err:AxiosResponse) => err
 
-    console.log(options, "options")
+    // console.log(options, "options")
 
     return client(options).then(onSuccess).catch(onError)
 }
@@ -35,7 +35,7 @@ export const youtubeApiRequestInterceptor = ({...options}) => {
 
     const onError = (err:AxiosResponse) => err
 
-    console.log(options, "options")
+    // console.log(options, "options")
 
     return client(options).then(onSuccess).catch(onError)
 }

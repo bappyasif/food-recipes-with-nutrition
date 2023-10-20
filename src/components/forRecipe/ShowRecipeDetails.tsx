@@ -27,7 +27,7 @@ export const ShowRecipeDetails = () => {
 
         searchRecipeById(params, dynamicParams["slug-id"] as string).then(d => {
             // console.log(d)
-            d.recipe && setRecipeData(d.recipe)
+            d.recipe && setRecipeData(d?.recipe)
         }).catch(err => console.log(err))
     }
 
@@ -65,7 +65,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 </div>
             </section>
             <section className='flex xxs:flex-col lg:flex-row justify-around items-center'>
-                <div className='xxs:w-full lg:w-2/3'>
+                <div className='xxs:w-full lg:w-2/4'>
                     <h2 className='text-xl mb-6 mt-2 font-bold'>Digest Labels</h2>
                     <div className='h-80 overflow-y-scroll scroll-smooth no-scrollbar'>
                         <RenderDigestTable heading='Digest' labels={digest} />

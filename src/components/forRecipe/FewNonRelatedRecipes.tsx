@@ -43,16 +43,20 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
     const renderRecipes = () => onlyFour?.map((item, idx) => <RenderNonRelatedRecipe key={item.uri} rdata={item} lastCard={idx === 7} firstCard={idx === 0} />)
 
+    if(recipes.length < 2) {
+        return 
+    }
+
     return (
         <div className='w-full'>
             FewNonRelatedRecipes - {recipes.length} - {onlyFour?.length}
             <h2 className='text-xl font-bold'>Few Non Related Recipes</h2>
             <div className='flex gap-x-4 justify-between mx-4'>
-                <Button className='xxs:w-4 lg:w-20 self-center text-primary font-bold bg-card hover:bg-transparent' variant={'default'} onClick={handlePrev}>Prev</Button>
+                <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card hover:bg-transparent' variant={'default'} onClick={handlePrev}>Prev</Button>
 
                 {/* smaller screen */}
                 <div
-                    className='xxs:grid lg:hidden grid-flow-row grid-cols-2 gap-4 justify-items-center place-items-center'
+                    className='capitalize xxs:grid lg:hidden grid-flow-row grid-cols-2 gap-4 justify-items-center place-items-center'
                     onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                 >
                     {renderRecipes()?.slice(0,2)}
@@ -60,12 +64,12 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
                 {/* bigger screen */}
                 <div
-                    className='xxs:hidden lg:grid grid-flow-row grid-cols-8 gap-4 justify-items-center place-items-center'
+                    className='capitalize xxs:hidden lg:grid grid-flow-row grid-cols-8 gap-4 justify-items-center place-items-center'
                     onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                 >
                     {renderRecipes()}
                 </div>
-                <Button className='xxs:w-4 lg:w-20 self-center text-primary font-bold bg-card hover:bg-transparent' variant={'default'} onClick={handleNext}>Next</Button>
+                <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-card hover:bg-transparent text-muted-foreground hover:text-primary-foreground' variant={'default'} onClick={handleNext}>Next</Button>
             </div>
         </div>
     )
