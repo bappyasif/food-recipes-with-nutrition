@@ -119,7 +119,7 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound:(data: RecipeM
     // return { mealsRecipes }
 }
 
-export const useForRandomRecipesList = (mealType: string, diet: string, dishType: string) => {
+export const useForRandomRecipesList = (mealType: string, diet: string, dishType: string, uri?: string) => {
     const [recipes, setRecipes] = useState<RecipeMealType[]>([])
     const readySimilarRcipesRequest = () => {
         const params = {
@@ -139,14 +139,29 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
             const onlyRecipes = d?.hits.map((item: any) => item.recipe)
             // onlyRecipes?.length && setRecipes(onlyRecipes)
 
-            const readyForRendering = onlyRecipes?.map((item: any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
+            const readyForRendering = onlyRecipes?.map((item: RecipeMealType) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
-            readyForRendering?.length && setRecipes(readyForRendering)
+            // if(readyForRendering?.length < 9) {
+            //     // readySimilarRcipesRequest()
+            // }
+
+            if(uri) {
+                readyForRendering?.length && setRecipes(readyForRendering.filter((item:RecipeMealType) => item.uri !== uri))
+            } else {
+                readyForRendering?.length && setRecipes(readyForRendering)
+            }
+
+            // readyForRendering?.length && setRecipes(readyForRendering)
             // console.log(readyForRendering.length, "readyForRendeing")
 
         }).catch(err => console.log(err))
 
     }
+
+    // to make sure that recipes has a good amount of options to render on page
+    useEffect(() => {
+        recipes.length && recipes.length < 9 && readySimilarRcipesRequest()
+    }, [recipes])
 
     useEffect(() => {
         mealType && diet && dishType && readySimilarRcipesRequest()

@@ -49,7 +49,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     return (
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20'>
             <section>
-                <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
+                <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
             </section>
             <section className='flex xxs:flex-col md:flex-row justify-between items-center gap-x-6 mx-6'>
 

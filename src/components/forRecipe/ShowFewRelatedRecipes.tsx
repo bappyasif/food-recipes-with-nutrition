@@ -9,7 +9,7 @@ import { extractRecipeId } from '../forFilters/RecipesView'
 import { ellipsedText } from './FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 
-export const ShowFewRelatedRecipes = ({ mealType, diet, dishType }: { mealType: string, diet: string, dishType: string }) => {
+export const ShowFewRelatedRecipes = ({ mealType, diet, dishType, uri }: { mealType: string, diet: string, dishType: string, uri?: string }) => {
     const {recipes} = useForRandomRecipesList(mealType, diet, dishType)
 
     return (
