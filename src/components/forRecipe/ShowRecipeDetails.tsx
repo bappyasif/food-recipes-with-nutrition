@@ -12,11 +12,25 @@ import { FewNonRelatedRecipes } from './FewNonRelatedRecipes'
 import { Button } from '../ui/button'
 import { ShowYoutubeVids } from './ShowYoutubeVids'
 import {useTranslations} from "use-intl"
+import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
+import { addRecipeToList, updateRecipeCount } from '@/redux/features/recipes/RecipesSlice'
 
 export const ShowRecipeDetails = () => {
     const [recipeData, setRecipeData] = useState<RecipeMealType>()
 
     const dynamicParams = useParams()
+
+    const appDispatch = useAppDispatch()
+
+    const trackedRecipes = useAppSelector(state => state.recipes.list)
+
+    const checkIfRecipeUriAlreadyExists = () => {
+        const foundIdx = trackedRecipes.findIndex(item => item.uri.includes(dynamicParams["slug-id"] as string))
+
+        // console.log(foundIdx, "item exist!!")
+
+        return foundIdx
+    }
 
     const prepareAndFetchData = () => {
         const params = {
@@ -29,12 +43,22 @@ export const ShowRecipeDetails = () => {
         searchRecipeById(params, dynamicParams["slug-id"] as string).then(d => {
             // console.log(d)
             d?.recipe && setRecipeData(d?.recipe)
+
+            const recipeExists = checkIfRecipeUriAlreadyExists();
+
+            // appDispatch(addRecipeToList({type: dynamicParams["slug-id"]}))
+            // d?.recipe && appDispatch(addRecipeToList({payload: d?.recipe}))
+            recipeExists === -1 && d?.recipe && appDispatch(addRecipeToList(d?.recipe))
+
+            recipeExists !== -1 && d?.recipe && appDispatch(updateRecipeCount({recipeUri: d?.recipe.uri}))
         }).catch(err => console.log(err))
     }
 
     useEffect(() => {
         dynamicParams["slug-id"] && prepareAndFetchData()
     }, [dynamicParams["slug-id"]])
+
+    console.log(trackedRecipes, "trackedRecipes!!")
 
     return (
         <div>

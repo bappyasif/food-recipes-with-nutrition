@@ -165,6 +165,6 @@ export const fetchAndUpdateData = (params: any, setRecipes: any) => {
 
 const navs = [
   { name: "Home", path: "/", icon: <MdFoodBank /> },
-  // { name: "Popular Recipes", path: "/popular-recipes", icon: <MdRestaurantMenu /> },
+  { name: "Popular Recipes", path: "/popular-recipes", icon: <MdRestaurantMenu /> },
   { name: "Filter Recipes", path: "/filter-recipes", icon: <IoIosColorFilter /> }
 ]

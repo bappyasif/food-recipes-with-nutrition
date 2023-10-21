@@ -3,8 +3,10 @@
 import { FiltersDashboard } from '@/components/forFilters/FiltersDashboard'
 import { RecipesView } from '@/components/forFilters/RecipesView'
 import { useForExtractingQueriesFromUrl } from '@/hooks/forComponents'
+import { useAppDispatch } from '@/hooks/forRedux'
+import { addRecipesToUntracked } from '@/redux/features/recipes/RecipesSlice'
 import { RecipeMealType } from '@/types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const FilterRecipesPage = () => {
   // const [recipesFound, setRecipesFound] = useState<RecipeMealType[]>([])
@@ -17,6 +19,18 @@ const FilterRecipesPage = () => {
   useForExtractingQueriesFromUrl(handleRecipesFound)
 
   // console.log(recipesData.nextHref, "nexthref")
+
+  // keeping recipes in untracked list so that if needed user can simply reload and re render them without making a fetch request to api
+  // const appDispatch = useAppDispatch()
+
+  // const addToUntrackedRecipes = () => {
+  //   appDispatch(addRecipesToUntracked({pageNumber: 1, recipesData: recipesData.recipesFound}))
+  //   console.log(recipesData.nextHref)
+  // }
+
+  // useEffect(() => {
+  //   recipesData.recipesFound.length && recipesData.nextHref && addToUntrackedRecipes()
+  // }, [recipesData])
 
   return (
     <div 
