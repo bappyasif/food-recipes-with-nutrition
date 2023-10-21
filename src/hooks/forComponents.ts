@@ -123,7 +123,8 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
     const [recipes, setRecipes] = useState<RecipeMealType[]>([])
     
     // this will keep count how many times same dat is being fetched when renderable dataset is less than 13
-    let count = 0;
+    // let count = 0;
+    const [count, setCount] =  useState(1)
 
     const readySimilarRcipesRequest = () => {
         const params = {
@@ -145,9 +146,10 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
 
             const readyForRendering = onlyRecipes?.map((item: RecipeMealType) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
-            if(count < 4) {
+            if(count <= 4) {
                 // readySimilarRcipesRequest()
-                count += 1;
+                // count += 1;
+                setCount(prev => prev + 1)
                 // console.log(count, "count")
             }
 
@@ -166,7 +168,7 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
 
     // to make sure that recipes has a good amount of options to render on page
     useEffect(() => {
-        recipes.length && recipes.length < 13 && count < 4 && readySimilarRcipesRequest()
+        recipes.length && recipes.length < 13 && count <= 4 && readySimilarRcipesRequest()
     }, [recipes])
 
     useEffect(() => {

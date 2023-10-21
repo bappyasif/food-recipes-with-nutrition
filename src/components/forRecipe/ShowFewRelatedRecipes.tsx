@@ -38,7 +38,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
         ? "Not Enough Similar Recipes found"
         :
         <div className='flex gap-x-4 items-center justify-between xxs:h-28 lg:h-48'>
-            <Button className='absolute left-0 bg-accent h-48 z-40 xxs:w-4 lg:w-20 text-primary font-extrabold bg-blend-multiply' onClick={handlePrev} variant={'secondary'}>Prev</Button>
+            <Button className='absolute left-0 h-48 z-40 xxs:w-4 lg:w-20 text-primary font-extrabold bg-blend-lighten hover:text-card-foreground bg-card' onClick={handlePrev} variant={'default'}>Prev</Button>
             {/* smaller screen */}
             <div
                 className='xxs:flex lg:hidden gap-4 flex-nowrap overflow-hidden xxs:h-20 lg:h-40' 
@@ -54,7 +54,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
             >
                 {renderRecipes()}
             </div>
-            <Button className='absolute right-0 bg-accent text-primary h-48 z-40 xxs:w-4 lg:w-20 font-extrabold' onClick={handleNext} variant={'secondary'}>Next</Button>
+            <Button className='absolute right-0 bg-card text-primary h-48 z-40 xxs:w-4 lg:w-20 font-extrabold hover:text-card-foreground' onClick={handleNext} variant={'default'}>Next</Button>
         </div>
     )
 }

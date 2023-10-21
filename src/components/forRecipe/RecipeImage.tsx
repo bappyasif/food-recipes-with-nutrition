@@ -44,9 +44,9 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
                 <div className='flex flex-col gap-y-4 justify-between w-fit'>
                     
                     <div className='flex flex-col gap-y-1'>
-                        <Badge className='xxs:text-sm lg:text-lg flex gap justify-between bg-accent'><span>Meal Type</span> <span>{mealType}</span></Badge>
-                        <Badge className='xxs:text-sm lg:text-lg flex gap justify-between bg-accent'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>
-                        <Badge className='xxs:text-sm lg:text-lg flex gap justify-between bg-accent'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
+                        <Badge className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Meal Type</span> <span>{mealType}</span></Badge>
+                        <Badge className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>
+                        <Badge className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
                     </div>
 
                     <div className='flex flex-col gap-y-1'>

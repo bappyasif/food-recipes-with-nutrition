@@ -46,16 +46,19 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
     const t = useTranslations("default")
 
-    if(recipes.length < 2) {
-        return 
-    }
+    // if(recipes.length < 2) {
+    //     return 
+    // }
 
     return (
+        recipes.length < 2
+        ? "Not Enough Similar Recipes found"
+        :
         <div className='w-full'>
             FewNonRelatedRecipes - {recipes.length} - {onlyFour?.length}
             <h2 className='text-xl font-bold'>{t("You Might Like")}</h2>
             <div className='flex gap-x-4 justify-between mx-4'>
-                <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card hover:bg-transparent' variant={'default'} onClick={handlePrev}>Prev</Button>
+                <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card' variant={'default'} onClick={handlePrev}>Prev</Button>
 
                 {/* smaller screen */}
                 <div
@@ -72,7 +75,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
                 >
                     {renderRecipes()}
                 </div>
-                <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-card hover:bg-transparent text-muted-foreground hover:text-primary-foreground' variant={'default'} onClick={handleNext}>Next</Button>
+                <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-card text-muted-foreground hover:text-primary-foreground' variant={'default'} onClick={handleNext}>Next</Button>
             </div>
         </div>
     )
