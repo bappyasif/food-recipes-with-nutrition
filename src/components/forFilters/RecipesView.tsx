@@ -11,11 +11,13 @@ import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import axios from 'axios'
 
-export const RecipesView = ({ recipes, nextHref, handleRecipesFound }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d:RecipeMealType[], href?: string) => void }) => {
+export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePreviousAndNext, check }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d: RecipeMealType[], href?: string) => void, handlePreviousAndNext: (str: string) => void, check?: number }) => {
+    
     const renderRecipes = () => recipes.map(item => <RenderRecipe key={item.label} {...item} />)
+    
     const fetchMore = () => {
         // console.log(nextHref)
-        if(nextHref) {
+        if (nextHref) {
             axios.get(nextHref).then(resp => {
                 console.log(resp.data, "lets see!!")
                 const onlyRecipes = resp.data?.hits.map((item: any) => item.recipe)
@@ -24,16 +26,30 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound }: { recipes
 
                 readyForRendering?.length && handleRecipesFound(readyForRendering, resp.data?._links?.next?.href)
 
+                handlePreviousAndNext("next")
+
             }).catch(err => console.log(err, "error!!"))
         }
     }
+
     return (
         <div>
             <h1>Recipes View</h1>
             <div className='grid xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 xxs:gap-11 lg:gap-11 place-content-center place-items-center'>
                 {renderRecipes()}
             </div>
-            <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={fetchMore} disabled={!nextHref}>See More</Button>
+            {/* <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={fetchMore} disabled={!nextHref}>Prev</Button> */}
+            <div className='flex gap-x-4'>
+                <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={() => handlePreviousAndNext("prev")} disabled={!nextHref}>Prev</Button>
+
+                <Button 
+                className={`${nextHref ? "block" : "hidden"}`} 
+                variant={'outline'} 
+                    // onClick={() => check === -1 ? fetchMore() : handlePreviousAndNext("next")} 
+                    onClick={fetchMore}
+                    disabled={!nextHref}
+                >Next</Button>
+            </div>
         </div>
     )
 }
@@ -44,10 +60,10 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
     const locale = useLocale()
 
     return (
-        <div 
+        <div
             className={`flex flex-col justify-center items-center ${styles.flipCard} h-[18.6rem] xxs:w-[18.9rem] sm:w-[20rem]`}
-            >
-            <p 
+        >
+            <p
                 className={`${styles.flipCardBack} h-full w-full rounded-sm`}
                 style={{
                     backgroundImage: `url(${images.SMALL.url})`,
@@ -65,7 +81,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                 <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex items-center justify-center flex-col gap-y-2'>
                     <h2 className='font-bold text-lg'>{label.length > 11 ? ellipsedText(label, 11) : label}</h2>
                     <img className='w-64' src={images.SMALL.url} alt={label} width={images.SMALL.width} height={images.SMALL.height} />
-                </Link>    
+                </Link>
                 <div className='flex justify-start gap-2'>
                     <RenderBadge text={dishType[0]} />
                     <RenderBadge text={cuisineType[0]} />
@@ -73,26 +89,26 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                 </div>
             </div>
 
-            <div 
+            <div
                 className={`${styles.whenFlipped} px-1.5 items-center justify-center `}
             >
                 <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`}>
                     <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary w-64' title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</h2>
                 </Link>
-                
+
                 <div className='flex justify-center gap-2 my-1'>
                     <RenderBadge text={dishType[0]} />
                     <RenderBadge text={cuisineType[0]} />
                     <RenderBadge text={mealType[0]} />
                 </div>
-                
+
                 <div className='grid grid-cols-2 gap-y-2 my-1'>
                     <RenderBasicTextInfo text="Calories" val={calories.toFixed(2)} />
                     <RenderBasicTextInfo text="carbon footprint" val={co2EmissionsClass} />
                     <RenderBasicTextInfo text="servings" val={servings} />
                     <RenderBasicTextInfo text="weight" val={totalWeight.toFixed(2)} />
                 </div>
-                
+
                 <div className='grid grid-cols-2 gap-2 my-1'>
                     <RenderRecipeIngredients ingredients={ingredients} />
                     <RenderHealthLabels labels={healthLabels} />
@@ -100,10 +116,10 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                     <RenderRecipeDigestInfo digestLabels={digest} />
                 </div>
 
-               <div className='w-full my-1'>
+                <div className='w-full my-1'>
                     <RenderBasicTextInfo text='Source' val={source} />
                     <Button variant={"destructive"} title={url} className='w-full'><a target='_blank' href={url}>Recipe Source Site</a></Button>
-               </div>
+                </div>
             </div>
         </div>
     )

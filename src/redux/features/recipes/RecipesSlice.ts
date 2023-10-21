@@ -7,15 +7,19 @@ type RecipesInitStateTypes = {
     list: RecipeMealType[],
     // count: number,
     // untracked: RecipeMealType[]
+    // untracked: {
+    //     [key:string]: RecipeMealType[]
+    // }[]
     untracked: {
-        [key:string]: RecipeMealType[]
-    }
+        page: number,
+        data: RecipeMealType[]
+    }[]
 }
 
 const initRecipesState: RecipesInitStateTypes = {
     list: [],
     // untracked: []
-    untracked: {}
+    untracked: [{data: [], page: 0}]
 }
 
 const recipesSlice = createSlice({
@@ -54,9 +58,12 @@ const recipesSlice = createSlice({
         addRecipesToUntracked: (state, action) => {
             const {pageNumber, recipesData} = action.payload;
             console.log(pageNumber, recipesData, "check it!!")
-            state.untracked = {
-                [pageNumber]: recipesData
-            }
+            // state.untracked = {
+            //     [pageNumber]: recipesData
+            // }
+            // state.untracked = state.untracked.concat({[pageNumber]: recipesData})
+            // state.untracked = state.untracked.concat({data: recipesData, page: pageNumber})
+            state.untracked = recipesData.length ? [...state.untracked, {data: recipesData, page: pageNumber}] : state.untracked
         }
     },
     extraReducers: builder => {
