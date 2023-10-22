@@ -1,8 +1,14 @@
+"use client"
+
+import { ShowRecipes } from '@/components/forPopularRecipes/ShowRecipes'
 import React from 'react'
 
 const PopularRecipesRoutePage = () => {
   return (
-    <div className='h-[100vh]'>PopularRecipesRoutePage</div>
+    <div className='min-h-[100vh]'>
+      PopularRecipesRoutePage
+      <ShowRecipes />
+    </div>
   )
 }
 
