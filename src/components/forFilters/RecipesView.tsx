@@ -11,24 +11,26 @@ import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import axios from 'axios'
 
-export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePreviousAndNext, check }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d: RecipeMealType[], href?: string) => void, handlePreviousAndNext: (str: string) => void, check?: number }) => {
-    
+export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePreviousAndNext, check }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d: RecipeMealType[], href?: string) => void, handlePreviousAndNext: (str: string) => void, check?: boolean }) => {
+
     const renderRecipes = () => recipes.map(item => <RenderRecipe key={item.label} {...item} />)
-    
+
     const fetchMore = () => {
         // console.log(nextHref)
         if (nextHref) {
-            axios.get(nextHref).then(resp => {
-                console.log(resp.data, "lets see!!")
-                const onlyRecipes = resp.data?.hits.map((item: any) => item.recipe)
+            axios
+                .get(nextHref)
+                .then(resp => {
+                    console.log(resp.data, "lets see!!")
+                    const onlyRecipes = resp.data?.hits.map((item: any) => item.recipe)
 
-                const readyForRendering = onlyRecipes.map((item: any) => item.mealType?.length && item.dishType?.length && item.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
+                    const readyForRendering = onlyRecipes.map((item: any) => item.mealType?.length && item.dishType?.length && item.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
-                readyForRendering?.length && handleRecipesFound(readyForRendering, resp.data?._links?.next?.href)
+                    readyForRendering?.length && handleRecipesFound(readyForRendering, resp.data?._links?.next?.href)
 
-                handlePreviousAndNext("next")
+                    handlePreviousAndNext("next")
 
-            }).catch(err => console.log(err, "error!!"))
+                }).catch(err => console.log(err, "error!!"))
         }
     }
 
@@ -39,16 +41,19 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
                 {renderRecipes()}
             </div>
             {/* <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={fetchMore} disabled={!nextHref}>Prev</Button> */}
-            <div className='flex gap-x-4'>
-                <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={() => handlePreviousAndNext("prev")} disabled={!nextHref}>Prev</Button>
+            <div className='flex gap-x-4 w-full justify-center my-2'>
+                <Button className={`${nextHref ? "block" : "hidden"} bg-card font-bold text-xl text-muted-foreground hover:text-muted`} variant={'default'} onClick={() => handlePreviousAndNext("prev")} disabled={!nextHref}>Prev</Button>
 
-                <Button 
-                className={`${nextHref ? "block" : "hidden"}`} 
-                variant={'outline'} 
+                <Button
+                    className={`${nextHref ? "block" : "hidden"} bg-card font-bold text-xl text-muted-foreground hover:text-muted`}
+                    variant={'default'}
                     // onClick={() => check === -1 ? fetchMore() : handlePreviousAndNext("next")} 
-                    onClick={fetchMore}
+                    onClick={() => !check ? fetchMore() : handlePreviousAndNext("next")}
+                    // onClick={fetchMore}
                     disabled={!nextHref}
                 >Next</Button>
+
+                {/* <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={fetchMore} disabled={!nextHref}>Show More New Data</Button> */}
             </div>
         </div>
     )

@@ -32,7 +32,8 @@ const FilterRecipesPage = () => {
   const untrackedList = useAppSelector(state => state.recipes.untracked)
 
   const addToUntrackedRecipes = () => {
-    appDispatch(addRecipesToUntracked({ pageNumber: pageNumber, recipesData: recipesData.recipesFound }))
+    appDispatch(addRecipesToUntracked({ pageNumber: untrackedList.length, recipesData: recipesData.recipesFound }))
+    // appDispatch(addRecipesToUntracked({ pageNumber: pageNumber, recipesData: recipesData.recipesFound }))
     // console.log(recipesData.nextHref)
     // appDispatch(addRecipesToUntracked({ pageNumber: "Page"+pageNumber, recipesData: recipesData.recipesFound }))
   }
@@ -48,23 +49,32 @@ const FilterRecipesPage = () => {
   const handlePreviousAndNext = (action: string) => {
     setPageNumber(prev => {
       if(action === "next") {
-        // const data = untrackedList.find(item => item.page === prev + 1)?.data
+        const data = untrackedList.find(item => item.page === prev + 1)?.data
+        // const data = untrackedList.find(item => item.page > pageNumber)?.data
 
-        // if(!data?.length) return prev
+        if(!data?.length) return prev
 
-        // setRecipesData(prev => ({recipesFound: data, nextHref: prev.nextHref}))
+        setRecipesData(prev => ({recipesFound: data, nextHref: prev.nextHref}))
+
+        // console.log("next", untrackedList.length, prev, data)
+
+        // return untrackedList.length
 
         return prev + 1
       } else {
-        if(prev > 1) {
+        if(prev > 0) {
           // console.log(untrackedList.find(item => item.page === prev - 1))
-          const data = untrackedList.find(item => item.page === prev - 1)?.data
+          // const data = untrackedList.find(item => item.page === prev - 1)?.data
+          const data = untrackedList.find(item => item.page === prev)?.data
+
+          // console.log("prev", untrackedList.length, prev, data)
           
           if(!data?.length) return prev
           
           setRecipesData(prev => ({recipesFound: data, nextHref: prev.nextHref}))
           
-          return prev - 1
+          // return prev
+          return prev - 1 > 0 ? prev -1 : prev
         }
 
         return 1
@@ -72,10 +82,11 @@ const FilterRecipesPage = () => {
     })
   }
 
-  console.log(untrackedList, "untrackedList", pageNumber, untrackedList.findIndex(item => item.page > pageNumber))
+  // console.log(untrackedList, "untrackedList", pageNumber, untrackedList.findIndex(item => item.page > pageNumber), pageNumber < untrackedList.length, pageNumber < untrackedList[untrackedList.length - 1].page)
 
   // IFNEXTDATAALREADYEXIST
   // const CHECK = untrackedList.findIndex(item => item.page > pageNumber)
+  const check = pageNumber < untrackedList[untrackedList.length - 1].page
 
   return (
     <div
@@ -87,6 +98,7 @@ const FilterRecipesPage = () => {
       {/* <RecipesView recipes={ recipesFound?.length ? recipesFound : mealsRecipes} /> */}
       <RecipesView recipes={recipesData.recipesFound?.length ? recipesData.recipesFound : []} nextHref={recipesData.nextHref} handleRecipesFound={handleRecipesFound} handlePreviousAndNext={handlePreviousAndNext} 
       // check={CHECK} 
+      check={check}
       />
     </div>
   )
