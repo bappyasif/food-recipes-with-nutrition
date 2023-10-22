@@ -1,14 +1,19 @@
 "use client"
 
-import { ViewedMealCardType } from '@/types'
+import { RecipeMealType, ViewedMealCardType } from '@/types'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import { useForTruthToggle } from '@/hooks/forComponents'
+import { useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
 import styles from "@/app/[locale]/Home.module.css"
 import { Badge } from '../ui/badge'
+import { useAppSelector } from '@/hooks/forRedux'
+import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
+import Link from 'next/link'
+import { useLocale } from 'next-intl'
+import { extractRecipeId } from '../forFilters/RecipesView'
 
 export const RecentlyViewedMealsScroller = () => {
-  const [onlyFour, setOnlyFour] = useState<ViewedMealCardType[]>();
+  const [onlyFour, setOnlyFour] = useState<ViewedMealCardType[]>([]);
 
   const [beginFrom, setBeginFrom] = useState(0);
 
@@ -80,17 +85,63 @@ export const RecentlyViewedMealsScroller = () => {
 
   const renderCards = () => onlyFour?.map((item, idx) => <RenderDeliciousMealCard key={item.name} category={item.category} name={item.name} nutrition={item.nutrition} picture={item.picture} idx={idx} />)
 
+  // when we have actual popular recipes list, unutil then we will be using demo component
+
+  const recipesList = useAppSelector(state => state.recipes.list)
+
+  const {handleFalsy:falsyForEight, onlyFour:onlyEight, handleTruthy:truthyForEight, isTrue:forEight} = useForRecipeCarouselItems(recipesList)
+
+  const renderForCards = () => onlyEight?.map(item => <RenderMealCard key={item.uri} data={item} />)
+
   return (
     <div>
       <h2>Some Recently Viewed Meals</h2>
       <div 
         className='grid xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center'
-        onMouseEnter={handleTruthy}
-        onMouseLeave={handleFalsy}
+        onMouseEnter={onlyEight?.length ? truthyForEight : handleTruthy}
+        onMouseLeave={onlyEight?.length ? falsyForEight : handleFalsy}
       >
-        {renderCards()}
+        { onlyEight!?.length ? renderForCards() : renderCards()}
       </div>
     </div>
+  )
+}
+
+const RenderMealCard = ({data}: {data: Partial<RecipeMealType>}) => {
+
+  const {calories, cuisineType, co2EmissionsClass, label, uri, images} = data;
+
+  const {height, url, width} = images?.SMALL!
+
+  const locale = useLocale()
+
+  if(!cuisineType) {
+    return
+  }
+
+  return (
+    <Link
+      href={`/${locale}/recipe/${extractRecipeId(uri!)}`} 
+      className={`${styles.dissolvePhoto} h-56 overflow-clip`}
+    >
+      <img
+        className=' w-60 h-48 object-cover hover:h-24 hover:object-cover'
+        // fill={true}
+        placeholder='blur'
+        // blurDataURL= {picture}
+        loading='lazy'
+        width={400} 
+        height={200}
+        alt={`${label}`}
+        src={url}
+      />
+      <div className='flex flex-col gap-y-2 items-center justify-center'>
+        <ReusableBadge text={calories?.toFixed(2)!} title='Calorie' />
+        <ReusableBadge text={cuisineType[0]} title='Cuisine' />
+        <ReusableBadge text={co2EmissionsClass!} title='Carbon Emission' />
+        <ReusableBadge text={label!?.length > 11 ? ellipsedText(label!, 11) : label!} title='Name' />
+      </div>
+    </Link>
   )
 }
 
