@@ -1,15 +1,16 @@
 "use client"
 
-import React, { KeyboardEvent, useEffect, useState } from 'react'
+import React, { KeyboardEvent, useContext, useEffect, useState } from 'react'
 import { Checkbox } from '../ui/checkbox'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
-import { useForInputTextChange } from '@/hooks/forComponents'
+import { useForAddToFiltersFromParams, useForInputTextChange } from '@/hooks/forComponents'
 import { Badge } from '../ui/badge'
 import { FiltersTypes } from '@/types'
 import axios from 'axios'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
 import { useTranslations } from 'use-intl';
+import { FiltersContext } from '@/hooks/forContext'
 
 type FiltersDashboardPropsType = {
     handleRecipesFound: (d: any, href?: string) => void
@@ -137,8 +138,14 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     const t = useTranslations("default")
 
+    // pass in setFilters to add them into it
+    useForAddToFiltersFromParams(setFilters)
+
+    console.log(filters, "filters!!")
+
     return (
-        <div className='flex flex-col gap-y-4 justify-center items-center h-fit'>
+        <FiltersContext.Provider value={filters}>
+            <div className='flex flex-col gap-y-4 justify-center items-center h-fit'>
             <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold'>{t("Refine Searches Using Filters")}</h1>
 
             <div className='flex flex-col gap-y-4 justify-center items-center'>
@@ -150,6 +157,7 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
                 <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
             </div>
         </div>
+        </FiltersContext.Provider>
     )
 }
 
@@ -199,7 +207,7 @@ const RenderCheckboxTypes = ({ ...items }: ReuseableCheckboxTypes) => {
 }
 
 type FilterChangeTypes = {
-    handleFiltersChange: (d: string, k: string) => void
+    handleFiltersChange: (d: string, k: string) => void,
 }
 
 type CheckboxTypes = {
@@ -209,9 +217,27 @@ type CheckboxTypes = {
 }
 
 const RenderCheckbox = ({ name, handleFiltersChange, propKey }: CheckboxTypes) => {
+    const filters = useContext(FiltersContext)
+    
+    const getIdx = () => (filters[propKey as keyof FiltersTypes] as [])?.findIndex(item => item === name)
+    
+    console.log(filters[propKey as keyof FiltersTypes], 
+        "Value of Filters Type!!", 
+        name,
+        propKey, 
+        filters[propKey as keyof FiltersTypes]![0], 
+        filters[propKey as keyof FiltersTypes]?.includes(name), 
+        (filters[propKey as keyof FiltersTypes] as [])?.findIndex(item => item === name)
+    )
+
     return (
         <Badge variant={'secondary'} className="flex space-x-2 py-1 min-w-fit h-8">
-            <Checkbox id={name} onClick={() => handleFiltersChange(name, propKey)} />
+            <Checkbox 
+                // value={filters[propKey as keyof FiltersTypes]![getIdx()]} 
+                checked={filters[propKey as keyof FiltersTypes]![getIdx()] ? true : false}
+                id={name} 
+                onClick={() => handleFiltersChange(name, propKey)} 
+            />
             <label
                 htmlFor={name}
                 className="text-sm w-full font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"

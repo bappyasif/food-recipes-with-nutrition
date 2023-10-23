@@ -10,6 +10,7 @@ import styles from "./Filters.module.css"
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import axios from 'axios'
+import { useForIfRecipesFoundWithExistingFilters } from '@/hooks/forComponents'
 
 export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePreviousAndNext, check }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d: RecipeMealType[], href?: string) => void, handlePreviousAndNext: (str: string) => void, check?: boolean }) => {
 
@@ -32,6 +33,26 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
 
                 }).catch(err => console.log(err, "error!!"))
         }
+    }
+
+    const {isTimed, filtersExist} = useForIfRecipesFoundWithExistingFilters()
+
+    if(isTimed && recipes.length === 0 && filtersExist) {
+        return (
+            <h2 className='font-bold text-xl'>Recipes Not Found!! Try using more Filters and search again, thank you :)</h2>
+        )
+    }
+
+    if(!isTimed && recipes.length === 0 && filtersExist) {
+        return (
+            <h2 className='font-bold text-xl'>Loading....</h2>
+        )
+    }
+
+    if(recipes.length === 0) {
+        return (
+            <h2 className='font-bold text-xl'>Try Using Filters To Find Recipes</h2>
+        )
     }
 
     return (

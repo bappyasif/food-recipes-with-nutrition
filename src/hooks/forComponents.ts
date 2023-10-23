@@ -94,6 +94,8 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound:(data: RecipeM
         const timer = setTimeout(() => {
             // console.log(params, "ready for fetching data!!", searchParams.get("type"), params2, params?.get("app_id"), params?.toString(), params?.get("dishType"))
             // searchParams.get("type") && fetchAndUpdateData(params?.toString(), setMealsRecipes)
+            
+            
             params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
                 const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
 
@@ -329,3 +331,56 @@ export const useForOutsideClick = (ref: any, callback: () => void) => {
         };
     });
 };
+
+export const useForIfRecipesFoundWithExistingFilters = () => {
+    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+    const searchParams = useSearchParams()
+    // console.log(searchParams, "searchParams!!", searchParams.get("type"))
+
+    useEffect(() => {
+        handleFalsy()
+        const timer = setTimeout(handleTruthy, 4000)
+
+        return () => clearTimeout(timer)
+    }, [searchParams])
+
+    console.log(isTrue, "isTrue!!")
+
+    return {isTimed: isTrue, filtersExist: searchParams.get("type")}
+}
+
+export const useForAddToFiltersFromParams = (setFilters: React.Dispatch<React.SetStateAction<FiltersTypes>>) => {
+    const searchParams = useSearchParams()
+
+    console.log(searchParams.getAll("cuisineType"), searchParams.getAll("mealType"), searchParams.getAll("dishType"), searchParams.getAll("health"), searchParams.getAll("diet"))
+
+    // this works partially, but needs to find a wway to go through each filters case currently it only runs for first condition
+    // maybe using useHook for each filtersType might do
+    const runThis = () => {
+        if(searchParams.getAll("cuisineType").length) {
+            setFilters(prev => ({...prev, cuisineType: searchParams.getAll("cuisineType")}))
+            console.log(searchParams.getAll("cuisineType"))
+        } else if(searchParams.getAll("dishType").length) {
+            setFilters(prev => ({...prev, dishType: searchParams.getAll("cuisineType")}))
+            console.log(searchParams.getAll("dishType"))
+        } else if(searchParams.getAll("mealType").length) {
+            setFilters(prev => ({...prev, mealType: searchParams.getAll("mealType")}))
+            console.log(searchParams.getAll("mealType"))
+        } else if(searchParams.getAll("diet").length) {
+            setFilters(prev => ({...prev, diet: searchParams.getAll("diet")}))
+            console.log(searchParams.getAll("diet"))
+        } else if(searchParams.getAll("health").length) {
+            setFilters(prev => ({...prev, health: searchParams.getAll("health")}))
+            console.log(searchParams.getAll("health"))
+        } else if(searchParams.getAll("q").length) {
+            setFilters(prev => ({...prev, q: searchParams.get("q")!}))
+            console.log(searchParams.get("q"))
+        }
+    }
+
+    useEffect(() => {
+        runThis()
+    }, [searchParams])
+
+    console.log(searchParams.get("cuisineType"), searchParams.get("type"))
+}

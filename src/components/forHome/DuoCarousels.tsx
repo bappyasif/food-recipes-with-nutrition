@@ -46,7 +46,7 @@ export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisin
     const [params, setParams] = useState<FiltersTypes>({})
 
     const prepareForDataFetching = () => {
-        if (carouselType === "Dishes") {
+        if (carouselType === "Dish") {
             setParams(prev => ({ dishType: [name] }))
         } else {
             setParams(prev => ({ cuisineType: [name] }))
