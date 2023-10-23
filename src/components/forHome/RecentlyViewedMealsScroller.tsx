@@ -97,7 +97,7 @@ export const RecentlyViewedMealsScroller = () => {
     <div>
       <h2>Some Recently Viewed Meals</h2>
       <div 
-        className='grid xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center'
+        className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center max-h-[25.1rem] overflow-clip gap-2'
         onMouseEnter={onlyEight?.length ? truthyForEight : handleTruthy}
         onMouseLeave={onlyEight?.length ? falsyForEight : handleFalsy}
       >
@@ -115,17 +115,21 @@ const RenderMealCard = ({data}: {data: Partial<RecipeMealType>}) => {
 
   const locale = useLocale()
 
+  const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+
   if(!cuisineType) {
     return
   }
 
   return (
-    <Link
-      href={`/${locale}/recipe/${extractRecipeId(uri!)}`} 
-      className={`${styles.dissolvePhoto} h-56 overflow-clip`}
+    <div
+      className={`${styles.dissolvePhoto} h-[13.4rem] overflow-clip`}
+      onMouseEnter={handleTruthy}
+      onMouseLeave={handleFalsy}
     >
+      <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} >
       <img
-        className=' w-60 h-48 object-cover hover:h-24 hover:object-cover'
+        className={`w-60 ${isTrue ? "h-24" : "h-48"} object-cover hover:object-cover rounded-sm`}
         // fill={true}
         placeholder='blur'
         // blurDataURL= {picture}
@@ -135,13 +139,16 @@ const RenderMealCard = ({data}: {data: Partial<RecipeMealType>}) => {
         alt={`${label}`}
         src={url}
       />
+      </Link>
       <div className='flex flex-col gap-y-2 items-center justify-center'>
         <ReusableBadge text={calories?.toFixed(2)!} title='Calorie' />
         <ReusableBadge text={cuisineType[0]} title='Cuisine' />
         <ReusableBadge text={co2EmissionsClass!} title='Carbon Emission' />
+        <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} >
         <ReusableBadge text={label!?.length > 11 ? ellipsedText(label!, 11) : label!} title='Name' />
+        </Link>
       </div>
-    </Link>
+    </div>
   )
 }
 
@@ -150,7 +157,7 @@ const RenderDeliciousMealCard = ({idx,  ...item}: ViewedMealCardType & {idx: num
 
   return (
     <div 
-      className={`${styles.dissolvePhoto} h-56 overflow-clip`}
+      className={`${styles.dissolvePhoto} h-60 overflow-clip`}
     >
       <Image
         className=' w-60 h-48 object-cover hover:h-36 hover:object-cover'
@@ -163,7 +170,7 @@ const RenderDeliciousMealCard = ({idx,  ...item}: ViewedMealCardType & {idx: num
         alt={`${name}, ${category}, ${nutrition}`}
         src={picture}
       />
-      <div className='flex flex-col gap-y-2 items-center justify-center'>
+      <div className='mt-2 flex flex-col gap-y-2 items-center justify-center'>
         <ReusableBadge text={nutrition} title='Calorie' />
         <ReusableBadge text={category} title='Category' />
         <ReusableBadge text={name} title='Name' />

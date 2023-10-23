@@ -18,7 +18,7 @@
 
 .dissolvePhoto {
     animation-name: phasedOut;
-    animation-duration: 6009ms;
+    animation-duration: 20009ms;
     animation-timing-function: ease-in-out;
     animation-delay: 0ms;
     animation-iteration-count: infinite;
