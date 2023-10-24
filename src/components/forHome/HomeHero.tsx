@@ -15,7 +15,7 @@ export const HomeHero = () => {
             >
                 <img className='absolute h-full w-full object-cover -z-0' src="https://source.unsplash.com/random/200?food=1" alt="a rondom food recipe background image from unsplash" />
 
-                <div className='w-full z-20 absolute'>
+                <div className='w-full z-20 absolute text-special-foreground'>
                     <div className='grid grid-cols-3 place-items-center items-center h-[4rem]'>
                         <div className='h-full w-full rounded-s-xl rounded-xl bg-transparent flex justify-between'>
                             <span className='border border-primary-focus w-1/2'></span>
@@ -81,9 +81,9 @@ const RightExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
             // className={`absolute bg-secondary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-4" : "translate-x-60"} xxs:w-fit md:w-[24rem] z-20`}
 
-            className={`absolute bg-secondary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-4" : "translate-x-0"} z-20`}
+            className={`absolute bg-accent flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-4" : "translate-x-0"} z-20`}
         >
-            <Button onClick={handleClicked} variant={'secondary'} className='absolute -left-16 top-0 transition-all duration-1000 h-full bg-card text-7xl flex items-center rounded-r-none text-muted-foreground'>[</Button>
+            <Button onClick={handleClicked} variant={'secondary'} className='absolute -left-16 top-0 transition-all duration-1000 h-full bg-card hover:bg-muted-foreground hover:text-special-foreground text-7xl flex items-center rounded-r-none text-special'>[</Button>
 
             {/* <Button onClick={handleClicked} variant={'secondary'} className='absolute -left-16 top-0 h-full bg-card text-7xl flex items-center rounded-r-none text-muted-foreground'>[</Button> */}
 
@@ -113,7 +113,7 @@ const LeftExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
             <Scheduler open={extOpen === "left"} />
             
-            <Button onClick={handleClicked} variant={'secondary'} className={`absolute -right-16 bottom-0 transition-all duration-1000 h-full bg-card text-7xl flex items-center rounded-l-none text-muted-foreground`}>]</Button>
+            <Button onClick={handleClicked} variant={'secondary'} className={`absolute bg-card -right-16 bottom-0 transition-all duration-1000 h-full hover:bg-muted-foreground hover:text-special-foreground text-7xl flex items-center rounded-l-none text-special`}>]</Button>
         </div>
     )
 }

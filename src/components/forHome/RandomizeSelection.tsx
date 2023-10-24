@@ -307,7 +307,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
                     <ShowRandomlySelectedOptions rndNames={rndNames} />
                 </div>
 
-                <Button className='bg-primary font-bold w-fit hover:bg-card-foreground' onClick={handleClick} variant={'secondary'}><span className='transition-all duration-1000 hover:scale-110 w-full text-secondary hover:text-primary'>{t("Find Recipes")}</span></Button>
+                <Button className='bg-muted-foreground font-bold w-fit hover:bg-primary' onClick={handleClick} variant={'default'}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>{t("Find Recipes")}</span></Button>
             </div>
             <RandomizedRecipesView recipes={recipes} handleClick={handleClick} />
         </>

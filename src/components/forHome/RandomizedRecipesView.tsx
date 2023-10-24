@@ -44,7 +44,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick }: { recipes: Recip
 
             {
                 recipes.length && isTrue
-                    ? <Badge>Want To See More? <Button className='my-0 py-0 text-sm h-4' onClick={processRefetch}>Click Here</Button></Badge>
+                    ? <Badge className='bg-special hover:bg-special-foreground text-muted'>Want To See More? <Button className='my-0 py-0 text-sm h-4 bg-special-foreground hover:bg-special hover:text-muted' onClick={processRefetch}>Click Here</Button></Badge>
                     : null
             }
         </div>

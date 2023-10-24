@@ -147,14 +147,14 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     return (
         <FiltersContext.Provider value={{filters: filters, handleFilterChange: handleFiltersChange}}>
-            <div className='flex flex-col gap-y-4 justify-center items-center h-fit'>
-            <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold'>{t("Refine Searches Using Filters")}</h1>
+            <div className='flex flex-col my-12 gap-y-4 justify-center items-center h-fit'>
+            <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold text-special-foreground'>{t("Refine Searches Using Filters")}</h1>
 
-            <div className='flex flex-col gap-y-4 justify-center items-center'>
+            <div className='flex flex-col gap-y-6 justify-center items-center'>
 
-                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2 border-b-primary text-muted-foreground' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
+                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2 border-b-special text-special-foreground rounded-md placeholder:text-special-foreground xxs:text-sm md:text-lg xl:text-xl' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
-                <Button className='bg-primary text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary' onClick={handleSearchNow}>{t("Search")}</Button>
+                <Button className='bg-special-foreground text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary hover:bg-special' onClick={handleSearchNow}>{t("Search")}</Button>
                 
                 <MultipleSelectableFilters 
                     // handleFiltersChange={handleFiltersChange} 

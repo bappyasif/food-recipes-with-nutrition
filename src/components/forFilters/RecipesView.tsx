@@ -39,25 +39,25 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
 
     if(isTimed && recipes.length === 0 && filtersExist) {
         return (
-            <h2 className='font-bold text-xl'>Recipes Not Found!! Try using more Filters and search again, thank you :)</h2>
+            <h2 className='font-bold text-xl text-special-foreground'>Recipes Not Found!! Try using more Filters and search again, thank you :)</h2>
         )
     }
 
     if(!isTimed && recipes.length === 0 && filtersExist) {
         return (
-            <h2 className='font-bold text-xl'>Loading....</h2>
+            <h2 className='font-bold text-xl text-special-foreground'>Loading....</h2>
         )
     }
 
     if(recipes.length === 0) {
         return (
-            <h2 className='font-bold text-xl'>Try Using Filters To Find Recipes</h2>
+            <h2 className='font-bold text-xl text-special-foreground'>Try Using Filters To Find Recipes</h2>
         )
     }
 
     return (
         <div>
-            <h1>Recipes View</h1>
+            {/* <h1>Recipes View</h1> */}
             <div className='grid xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 xxs:gap-11 lg:gap-11 place-content-center place-items-center'>
                 {renderRecipes()}
             </div>

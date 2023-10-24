@@ -18,13 +18,13 @@ export default function Home() {
       <RandomizeSelection />
 
       {/* smaller screen */}
-      <div className="xxs:flex xxs:flex-col xl:hidden items-center gap-x-20 justify-center text-muted-foreground">
+      <div className="xxs:flex xxs:flex-col xl:hidden items-center gap-x-20 justify-center text-special-foreground">
         <RecentlyViewedMealsScroller />
         <DuoCarousels />
       </div>
 
       {/* bigger screen */}
-      <div className="xxs:hidden xl:flex flex-row items-center gap-x-20 justify-center text-muted-foreground">
+      <div className="xxs:hidden xl:flex flex-row items-center gap-x-20 justify-center text-special-foreground">
         {/* <ReusableCarousel title='Dishes' items={newDishes} /> */}
         <ReusableCarousel title='Dish' />
         <RecentlyViewedMealsScroller />

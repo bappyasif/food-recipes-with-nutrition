@@ -76,12 +76,19 @@
 
     --muted: 80 43% 10.200000000000001%;
     --muted-foreground: 80 8.6% 53.4%;
+    /* --muted-foreground: 198 100% 71%; */
 
     --popover: 80 47.8% 4.42%;
+    /* --popover: 198 100% 71%; */
+    /* --popover: 198 33% 57%; */
+    /* --popover: 245 91% 74%; */
     --popover-foreground: 80 8.6% 96.7%;
 
     --card: 80 47.8% 4.42%;
     --card-foreground: 80 8.6% 96.7%;
+
+    --special: 198 100% 71%;
+    --special-foreground: 198 60% 45%;
 
     --border: 80 43% 10.200000000000001%;
     --input: 80 43% 10.200000000000001%;

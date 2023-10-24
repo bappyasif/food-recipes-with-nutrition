@@ -63,8 +63,8 @@ const SearchRecipes = () => {
 
   return (
     <div className='relative w-1/4 flex items-center xs:text-xs sm:text-sm lg:text-xl' ref={ref} onClick={handleTruthyForFocused}>
-      <input className="w-full h-full rounded-sm pl-4 text-primary bg-transparent border-0 border-b-2 border-b-primary placeholder:text-muted-foreground" type="text" placeholder='search recipes by name' value={text} onChange={handleTextChange} />
-      <Button onClick={handleTruthy} variant={"ghost"} className="absolute right-0 h-6 text-muted-foreground font-semibold">Search</Button>
+      <input className="w-full h-full rounded-sm pl-4 text-special-foreground bg-transparent border-0 border-b-2 border-b-special placeholder:text-special-foreground" type="text" placeholder='search recipes by name' value={text} onChange={handleTextChange} />
+      <Button onClick={handleTruthy} variant={"ghost"} className="absolute right-0 h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold">Search</Button>
       <ShowAllFoundRecipes text={text} isTrue={isTrue} showDropdown={forFocused} />
     </div>
   )

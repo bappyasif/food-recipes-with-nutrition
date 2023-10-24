@@ -17,7 +17,7 @@ export const ShowRecipes = () => {
 
   return (
     <div>
-      RecipesList
+      {/* RecipesList */}
       <div className='grid xxs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
         {renderRecipes()}
       </div>
@@ -34,7 +34,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
   if (!cuisineType) return
 
   return (
-    <Card className='hover:ring-1 hover:ring-primary outline-transparent border-0 flex flex-col justify-between'>
+    <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col justify-between'>
       <img src={url} height={height} width={width} alt={label} className='w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten' />
       <CardHeader className='font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground' title={label}>{label!?.length > 20 ? ellipsedText(label!, 19) : label}</CardHeader>
       <CardContent className='flex flex-col gap-y-4'>
@@ -43,7 +43,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
         <ReuseableBadge txt='Cuisine' val={cuisineType[0]} />
       </CardContent>
       <CardFooter>
-        <Link className='w-full bg-accent text-center font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-muted hover:bg-primary rounded-lg' href={`/${locale}/recipe/${extractRecipeId(uri!)}`}>See Details</Link>
+        <Link className='w-full bg-accent text-center font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-muted hover:bg-special-foreground rounded-lg' href={`/${locale}/recipe/${extractRecipeId(uri!)}`}>See Details</Link>
       </CardFooter>
     </Card>
   )
