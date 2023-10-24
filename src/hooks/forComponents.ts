@@ -344,7 +344,7 @@ export const useForIfRecipesFoundWithExistingFilters = () => {
         return () => clearTimeout(timer)
     }, [searchParams])
 
-    console.log(isTrue, "isTrue!!")
+    // console.log(isTrue, "isTrue!!")
 
     return {isTimed: isTrue, filtersExist: searchParams.get("type")}
 }
@@ -352,29 +352,34 @@ export const useForIfRecipesFoundWithExistingFilters = () => {
 export const useForAddToFiltersFromParams = (setFilters: React.Dispatch<React.SetStateAction<FiltersTypes>>) => {
     const searchParams = useSearchParams()
 
-    console.log(searchParams.getAll("cuisineType"), searchParams.getAll("mealType"), searchParams.getAll("dishType"), searchParams.getAll("health"), searchParams.getAll("diet"))
+    // console.log(searchParams.getAll("cuisineType"), searchParams.getAll("mealType"), searchParams.getAll("dishType"), searchParams.getAll("health"), searchParams.getAll("diet"))
 
     // this works partially, but needs to find a wway to go through each filters case currently it only runs for first condition
     // maybe using useHook for each filtersType might do
     const runThis = () => {
         if(searchParams.getAll("cuisineType").length) {
             setFilters(prev => ({...prev, cuisineType: searchParams.getAll("cuisineType")}))
-            console.log(searchParams.getAll("cuisineType"))
-        } else if(searchParams.getAll("dishType").length) {
-            setFilters(prev => ({...prev, dishType: searchParams.getAll("cuisineType")}))
-            console.log(searchParams.getAll("dishType"))
-        } else if(searchParams.getAll("mealType").length) {
+            // console.log(searchParams.getAll("cuisineType"))
+        } 
+        if(searchParams.getAll("dishType").length) {
+            setFilters(prev => ({...prev, dishType: searchParams.getAll("dishType")}))
+            // console.log(searchParams.getAll("dishType"))
+        } 
+        if(searchParams.getAll("mealType").length) {
             setFilters(prev => ({...prev, mealType: searchParams.getAll("mealType")}))
-            console.log(searchParams.getAll("mealType"))
-        } else if(searchParams.getAll("diet").length) {
+            // console.log(searchParams.getAll("mealType"))
+        } 
+        if(searchParams.getAll("diet").length) {
             setFilters(prev => ({...prev, diet: searchParams.getAll("diet")}))
-            console.log(searchParams.getAll("diet"))
-        } else if(searchParams.getAll("health").length) {
+            // console.log(searchParams.getAll("diet"))
+        } 
+        if(searchParams.getAll("health").length) {
             setFilters(prev => ({...prev, health: searchParams.getAll("health")}))
-            console.log(searchParams.getAll("health"))
-        } else if(searchParams.getAll("q").length) {
+            // console.log(searchParams.getAll("health"))
+        } 
+        if(searchParams.getAll("q").length) {
             setFilters(prev => ({...prev, q: searchParams.get("q")!}))
-            console.log(searchParams.get("q"))
+            // console.log(searchParams.get("q"))
         }
     }
 
@@ -382,5 +387,5 @@ export const useForAddToFiltersFromParams = (setFilters: React.Dispatch<React.Se
         runThis()
     }, [searchParams])
 
-    console.log(searchParams.get("cuisineType"), searchParams.get("type"))
+    // console.log(searchParams.get("cuisineType"), searchParams.get("type"))
 }

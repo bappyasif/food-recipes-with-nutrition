@@ -141,62 +141,70 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
     // pass in setFilters to add them into it
     useForAddToFiltersFromParams(setFilters)
 
-    console.log(filters, "filters!!")
+    // console.log(filters, "filters!!")
 
     return (
-        <FiltersContext.Provider value={filters}>
+        <FiltersContext.Provider value={{filters: filters, handleFilterChange: handleFiltersChange}}>
             <div className='flex flex-col gap-y-4 justify-center items-center h-fit'>
             <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold'>{t("Refine Searches Using Filters")}</h1>
 
             <div className='flex flex-col gap-y-4 justify-center items-center'>
 
-                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2' value={text} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
+                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
                 <Button className='bg-primary text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary' onClick={handleSearchNow}>{t("Search")}</Button>
                 
-                <MultipleSelectableFilters handleFiltersChange={handleFiltersChange} />
+                <MultipleSelectableFilters 
+                    // handleFiltersChange={handleFiltersChange} 
+                />
             </div>
         </div>
         </FiltersContext.Provider>
     )
 }
 
-const ReusuableAccordionItem = ({ handleFiltersChange, trigText, propKey, data }: FilterChangeTypes & { trigText: string, propKey: string, data: string[] }) => {
+const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string, propKey: string, data: string[] }) => {
     const t = useTranslations("default")
+
     return (
         <AccordionItem value={propKey} className='min-w-[380px]'>
             <AccordionTrigger className='text-lg font-semibold'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
             <AccordionContent>
-                <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText} handleFiltersChange={handleFiltersChange} />
+                <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText} 
+                // handleFiltersChange={handleFiltersChange} 
+                />
             </AccordionContent>
         </AccordionItem>
     )
 }
 
-const MultipleSelectableFilters = ({ handleFiltersChange }: FilterChangeTypes) => {
+const MultipleSelectableFilters = () => {
     return (
         <Accordion type='multiple' className='xxs:columns-1 md:columns-2 xl:columns-3 gap-2 bg-popover'>
-            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='mealType' trigText='Meal Types' data={meals} />
+            <ReusuableAccordionItem propKey='mealType' trigText='Meal Types' data={meals} />
 
-            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='diet' trigText='Diet Types' data={diets} />
+            <ReusuableAccordionItem propKey='diet' trigText='Diet Types' data={diets} />
 
-            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='dishType' trigText='Dish Types' data={dishes} />
+            <ReusuableAccordionItem propKey='dishType' trigText='Dish Types' data={dishes} />
 
-            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='health' trigText='Health Label Types' data={health} />
+            <ReusuableAccordionItem propKey='health' trigText='Health Label Types' data={health} />
 
-            <ReusuableAccordionItem handleFiltersChange={handleFiltersChange} propKey='cuisineType' trigText='Cuisine Types' data={cuisines} />
+            <ReusuableAccordionItem propKey='cuisineType' trigText='Cuisine Types' data={cuisines} />
         </Accordion>
     )
 }
 
 type ReuseableCheckboxTypes = {
-    data: string[], title: string, propKey: keyof FiltersTypes, handleFiltersChange: (d: string, k: string) => void
+    data: string[], 
+    title: string, 
+    propKey: keyof FiltersTypes, 
+    // handleFiltersChange: (d: string, k: string) => void
 }
 
 const RenderCheckboxTypes = ({ ...items }: ReuseableCheckboxTypes) => {
-    const { data, handleFiltersChange, propKey, title } = items;
+    const { data, propKey, title } = items;
 
-    const rendertypes = () => data.map(text => <RenderCheckbox key={text} name={text} handleFiltersChange={handleFiltersChange} propKey={propKey} />)
+    const rendertypes = () => data.map(text => <RenderCheckbox key={text} name={text} propKey={propKey} />)
 
     return (
         <div className='my-2'>
@@ -212,23 +220,25 @@ type FilterChangeTypes = {
 
 type CheckboxTypes = {
     name: string,
-    handleFiltersChange: (d: string, k: string) => void,
+    // handleFiltersChange: (d: string, k: string) => void,
     propKey: keyof FiltersTypes
 }
 
-const RenderCheckbox = ({ name, handleFiltersChange, propKey }: CheckboxTypes) => {
-    const filters = useContext(FiltersContext)
+const RenderCheckbox = ({ name, propKey }: CheckboxTypes) => {
+    const filters = useContext(FiltersContext).filters
     
     const getIdx = () => (filters[propKey as keyof FiltersTypes] as [])?.findIndex(item => item === name)
     
-    console.log(filters[propKey as keyof FiltersTypes], 
-        "Value of Filters Type!!", 
-        name,
-        propKey, 
-        filters[propKey as keyof FiltersTypes]![0], 
-        filters[propKey as keyof FiltersTypes]?.includes(name), 
-        (filters[propKey as keyof FiltersTypes] as [])?.findIndex(item => item === name)
-    )
+    // console.log(filters[propKey as keyof FiltersTypes], 
+    //     "Value of Filters Type!!", 
+    //     name,
+    //     propKey, 
+    //     filters[propKey as keyof FiltersTypes]![0], 
+    //     filters[propKey as keyof FiltersTypes]?.includes(name), 
+    //     (filters[propKey as keyof FiltersTypes] as [])?.findIndex(item => item === name)
+    // )
+
+    const handleFiltersChange = useContext(FiltersContext).handleFilterChange
 
     return (
         <Badge variant={'secondary'} className="flex space-x-2 py-1 min-w-fit h-8">
