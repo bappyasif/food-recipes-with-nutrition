@@ -68,7 +68,13 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound:(data: RecipeM
             const tokens = item.split("=")
             // console.log(tokens[1].split("+").join(" "))
             // updateParams(tokens[1], tokens[0])
-            updateParams(tokens[1]?.split("+").join(" "), tokens[0])
+            if (tokens[0] === "co2EmissionsClass") {
+                // console.log(tokens[1], "whart!!")
+                updateParams(tokens[1], tokens[0])
+            } else {
+                updateParams(tokens[1]?.split("+").join(" "), tokens[0])
+            }
+            // updateParams(tokens[1]?.split("+").join(" "), tokens[0])
         })
 
         setParams(params2)
@@ -376,6 +382,13 @@ export const useForAddToFiltersFromParams = (setFilters: React.Dispatch<React.Se
         if(searchParams.getAll("health").length) {
             setFilters(prev => ({...prev, health: searchParams.getAll("health")}))
             // console.log(searchParams.getAll("health"))
+        } 
+        if(searchParams.getAll("co2EmissionsClass").length) {
+            // mapping so that data gets mapped correctly in state variable otherwise A+ wont be detected by it due to url encryption
+            const mappedVals = searchParams.getAll("co2EmissionsClass").map(item => item.length > 1 ? "A+" : item)
+
+            setFilters(prev => ({...prev, co2EmissionsClass: mappedVals}))
+            // console.log(searchParams.getAll("co2EmissionsClass"), mappedVals)
         } 
         if(searchParams.getAll("q").length) {
             setFilters(prev => ({...prev, q: searchParams.get("q")!}))

@@ -17,7 +17,7 @@ type FiltersDashboardPropsType = {
 }
 
 export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsType) => {
-    const [filters, setFilters] = useState<FiltersTypes>({ cuisineType: [], diet: [], dishType: [], health: [], mealType: [], q: "" })
+    const [filters, setFilters] = useState<FiltersTypes>({ cuisineType: [], diet: [], dishType: [], health: [], mealType: [], co2EmissionsClass: [], q: "" })
 
     const getFiltered = (data: string, key: string) => {
         let filtered = null;
@@ -111,6 +111,8 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
             }
         }
 
+        // console.log(params.getAll("carbonFootprint"))
+
         axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
             const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
             
@@ -150,7 +152,7 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
             <div className='flex flex-col gap-y-4 justify-center items-center'>
 
-                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
+                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2 border-b-primary text-muted-foreground' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
                 <Button className='bg-primary text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary' onClick={handleSearchNow}>{t("Search")}</Button>
                 
@@ -181,6 +183,8 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
 const MultipleSelectableFilters = () => {
     return (
         <Accordion type='multiple' className='xxs:columns-1 md:columns-2 xl:columns-3 gap-2 bg-popover'>
+            <ReusuableAccordionItem propKey='co2EmissionsClass' trigText='Carbon Footprint' data={carbonFootprints} />
+
             <ReusuableAccordionItem propKey='mealType' trigText='Meal Types' data={meals} />
 
             <ReusuableAccordionItem propKey='diet' trigText='Diet Types' data={diets} />
@@ -267,3 +271,5 @@ export const cuisines = ["American", "Asian", "British", "Caribbean", "Central E
 export const meals = ["Breakfast", "Dinner", "Lunch", "Snack", "Teatime"]
 
 export const dishes = ["Biscuits and Cookies", "Bread", "Cereals", "Condiments and Sauces", "Desserts", "Drinks", "Main Course", "Pancake", "Preps", "Preserve", "Salad", "Sandwiches", "Side Dish", "Soup", "Starter", "Sweets"]
+
+export const carbonFootprints = ["A+", "A", "B", "C", "D", "E", "F", "G"]

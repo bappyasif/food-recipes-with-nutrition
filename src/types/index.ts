@@ -97,7 +97,8 @@ export type FiltersTypes = {
   cuisineType?: string[],
   mealType?: string[],
   dishType?: string[],
-  diet?: string[]
+  diet?: string[],
+  co2EmissionsClass?: string[]
 }
 
 export type RecipeMealType = {
