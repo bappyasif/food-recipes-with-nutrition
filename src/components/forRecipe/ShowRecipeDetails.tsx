@@ -11,9 +11,11 @@ import { RecipeImage } from './RecipeImage'
 import { FewNonRelatedRecipes } from './FewNonRelatedRecipes'
 import { Button } from '../ui/button'
 import { ShowYoutubeVids } from './ShowYoutubeVids'
-import {useTranslations} from "use-intl"
+import { useTranslations } from "use-intl"
 import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
 import { addRecipeToList, updateRecipeCount } from '@/redux/features/recipes/RecipesSlice'
+import Head from 'next/head'
+import Image from 'next/image'
 
 export const ShowRecipeDetails = () => {
     const [recipeData, setRecipeData] = useState<RecipeMealType>()
@@ -50,7 +52,7 @@ export const ShowRecipeDetails = () => {
             // d?.recipe && appDispatch(addRecipeToList({payload: d?.recipe}))
             recipeExists === -1 && d?.recipe && appDispatch(addRecipeToList(d?.recipe))
 
-            recipeExists !== -1 && d?.recipe && appDispatch(updateRecipeCount({recipeUri: d?.recipe.uri}))
+            recipeExists !== -1 && d?.recipe && appDispatch(updateRecipeCount({ recipeUri: d?.recipe.uri }))
         }).catch(err => console.log(err))
     }
 
@@ -58,7 +60,7 @@ export const ShowRecipeDetails = () => {
         dynamicParams["slug-id"] && prepareAndFetchData()
     }, [dynamicParams["slug-id"]])
 
-    console.log(trackedRecipes, "trackedRecipes!!")
+    // console.log(trackedRecipes, "trackedRecipes!!")
 
     return (
         <div>
@@ -75,6 +77,23 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
     return (
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20'>
+            {/* metadata */}
+            <Head>
+                <title>Recipe : {label}</title>
+                <meta name="description" content={`Details for ${label} from recipe source : ${source}`} key="desc" />
+                <meta property="og:title" content={`Recipe Detail for ${label}`} />
+                <meta
+                    property="og:description"
+                    content={`Details for ${label} and this was originally sourced from : ${source}`}
+                />
+                <meta
+                    property="og:image"
+                    content={images?.REGULAR?.url || images?.THUMBNAIL?.url || images?.SMALL?.url}
+                />
+            </Head>
+
+            {/* recipe details */}
+
             <section>
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
             </section>
@@ -188,7 +207,13 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
 
     const contents = (
         <div className='grid grid-cols-5 justify-items-center place-items-center w-full capitalize xs:text-sm lg:text-[1.01rem]'>
-            <img className='' src={image} alt={food} width={60} height={39} />
+            {/* <img className='' src={image} alt={food} width={60} height={39} /> */}
+            <Image
+                src={image} alt={food} 
+                width={60} height={39}
+                className='w-36 h-12 rounded-xl'
+                blurDataURL={image} placeholder='blur' loading='lazy'
+            />
 
             <div className=''>{food}</div>
 

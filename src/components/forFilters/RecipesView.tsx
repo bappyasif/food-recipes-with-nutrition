@@ -242,7 +242,12 @@ export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType)
             <span className='capitalize font-bold xxs:text-xs lg:text-sm'>{food}</span>
             <span className='flex flex-col justify-center items-center'>
                 <span className='text-[11px] capitalize font-semibold'>{foodCategory}</span>
-                <img className='w-36 h-28 rounded-xl' src={image} alt={food} width={60} height={39} />
+                {/* <img className='w-36 h-28 rounded-xl' src={image} alt={food} width={60} height={39} /> */}
+                <Image
+                    src={image} alt={food} width={80} height={40}
+                    className='w-36 h-14 rounded-xl'
+                    blurDataURL={image} placeholder='blur' loading='lazy'
+                />
             </span>
             <span className='font-semibold capitalize text-center'>{quantity.toFixed(2)} {measure}</span>
             <span className='font-semibold text-center'>{weight.toFixed(2)}</span>
