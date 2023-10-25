@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { extractRecipeId } from '../forFilters/RecipesView'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
+import Image from 'next/image'
 
 export const ShowRecipes = () => {
   const recipesList = useAppSelector(state => state.recipes.list)
@@ -35,7 +36,12 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   return (
     <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col justify-between'>
-      <img src={url} height={height} width={width} alt={label} className='w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten' />
+      {/* <img src={url} height={height} width={width} alt={label} className='w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten' /> */}
+      <Image 
+          src={url} alt={label!} width={width} height={height} 
+          className='w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
+          blurDataURL={url} placeholder='blur' loading='lazy' 
+        />
       <CardHeader className='font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground' title={label}>{label!?.length > 20 ? ellipsedText(label!, 19) : label}</CardHeader>
       <CardContent className='flex flex-col gap-y-4'>
         <ReuseableBadge txt='Calories' val={calories?.toFixed(2)} />

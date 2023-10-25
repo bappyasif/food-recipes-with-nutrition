@@ -8,6 +8,7 @@ import { extractRecipeId } from '../forFilters/RecipesView'
 import { diets, dishes, meals } from '../forFilters/FiltersDashboard'
 import { useLocale } from 'next-intl'
 import {useTranslations} from "use-intl"
+import Image from 'next/image'
 
 export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: string, dishType: string, mealType: string }) => {
     const [randomizedFilters, setRandomizedFilters] = useState({ diet: "", dishType: "", mealType: "" })
@@ -101,7 +102,12 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
                 className={`transition-transform duration-500 ${isTrue ? "scale-0" : "z-20 scale-100"} text-center`}
             >
                 <Badge>{cuisineType[0]}</Badge>
-                <img className='w-36 h-32 object-cover rounded-sm' src={url} alt={label} height={height} width={width} />
+                {/* <img className='w-36 h-32 object-cover rounded-sm' src={url} alt={label} height={height} width={width} /> */}
+                <Image
+                    src={url} alt={label} height={height} width={width}
+                    className='w-36 h-32 object-cover rounded-sm'
+                    blurDataURL={url} placeholder='blur' loading='lazy'
+                />
             </div>
             <div
                 className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center flex flex-col gap-y-2`}

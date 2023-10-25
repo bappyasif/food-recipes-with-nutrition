@@ -7,6 +7,7 @@ import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import { Button } from '../ui/button'
 import { useForTruthToggle } from '@/hooks/forComponents'
+import Image from 'next/image'
 
 export const RandomizedRecipesView = ({ recipes, handleClick }: { recipes: RecipeMealType[], handleClick: () => void }) => {
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
@@ -54,12 +55,19 @@ export const RandomizedRecipesView = ({ recipes, handleClick }: { recipes: Recip
 const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     const { uri, label, calories, images, mealType, co2EmissionsClass } = data;
     const { LARGE, REGULAR, SMALL } = images;
+    const { height, url, width } = REGULAR
     const locale = useLocale()
     return (
         <span className='flex flex-col gap-y-2 justify-center items-center w-56'>
             <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex flex-col gap-y-2' title={label}>
                 <span className='font-bold text-lg'>{label.length > 13 ? ellipsedText(label, 13) : label}</span>
-                <img src={REGULAR.url} height={REGULAR.height} width={REGULAR.width} alt={label} className='w-56 h-48 rounded-sm' />
+                {/* <img src={REGULAR.url} height={REGULAR.height} width={REGULAR.width} alt={label} className='w-56 h-48 rounded-sm' /> */}
+
+                <Image
+                    src={url} alt={label!} width={width} height={height}
+                    className='w-56 h-48 rounded-sm'
+                    blurDataURL={url} placeholder='blur' loading='lazy'
+                />
             </Link>
 
             <span className='flex flex-col gap-y-1.5'>

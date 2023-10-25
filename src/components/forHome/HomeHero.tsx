@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Button } from '../ui/button'
 import { DragAndDrop } from '../forUtilities/dragAndDrop/DragAndDrop'
 import { Scheduler } from '../forUtilities/bigCalender/Scheduler'
+import Image from 'next/image'
 
 export const HomeHero = () => {
     return (
@@ -13,7 +14,12 @@ export const HomeHero = () => {
             <div
                 className='w-2/4 mt-4 mx-auto relative text-ring h-[16.01rem] flex items-center'
             >
-                <img className='absolute h-full w-full object-cover -z-0' src="https://source.unsplash.com/random/200?food=1" alt="a rondom food recipe background image from unsplash" />
+                {/* <img className='absolute h-full w-full object-cover -z-0' src="https://source.unsplash.com/random/200?food=1" alt="a rondom food recipe background image from unsplash" /> */}
+                <Image
+                    src={"https://source.unsplash.com/random/200?food=1"} alt={"a random food picture from unsplash"} width={800} height={400}
+                    className='absolute h-full w-full object-cover -z-0 mix-blend-screen'
+                    blurDataURL={"https://source.unsplash.com/random/200?food=1"} placeholder='blur' loading='lazy'
+                />
 
                 <div className='w-full z-20 absolute text-special-foreground'>
                     <div className='grid grid-cols-3 place-items-center items-center h-[4rem]'>
@@ -112,7 +118,7 @@ const LeftExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
             } */}
 
             <Scheduler open={extOpen === "left"} />
-            
+
             <Button onClick={handleClicked} variant={'secondary'} className={`absolute bg-card -right-16 bottom-0 transition-all duration-1000 h-full hover:bg-muted-foreground hover:text-special-foreground text-7xl flex items-center rounded-l-none text-special`}>]</Button>
         </div>
     )

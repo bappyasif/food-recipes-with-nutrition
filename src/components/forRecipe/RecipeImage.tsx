@@ -2,6 +2,7 @@ import { useForTruthToggle } from "@/hooks/forComponents"
 import { RecipeMealType } from "@/types"
 import { Badge } from "../ui/badge"
 import styles from "./Recipe.module.css"
+import Image from "next/image"
 
 export const RecipeImage = ({ ...data }: RecipeMealType) => {
     const { images, label } = data;
@@ -24,10 +25,21 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                 <SquareElem showIt={isTrue} data={data} />
 
                 {/* smaller screen */}
-                <img className={`xxs:block lg:hidden transition-all duration-700 ${isTrue ? `h-[18.8rem] opacity-20 xxs:w-full sm:w-[13.2rem] xxs:ml-0 rotate-180` : `xxs:h-48 sm:52 lg:h-64 translate-x-0 xxs:w-56 lg:w-64 lg:ml-4 -rotate-180`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover rounded-sm`} src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
+                {/* <img className={`xxs:block lg:hidden transition-all duration-700 ${isTrue ? `h-[18.8rem] opacity-20 xxs:w-full sm:w-[13.2rem] xxs:ml-0 rotate-180` : `xxs:h-48 sm:52 lg:h-64 translate-x-0 xxs:w-56 lg:w-64 lg:ml-4 -rotate-180`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover rounded-sm`} src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} /> */}
+                <Image
+                    src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
+                    className={`xxs:block lg:hidden transition-all duration-700 ${isTrue ? `h-[18.8rem] opacity-20 xxs:w-full sm:w-[13.2rem] xxs:ml-0 rotate-180` : `xxs:h-48 sm:52 lg:h-64 translate-x-0 xxs:w-56 lg:w-64 lg:ml-4 -rotate-180`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover rounded-sm`}
+                    blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' loading='lazy'
+                />
 
                 {/* bigger screen */}
-                <img className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-36 rotate-[360deg]` : `h-64 translate-x-3 rotate-[-360deg]`} xxs:w-10 lg:w-64 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-4 object-cover rounded-sm`} src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} />
+                {/* <img className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-36 rotate-[360deg]` : `h-64 translate-x-3 rotate-[-360deg]`} xxs:w-10 lg:w-64 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-4 object-cover rounded-sm`} src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label} /> */}
+
+                <Image
+                    src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
+                    className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-36 rotate-[360deg]` : `h-64 translate-x-3 rotate-[-360deg]`} xxs:w-10 lg:w-64 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-4 object-cover rounded-sm`}
+                    blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' loading='lazy'
+                />
             </div>
         </div>
     )
@@ -40,9 +52,9 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
         <div className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-full sm:w-fit lg:w-[701px] rounded-sm" : `bg-slate-800 xxs:left-0 sm:left-[24%] xxs:h-0 sm:h-0 lg:h-64 xxs:w-[16rem] lg:w-[18.6rem] rounded-full ${styles.animateSpin} self-center`} xxs:pl-0 lg:pl-2`}>
 
             <div className={`grid grid-cols-1 justify-items-start transition-all duration-700 ${!showIt ? "-translate-y-20 opacity-0 scale-0" : "translate-y-0 opacity-100 scale-100"} py-2 z-10`}>
-                
+
                 <div className='flex flex-col gap-y-4 justify-between w-fit'>
-                    
+
                     <div className='flex flex-col gap-y-1'>
                         <Badge className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Meal Type</span> <span>{mealType}</span></Badge>
                         <Badge className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>

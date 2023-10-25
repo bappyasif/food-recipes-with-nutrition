@@ -7,6 +7,7 @@ import { SlotInfo } from "react-big-calendar"
 import { EventItemTypes } from "./Scheduler"
 import { ChangeEvent } from "react"
 import moment from "moment"
+import Image from "next/image"
 
 export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFromList, handleEdit, eventItem }: { open: boolean, handleClose: () => void, handleRemoveFromList: () => void, handleEdit: (t: string, d: string) => void, eventItem: EventItemTypes }) => {
 
@@ -81,10 +82,16 @@ export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFrom
 const RenderRecipesList = ({ hasCooking, items }: { hasCooking: boolean, items: { name: string, imgSrc: string }[] }) => {
 
     const renderList = () => items.map(item => {
+        const {imgSrc, name} = item;
         return (
-            <span key={item.name} className="flex flex-col justify-center items-center outline outline-primary-content w-full rounded-md">
-                <span>{item.name}</span>
-                <img src={item.imgSrc} alt={item.name} width={60} height={60} className='w-11 h-11 rounded-full' />
+            <span key={name} className="flex flex-col justify-center items-center outline outline-primary-content w-full rounded-md">
+                <span>{name}</span>
+                {/* <img src={item.imgSrc} alt={item.name} width={60} height={60} className='w-11 h-11 rounded-full' /> */}
+                <Image
+                    src={imgSrc} alt={name} width={60} height={60}
+                    className='w-56 h-48 rounded-sm'
+                    blurDataURL={imgSrc} placeholder='blur' loading='lazy'
+                />
             </span>
         )
     })

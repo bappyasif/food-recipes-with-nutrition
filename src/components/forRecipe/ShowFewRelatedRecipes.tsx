@@ -9,6 +9,7 @@ import { extractRecipeId } from '../forFilters/RecipesView'
 import { ellipsedText } from './FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import { useTranslations } from 'use-intl';
+import Image from 'next/image'
 
 export const ShowFewRelatedRecipes = ({ mealType, diet, dishType, uri }: { mealType: string, diet: string, dishType: string, uri?: string }) => {
     const {recipes} = useForRandomRecipesList(mealType, diet, dishType, uri)
@@ -83,7 +84,12 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
         >
             <div className={`absolute transition-transform duration-500 ${isTrue ? "-translate-y-48" : "z-20"} text-center`}>
                 <Badge className='xxs:text-sm lg:text-lg capitalize'>{cuisineType[0]}</Badge>
-                <img className='w-40 h-full rounded-md' src={url} alt={label} height={height} width={width} />
+                {/* <img className='w-40 h-full rounded-md' src={url} alt={label} height={height} width={width} /> */}
+                <Image
+                    src={url} alt={label} height={height} width={width}
+                    className='w-40 h-full rounded-md'
+                    blurDataURL={url} placeholder='blur' loading='lazy'
+                />
             </div>
             <div className={`absolute top-0 capitalize transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>
                 <Link className={`${isTrue ? "text-xl" : ""}`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 11 ? ellipsedText(label, 11) : label}</Link>

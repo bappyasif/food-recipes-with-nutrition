@@ -128,7 +128,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
       onMouseLeave={handleFalsy}
     >
       <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} title={label} >
-        <img
+        {/* <img
           className={`w-60 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`}
           // fill={true}
           placeholder='blur'
@@ -138,7 +138,14 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
           height={200}
           alt={`${label}`}
           src={url}
+        /> */}
+
+        <Image 
+          src={url} alt={label!} width={width} height={height} 
+          className={`w-60 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
+          blurDataURL={url} placeholder='blur' loading='lazy' 
         />
+
       </Link>
       <div className='flex flex-col gap-y-2 items-center justify-center'>
         <ReusableBadge text={co2EmissionsClass!} title='Carbon Emission' />

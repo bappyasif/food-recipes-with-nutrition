@@ -11,6 +11,7 @@ import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import axios from 'axios'
 import { useForIfRecipesFoundWithExistingFilters } from '@/hooks/forComponents'
+import Image from 'next/image'
 
 export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePreviousAndNext, check }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d: RecipeMealType[], href?: string) => void, handlePreviousAndNext: (str: string) => void, check?: boolean }) => {
 
@@ -35,21 +36,21 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
         }
     }
 
-    const {isTimed, filtersExist} = useForIfRecipesFoundWithExistingFilters()
+    const { isTimed, filtersExist } = useForIfRecipesFoundWithExistingFilters()
 
-    if(isTimed && recipes.length === 0 && filtersExist) {
+    if (isTimed && recipes.length === 0 && filtersExist) {
         return (
             <h2 className='font-bold text-xl text-special-foreground'>Recipes Not Found!! Try using more Filters and search again, thank you :)</h2>
         )
     }
 
-    if(!isTimed && recipes.length === 0 && filtersExist) {
+    if (!isTimed && recipes.length === 0 && filtersExist) {
         return (
             <h2 className='font-bold text-xl text-special-foreground'>Loading....</h2>
         )
     }
 
-    if(recipes.length === 0) {
+    if (recipes.length === 0) {
         return (
             <h2 className='font-bold text-xl text-special-foreground'>Try Using Filters To Find Recipes</h2>
         )
@@ -87,9 +88,9 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
     return (
         <div
-            className={`flex flex-col justify-center items-center ${styles.flipCard} h-[18.6rem] xxs:w-[18.9rem] sm:w-[20rem]`}
+            className={`flex flex-col justify-center items-center ${styles.flipCard} h-[18.6rem] xxs:w-[18.9rem] sm:w-[20.9rem]`}
         >
-            <p
+            {/* <p
                 className={`${styles.flipCardBack} h-full w-full rounded-sm`}
                 style={{
                     backgroundImage: `url(${images.SMALL.url})`,
@@ -101,12 +102,29 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                 }}
             >
 
-            </p>
+            </p> */}
+
+            <Image
+                alt={label}
+                src={images.SMALL.url}
+                className={`${styles.flipCardBack} h-full w-full rounded-sm`}
+                width={images.SMALL.width}
+                height={images.SMALL.height}
+                style={{
+                    // backgroundImage: `url(${images.SMALL.url})`,
+                    backgroundSize: "100% 100%",
+                    objectFit: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundColor: "rgba(17,17,17,0.6)",
+                    backgroundBlendMode: "darken",
+                }}
+            />
 
             <div className={`${styles.whenNotFlipped}`}>
                 <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex items-center justify-center flex-col gap-y-2'>
                     <h2 className='font-bold text-lg'>{label.length > 11 ? ellipsedText(label, 11) : label}</h2>
-                    <img className='w-64' src={images.SMALL.url} alt={label} width={images.SMALL.width} height={images.SMALL.height} />
+                    {/* <img className='w-64' src={images.SMALL.url} alt={label} width={images.SMALL.width} height={images.SMALL.height} /> */}
+                    <Image src={images.SMALL.url} alt={label} width={images.SMALL.width} height={images.SMALL.height} className='w-64' blurDataURL={images.SMALL.url} placeholder='blur' loading='lazy' />
                 </Link>
                 <div className='flex justify-start gap-2'>
                     <RenderBadge text={dishType[0]} />
@@ -118,8 +136,8 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
             <div
                 className={`${styles.whenFlipped} px-1.5 items-center justify-center `}
             >
-                <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`}>
-                    <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary w-64' title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</h2>
+                <Link className='bg-card opacity-70 w-full text-center rounded-t-md' href={`/${locale}/recipe/${extractRecipeId(uri)}`}>
+                    <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</h2>
                 </Link>
 
                 <div className='flex justify-center gap-2 my-1'>
@@ -128,7 +146,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                     <RenderBadge text={mealType[0]} />
                 </div>
 
-                <div className='grid grid-cols-2 gap-y-2 my-1'>
+                <div className='grid grid-cols-2 gap-y-2 bg-card py-0.5 opacity-70 my-1'>
                     <RenderBasicTextInfo text="Calories" val={calories.toFixed(2)} />
                     <RenderBasicTextInfo text="carbon footprint" val={co2EmissionsClass} />
                     <RenderBasicTextInfo text="servings" val={servings} />
@@ -144,7 +162,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
                 <div className='w-full my-1'>
                     <RenderBasicTextInfo text='Source' val={source} />
-                    <Button variant={"destructive"} title={url} className='w-full'><a target='_blank' href={url}>Recipe Source Site</a></Button>
+                    <Button variant={"default"} title={url} className='w-full bg-special-foreground hover:bg-special hover:text-secondary'><a target='_blank' href={url}>Recipe Source Site</a></Button>
                 </div>
             </div>
         </div>
@@ -153,13 +171,13 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
 const RenderBadge = ({ text }: { text: string }) => {
     return (
-        <Badge variant={"secondary"} title={text}>{text.length > 11 ? ellipsedText(text, 11) : text}</Badge>
+        <Badge className='bg-muted-foreground text-muted hover:text-muted-foreground capitalize' variant={"secondary"} title={text}>{text.length > 9 ? ellipsedText(text, 9) : text}</Badge>
     )
 }
 
 const RenderBasicTextInfo = ({ text, val }: { text: string, val: string | number }) => {
     return (
-        <h3 className='flex justify-between px-2 gap-2 xxs:text-xs lg:text-sm text-primary-foreground'><span className='font-semibold'>{text}</span>{val}</h3>
+        <h3 className={`flex justify-between px-2 gap-2 xxs:text-xs lg:text-sm text-muted-foreground ${text === "Source" ? "bg-card py-0.5 opacity-70 rounded-b-md" : ""} capitalize`}><span className='font-semibold'>{text}</span>{val}</h3>
     )
 }
 
@@ -187,15 +205,15 @@ type IngredientsTypes = Pick<RecipeMealType, "ingredients">
 
 const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
     const { ingredients } = items
-    
+
     const renderIngredientsAndMeasurements = () => ingredients.map(item => <RenderIngredientAndMeasurement key={item.foodId} {...item} />)
-    
+
     const renderInstructions = () => ingredients.map(item => {
         return (
             <span key={item.foodId + item.weight}>{item.text}</span>
         )
     })
-    
+
     return (
         <ReusableModal triggerText={"Recipe Ingredients"} title={"Ingredients And Measurements"}>
             <span className='textarea-primary flex flex-col gap-y-4 h-[33rem]'>
