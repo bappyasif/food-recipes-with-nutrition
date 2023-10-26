@@ -17,54 +17,77 @@ import { addRecipeToList, updateRecipeCount } from '@/redux/features/recipes/Rec
 import Head from 'next/head'
 import Image from 'next/image'
 
-export const ShowRecipeDetails = () => {
-    const [recipeData, setRecipeData] = useState<RecipeMealType>()
+export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMealType, params: {"slug-id": string} }) => {
+    // const [recipeData, setRecipeData] = useState<RecipeMealType>()
 
-    const dynamicParams = useParams()
+    // const dynamicParams = useParams()
 
     const appDispatch = useAppDispatch()
 
     const trackedRecipes = useAppSelector(state => state.recipes.list)
 
+    // const checkIfRecipeUriAlreadyExists = () => {
+    //     const foundIdx = trackedRecipes.findIndex(item => item.uri.includes(dynamicParams["slug-id"] as string))
+
+    //     // console.log(foundIdx, "item exist!!")
+
+    //     return foundIdx
+    // }
+
+    // using CSR
+    // const prepareAndFetchData = () => {
+    //     const params = {
+    //         app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
+    //         app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
+    //         // id: dynamicParams["slug-id"],
+    //         type: "public"
+    //     }
+
+    //     searchRecipeById(params, dynamicParams["slug-id"] as string).then(d => {
+    //         // console.log(d)
+    //         d?.recipe && setRecipeData(d?.recipe)
+
+    //         const recipeExists = checkIfRecipeUriAlreadyExists();
+
+    //         // appDispatch(addRecipeToList({type: dynamicParams["slug-id"]}))
+    //         // d?.recipe && appDispatch(addRecipeToList({payload: d?.recipe}))
+    //         recipeExists === -1 && d?.recipe && appDispatch(addRecipeToList(d?.recipe))
+
+    //         recipeExists !== -1 && d?.recipe && appDispatch(updateRecipeCount({ recipeUri: d?.recipe.uri }))
+    //     }).catch(err => console.log(err))
+    // }
+
+    // useEffect(() => {
+    //     dynamicParams["slug-id"] && prepareAndFetchData()
+    // }, [dynamicParams["slug-id"]])
+
+    // using SSR fetched data
     const checkIfRecipeUriAlreadyExists = () => {
-        const foundIdx = trackedRecipes.findIndex(item => item.uri.includes(dynamicParams["slug-id"] as string))
+        const foundIdx = trackedRecipes.findIndex(item => item.uri.includes(params["slug-id"]))
 
         // console.log(foundIdx, "item exist!!")
 
         return foundIdx
     }
 
-    const prepareAndFetchData = () => {
-        const params = {
-            app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
-            app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
-            // id: dynamicParams["slug-id"],
-            type: "public"
-        }
+    const addOrUpdateDataIntoStore = () => {
+        const recipeExists = checkIfRecipeUriAlreadyExists();
 
-        searchRecipeById(params, dynamicParams["slug-id"] as string).then(d => {
-            // console.log(d)
-            d?.recipe && setRecipeData(d?.recipe)
+        recipeExists === -1 && recipeData?.uri && appDispatch(addRecipeToList(recipeData))
 
-            const recipeExists = checkIfRecipeUriAlreadyExists();
-
-            // appDispatch(addRecipeToList({type: dynamicParams["slug-id"]}))
-            // d?.recipe && appDispatch(addRecipeToList({payload: d?.recipe}))
-            recipeExists === -1 && d?.recipe && appDispatch(addRecipeToList(d?.recipe))
-
-            recipeExists !== -1 && d?.recipe && appDispatch(updateRecipeCount({ recipeUri: d?.recipe.uri }))
-        }).catch(err => console.log(err))
+        recipeExists !== -1 && recipeData?.uri && appDispatch(updateRecipeCount({ recipeUri: recipeData?.uri }))
     }
 
     useEffect(() => {
-        dynamicParams["slug-id"] && prepareAndFetchData()
-    }, [dynamicParams["slug-id"]])
+        recipeData?.uri && addOrUpdateDataIntoStore()
+    }, [recipeData])
 
     // console.log(trackedRecipes, "trackedRecipes!!")
 
     return (
         <div>
-            ShowRecipeDetails -- {dynamicParams["slug-id"]}
+            {/* ShowRecipeDetails -- {dynamicParams["slug-id"]} */}
+            ShowRecipeDetails -- {params["slug-id"]}
             {recipeData?.label ? <RenderRecipe {...recipeData} /> : null}
         </div>
     )
@@ -209,7 +232,7 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
         <div className='grid grid-cols-5 justify-items-center place-items-center w-full capitalize xs:text-sm lg:text-[1.01rem]'>
             {/* <img className='' src={image} alt={food} width={60} height={39} /> */}
             <Image
-                src={image} alt={food} 
+                src={image} alt={food}
                 width={60} height={39}
                 className='w-36 h-12 rounded-xl'
                 blurDataURL={image} placeholder='blur' loading='lazy'
