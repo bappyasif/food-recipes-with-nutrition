@@ -1,9 +1,7 @@
 "use client"
 
 import { DigestItemType, IngredientItemType, RecipeMealType } from '@/types'
-import { searchRecipeById } from '@/utils/dataFetching'
-import { useParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
 import { Badge } from '../ui/badge'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
 import { ShowFewRelatedRecipes } from './ShowFewRelatedRecipes'
@@ -18,48 +16,10 @@ import Head from 'next/head'
 import Image from 'next/image'
 
 export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMealType, params: {"slug-id": string} }) => {
-    // const [recipeData, setRecipeData] = useState<RecipeMealType>()
-
-    // const dynamicParams = useParams()
 
     const appDispatch = useAppDispatch()
 
     const trackedRecipes = useAppSelector(state => state.recipes.list)
-
-    // const checkIfRecipeUriAlreadyExists = () => {
-    //     const foundIdx = trackedRecipes.findIndex(item => item.uri.includes(dynamicParams["slug-id"] as string))
-
-    //     // console.log(foundIdx, "item exist!!")
-
-    //     return foundIdx
-    // }
-
-    // using CSR
-    // const prepareAndFetchData = () => {
-    //     const params = {
-    //         app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
-    //         app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
-    //         // id: dynamicParams["slug-id"],
-    //         type: "public"
-    //     }
-
-    //     searchRecipeById(params, dynamicParams["slug-id"] as string).then(d => {
-    //         // console.log(d)
-    //         d?.recipe && setRecipeData(d?.recipe)
-
-    //         const recipeExists = checkIfRecipeUriAlreadyExists();
-
-    //         // appDispatch(addRecipeToList({type: dynamicParams["slug-id"]}))
-    //         // d?.recipe && appDispatch(addRecipeToList({payload: d?.recipe}))
-    //         recipeExists === -1 && d?.recipe && appDispatch(addRecipeToList(d?.recipe))
-
-    //         recipeExists !== -1 && d?.recipe && appDispatch(updateRecipeCount({ recipeUri: d?.recipe.uri }))
-    //     }).catch(err => console.log(err))
-    // }
-
-    // useEffect(() => {
-    //     dynamicParams["slug-id"] && prepareAndFetchData()
-    // }, [dynamicParams["slug-id"]])
 
     // using SSR fetched data
     const checkIfRecipeUriAlreadyExists = () => {
@@ -87,7 +47,7 @@ export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMe
     return (
         <div>
             {/* ShowRecipeDetails -- {dynamicParams["slug-id"]} */}
-            ShowRecipeDetails -- {params["slug-id"]}
+            {/* ShowRecipeDetails -- {params["slug-id"]} */}
             {recipeData?.label ? <RenderRecipe {...recipeData} /> : null}
         </div>
     )
@@ -100,7 +60,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
     return (
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20'>
-            {/* metadata */}
+            {/* og metadata for social media sharing */}
             <Head>
                 <title>Recipe : {label}</title>
                 <meta name="description" content={`Details for ${label} from recipe source : ${source}`} key="desc" />
