@@ -60,7 +60,7 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
         <div>
             {/* <h1>Recipes View</h1> */}
             <div className='grid xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 xxs:gap-11 lg:gap-11 place-content-center place-items-center'>
-                {renderRecipes()}
+                {recipes.length ? renderRecipes() : null}
             </div>
             {/* <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={fetchMore} disabled={!nextHref}>Prev</Button> */}
             <div className='flex gap-x-4 w-full justify-center my-2'>
@@ -106,12 +106,12 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
             <Image
                 alt={label}
-                src={images.SMALL.url}
+                src={images?.SMALL?.url || images?.REGULAR?.url}
                 className={`${styles.flipCardBack} h-full w-full rounded-sm`}
-                width={images.SMALL.width}
-                height={images.SMALL.height}
+                width={images?.SMALL?.width || images?.REGULAR?.width}
+                height={images?.SMALL?.height || images?.REGULAR?.height}
                 style={{
-                    // backgroundImage: `url(${images.SMALL.url})`,
+                    // backgroundImage: `url(${images?.SMALL?.url || images?.REGULAR?.url})`,
                     backgroundSize: "100% 100%",
                     objectFit: "cover",
                     backgroundRepeat: "no-repeat",
@@ -123,8 +123,8 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
             <div className={`${styles.whenNotFlipped}`}>
                 <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex items-center justify-center flex-col gap-y-2'>
                     <h2 className='font-bold text-lg'>{label.length > 11 ? ellipsedText(label, 11) : label}</h2>
-                    {/* <img className='w-64' src={images.SMALL.url} alt={label} width={images.SMALL.width} height={images.SMALL.height} /> */}
-                    <Image src={images.SMALL.url} alt={label} width={images.SMALL.width} height={images.SMALL.height} className='w-64' blurDataURL={images.SMALL.url} placeholder='blur' loading='lazy' />
+                    {/* <img className='w-64' src={images?.SMALL?.url || images?.REGULAR?.url} alt={label} width={images?.SMALL?.width} height={images?.SMALL?.height} /> */}
+                    <Image src={images?.SMALL?.url || images?.REGULAR?.url} alt={label} width={images?.SMALL?.width || images?.REGULAR?.width} height={images?.SMALL?.height || images?.REGULAR?.height} className='w-64' blurDataURL={images?.SMALL?.url || images?.REGULAR?.url} placeholder='blur' loading='lazy' />
                 </Link>
                 <div className='flex justify-start gap-2'>
                     <RenderBadge text={dishType[0]} />

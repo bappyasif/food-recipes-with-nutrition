@@ -1,12 +1,8 @@
 import { ShowRecipeDetails } from '@/components/forRecipe/ShowRecipeDetails'
+import { Props } from '@/types'
 import { searchRecipeById } from '@/utils/dataFetching'
 import { Metadata, ResolvingMetadata } from 'next'
 import React from 'react'
-
-type Props = {
-  params: { "slug-id": string }
-  searchParams: { [key: string]: string | string[] | undefined },
-}
 
 const fetchRecipeData = async (slugId: string) => {
   const params = {
@@ -35,8 +31,11 @@ export async function generateMetadata(
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || []
 
+  const baseTitle = (await (parent)).title?.absolute
+
   return {
-    title: recipeData?.label,
+    // title: recipeData?.label,
+    title: `${baseTitle} : ${recipeData?.label}`,
     openGraph: {
       images: [recipeData.images.REGULAR.url, ...previousImages],
     },
@@ -44,9 +43,6 @@ export async function generateMetadata(
 }
 
 const RecipeFullViewPage = async ({ params, searchParams }: Props) => {
-  // const RecipeFullViewPage = ({
-  //   repo,
-  // }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 
   const recipeData = await fetchRecipeData(params['slug-id'])
 
@@ -59,29 +55,3 @@ const RecipeFullViewPage = async ({ params, searchParams }: Props) => {
 }
 
 export default RecipeFullViewPage
-
-/**
- * 
- * 
- export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  // read route params
-  const id = params["slug-id"]
-  console.log(id, searchParams, "what what!!", params)
- 
-  // fetch data
-  const product = await fetch(`https://jsonplaceholder.typicode.com/posts/1`).then((res) => res.json())
- 
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || []
- 
-  return {
-    title: product?.title,
-    openGraph: {
-      images: ['/some-specific-page-image.jpg', ...previousImages],
-    },
-  }
-}
- */
