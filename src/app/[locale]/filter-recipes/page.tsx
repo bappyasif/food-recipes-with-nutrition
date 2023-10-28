@@ -1,5 +1,5 @@
 import { ComponentsContainerFiltersPage } from '@/components/forFilters/ComponentsContainerFiltersPage'
-import { FiltersTypes, Props } from '@/types'
+import { FiltersTypes, Props, RecipeMealType } from '@/types'
 import axios from 'axios'
 import { Metadata, ResolvingMetadata } from 'next'
 import React from 'react'
@@ -46,19 +46,29 @@ const getDataFromApi = async (searchParams: { [key: string]: string | string[] |
     }
   }
 
-  // console.log(normalizedParams, "normalized")
-
-  const resp = await axios.get("https://api.edamam.com/api/recipes/v2", { params: normalizedParams })
+  return axios.get("https://api.edamam.com/api/recipes/v2", { params: normalizedParams }).then(resp => {
+    return {data: resp?.data.hits.map((item:any) => item.recipe), nextHref: resp?.data?._links?.next?.href}
+  })
 
   // console.log(resp?.data.hits.length, "data!!")
 
-  return { data: resp?.data.hits.map((item:any) => item.recipe), nextHref: resp?.data?._links?.next?.href }
+  // console.log(normalizedParams, "normalized")
+  // after deplyment this aint fetching data for some reason!! will try "thennable" instead see if that chnages in fetching data from deplyed environment
+  // const resp = await axios.get("https://api.edamam.com/api/recipes/v2", { params: normalizedParams })
+
+  // // console.log(resp?.data.hits.length, "data!!")
+
+  // return { data: resp?.data.hits.map((item:any) => item.recipe), nextHref: resp?.data?._links?.next?.href }
 }
 
 export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
+
+  const {data, nextHref} = await getDataFromApi(searchParams)
+
+  console.log("unnecessary fetch from metadata", data?.length, nextHref)
 
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || []
@@ -75,15 +85,33 @@ export async function generateMetadata(
   }
 }
 
+// not supported in nextjs13 and above
+// export const getServerSideProps = async ({searchParams}:Props) => {
+//   console.log(searchParams, "searcghParams!!")
+
+//   const {data, nextHref} = await getDataFromApi(searchParams)
+//   return {
+//     props: {foundRecipes: data, foundHref: nextHref}
+//   }
+// }
+
+// type PageProps = {
+//   searchParams: {[key: string]: string | string[] | undefined;},
+//   data: RecipeMealType[],
+//   nextHref: string
+// }
+
 const FilterRecipesPage = async ({searchParams}: Props) => {
+// const FilterRecipesPage = async ({searchParams, data, nextHref}: PageProps) => {
   const {data, nextHref} = await getDataFromApi(searchParams)
-  // console.log(data.length, nextHref)
+  // console.log(data.length, nextHref, "filters page!!")
   
-  if(!data?.length) {
-    return <h2 className='font-bold text-xl text-special-foreground'>Loading....</h2>
-  }
+  // if(!data?.length) {
+  //   return <h2 className='font-bold text-xl text-special-foreground'>Loading....</h2>
+  // }
 
   return (
+    // <ComponentsContainerFiltersPage />
     <ComponentsContainerFiltersPage foundHref={nextHref} foundRecipes={data} />
   )
 }

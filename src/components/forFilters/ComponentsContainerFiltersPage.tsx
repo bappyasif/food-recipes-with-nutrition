@@ -64,7 +64,8 @@ export const ComponentsContainerFiltersPage = ({foundRecipes, foundHref}:{foundR
 
   useEffect(() => {
     foundRecipes?.length && setRecipesData(({nextHref: foundHref, recipesFound: foundRecipes!}))
-  }, [])
+    console.log(foundRecipes, "wtf!!")
+  }, [foundRecipes])
 
   // console.log(untrackedList, "untrackedList", pageNumber, untrackedList.findIndex(item => item.page > pageNumber), pageNumber < untrackedList.length, pageNumber < untrackedList[untrackedList.length - 1].page)
 
