@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model recipe {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  uri String
+  label String
+  calories String
+  co2EmissionsClass String
+  cuisineType String
+  images SMALL?
+}
+
+type SMALL {
+  height Int
+  width Int
+  url String
+}
