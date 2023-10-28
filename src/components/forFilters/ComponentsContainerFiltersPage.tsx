@@ -8,12 +8,12 @@ import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
 import { RecipeMealType } from '@/types'
 import { useForExtractingQueriesFromUrl } from '@/hooks/forComponents'
 
-export const ComponentsContainerFiltersPage = ({foundRecipes, foundHref}:{foundRecipes?: RecipeMealType[], foundHref?: string | undefined}) => {
+export const ComponentsContainerFiltersPage = () => {
   const [recipesData, setRecipesData] = useState<{ recipesFound: RecipeMealType[], nextHref: string | undefined }>({ recipesFound: [], nextHref: undefined })
 
   const handleRecipesFound = (data: RecipeMealType[], nextHref?: string) => setRecipesData({ recipesFound: data, nextHref: nextHref })
 
-  // useForExtractingQueriesFromUrl(handleRecipesFound)
+  useForExtractingQueriesFromUrl(handleRecipesFound)
 
   // console.log(recipesData.nextHref, "nexthref")
 
@@ -62,16 +62,16 @@ export const ComponentsContainerFiltersPage = ({foundRecipes, foundHref}:{foundR
     })
   }
 
-  useEffect(() => {
-    foundRecipes?.length && setRecipesData(({nextHref: foundHref, recipesFound: foundRecipes!}))
-  }, [])
+  // useEffect(() => {
+  //   foundRecipes?.length && setRecipesData(({nextHref: foundHref, recipesFound: foundRecipes!}))
+  // }, [])
 
   // console.log(untrackedList, "untrackedList", pageNumber, untrackedList.findIndex(item => item.page > pageNumber), pageNumber < untrackedList.length, pageNumber < untrackedList[untrackedList.length - 1].page)
 
   // IFNEXTDATAALREADYEXIST
   const check = pageNumber < untrackedList[untrackedList.length - 1].page
 
-  console.log(check, untrackedList, pageNumber)
+  // console.log(check, untrackedList, pageNumber)
 
   return (
     <div
@@ -79,17 +79,14 @@ export const ComponentsContainerFiltersPage = ({foundRecipes, foundHref}:{foundR
     >
       <FiltersDashboard handleRecipesFound={handleRecipesFound} />
 
-      {
-        recipesData.recipesFound.length
-        ? <RecipesView
+      <RecipesView
         recipes={recipesData.recipesFound?.length ? recipesData.recipesFound : []}
         nextHref={recipesData.nextHref}
         handleRecipesFound={handleRecipesFound}
         handlePreviousAndNext={handlePreviousAndNext}
         check={check}
       />
-        : null
-      }
+
     </div>
   )
 }
