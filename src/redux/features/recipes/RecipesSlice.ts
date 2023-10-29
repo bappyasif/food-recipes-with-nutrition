@@ -1,4 +1,4 @@
-import { fetchRecipesWithShallowRoutingOnce } from "@/redux/thunks"
+import { fetchRecipesWithShallowRoutingOnce, getAllViewedRecipesFromDb } from "@/redux/thunks"
 import { RecipeMealType, RecipeTypes } from "@/types"
 import { addToDbCollection } from "@/utils/dbRequests"
 import { createSlice } from "@reduxjs/toolkit"
@@ -74,6 +74,10 @@ const recipesSlice = createSlice({
     extraReducers: builder => {
         builder.addCase(fetchRecipesWithShallowRoutingOnce.fulfilled, (state, action) => {
             // console.log(action.payload, "payload!!")
+        }),
+        builder.addCase(getAllViewedRecipesFromDb.fulfilled, (state, action) => {
+            console.log(action.payload, "viewed meals")
+            state.list = action.payload
         })
     }
 })

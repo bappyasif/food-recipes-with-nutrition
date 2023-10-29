@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
 import { addRecipeToList, updateRecipeCount } from '@/redux/features/recipes/RecipesSlice'
 import Head from 'next/head'
 import Image from 'next/image'
-import { addToDbCollection } from '@/utils/dbRequests'
+import { addToDbCollection, updateRecordInCollection } from '@/utils/dbRequests'
 // import { useForTruthToggle } from '@/hooks/forComponents'
 
 export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMealType, params: {"slug-id": string} }) => {
@@ -45,6 +45,10 @@ export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMe
         recipeExists === -1 && recipeData?.uri && addToDbCollection(recipeData)
 
         recipeExists !== -1 && recipeData?.uri && appDispatch(updateRecipeCount({ recipeUri: recipeData?.uri }))
+
+        recipeExists !== -1 && recipeData?.uri && updateRecordInCollection(recipeData?.uri)
+
+        // recipeExists !== -1 && recipeData?.uri && console.log(recipeData?.uri, "beeeeeessssss")
 
         // console.log("running!! times!!", isTrue)
         

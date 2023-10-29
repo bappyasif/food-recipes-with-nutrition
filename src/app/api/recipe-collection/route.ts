@@ -35,6 +35,58 @@ export async function GET (req: NextRequest) {
 // //   res.json({msg: "alive"})
 // }
 
+export const PUT = async (req: NextRequest) => {
+    try {
+        const {uri} = await req.json()
+        if(uri as string) {
+            await connectingDatabase()
+            const foundRecipe = await prisma.recipe.findFirst({where: {uri: uri}})
+            if(foundRecipe?.uri) {
+                const resp = await prisma.recipe.update({
+                    select: {
+                        count: true
+                    },
+                    where: {
+                        // uri: jhgjh
+                        // uri: uri
+                        id: foundRecipe?.id
+                    },
+                    data: {
+                        count: {
+                            increment: 1
+                        }
+                    }
+                })
+                return NextResponse.json({resp}, {status: 201})
+            } else {
+                return NextResponse.json({message: "unknown method, uri missing"}, {status: 423})
+            }
+            // const foundId = await prisma.recipe.findUnique({where: {uri: uri}})
+            // const resp = await prisma.recipe.update({
+            //     select: {
+            //         count: true
+            //     },
+            //     where: {
+            //         // uri: jhgjh
+            //         uri: uri
+            //     },
+            //     data: {
+            //         count: {
+            //             increment: 1
+            //         }
+            //     }
+            // })
+        } else {
+            return NextResponse.json({message: "Invalid request, uri missing"}, {status: 422})
+        }
+    } catch (error) {
+        log(error)
+        return NextResponse.json({message: "Server Error"}, {status: 500})
+    } finally {
+        prisma.$disconnect()
+    }
+}
+
 export const POST = async (req: NextRequest, res: Response) => {
     try {
         const {label, cuisineType, co2EmissionsClass, uri, images, calories, count} = await req.json()
