@@ -1,7 +1,7 @@
 "use client"
 
 import { DigestItemType, IngredientItemType, RecipeMealType } from '@/types'
-import React, { useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { Badge } from '../ui/badge'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
 import { ShowFewRelatedRecipes } from './ShowFewRelatedRecipes'
@@ -14,8 +14,11 @@ import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
 import { addRecipeToList, updateRecipeCount } from '@/redux/features/recipes/RecipesSlice'
 import Head from 'next/head'
 import Image from 'next/image'
+import { addToDbCollection } from '@/utils/dbRequests'
+// import { useForTruthToggle } from '@/hooks/forComponents'
 
 export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMealType, params: {"slug-id": string} }) => {
+    // const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
 
     const appDispatch = useAppDispatch()
 
@@ -34,12 +37,24 @@ export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMe
         const recipeExists = checkIfRecipeUriAlreadyExists();
 
         recipeExists === -1 && recipeData?.uri && appDispatch(addRecipeToList(recipeData))
+        // !isTrue && recipeExists === -1 && recipeData?.uri && appDispatch(addRecipeToList(recipeData))
+        // !isTrue && recipeExists === -1 && recipeData?.uri && addToDbCollection(recipeData)
+
+        // !isTrue && recipeData.uri && handleTruthy()
+
+        recipeExists === -1 && recipeData?.uri && addToDbCollection(recipeData)
 
         recipeExists !== -1 && recipeData?.uri && appDispatch(updateRecipeCount({ recipeUri: recipeData?.uri }))
+
+        // console.log("running!! times!!", isTrue)
+        
+        // handleFalsy();
     }
 
     useEffect(() => {
         recipeData?.uri && addOrUpdateDataIntoStore()
+        // isTrue && recipeData?.uri && addOrUpdateDataIntoStore()
+        // !isTrue && recipeData.uri && handleTruthy()
     }, [recipeData])
 
     // console.log(trackedRecipes, "trackedRecipes!!")

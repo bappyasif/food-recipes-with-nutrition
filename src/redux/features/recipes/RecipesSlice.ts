@@ -1,5 +1,6 @@
 import { fetchRecipesWithShallowRoutingOnce } from "@/redux/thunks"
 import { RecipeMealType, RecipeTypes } from "@/types"
+import { addToDbCollection } from "@/utils/dbRequests"
 import { createSlice } from "@reduxjs/toolkit"
 
 type RecipesInitStateTypes = {
@@ -19,7 +20,7 @@ type RecipesInitStateTypes = {
 const initRecipesState: RecipesInitStateTypes = {
     list: [],
     // untracked: []
-    untracked: [{data: [], page: 0}]
+    untracked: [{ data: [], page: 0 }]
 }
 
 const recipesSlice = createSlice({
@@ -28,11 +29,11 @@ const recipesSlice = createSlice({
     reducers: {
         // already existing recipe count increment
         updateRecipeCount: (state, action) => {
-            const {recipeUri} = action.payload
+            const { recipeUri } = action.payload
             // console.log(recipeUri, action.payload, "chck chck!!")
             state.list = state.list.map(item => {
-                if(item.uri === recipeUri) {
-                    if(item?.count) {
+                if (item.uri === recipeUri) {
+                    if (item?.count) {
                         item.count += 1
                     } else {
                         item.count = 1
@@ -52,18 +53,22 @@ const recipesSlice = createSlice({
             // console.log(action.payload, withCount)
             state.list = state.list.concat(withCount)
             // state.list = state.list.concat(action.payload)
+
+            // add to db too
+            // console.log("update db!!")
+            // addToDbCollection(action.payload) // causing multiple re-renders!!
         },
 
         // add data to untracked recipes list, so that when user clicks on view more previously rendered data can be extracted from store by pageNumber, and no need to call api to get those data again
         addRecipesToUntracked: (state, action) => {
-            const {pageNumber, recipesData} = action.payload;
-            console.log(pageNumber, recipesData, "check it!!")
+            const { pageNumber, recipesData } = action.payload;
+            // console.log(pageNumber, recipesData, "check it!!")
             // state.untracked = {
             //     [pageNumber]: recipesData
             // }
             // state.untracked = state.untracked.concat({[pageNumber]: recipesData})
             // state.untracked = state.untracked.concat({data: recipesData, page: pageNumber})
-            state.untracked = recipesData.length ? [...state.untracked, {data: recipesData, page: pageNumber}] : state.untracked
+            state.untracked = recipesData.length ? [...state.untracked, { data: recipesData, page: pageNumber }] : state.untracked
         }
     },
     extraReducers: builder => {
@@ -73,7 +78,7 @@ const recipesSlice = createSlice({
     }
 })
 
-export const {updateRecipeCount,addRecipeToList, addRecipesToUntracked} = recipesSlice.actions
+export const { updateRecipeCount, addRecipeToList, addRecipesToUntracked } = recipesSlice.actions
 
 const RecipesReducer = recipesSlice.reducer;
 

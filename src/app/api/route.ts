@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
 
 export const GET = async (req: Request) => {
-    NextResponse.json({msg: "get alive!!"})
+    return NextResponse.json({msg: "het is leven!!"})
 }
