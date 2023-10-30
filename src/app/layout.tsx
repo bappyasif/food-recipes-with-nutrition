@@ -1,9 +1,9 @@
 import {ReactNode} from 'react';
 import './globals.css';
-import store from '@/redux/store';
-import { getAllViewedRecipesFromDb } from '@/redux/thunks';
+// import store from '@/redux/store';
+// import { getAllViewedRecipesFromDb } from '@/redux/thunks';
 
-store.dispatch(getAllViewedRecipesFromDb())
+// store.dispatch(getAllViewedRecipesFromDb())
 
 type Props = {
   children: ReactNode;

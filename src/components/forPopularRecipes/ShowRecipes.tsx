@@ -1,6 +1,8 @@
-import { useAppSelector } from '@/hooks/forRedux'
-import { RecipeMealType } from '@/types'
-import React from 'react'
+"use client"
+
+import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
+import { RecipeMealType, ViewedMealType } from '@/types'
+import React, { useEffect } from 'react'
 import { Badge } from '../ui/badge'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import Link from 'next/link'
@@ -8,13 +10,25 @@ import { extractRecipeId } from '../forFilters/RecipesView'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import Image from 'next/image'
+import { addRecipesAtOnce } from '@/redux/features/recipes/RecipesSlice'
 
-export const ShowRecipes = () => {
+export const ShowRecipes = ({recipes}: {recipes: ViewedMealType[]}) => {
   const recipesList = useAppSelector(state => state.recipes.list)
+  // const viewedList = useAppSelector(state => state.recipes.viewedList)
 
   const renderRecipes = () => recipesList?.map(item => <RenderRecipe key={item.uri} data={item} />)
 
-  // console.log(recipesList, "ye")
+  const dispatch = useAppDispatch()
+
+  const addListToStore = () => {
+    dispatch(addRecipesAtOnce(recipes))
+  }
+
+  // console.log(recipesList, "ye", viewedList)
+
+  useEffect(() => {
+    recipes.length && addListToStore()
+  }, [recipes])
 
   return (
     <div>
@@ -27,8 +41,11 @@ export const ShowRecipes = () => {
 }
 
 const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
+  // const { label, calories, co2EmissionsClass, cuisineType, images, uri } = data;
+  // const { height, url, width } = images?.SMALL! || images
+
   const { label, calories, co2EmissionsClass, cuisineType, images, uri } = data;
-  const { height, url, width } = images?.SMALL!
+  const { height, url, width } = images?.SMALL! || images
 
   const locale = useLocale()
 
@@ -46,7 +63,8 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
       <CardContent className='flex flex-col gap-y-4'>
         <ReuseableBadge txt='Calories' val={calories?.toFixed(2)} />
         <ReuseableBadge txt='Carbon Emission' val={co2EmissionsClass} />
-        <ReuseableBadge txt='Cuisine' val={cuisineType[0]} />
+        {/* <ReuseableBadge txt='Cuisine' val={cuisineType[0]} /> */}
+        <ReuseableBadge txt='Cuisine' val={ typeof cuisineType === "object" ? cuisineType[0] : cuisineType} />
       </CardContent>
       <CardFooter>
         <Link className='w-full bg-accent text-center font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-muted hover:bg-special-foreground rounded-lg' href={`/${locale}/recipe/${extractRecipeId(uri!)}`}>See Details</Link>

@@ -101,6 +101,17 @@ export type FiltersTypes = {
   co2EmissionsClass?: string[]
 }
 
+export type ViewedMealType = {
+  images: ImageItemType,
+  id: string,
+  uri: string,
+  label: string,
+  calories: number,
+  co2EmissionsClass: string,
+  cuisineType: string,
+  count: number
+}
+
 export type RecipeMealType = {
   "uri": string,
   "label": string,
@@ -174,7 +185,7 @@ export type DigestItemType = {
 }
 
 export type Props = {
-  params: { "slug-id": string, [key : string]: string }
+  params: { "slug-id": string, [key: string]: string }
   searchParams: { [key: string]: string | string[] | undefined },
   // searchParams: { [key: string]: string | string[] },
 }

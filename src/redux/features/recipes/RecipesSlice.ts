@@ -1,10 +1,11 @@
 import { fetchRecipesWithShallowRoutingOnce, getAllViewedRecipesFromDb } from "@/redux/thunks"
-import { RecipeMealType, RecipeTypes } from "@/types"
+import { RecipeMealType, RecipeTypes, ViewedMealType } from "@/types"
 import { addToDbCollection } from "@/utils/dbRequests"
 import { createSlice } from "@reduxjs/toolkit"
 
 type RecipesInitStateTypes = {
     // recipes: RecipeTypes[],
+    viewedList?: ViewedMealType[]
     list: RecipeMealType[],
     // count: number,
     // untracked: RecipeMealType[]
@@ -18,6 +19,7 @@ type RecipesInitStateTypes = {
 }
 
 const initRecipesState: RecipesInitStateTypes = {
+    viewedList: [],
     list: [],
     // untracked: []
     untracked: [{ data: [], page: 0 }]
@@ -69,6 +71,12 @@ const recipesSlice = createSlice({
             // state.untracked = state.untracked.concat({[pageNumber]: recipesData})
             // state.untracked = state.untracked.concat({data: recipesData, page: pageNumber})
             state.untracked = recipesData.length ? [...state.untracked, { data: recipesData, page: pageNumber }] : state.untracked
+        },
+
+        // trying alternative to update list from component
+        addRecipesAtOnce: (state, action) => {
+            state.list = action.payload;
+            // state.viewedList = action.payload
         }
     },
     extraReducers: builder => {
@@ -76,13 +84,15 @@ const recipesSlice = createSlice({
             // console.log(action.payload, "payload!!")
         }),
         builder.addCase(getAllViewedRecipesFromDb.fulfilled, (state, action) => {
-            console.log(action.payload, "viewed meals")
-            state.list = action.payload
+            // console.log(action.payload, "viewed meals", state.list)
+            // state.list = action.payload.length && action.payload
+            // state.list = state.list.concat(action.payload)
+            // state.viewedList = action.payload
         })
     }
 })
 
-export const { updateRecipeCount, addRecipeToList, addRecipesToUntracked } = recipesSlice.actions
+export const { updateRecipeCount, addRecipeToList, addRecipesToUntracked, addRecipesAtOnce } = recipesSlice.actions
 
 const RecipesReducer = recipesSlice.reducer;
 
