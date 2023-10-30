@@ -4,6 +4,8 @@ import axios from 'axios'
 import { Metadata, ResolvingMetadata } from 'next'
 import React, { Suspense } from 'react'
 
+import { revalidatePath } from 'next/cache'
+
 export const metadata: Metadata = {
   title: `What's Cooking Yo!! - Popular Recipes List Page`,
   description: "List of Most Viewed Recipes List"
@@ -26,6 +28,8 @@ const getAllViewedRecipes = async () => {
 }
 
 const PopularRecipesRoutePage = async () => {
+  revalidatePath("/popular-recipes")
+
   const recipes = await getAllViewedRecipes()
   
   return (
@@ -33,9 +37,12 @@ const PopularRecipesRoutePage = async () => {
       {/* PopularRecipesRoutePage - {recipes?.length} */}
       <h1 className='font-bold text-special-foreground xxs:text-xl sm:text-2xl md:text-3xl xl:text-4xl mt-10'>List Of Popular Recipes</h1>
 
-      <Suspense fallback={<h1 className='font-bold text-special-foreground'>Loading....</h1>}>
+      <ShowRecipes recipes={recipes} />
+
+      {/* <Suspense fallback={<h1 className='font-bold text-special-foreground'>Loading....</h1>}>
         <ShowRecipes recipes={recipes} />
-      </Suspense>
+        <ShowRecipes />
+      </Suspense> */}
     </div>
   )
 }

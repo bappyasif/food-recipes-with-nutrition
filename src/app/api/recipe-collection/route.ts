@@ -1,6 +1,9 @@
-import { connectingDatabase, prisma } from "@/utils/server-helpers"
+// import { connectingDatabase, prisma } from "@/utils/server-helpers"
+import prisma from "@/utils/prismaClientHandler"
+import { connectingDatabase } from "@/utils/server-helpers"
 import { PrismaClient } from "@prisma/client"
 import { log } from "console"
+import { revalidatePath } from "next/cache"
 import { NextRequest, NextResponse } from "next/server"
 
 // export async function POST (request: NextRequest) {
@@ -19,6 +22,7 @@ export async function GET (req: NextRequest) {
         const recipes = await prisma.recipe.findMany()
         // const recipes = await prismaClicnt.recipe.findMany()
         // const recipes = await clientPrisma.recipe.findMany()
+        // revalidatePath(req.url)
         return NextResponse.json({msg: "get alive!!", recipes}, {status: 201})
     } catch (error) {
         return NextResponse.json({msg: "error occured", error}, {status: 500})

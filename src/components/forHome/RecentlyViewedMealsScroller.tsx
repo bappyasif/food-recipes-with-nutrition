@@ -111,7 +111,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const { calories, cuisineType, co2EmissionsClass, label, uri, images } = data;
 
-  const { height, url, width } = images?.SMALL!
+  const { height, url, width } = images?.SMALL! || images
 
   const locale = useLocale()
 
@@ -150,7 +150,8 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
       <div className='flex flex-col gap-y-2 items-center justify-center'>
         <ReusableBadge text={co2EmissionsClass!} title='Carbon Emission' />
         <ReusableBadge text={calories?.toFixed(2)!} title='Calorie' />
-        <ReusableBadge text={cuisineType[0]} title='Cuisine' />
+        {/* <ReusableBadge text={cuisineType[0]} title='Cuisine' /> */}
+        <ReusableBadge text={typeof cuisineType === "object" ? cuisineType[0] : cuisineType} title='Cuisine' />
         <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} >
           <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted' title={label}>
             <span>Name:</span>

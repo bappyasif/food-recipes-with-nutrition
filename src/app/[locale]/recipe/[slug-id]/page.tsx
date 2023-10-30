@@ -4,6 +4,7 @@ import { searchRecipeById } from '@/utils/dataFetching'
 import { addToDbCollection } from '@/utils/dbRequests'
 import axios from 'axios'
 import { Metadata, ResolvingMetadata } from 'next'
+import { revalidatePath } from 'next/cache'
 import React from 'react'
 
 const fetchRecipeData = async (slugId: string) => {
@@ -47,6 +48,8 @@ export async function generateMetadata(
 const RecipeFullViewPage = async ({ params, searchParams }: Props) => {
 
   const recipeData = await fetchRecipeData(params['slug-id'])
+
+  revalidatePath('/popular-recipes')
 
   // this will always create same entry in db, which is not what we want, rather we weil handle this from redux scop as data update is happening there and distinguished between new and existing entries
   // let stopIt = 0;

@@ -1,4 +1,5 @@
-import { connectingDatabase, prisma } from "@/utils/server-helpers"
+import prisma from "@/utils/prismaClientHandler"
+import { connectingDatabase } from "@/utils/server-helpers"
 import { log } from "console"
 import { NextRequest, NextResponse } from "next/server"
 

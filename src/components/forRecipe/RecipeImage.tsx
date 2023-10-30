@@ -3,6 +3,7 @@ import { RecipeMealType } from "@/types"
 import { Badge } from "../ui/badge"
 import styles from "./Recipe.module.css"
 import Image from "next/image"
+import { ellipsedText } from "./FewNonRelatedRecipes"
 
 export const RecipeImage = ({ ...data }: RecipeMealType) => {
     const { images, label } = data;
@@ -56,15 +57,16 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
                 <div className='flex flex-col gap-y-4 justify-between w-fit'>
 
                     <div className='flex flex-col gap-y-1'>
-                        <Badge className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Meal Type</span> <span>{mealType}</span></Badge>
-                        <Badge className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>
-                        <Badge className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
+                        <Badge title={`Meal Type : ${mealType}`} className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Meal Type</span> <span>{mealType}</span></Badge>
+                        <Badge title={`Cautions : ${cautions[0]}`} className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>
+                        <Badge title={`Carbon Emissions Rating : ${co2EmissionsClass}`} className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
                     </div>
 
                     <div className='flex flex-col gap-y-1'>
                         <ReusableBadge text='Diet' val={dietLabels[0]} />
                         <ReusableBadge text='Cuisine' val={cuisineType[0]} />
                         <ReusableBadge text='Dish' val={dishType[0]} />
+                        {/* <ReusableBadge text='Dish' val={dishType[0].length > 14 ? ellipsedText(dishType[0], 14) : dishType[0]} /> */}
                     </div>
 
                     <div className='flex flex-col gap-y-1'>
@@ -81,6 +83,12 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
 
 const ReusableBadge = ({ text, val }: { text: string, val: string | number }) => {
     return (
-        <Badge className='px-4 flex gap-x-4 w-fit justify-between xxs:text-sm lg:text-lg xl:text-xl bg-accent'><span>{text} </span>{val}</Badge>
+        <Badge title={`${text} : ${val}`} className='px-4 flex gap-x-4 w-fit justify-between xxs:text-sm lg:text-lg xl:text-xl bg-accent'>
+            <span>{text} </span><span>{ typeof val === "string" && val.length > 14 ? ellipsedText(val, 14) : val}</span>
+            {/* <span>{text} </span><span title={`${val}`}>{val}</span> */}
+            {/* <span>{text} </span><span title={`${val}`}>{ typeof val === "string" && val.length > 14 ? ellipsedText(val, 14) : val}</span> */}
+            {/* <span>{text} </span><span title={`${typeof val === "string" ? val : text + " "+val}`}>{ typeof val === "string" && val.length > 14 ? ellipsedText(val, 14) : val}</span> */}
+            {/* <span>{text} </span><span title={`${text} : ${val}`}>{ typeof val === "string" && val.length > 14 ? ellipsedText(val, 14) : val}</span> */}
+        </Badge>
     )
 }

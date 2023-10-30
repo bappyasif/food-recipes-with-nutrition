@@ -64,7 +64,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
         <ReuseableBadge txt='Calories' val={calories?.toFixed(2)} />
         <ReuseableBadge txt='Carbon Emission' val={co2EmissionsClass} />
         {/* <ReuseableBadge txt='Cuisine' val={cuisineType[0]} /> */}
-        <ReuseableBadge txt='Cuisine' val={ typeof cuisineType === "object" ? cuisineType[0] : cuisineType} />
+        <ReuseableBadge txt='Cuisine' val={ typeof cuisineType === "object" ? cuisineType[0] : cuisineType } />
       </CardContent>
       <CardFooter>
         <Link className='w-full bg-accent text-center font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-muted hover:bg-special-foreground rounded-lg' href={`/${locale}/recipe/${extractRecipeId(uri!)}`}>See Details</Link>
@@ -77,6 +77,7 @@ const ReuseableBadge = ({ txt, val }: { txt: string, val: string | number | unde
   return (
     <Badge className='flex gap-x-4 w-fit bg-accent text-muted-foreground hover:text-muted xxs:text-xs md:text-sm xl:text-lg capitalize'>
       <span>{txt}</span>
+      {/* <span>{typeof val === "string" ? val?.length ? ellipsedText(val, 14) : val : val}</span> */}
       <span>{val}</span>
     </Badge>
   )
