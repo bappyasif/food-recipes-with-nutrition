@@ -38,8 +38,11 @@ const SearchRecipesByName = ({ addToCards }: { addToCards: (d: any) => void }) =
     const { handleTextChange, text } = useForInputTextChange();
 
     return (
-        <div className='relative bg-accent'>
-            <input type="text" placeholder='seacrh recipes by name' value={text} onChange={handleTextChange} className='bg-transparent px-2 my-2 w-full border-b-2 rounded-lg' />
+        <div className='relative'>
+            <input type="text" placeholder='seacrh recipes by name' value={text} onChange={handleTextChange}
+                // className='bg-transparent px-2 my-2 w-full border-b-2 rounded-lg' 
+                className="w-full mt-2 rounded-sm pl-4 text-special-foreground bg-transparent border-0 border-b-2 border-b-special placeholder:text-special-foreground mb-1.5"
+            />
             <ShowAllFoundRecipes text={text} addToCards={addToCards} />
         </div>
     )
@@ -58,7 +61,7 @@ const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (
     const renderRecipes = () => recipes.map(item => <CardBox key={item.idMeal} data={returnNeededData(item)} addToCards={addToCards} />)
 
     return (
-        <div className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-[22.5rem] overflow-y-scroll" : "h-0"}`}>
+        <div className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-[22.5rem] overflow-y-scroll no-scrollbar" : "h-0"} w-full`}>
             {recipes?.length ? renderRecipes() : null}
         </div>
     )
@@ -112,7 +115,7 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
 
     return (
         <div
-            className='p-2 bg-primary-foreground flex flex-col gap-y-2 items-center justify-between'
+            className='p-2 bg-primary-foreground flex flex-col gap-y-2 items-center justify-between w-full'
             ref={drag}
             style={{ ...style, opacity }}
         // data-testid={`box`}

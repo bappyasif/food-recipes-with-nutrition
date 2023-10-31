@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Calendar, Event, SlotInfo, Views, momentLocalizer } from 'react-big-calendar'
 import withDragAndDrop, { EventInteractionArgs, withDragAndDropProps } from 'react-big-calendar/lib/addons/dragAndDrop'
 import "react-big-calendar/lib/css/react-big-calendar.css"
@@ -163,12 +163,50 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     // console.log(events, "events!!")
 
+    const eventPropGetter = useCallback(
+        (event: any, start: any, end: any, isSelected: boolean) => ({
+            ...(isSelected && {
+                style: {
+                    backgroundColor: '#000',
+                },
+            }),
+            ...(moment(start).hour() < 12 && {
+                className: 'powderBlue',
+            }),
+            ...(event.title.includes('Meeting') && {
+                className: 'darkGreen',
+            }),
+        }),
+        []
+    )
+
+        const slotPropGetter = useCallback(
+          (date:Date) => ({
+            className: 'slotDefault',
+            ...(moment(date).hour() < 8 && {
+              style: {
+                backgroundColor: 'powderblue',
+                color: 'black',
+              },
+            }),
+            ...(moment(date).hour() > 12 && {
+              style: {
+                backgroundColor: 'darkgreen',
+                color: 'white',
+              },
+            }),
+          }),
+          []
+        )
+    
+
     return (
         <div
             // className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px]" : "h-72 w-[830px]"}`}
             className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px] scale-100" : "h-72 w-0 scale-0"}`}
         >
             <DnDCalendar
+                // className={styles.rbcToolbar}
                 // ref={ref}
                 localizer={localizer}
                 // startAccessor={() => moment()}
@@ -188,6 +226,11 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                 // defaultDate={defaultDate}
                 // defaultView='day'
                 // views={Views.MONTH}
+
+                slotPropGetter={slotPropGetter}
+                
+                eventPropGetter={eventPropGetter}
+
                 onDropFromOutside={({ start, end, allDay }) => { console.log(start, end, "!!") }}
 
                 components={{

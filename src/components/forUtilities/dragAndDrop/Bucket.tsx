@@ -20,6 +20,7 @@ const style: CSSProperties = {
     fontSize: '1rem',
     lineHeight: 'normal',
     float: 'left',
+    paddingTop: "1.3rem"
 }
 
 type BucketProps = {
@@ -41,24 +42,25 @@ export const Bucket = ({ cards, updateCards }: BucketProps) => {
 
     const isActive = canDrop && isOver;
 
-    let backgroundColor = 'hsl(var(--pf)'
+    // let backgroundColor = 'hsl(var(--pf)'
 
-    if (isActive) {
-        backgroundColor = 'darkgreen'
-    } else if (canDrop) {
-        backgroundColor = 'darkkhaki'
-    }
+    // if (isActive) {
+    //     backgroundColor = 'darkgreen'
+    // } else if (canDrop) {
+    //     backgroundColor = 'darkred'
+    // }
 
     return (
-        <div className='flex xxs:flex-col-reverse  md:flex-col gap-y-2 w-60'>
+        <div className='flex xxs:flex-col-reverse  md:flex-col gap-y-2 w-60 justify-center items-center'>
             <div
-                className='bg-primary-focus'
+                className={`bg-primary-focus ${isActive ? "bg-accent" : "bg-special-foreground"} mt-1.5 mx-auto`}
                 ref={drop}
-                style={{ ...style, backgroundColor }}
+                // style={{ ...style, backgroundColor }}
+                style={{ ...style }}
             >
                 {isActive ? 'Release to drop' : 'Drag a box here'}
             </div>
-            Re-arrange Cards
+            <h2 className='text-special font-bold text-xl'>Re-arrange Cards</h2>
             <hr />
             {/* we can directly use this for drop and drag of recipes card but have to make cards item compliance with already implemented module */}
             <RenderCardBoxes cards={cards} updateCards={updateCards} />
@@ -176,7 +178,7 @@ const RenderCardBoxes = ({ cards, updateCards }: { cards: CardBoxProps[], update
     const [, drop] = useDrop(() => ({ accept: "card" }))
 
     return (
-        <div ref={drop} className='flex flex-col gap-y-2 h-60 overflow-y-scroll'>
+        <div ref={drop} className='flex flex-col gap-y-2 h-60 overflow-y-scroll no-scrollbar w-[12.3rem]'>
             {renderCardBoxes()}
         </div>
     )

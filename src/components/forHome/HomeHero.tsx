@@ -87,7 +87,7 @@ const RightExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
             // className={`absolute bg-secondary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-4" : "translate-x-60"} xxs:w-fit md:w-[24rem] z-20`}
 
-            className={`absolute bg-accent flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-4" : "translate-x-0"} z-20`}
+            className={`absolute bg-card flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-4" : "translate-x-0"} z-20`}
         >
             <Button onClick={handleClicked} variant={'secondary'} className='absolute -left-16 top-0 transition-all duration-1000 h-full bg-card hover:bg-muted-foreground hover:text-special-foreground text-7xl flex items-center rounded-r-none text-special'>[</Button>
 
@@ -108,7 +108,7 @@ const LeftExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
     return (
         <div
             // className={`flex bg-secondary gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "-translate-x-[41.6rem]"} ${extOpen === "left" ? "z-30" : "z-20"}`}
-            className={`flex bg-secondary gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "-translate-x-0"} ${extOpen === "left" ? "z-30" : "z-20"}`}
+            className={`flex bg-card gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "-translate-x-0"} ${extOpen === "left" ? "z-30" : "z-20"}`}
         >
             {/* {
                 extOpen === "left"
