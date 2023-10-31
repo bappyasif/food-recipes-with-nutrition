@@ -52,7 +52,7 @@ const recipesSlice = createSlice({
                 ...action.payload,
                 count: 1
             }
-            // console.log(action.payload, withCount)
+            console.log(action.payload, withCount, "whats what!!")
             state.list = state.list.concat(withCount)
             // state.list = state.list.concat(action.payload)
 
@@ -75,7 +75,8 @@ const recipesSlice = createSlice({
 
         // trying alternative to update list from component
         addRecipesAtOnce: (state, action) => {
-            state.list = action.payload;
+            state.list = action.payload.length && action.payload;
+            // console.log("stop this!!")
             // state.viewedList = action.payload
         }
     },
@@ -84,10 +85,13 @@ const recipesSlice = createSlice({
             // console.log(action.payload, "payload!!")
         }),
         builder.addCase(getAllViewedRecipesFromDb.fulfilled, (state, action) => {
-            // console.log(action.payload, "viewed meals", state.list)
+            // console.log(action.payload, "viewed meals", state.list.length)
             // state.list = action.payload.length && action.payload
+            state.list = action.payload?.recipes?.length && action.payload?.recipes
             // state.list = state.list.concat(action.payload)
             // state.viewedList = action.payload
+            // console.log(state.viewedList?.length, "etf!!", state?.list?.length, action.payload?.length, action.payload?.recipes?.length)
+            console.log(state.list.length, "recipes")
         })
     }
 })

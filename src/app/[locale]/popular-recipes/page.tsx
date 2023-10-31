@@ -1,4 +1,6 @@
 import { ShowRecipes } from '@/components/forPopularRecipes/ShowRecipes'
+import store from '@/redux/store'
+import { getAllViewedRecipesFromDb } from '@/redux/thunks'
 import { assembleReqStr } from '@/utils/dbRequests'
 import axios from 'axios'
 import { Metadata, ResolvingMetadata } from 'next'
@@ -31,10 +33,12 @@ const getAllViewedRecipes = async () => {
   return resp.data?.recipes
 }
 
+// store.dispatch(getAllViewedRecipesFromDb())
+
 const PopularRecipesRoutePage = async () => {
   // revalidatePath("/popular-recipes")
 
-  const recipes = await getAllViewedRecipes()
+  // const recipes = await getAllViewedRecipes()
   
   return (
     <div className='min-h-[100vh] flex flex-col gap-y-10'>
@@ -43,10 +47,11 @@ const PopularRecipesRoutePage = async () => {
 
       {/* <ShowRecipes recipes={recipes} /> */}
 
-      <Suspense fallback={<h1 className='font-bold text-special-foreground'>Loading....</h1>}>
-        {/* <ShowRecipes recipes={recipes} /> */}
-        <ShowRecipes />
-      </Suspense>
+      <ShowRecipes />
+
+      {/* <Suspense fallback={<h1 className='font-bold text-special-foreground'>Loading....</h1>}>
+        <ShowRecipes recipes={recipes} />
+      </Suspense> */}
     </div>
   )
 }

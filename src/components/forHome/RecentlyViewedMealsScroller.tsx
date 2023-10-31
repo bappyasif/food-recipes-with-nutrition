@@ -73,7 +73,7 @@ export const RecentlyViewedMealsScroller = () => {
 
   const recipesList = useAppSelector(state => state.recipes.list)
 
-  // console.log(recipesList, "recipesList!!")
+  console.log(recipesList, "recipesList!! from mealscrolelr")
 
   const { handleFalsy: falsyForEight, onlyFour: onlyEight, handleTruthy: truthyForEight, isTrue: forEight, handleNext, beginFrom } = useForRecipeCarouselItems(recipesList)
 

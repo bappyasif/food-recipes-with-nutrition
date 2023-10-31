@@ -7,9 +7,9 @@ import { notFound } from 'next/navigation'
 import {createTranslator, NextIntlClientProvider} from 'next-intl';
 import { Analytics } from '@vercel/analytics/react';
 import { getAllViewedRecipesFromDb } from '@/redux/thunks'
-// import store from '@/redux/store'
+import store from '@/redux/store'
 
-// store.dispatch(getAllViewedRecipesFromDb())
+store.dispatch(getAllViewedRecipesFromDb())
 
 export const metadata: Metadata = {
   title: "What's Cooking Yo",

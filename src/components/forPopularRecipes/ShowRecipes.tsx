@@ -20,9 +20,14 @@ export const ShowRecipes = () => {
   const recipesList = useAppSelector(state => state.recipes.list)
   // const viewedList = useAppSelector(state => state.recipes.viewedList)
 
+  console.log(recipesList, "recipesList!!")
+
   const renderRecipes = () => recipesList?.map(item => <RenderRecipe key={item.uri} data={item} />)
 
-  useForGettingViewedRecipesDataFromBackend()
+  // useForGettingViewedRecipesDataFromBackend()
+
+
+
 
   // const dispatch = useAppDispatch()
 
@@ -48,15 +53,13 @@ export const ShowRecipes = () => {
   // // console.log(recipesList, "ye", viewedList)
 
   // useEffect(() => {
-  //   recipes.length && addListToStore()
-  // }, [recipes])
+  //   !recipesList.length && recipes.length && addListToStore()
+  //   !recipesList.length && recipes.length && console.log("ran once!!")
+  // }, [recipes, recipesList])
 
   return (
-    <div>
-      {/* RecipesList */}
-      <div className='grid xxs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-        {renderRecipes()}
-      </div>
+    <div className='grid xxs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+      {renderRecipes()}
     </div>
   )
 }
@@ -75,17 +78,17 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
   return (
     <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col justify-between'>
       {/* <img src={url} height={height} width={width} alt={label} className='w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten' /> */}
-      <Image 
-          src={url} alt={label!} width={width} height={height} 
-          className='w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
-          blurDataURL={url} placeholder='blur' loading='lazy' 
-        />
+      <Image
+        src={url} alt={label!} width={width} height={height}
+        className='w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
+        blurDataURL={url} placeholder='blur' loading='lazy'
+      />
       <CardHeader className='font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground' title={label}>{label!?.length > 20 ? ellipsedText(label!, 19) : label}</CardHeader>
       <CardContent className='flex flex-col gap-y-4'>
         <ReuseableBadge txt='Calories' val={calories?.toFixed(2)} />
         <ReuseableBadge txt='Carbon Emission' val={co2EmissionsClass} />
         {/* <ReuseableBadge txt='Cuisine' val={cuisineType[0]} /> */}
-        <ReuseableBadge txt='Cuisine' val={ typeof cuisineType === "object" ? cuisineType[0] : cuisineType } />
+        <ReuseableBadge txt='Cuisine' val={typeof cuisineType === "object" ? cuisineType[0] : cuisineType} />
       </CardContent>
       <CardFooter>
         <Link className='w-full bg-accent text-center font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-muted hover:bg-special-foreground rounded-lg' href={`/${locale}/recipe/${extractRecipeId(uri!)}`}>See Details</Link>
