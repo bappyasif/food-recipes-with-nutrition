@@ -11,24 +11,45 @@ import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import Image from 'next/image'
 import { addRecipesAtOnce } from '@/redux/features/recipes/RecipesSlice'
+import { assembleReqStr } from '@/utils/dbRequests'
+import axios from 'axios'
+import { useForGettingViewedRecipesDataFromBackend } from '@/hooks/forComponents'
 
-export const ShowRecipes = ({recipes}: {recipes: ViewedMealType[]}) => {
+// {recipes}: {recipes: ViewedMealType[]}
+export const ShowRecipes = () => {
   const recipesList = useAppSelector(state => state.recipes.list)
   // const viewedList = useAppSelector(state => state.recipes.viewedList)
 
   const renderRecipes = () => recipesList?.map(item => <RenderRecipe key={item.uri} data={item} />)
 
-  const dispatch = useAppDispatch()
+  useForGettingViewedRecipesDataFromBackend()
 
-  const addListToStore = () => {
-    dispatch(addRecipesAtOnce(recipes))
-  }
+  // const dispatch = useAppDispatch()
 
-  // console.log(recipesList, "ye", viewedList)
+  // useEffect(() => {
+  //   // console.log("running once!!", recipesList)
+  //   axios.get(assembleReqStr()).then(resp => {
+  //     // console.log(resp.data, "resp!!")
+  //     const recipes = resp.data?.recipes
+  //     recipes?.length && dispatch(addRecipesAtOnce(recipes))
+  //   }).catch(err => console.log(err))
+  //   // getAllViewedRecipes().then(resp => console.log(resp, "resp!!")).catch(err => console.log(err, "error occured!!"))
+  //   // getAllViewedRecipesFromDb()
+  // }, [])
 
-  useEffect(() => {
-    recipes.length && addListToStore()
-  }, [recipes])
+  // const dataFromBackendApi = () => {
+  //   getAllViewedRecipesFromDb()
+  // }
+
+  // const addListToStore = () => {
+  //   dispatch(addRecipesAtOnce(recipes))
+  // }
+
+  // // console.log(recipesList, "ye", viewedList)
+
+  // useEffect(() => {
+  //   recipes.length && addListToStore()
+  // }, [recipes])
 
   return (
     <div>

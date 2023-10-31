@@ -23,6 +23,7 @@ export async function GET (req: NextRequest) {
         // const recipes = await prismaClicnt.recipe.findMany()
         // const recipes = await clientPrisma.recipe.findMany()
         // revalidatePath(req.url)
+        // console.log(req.url, "revalidated!!")
         return NextResponse.json({msg: "get alive!!", recipes}, {status: 201})
     } catch (error) {
         return NextResponse.json({msg: "error occured", error}, {status: 500})

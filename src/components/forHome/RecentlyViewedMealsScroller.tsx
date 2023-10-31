@@ -3,7 +3,7 @@
 import { RecipeMealType, ViewedMealCardType } from '@/types'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import { useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
+import { useForGettingViewedRecipesDataFromBackend, useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
 import styles from "@/app/[locale]/Home.module.css"
 import { Badge } from '../ui/badge'
 import { useAppSelector } from '@/hooks/forRedux'
@@ -13,63 +13,77 @@ import { useLocale } from 'next-intl'
 import { extractRecipeId } from '../forFilters/RecipesView'
 
 export const RecentlyViewedMealsScroller = () => {
-  const [onlyFour, setOnlyFour] = useState<ViewedMealCardType[]>([]);
+  // const [onlyFour, setOnlyFour] = useState<ViewedMealCardType[]>([]);
 
-  const [beginFrom, setBeginFrom] = useState(0);
+  // const [beginFrom, setBeginFrom] = useState(0);
 
-  const handleNext = () => {
-    if (beginFrom > 5) {
-      setBeginFrom(0)
-    } else {
-      // console.log("Now PAUSE from next, elseblck", isTrue)
-      !isTrue && setBeginFrom(prev => prev + 1)
-    }
-  }
+  // const handleNext = () => {
+  //   if (beginFrom > 5) {
+  //     setBeginFrom(0)
+  //   } else {
+  //     // console.log("Now PAUSE from next, elseblck", isTrue)
+  //     // !isTrue && setBeginFrom(prev => prev + 1)
+  //     !forEight && setBeginFrom(prev => prev + 1)
+  //   }
+  // }
 
-  const handlePrev = () => {
-    if (beginFrom === 0) {
-      setBeginFrom(5)
-    } else {
-      setBeginFrom(prev => prev - 1)
-    }
-  }
+  // const handlePrev = () => {
+  //   if (beginFrom === 0) {
+  //     setBeginFrom(5)
+  //   } else {
+  //     setBeginFrom(prev => prev - 1)
+  //   }
+  // }
 
-  const handleOnlyFour = () => {
-    let temp: number[] = [];
-    Array.from([0, 1, 2, 3]).forEach((v => {
-      if (v + beginFrom >= 6) {
-        // console.log(v, beginFrom, v + beginFrom, "adjusted", (v + beginFrom) - 6)
-        temp.push((v + beginFrom) - 6)
-      } else {
-        // console.log(v, beginFrom, v + beginFrom)
-        temp.push(v + beginFrom)
-      }
-    }))
+  // const handleOnlyFour = () => {
+  //   let temp: number[] = [];
+  //   Array.from([0, 1, 2, 3]).forEach((v => {
+  //     if (v + beginFrom >= 6) {
+  //       // console.log(v, beginFrom, v + beginFrom, "adjusted", (v + beginFrom) - 6)
+  //       temp.push((v + beginFrom) - 6)
+  //     } else {
+  //       // console.log(v, beginFrom, v + beginFrom)
+  //       temp.push(v + beginFrom)
+  //     }
+  //   }))
 
-    let fourCards: ViewedMealCardType[] = []
+  //   let fourCards: ViewedMealCardType[] = []
 
-    temp.forEach(v => {
-      cards.forEach((item, idx) => {
-        if (idx === v) {
-          fourCards.push({ category: item.category, name: item.name, nutrition: item.nuttrition, picture: item.picture })
-        }
-      })
-    })
+  //   temp.forEach(v => {
+  //     cards.forEach((item, idx) => {
+  //       if (idx === v) {
+  //         fourCards.push({ category: item.category, name: item.name, nutrition: item.nuttrition, picture: item.picture })
+  //       }
+  //     })
+  //   })
 
-    // console.log(temp, fourCards)
-    setOnlyFour(fourCards)
-  }
+  //   // console.log(temp, fourCards)
+  //   setOnlyFour(fourCards)
+  // }
 
-  const { isTrue, handleFalsy, handleTruthy } = useForTruthToggle()
+  // const { isTrue, handleFalsy, handleTruthy } = useForTruthToggle()
 
-  useEffect(() => {
-    !isTrue && handleOnlyFour()
-  }, [beginFrom])
+  // useEffect(() => {
+  //   !isTrue && handleOnlyFour()
+  // }, [beginFrom])
+
+  // when we have actual popular recipes list, unutil then we will be using demo component
+
+  useForGettingViewedRecipesDataFromBackend()
+
+  const recipesList = useAppSelector(state => state.recipes.list)
+
+  // console.log(recipesList, "recipesList!!")
+
+  const { handleFalsy: falsyForEight, onlyFour: onlyEight, handleTruthy: truthyForEight, isTrue: forEight, handleNext, beginFrom } = useForRecipeCarouselItems(recipesList)
+
+  const renderForCards = () => onlyEight?.map(item => <RenderMealCard key={item.uri} data={item} />)
 
   useEffect(() => {
     let timer = setInterval(() => {
 
-      if (!isTrue) {
+      // if (!isTrue) {
+      if (!forEight) {
         handleNext()
       } else {
         clearInterval(timer)
@@ -77,31 +91,27 @@ export const RecentlyViewedMealsScroller = () => {
       }
 
       // console.log(beginFrom, "PAUSE from timer", isTrue)
-    }, 6000)
+    }, 26000)
 
     return () => clearInterval(timer)
+    // [beginFrom, isTrue]
+  }, [beginFrom, forEight])
 
-  }, [beginFrom, isTrue])
-
-  const renderCards = () => onlyFour?.map((item, idx) => <RenderDeliciousMealCard key={item.name} category={item.category} name={item.name} nutrition={item.nutrition} picture={item.picture} idx={idx} />)
-
-  // when we have actual popular recipes list, unutil then we will be using demo component
-
-  const recipesList = useAppSelector(state => state.recipes.list)
-
-  const { handleFalsy: falsyForEight, onlyFour: onlyEight, handleTruthy: truthyForEight, isTrue: forEight } = useForRecipeCarouselItems(recipesList)
-
-  const renderForCards = () => onlyEight?.map(item => <RenderMealCard key={item.uri} data={item} />)
+  // safe keeping when fetch fails and needs to show some coverup data for display
+  // const renderCards = () => onlyFour?.map((item, idx) => <RenderDeliciousMealCard key={item.name} category={item.category} name={item.name} nutrition={item.nutrition} picture={item.picture} idx={idx} />)
 
   return (
     <div>
       <h2 className='text-xl font-bold'>Some Recently Viewed Meals</h2>
       <div
         className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center max-h-[26rem] overflow-clip gap-2'
-        onMouseEnter={onlyEight?.length ? truthyForEight : handleTruthy}
-        onMouseLeave={onlyEight?.length ? falsyForEight : handleFalsy}
+        // onMouseEnter={onlyEight?.length ? truthyForEight : handleTruthy}
+        // onMouseLeave={onlyEight?.length ? falsyForEight : handleFalsy}
+        onMouseEnter={truthyForEight}
+        onMouseLeave={falsyForEight}
       >
-        {onlyEight!?.length ? renderForCards() : renderCards()}
+        {onlyEight!?.length ? renderForCards() : null}
+        {/* {onlyEight!?.length ? renderForCards() : renderCards()} */}
       </div>
     </div>
   )

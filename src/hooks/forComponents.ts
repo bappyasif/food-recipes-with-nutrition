@@ -5,6 +5,9 @@ import axios from "axios";
 import { useLocale } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
+import { useAppDispatch } from "./forRedux";
+import { assembleReqStr } from "@/utils/dbRequests";
+import { addRecipesAtOnce } from "@/redux/features/recipes/RecipesSlice";
 
 export const useForPauseAndPlayMealScroll = () => {
     const [seconds, setSeconds] = useState(30);
@@ -260,7 +263,7 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
         handleNext()
     }, [data])
 
-    return { onlyFour, handleNext, handlePrev, handleFalsy, handleTruthy, isTrue }
+    return { onlyFour, handleNext, handlePrev, handleFalsy, handleTruthy, isTrue, beginFrom }
 }
 
 export const useForQuerifiedParams = (filters: FiltersTypes, fromHome?: boolean) => {
@@ -401,4 +404,19 @@ export const useForAddToFiltersFromParams = (setFilters: React.Dispatch<React.Se
     }, [searchParams])
 
     // console.log(searchParams.get("cuisineType"), searchParams.get("type"))
+}
+
+export const useForGettingViewedRecipesDataFromBackend = () => {
+    const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    // console.log("running once!!")
+    axios.get(assembleReqStr()).then(resp => {
+      // console.log(resp.data, "resp!!")
+      const recipes = resp.data?.recipes
+      recipes?.length && dispatch(addRecipesAtOnce(recipes))
+    }).catch(err => console.log(err))
+    // getAllViewedRecipes().then(resp => console.log(resp, "resp!!")).catch(err => console.log(err, "error occured!!"))
+    // getAllViewedRecipesFromDb()
+  }, [])
 }
