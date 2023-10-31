@@ -5,6 +5,9 @@ import axios from "axios";
 import { useLocale } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "./forRedux";
+import { assembleReqStr } from "@/utils/dbRequests";
+import { addRecipesAtOnce } from "@/redux/features/recipes/RecipesSlice";
 
 export const useForPauseAndPlayMealScroll = () => {
     const [seconds, setSeconds] = useState(30);
@@ -48,7 +51,7 @@ export const useForInputTextChange = () => {
     return { text, handleTextChange }
 }
 
-export const useForExtractingQueriesFromUrl = (handleRecipesFound:(data: RecipeMealType[], nextHref?: string) => void) => {
+export const useForExtractingQueriesFromUrl = (handleRecipesFound: (data: RecipeMealType[], nextHref?: string) => void) => {
     const [params, setParams] = useState<URLSearchParams>()
     // const [mealsRecipes, setMealsRecipes] = useState<RecipeMealType[]>([])
 
@@ -100,15 +103,15 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound:(data: RecipeM
         const timer = setTimeout(() => {
             // console.log(params, "ready for fetching data!!", searchParams.get("type"), params2, params?.get("app_id"), params?.toString(), params?.get("dishType"))
             // searchParams.get("type") && fetchAndUpdateData(params?.toString(), setMealsRecipes)
-            
-            
+
+
             params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
                 const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
 
                 const readyForRendering = onlyRecipes.map((item: any) => item.mealType?.length && item.dishType?.length && item.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
                 readyForRendering?.length && handleRecipesFound(readyForRendering, d.data?._links?.next?.href)
-                
+
                 // console.log(d.data?._links?.next?.href, "href", d.data)
 
                 // readyForRendering?.length && setMealsRecipes(readyForRendering)
@@ -129,10 +132,10 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound:(data: RecipeM
 
 export const useForRandomRecipesList = (mealType: string, diet: string, dishType: string, uri?: string) => {
     const [recipes, setRecipes] = useState<RecipeMealType[]>([])
-    
+
     // this will keep count how many times same dat is being fetched when renderable dataset is less than 13
     // let count = 0;
-    const [count, setCount] =  useState(1)
+    const [count, setCount] = useState(1)
 
     const readySimilarRcipesRequest = () => {
         const params = {
@@ -154,15 +157,15 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
 
             const readyForRendering = onlyRecipes?.map((item: RecipeMealType) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
-            if(count <= 4) {
+            if (count <= 4) {
                 // readySimilarRcipesRequest()
                 // count += 1;
                 setCount(prev => prev + 1)
                 // console.log(count, "count")
             }
 
-            if(uri) {
-                readyForRendering?.length && setRecipes(readyForRendering.filter((item:RecipeMealType) => item.uri !== uri))
+            if (uri) {
+                readyForRendering?.length && setRecipes(readyForRendering.filter((item: RecipeMealType) => item.uri !== uri))
             } else {
                 readyForRendering?.length && setRecipes(readyForRendering)
             }
@@ -260,7 +263,7 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
         handleNext()
     }, [data])
 
-    return { onlyFour, handleNext, handlePrev, handleFalsy, handleTruthy, isTrue }
+    return { onlyFour, handleNext, handlePrev, handleFalsy, handleTruthy, isTrue, beginFrom }
 }
 
 export const useForQuerifiedParams = (filters: FiltersTypes, fromHome?: boolean) => {
@@ -339,7 +342,7 @@ export const useForOutsideClick = (ref: any, callback: () => void) => {
 };
 
 export const useForIfRecipesFoundWithExistingFilters = () => {
-    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+    const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
     const searchParams = useSearchParams()
     // console.log(searchParams, "searchParams!!", searchParams.get("type"))
 
@@ -352,7 +355,7 @@ export const useForIfRecipesFoundWithExistingFilters = () => {
 
     // console.log(isTrue, "isTrue!!")
 
-    return {isTimed: isTrue, filtersExist: searchParams.get("type")}
+    return { isTimed: isTrue, filtersExist: searchParams.get("type") }
 }
 
 export const useForAddToFiltersFromParams = (setFilters: React.Dispatch<React.SetStateAction<FiltersTypes>>) => {
@@ -363,35 +366,35 @@ export const useForAddToFiltersFromParams = (setFilters: React.Dispatch<React.Se
     // this works partially, but needs to find a wway to go through each filters case currently it only runs for first condition
     // maybe using useHook for each filtersType might do
     const runThis = () => {
-        if(searchParams.getAll("cuisineType").length) {
-            setFilters(prev => ({...prev, cuisineType: searchParams.getAll("cuisineType")}))
+        if (searchParams.getAll("cuisineType").length) {
+            setFilters(prev => ({ ...prev, cuisineType: searchParams.getAll("cuisineType") }))
             // console.log(searchParams.getAll("cuisineType"))
-        } 
-        if(searchParams.getAll("dishType").length) {
-            setFilters(prev => ({...prev, dishType: searchParams.getAll("dishType")}))
+        }
+        if (searchParams.getAll("dishType").length) {
+            setFilters(prev => ({ ...prev, dishType: searchParams.getAll("dishType") }))
             // console.log(searchParams.getAll("dishType"))
-        } 
-        if(searchParams.getAll("mealType").length) {
-            setFilters(prev => ({...prev, mealType: searchParams.getAll("mealType")}))
+        }
+        if (searchParams.getAll("mealType").length) {
+            setFilters(prev => ({ ...prev, mealType: searchParams.getAll("mealType") }))
             // console.log(searchParams.getAll("mealType"))
-        } 
-        if(searchParams.getAll("diet").length) {
-            setFilters(prev => ({...prev, diet: searchParams.getAll("diet")}))
+        }
+        if (searchParams.getAll("diet").length) {
+            setFilters(prev => ({ ...prev, diet: searchParams.getAll("diet") }))
             // console.log(searchParams.getAll("diet"))
-        } 
-        if(searchParams.getAll("health").length) {
-            setFilters(prev => ({...prev, health: searchParams.getAll("health")}))
+        }
+        if (searchParams.getAll("health").length) {
+            setFilters(prev => ({ ...prev, health: searchParams.getAll("health") }))
             // console.log(searchParams.getAll("health"))
-        } 
-        if(searchParams.getAll("co2EmissionsClass").length) {
+        }
+        if (searchParams.getAll("co2EmissionsClass").length) {
             // mapping so that data gets mapped correctly in state variable otherwise A+ wont be detected by it due to url encryption
             const mappedVals = searchParams.getAll("co2EmissionsClass").map(item => item.length > 1 ? "A+" : item)
 
-            setFilters(prev => ({...prev, co2EmissionsClass: mappedVals}))
+            setFilters(prev => ({ ...prev, co2EmissionsClass: mappedVals }))
             // console.log(searchParams.getAll("co2EmissionsClass"), mappedVals)
-        } 
-        if(searchParams.getAll("q").length) {
-            setFilters(prev => ({...prev, q: searchParams.get("q")!}))
+        }
+        if (searchParams.getAll("q").length) {
+            setFilters(prev => ({ ...prev, q: searchParams.get("q")! }))
             // console.log(searchParams.get("q"))
         }
     }
@@ -401,4 +404,23 @@ export const useForAddToFiltersFromParams = (setFilters: React.Dispatch<React.Se
     }, [searchParams])
 
     // console.log(searchParams.get("cuisineType"), searchParams.get("type"))
+}
+
+export const useForGettingViewedRecipesDataFromBackend = () => {
+    const dispatch = useAppDispatch()
+
+    const recipesList = useAppSelector(state => state.recipes.list)
+
+    useEffect(() => {
+        // console.log("running once!!")
+        if (!recipesList?.length) {
+            axios.get(assembleReqStr()).then(resp => {
+                // console.log(resp.data, "resp!!")
+                const recipes = resp.data?.recipes
+                recipes?.length && dispatch(addRecipesAtOnce(recipes))
+            }).catch(err => console.log(err))
+            // getAllViewedRecipes().then(resp => console.log(resp, "resp!!")).catch(err => console.log(err, "error occured!!"))
+            // getAllViewedRecipesFromDb()
+        }
+    }, [])
 }

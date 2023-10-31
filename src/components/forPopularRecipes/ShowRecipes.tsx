@@ -11,12 +11,17 @@ import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import Image from 'next/image'
 import { addRecipesAtOnce } from '@/redux/features/recipes/RecipesSlice'
+import { assembleReqStr } from '@/utils/dbRequests'
+import axios from 'axios'
+import { useForGettingViewedRecipesDataFromBackend } from '@/hooks/forComponents'
 
 export const ShowRecipes = ({recipes}: {recipes: ViewedMealType[]}) => {
   const recipesList = useAppSelector(state => state.recipes.list)
   // const viewedList = useAppSelector(state => state.recipes.viewedList)
 
   const renderRecipes = () => recipesList?.map(item => <RenderRecipe key={item.uri} data={item} />)
+
+  // useForGettingViewedRecipesDataFromBackend()
 
   const dispatch = useAppDispatch()
 
@@ -27,7 +32,7 @@ export const ShowRecipes = ({recipes}: {recipes: ViewedMealType[]}) => {
   // console.log(recipesList, "ye", viewedList)
 
   useEffect(() => {
-    recipes.length && addListToStore()
+    !recipesList.length && recipes.length && addListToStore()
   }, [recipes])
 
   return (
