@@ -19,6 +19,8 @@ model recipe {
   cuisineType String
   count Int
   images SMALL?
+   // as images links are expired after a day we will update them when we revisit those recipes
+  lastUpdated DateTime?
 }
 
 type SMALL {

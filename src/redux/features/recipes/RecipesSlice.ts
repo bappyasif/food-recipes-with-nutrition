@@ -31,7 +31,7 @@ const recipesSlice = createSlice({
     reducers: {
         // already existing recipe count increment
         updateRecipeCount: (state, action) => {
-            const { recipeUri } = action.payload
+            const { recipeUri, images } = action.payload
             // console.log(recipeUri, action.payload, "chck chck!!")
             state.list = state.list.map(item => {
                 if (item.uri === recipeUri) {
@@ -40,6 +40,7 @@ const recipesSlice = createSlice({
                     } else {
                         item.count = 1
                     }
+                    item.images = images
                 }
 
                 return item

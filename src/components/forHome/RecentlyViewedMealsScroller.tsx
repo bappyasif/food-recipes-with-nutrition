@@ -2,7 +2,7 @@
 
 import { RecipeMealType, ViewedMealCardType } from '@/types'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useForGettingViewedRecipesDataFromBackend, useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
 import styles from "@/app/[locale]/Home.module.css"
 import { Badge } from '../ui/badge'
@@ -11,63 +11,9 @@ import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import { extractRecipeId } from '../forFilters/RecipesView'
+import moment from 'moment'
 
 export const RecentlyViewedMealsScroller = () => {
-  // const [onlyFour, setOnlyFour] = useState<ViewedMealCardType[]>([]);
-
-  // const [beginFrom, setBeginFrom] = useState(0);
-
-  // const handleNext = () => {
-  //   if (beginFrom > 5) {
-  //     setBeginFrom(0)
-  //   } else {
-  //     // console.log("Now PAUSE from next, elseblck", isTrue)
-  //     // !isTrue && setBeginFrom(prev => prev + 1)
-  //     !forEight && setBeginFrom(prev => prev + 1)
-  //   }
-  // }
-
-  // const handlePrev = () => {
-  //   if (beginFrom === 0) {
-  //     setBeginFrom(5)
-  //   } else {
-  //     setBeginFrom(prev => prev - 1)
-  //   }
-  // }
-
-  // const handleOnlyFour = () => {
-  //   let temp: number[] = [];
-  //   Array.from([0, 1, 2, 3]).forEach((v => {
-  //     if (v + beginFrom >= 6) {
-  //       // console.log(v, beginFrom, v + beginFrom, "adjusted", (v + beginFrom) - 6)
-  //       temp.push((v + beginFrom) - 6)
-  //     } else {
-  //       // console.log(v, beginFrom, v + beginFrom)
-  //       temp.push(v + beginFrom)
-  //     }
-  //   }))
-
-  //   let fourCards: ViewedMealCardType[] = []
-
-  //   temp.forEach(v => {
-  //     cards.forEach((item, idx) => {
-  //       if (idx === v) {
-  //         fourCards.push({ category: item.category, name: item.name, nutrition: item.nuttrition, picture: item.picture })
-  //       }
-  //     })
-  //   })
-
-  //   // console.log(temp, fourCards)
-  //   setOnlyFour(fourCards)
-  // }
-
-  // const { isTrue, handleFalsy, handleTruthy } = useForTruthToggle()
-
-  // useEffect(() => {
-  //   !isTrue && handleOnlyFour()
-  // }, [beginFrom])
-
-  // when we have actual popular recipes list, unutil then we will be using demo component
 
   useForGettingViewedRecipesDataFromBackend()
 
@@ -90,28 +36,21 @@ export const RecentlyViewedMealsScroller = () => {
         return
       }
 
-      // console.log(beginFrom, "PAUSE from timer", isTrue)
     }, 26000)
 
     return () => clearInterval(timer)
-    // [beginFrom, isTrue]
-  }, [beginFrom, forEight])
 
-  // safe keeping when fetch fails and needs to show some coverup data for display
-  // const renderCards = () => onlyFour?.map((item, idx) => <RenderDeliciousMealCard key={item.name} category={item.category} name={item.name} nutrition={item.nutrition} picture={item.picture} idx={idx} />)
+  }, [beginFrom, forEight])
 
   return (
     <div>
       <h2 className='text-xl font-bold'>Some Recently Viewed Meals</h2>
       <div
         className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center max-h-[26rem] overflow-clip gap-2'
-        // onMouseEnter={onlyEight?.length ? truthyForEight : handleTruthy}
-        // onMouseLeave={onlyEight?.length ? falsyForEight : handleFalsy}
         onMouseEnter={truthyForEight}
         onMouseLeave={falsyForEight}
       >
         {onlyEight!?.length ? renderForCards() : null}
-        {/* {onlyEight!?.length ? renderForCards() : renderCards()} */}
       </div>
     </div>
   )
@@ -119,9 +58,11 @@ export const RecentlyViewedMealsScroller = () => {
 
 const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
-  const { calories, cuisineType, co2EmissionsClass, label, uri, images } = data;
+  const { calories, cuisineType, co2EmissionsClass, label, uri, images, lastUpdated } = data;
 
   const { height, url, width } = images?.SMALL! || images
+
+  // console.log(lastUpdated, "last updated", lastUpdated! < new Date(), data)
 
   const locale = useLocale()
 
@@ -131,6 +72,12 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
     return
   }
 
+  const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
+
+  if(lastUpdated) {
+    console.log(lastUpdated, "last updated", lastUpdated < new Date(), moment(lastUpdated).fromNow(), checkIfDayOlder())
+  }
+
   return (
     <div
       className={`${styles.dissolvePhoto} h-[13.2rem] overflow-clip`}
@@ -138,20 +85,10 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
       onMouseLeave={handleFalsy}
     >
       <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} title={label} >
-        {/* <img
-          className={`w-60 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`}
-          // fill={true}
-          placeholder='blur'
-          // blurDataURL= {picture}
-          loading='lazy'
-          width={400}
-          height={200}
-          alt={`${label}`}
-          src={url}
-        /> */}
-
         <Image 
-          src={url} alt={label!} width={width} height={height} 
+          // src={url} 
+          src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?sig=${label} recipe` : url} 
+          alt={label!} width={width} height={height} 
           className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
           blurDataURL={url} placeholder='blur' loading='lazy' 
         />

@@ -15,11 +15,8 @@ import { addRecipeToList, updateRecipeCount } from '@/redux/features/recipes/Rec
 import Head from 'next/head'
 import Image from 'next/image'
 import { addToDbCollection, updateRecordInCollection } from '@/utils/dbRequests'
-// import { useForTruthToggle } from '@/hooks/forComponents'
 
 export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMealType, params: {"slug-id": string} }) => {
-    // const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
-
     const appDispatch = useAppDispatch()
 
     const trackedRecipes = useAppSelector(state => state.recipes.list)
@@ -37,39 +34,19 @@ export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMe
         const recipeExists = checkIfRecipeUriAlreadyExists();
 
         recipeExists === -1 && recipeData?.uri && appDispatch(addRecipeToList(recipeData))
-        // !isTrue && recipeExists === -1 && recipeData?.uri && appDispatch(addRecipeToList(recipeData))
-        // !isTrue && recipeExists === -1 && recipeData?.uri && addToDbCollection(recipeData)
-
-        // !isTrue && recipeData.uri && handleTruthy()
-
         recipeExists === -1 && recipeData?.uri && addToDbCollection(recipeData)
 
-        recipeExists !== -1 && recipeData?.uri && appDispatch(updateRecipeCount({ recipeUri: recipeData?.uri }))
-
-        recipeExists !== -1 && recipeData?.uri && updateRecordInCollection(recipeData?.uri)
-
-        // recipeExists !== -1 && recipeData?.uri && console.log(recipeData?.uri, "beeeeeessssss")
-
-        // console.log("running!! times!!", isTrue)
-        
-        // handleFalsy();
+        recipeExists !== -1 && recipeData?.uri && appDispatch(updateRecipeCount({ recipeUri: recipeData?.uri, images: recipeData.images?.REGULAR || recipeData.images.SMALL }))
+        recipeExists !== -1 && recipeData?.uri && updateRecordInCollection(recipeData?.uri, recipeData.images?.REGULAR || recipeData.images.SMALL)
     }
 
     useEffect(() => {
         recipeData?.uri && addOrUpdateDataIntoStore()
-        // isTrue && recipeData?.uri && addOrUpdateDataIntoStore()
-        // !isTrue && recipeData.uri && handleTruthy()
     }, [recipeData])
 
     // console.log(trackedRecipes, "trackedRecipes!!")
 
-    return (
-        <div>
-            {/* ShowRecipeDetails -- {dynamicParams["slug-id"]} */}
-            {/* ShowRecipeDetails -- {params["slug-id"]} */}
-            {recipeData?.label ? <RenderRecipe {...recipeData} /> : null}
-        </div>
-    )
+    return recipeData?.label ? <RenderRecipe {...recipeData} /> : null
 }
 
 const RenderRecipe = ({ ...data }: RecipeMealType) => {

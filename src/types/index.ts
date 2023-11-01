@@ -113,6 +113,7 @@ export type ViewedMealType = {
 }
 
 export type RecipeMealType = {
+  "lastUpdated"?: Date,
   "uri": string,
   "label": string,
   "cautions": [string],

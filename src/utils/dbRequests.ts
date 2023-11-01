@@ -1,12 +1,12 @@
 import { RecipeMealType } from "@/types";
 import axios from "axios"
 
-export const updateRecordInCollection = (uri:string) => {
+export const updateRecordInCollection = (uri:string, images:object) => {
     console.log(assembleReqStr(), "update", uri)
 
     // axios.put(`${assembleReqStr()}/${uri}`, {uri}).then((resp) => console.log(resp.status, "updated!!")).catch(err => console.log(err, "error occured...."))
 
-    axios.put(assembleReqStr(), {uri}).then((resp) => console.log(resp.status, "updated!!")).catch(err => console.log(err, "error occured...."))
+    axios.put(assembleReqStr(), {uri, images}).then((resp) => console.log(resp.status, "updated!!")).catch(err => console.log(err, "error occured...."))
 }
 
 export const assembleReqStr = () => {
