@@ -159,3 +159,24 @@ body {
 .rbc-toolbar {
   @apply bg-special-foreground font-extrabold
 }
+
+.rbc-toolbar .rbc-btn-group button {
+  @apply text-primary-foreground bg-primary
+}
+
+.evenDays,
+.oddDays {
+  @apply bg-special font-extrabold text-primary
+}
+
+.oddDays {
+  @apply bg-primary text-accent
+}
+
+.meetingSlots {
+  @apply bg-primary
+}
+
+.slotSelected {
+  @apply bg-special
+}

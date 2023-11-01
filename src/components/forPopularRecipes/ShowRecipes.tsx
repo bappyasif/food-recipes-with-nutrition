@@ -54,6 +54,8 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const locale = useLocale()
 
+  const recipeLink = `/${locale}/recipe/${extractRecipeId(uri!)}`
+
   if (!cuisineType) return
 
   return (
@@ -64,7 +66,9 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
           className='w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
           blurDataURL={url} placeholder='blur' loading='lazy' 
         />
-      <CardHeader className='font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground' title={label}>{label!?.length > 20 ? ellipsedText(label!, 19) : label}</CardHeader>
+      <CardHeader className='font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-primary' title={`Recipe: ${label}, Click To View details`}>
+        <Link href={recipeLink}>{label!?.length > 20 ? ellipsedText(label!, 19) : label}</Link>
+      </CardHeader>
       <CardContent className='flex flex-col gap-y-4'>
         <ReuseableBadge txt='Calories' val={calories?.toFixed(2)} />
         <ReuseableBadge txt='Carbon Emission' val={co2EmissionsClass} />

@@ -152,7 +152,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
         <Image 
           src={url} alt={label!} width={width} height={height} 
-          className={`w-60 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
+          className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
           blurDataURL={url} placeholder='blur' loading='lazy' 
         />
 

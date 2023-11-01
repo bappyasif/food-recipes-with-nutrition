@@ -170,35 +170,79 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                     backgroundColor: '#000',
                 },
             }),
-            ...(moment(start).hour() < 12 && {
-                className: 'powderBlue',
-            }),
+            // ...(isSelected && {
+            //     className: "slotSelected"
+            // }),
+
+            // ...(moment(start).hour() < 12 && {
+            //     className: 'powderBlue',
+            // }),
+            
+            // ...(event.title.includes('Meeting') && {
+            //     className: 'meetingSlots',
+            // }),
             ...(event.title.includes('Meeting') && {
-                className: 'darkGreen',
+                style: {
+                    backgroundColor: "green"
+                }
+            })
+        }),
+        []
+    )
+
+    const slotPropGetter = useCallback(
+        (date: Date) => ({
+            className: 'slotDefault',
+            ...(moment(date).hour() < 8 && {
+                style: {
+                    backgroundColor: 'powderblue',
+                    color: 'black',
+                },
+            }),
+            ...(moment(date).hour() >= 8 && moment(date).hour() < 13 && {
+                style: {
+                    backgroundColor: 'darkcyan',
+                    color: 'black',
+                },
+            }),
+            ...(moment(date).hour() > 12 && {
+                style: {
+                    backgroundColor: 'cadetblue',
+                    color: 'white',
+                },
             }),
         }),
         []
     )
 
-        const slotPropGetter = useCallback(
-          (date:Date) => ({
-            className: 'slotDefault',
-            ...(moment(date).hour() < 8 && {
-              style: {
-                backgroundColor: 'powderblue',
-                color: 'black',
-              },
+    const dayPropGetter = useCallback(
+        (date: Date) => ({
+            // ...(moment(date).day() === 2 && {
+            //     className: 'tuesday',
+            // }),
+            ...(moment(date).day() % 2 && {
+                className: "oddDays"
+                // style: {
+                //     backgroundColor: 'red',
+                //     color: 'white',
+                // }
             }),
-            ...(moment(date).hour() > 12 && {
-              style: {
-                backgroundColor: 'darkgreen',
-                color: 'white',
-              },
+            ...(moment(date).day() % 2 === 0 && {
+                className: "evenDays"
+                // style: {
+                //     backgroundColor: 'red',
+                //     color: 'white',
+                // }
             }),
-          }),
-          []
-        )
-    
+            ...(((moment(date).day() === 5) || moment(date).day() === 6 || (moment(date).day() === 0)) && {
+                style: {
+                    backgroundColor: 'cadetblue',
+                    color: 'red',
+                },
+            }),
+        }),
+        []
+    )
 
     return (
         <div
@@ -227,8 +271,10 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                 // defaultView='day'
                 // views={Views.MONTH}
 
+                dayPropGetter={dayPropGetter}
+
                 slotPropGetter={slotPropGetter}
-                
+
                 eventPropGetter={eventPropGetter}
 
                 onDropFromOutside={({ start, end, allDay }) => { console.log(start, end, "!!") }}
