@@ -14,7 +14,6 @@ import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
 import { addRecipeToList, updateRecipeCount } from '@/redux/features/recipes/RecipesSlice'
 import Head from 'next/head'
 import Image from 'next/image'
-import { addToDbCollection, updateRecordInCollection } from '@/utils/dbRequests'
 
 export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMealType, params: {"slug-id": string} }) => {
     const appDispatch = useAppDispatch()
@@ -34,10 +33,10 @@ export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMe
         const recipeExists = checkIfRecipeUriAlreadyExists();
 
         recipeExists === -1 && recipeData?.uri && appDispatch(addRecipeToList(recipeData))
-        recipeExists === -1 && recipeData?.uri && addToDbCollection(recipeData)
+        // recipeExists === -1 && recipeData?.uri && addToDbCollection(recipeData)
 
         recipeExists !== -1 && recipeData?.uri && appDispatch(updateRecipeCount({ recipeUri: recipeData?.uri, images: recipeData.images?.REGULAR || recipeData.images.SMALL }))
-        recipeExists !== -1 && recipeData?.uri && updateRecordInCollection(recipeData?.uri, recipeData.images?.REGULAR || recipeData.images.SMALL)
+        // recipeExists !== -1 && recipeData?.uri && updateRecordInCollection(recipeData?.uri, recipeData.images?.REGULAR || recipeData.images.SMALL)
     }
 
     useEffect(() => {

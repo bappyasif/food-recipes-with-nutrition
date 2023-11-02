@@ -15,7 +15,7 @@ export async function GET (req: NextRequest) {
 export const PUT = async (req: NextRequest) => {
     try {
         const {uri, images} = await req.json()
-        console.log(uri, images, "getting!!")
+        
         if(uri as string) {
             await connectingDatabase()
             const foundRecipe = await prisma.recipe.findFirst({where: {uri: uri}})
@@ -23,12 +23,8 @@ export const PUT = async (req: NextRequest) => {
                 const resp = await prisma.recipe.update({
                     select: {
                         count: true,
-                        // lastUpdated: true,
-                        // images: true
                     },
                     where: {
-                        // uri: jhgjh
-                        // uri: uri
                         id: foundRecipe?.id
                     },
                     data: {
@@ -58,18 +54,13 @@ export const PUT = async (req: NextRequest) => {
 export const POST = async (req: NextRequest, res: Response) => {
     try {
         const {label, cuisineType, co2EmissionsClass, uri, images, calories, count} = await req.json()
-        
-        // log(label, cuisineType, co2EmissionsClass, uri, images, calories, "body data!!")
 
         if(label && cuisineType && co2EmissionsClass && uri && images && calories && count) {
-            // log("we're here, all values are here")
-            // return NextResponse.json({msg: "done"}, {status: 201})
             await connectingDatabase()
             const newItemForCollection = await prisma.recipe.create({data: {calories, cuisineType, label, uri, images, co2EmissionsClass, count, lastUpdated: new Date()}})
             return NextResponse.json({newItemForCollection}, {status: 201})
         } else {
             return NextResponse.json({message: "Invalid request, possibly required data are missing"}, {status: 422})
-            // return res.json({message: "invalid data!!"})
         }
     } catch (error) {
         log(error)

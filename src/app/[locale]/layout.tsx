@@ -4,11 +4,14 @@ import { Footer } from '@/components/Footer'
 import { ReduxStoreProvider } from '@/redux/provider'
 import { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
-import {createTranslator, NextIntlClientProvider} from 'next-intl';
+import { NextIntlClientProvider } from 'next-intl';
 import { Analytics } from '@vercel/analytics/react';
-import { getAllViewedRecipesFromDb } from '@/redux/thunks'
+// import { getAllViewedRecipesFromDb } from '@/redux/thunks'
 // import store from '@/redux/store'
 
+// calling this from layout is not actually updating redux state, as it gets re written after page load
+// thats why using this from a component which shows up after page loads and then dispatching it from there to update store
+// here i did this from Header component
 // store.dispatch(getAllViewedRecipesFromDb())
 
 export const metadata: Metadata = {

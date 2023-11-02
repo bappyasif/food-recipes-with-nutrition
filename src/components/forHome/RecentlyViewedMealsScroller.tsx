@@ -1,9 +1,9 @@
 "use client"
 
-import { RecipeMealType, ViewedMealCardType } from '@/types'
+import { RecipeMealType } from '@/types'
 import Image from 'next/image'
 import React, { useEffect } from 'react'
-import { useForGettingViewedRecipesDataFromBackend, useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
+import { useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
 import styles from "@/app/[locale]/Home.module.css"
 import { Badge } from '../ui/badge'
 import { useAppSelector } from '@/hooks/forRedux'
@@ -15,7 +15,7 @@ import moment from 'moment'
 
 export const RecentlyViewedMealsScroller = () => {
 
-  useForGettingViewedRecipesDataFromBackend()
+  // useForGettingViewedRecipesDataFromBackend()
 
   const recipesList = useAppSelector(state => state.recipes.list)
 
@@ -62,8 +62,6 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const { height, url, width } = images?.SMALL! || images
 
-  // console.log(lastUpdated, "last updated", lastUpdated! < new Date(), data)
-
   const locale = useLocale()
 
   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
@@ -86,7 +84,6 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
     >
       <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} title={label} >
         <Image 
-          // src={url} 
           src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?sig=${label} recipe` : url} 
           alt={label!} width={width} height={height} 
           className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
@@ -96,43 +93,17 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
       </Link>
       <div className='flex flex-col gap-y-2 items-center justify-center'>
         <ReusableBadge text={co2EmissionsClass!} title='Carbon Emission' />
+
         <ReusableBadge text={calories?.toFixed(2)!} title='Calorie' />
-        {/* <ReusableBadge text={cuisineType[0]} title='Cuisine' /> */}
+
         <ReusableBadge text={typeof cuisineType === "object" ? cuisineType[0] : cuisineType} title='Cuisine' />
+
         <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} >
           <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted' title={label}>
             <span>Name:</span>
             <span>{label!?.length > 11 ? ellipsedText(label!, 11) : label!}</span>
           </Badge>
-          {/* <ReusableBadge text={label!?.length > 11 ? ellipsedText(label!, 11) : label!} title='Name' /> */}
         </Link>
-      </div>
-    </div>
-  )
-}
-
-const RenderDeliciousMealCard = ({ idx, ...item }: ViewedMealCardType & { idx: number }) => {
-  const { category, name, nutrition, picture } = item;
-
-  return (
-    <div
-      className={`${styles.dissolvePhoto} h-60 overflow-clip`}
-    >
-      <Image
-        className=' w-60 h-48 object-cover hover:h-36 hover:object-cover'
-        // fill={true}
-        placeholder='blur'
-        blurDataURL={picture}
-        loading='lazy'
-        width={400}
-        height={200}
-        alt={`${name}, ${category}, ${nutrition}`}
-        src={picture}
-      />
-      <div className='mt-2 flex flex-col gap-y-2 items-center justify-center'>
-        <ReusableBadge text={nutrition} title='Calorie' />
-        <ReusableBadge text={category} title='Category' />
-        <ReusableBadge text={name} title='Name' />
       </div>
     </div>
   )
@@ -146,13 +117,3 @@ const ReusableBadge = ({ title, text }: { title: string, text: string | number }
     </Badge>
   )
 }
-
-
-const cards = [
-  { name: "delicious meal - I", category: "vegetables", picture: "https://source.unsplash.com/random/200?food=1", nuttrition: 220 },
-  { name: "delicious meal - II", category: "beef", picture: "https://source.unsplash.com/random/200?food=2", nuttrition: 240 },
-  { name: "delicious meal - III", category: "fish", picture: "https://source.unsplash.com/random/200?food=3", nuttrition: 260 },
-  { name: "delicious meal - IV", category: "chicken", picture: "https://source.unsplash.com/random/200?food=4", nuttrition: 280 },
-  { name: "delicious meal - V", category: "duck", picture: "https://source.unsplash.com/random/200?food=5", nuttrition: 300 },
-  { name: "delicious meal - VI", category: "lentils", picture: "https://source.unsplash.com/random/200?food=6", nuttrition: 320 }
-]

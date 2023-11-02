@@ -3,8 +3,8 @@
 import { MdFoodBank, MdRestaurantMenu } from "react-icons/md"
 import { IoIosColorFilter } from "react-icons/io"
 import { useForInputTextChange, useForOutsideClick, useForTruthToggle } from '@/hooks/forComponents'
-import { NavType, RecipeMealType, RecipeTypes } from '@/types'
-import { searchRecipes, searchRecipesByNameFromApi } from '@/utils/dataFetching'
+import { NavType, RecipeMealType } from '@/types'
+import { searchRecipes } from '@/utils/dataFetching'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
@@ -14,6 +14,10 @@ import { Button } from "./ui/button"
 import { ellipsedText } from "./forRecipe/FewNonRelatedRecipes"
 import { useTranslations, useLocale } from "use-intl"
 import { LocaleSwitcher } from "./LocaleSwitcher"
+import { getAllViewedRecipesFromDb } from "@/redux/thunks"
+import store from "@/redux/store"
+
+store.dispatch(getAllViewedRecipesFromDb())
 
 export const Header = () => {
   const renderNavs = () => navs.map(item => <RenderNav key={item.name} icon={item.icon} name={item.name} path={item.path} />)
@@ -52,14 +56,11 @@ const SearchRecipes = () => {
 
   useEffect(() => {
     handleFalsy()
-    // console.log(ref.current, "ref here!!")
   }, [text])
 
   const ref = useRef<HTMLDivElement>(null)
 
   useForOutsideClick(ref, handleFalsyForFocused)
-
-  // console.log(forFocused, "is it")
 
   return (
     <div className='relative w-1/4 flex items-center xs:text-xs sm:text-sm lg:text-xl' ref={ref} onClick={handleTruthyForFocused}>
@@ -71,7 +72,6 @@ const SearchRecipes = () => {
 }
 
 const ShowAllFoundRecipes = ({ text, isTrue, showDropdown }: { text: string, isTrue: boolean, showDropdown: boolean }) => {
-  // const [recipes, setRecipes] = useState<RecipeTypes[]>([])
   const [recipes, setRecipes] = useState<RecipeMealType[]>([])
 
   const fetchRecipesFromApi = () => {
@@ -84,31 +84,13 @@ const ShowAllFoundRecipes = ({ text, isTrue, showDropdown }: { text: string, isT
     }
 
     fetchAndUpdateData(params, setRecipes)
-
-    // const doThis = searchRecipes(params).then(d => console.log(d, "found!!")).catch(err => console.log(err))
-
-    // const timer = setTimeout(() => text && doThis, 1899)
-
-    // return () => clearTimeout(timer)
   }
 
   useEffect(() => {
-    // if limit goes beyond acceptable range then use this instead, whch uses mealdb api which is not restricted limited requests
-    // text && searchRecipesByNameFromApi(text).then(data => setRecipes(data.meals)).catch(err => console.log(err))
     !text && setRecipes([])
 
     isTrue && text.length >= 2 && fetchRecipesFromApi()
   }, [text, isTrue])
-
-  // const renderRecipes = () => recipes.map(item => {
-  //   return (
-  //     <Button variant={"link"} key={item.idMeal} className='flex gap-x-2 outline-dotted text-primary justify-between' title={item?.strMeal}>
-  //       <span className="text-lg">{item?.strMeal.length > 11 ? ellipsedText(item?.strMeal, 11) : item?.strMeal}</span>
-  //       <Badge>{item.strArea}</Badge>
-  //       <Badge>{item.strCategory}</Badge>
-  //     </Button>
-  //   )
-  // })
 
   const renderRecipes = () => recipes.map(item => {
     const {label, uri, cuisineType, mealType} = item
@@ -133,9 +115,6 @@ const ShowAllFoundRecipes = ({ text, isTrue, showDropdown }: { text: string, isT
 const RenderNav = ({ ...item }: NavType) => {
   const { icon, name, path } = item
 
-  // when using with react-intl
-  // const t = useTranslations()
-
   // when using with "next-intl"
   const t = useTranslations("default")
 
@@ -151,14 +130,11 @@ const RenderNav = ({ ...item }: NavType) => {
 
 export const fetchAndUpdateData = (params: any, setRecipes: any) => {
   searchRecipes(params).then(d => {
-    // console.log(d, "!!")
     const onlyRecipes = d?.hits.map((item: any) => item.recipe)
-    // onlyRecipes?.length && setRecipes(onlyRecipes)
 
     const readyForRendering = onlyRecipes?.map((item: any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label)) || []
 
     readyForRendering?.length && setRecipes(readyForRendering)
-    // console.log(readyForRendering.length, "readyForRendeing")
 
   }).catch(err => console.log(err))
 }
