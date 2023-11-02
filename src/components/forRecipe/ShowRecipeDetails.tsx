@@ -24,8 +24,6 @@ export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMe
     const checkIfRecipeUriAlreadyExists = () => {
         const foundIdx = trackedRecipes.findIndex(item => item.uri.includes(params["slug-id"]))
 
-        // console.log(foundIdx, "item exist!!")
-
         return foundIdx
     }
 
@@ -33,10 +31,8 @@ export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMe
         const recipeExists = checkIfRecipeUriAlreadyExists();
 
         recipeExists === -1 && recipeData?.uri && appDispatch(addRecipeToList(recipeData))
-        // recipeExists === -1 && recipeData?.uri && addToDbCollection(recipeData)
 
         recipeExists !== -1 && recipeData?.uri && appDispatch(updateRecipeCount({ recipeUri: recipeData?.uri, images: recipeData.images?.REGULAR || recipeData.images.SMALL }))
-        // recipeExists !== -1 && recipeData?.uri && updateRecordInCollection(recipeData?.uri, recipeData.images?.REGULAR || recipeData.images.SMALL)
     }
 
     useEffect(() => {
@@ -75,6 +71,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
             <section>
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
             </section>
+
             <section className='flex xxs:flex-col md:flex-row justify-between items-center gap-x-6 mx-6'>
 
                 <RecipeImage {...data} />

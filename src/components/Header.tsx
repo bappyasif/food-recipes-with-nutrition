@@ -29,18 +29,25 @@ export const Header = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-y-6">
       <Link href={"/"} title="What's Cooking Yo!!">
-        <img src={logo.src} className="w-24 h-24 rounded-full" alt="what's cooking yo!! logo" height={logo.height} width={logo.width} />
+        <img 
+          src={logo.src} 
+          className="w-24 h-24 rounded-full" 
+          alt="what's cooking yo!! logo" 
+          height={logo.height} width={logo.width} 
+        />
       </Link>
 
-      <div className="bg-card flex justify-center gap-x-10 w-full py-2">
-        <nav className='flex gap-x-9 justify-end xs:text-[.71rem] md:text-lg xl:text-2xl'>
+      <div className="bg-card flex justify-around gap-x-2 w-full py-2">
+        <nav className='flex gap-x-2 justify-end xs:text-[.71rem] md:text-lg xl:text-2xl'>
           {renderNavs()}
         </nav>
+
         {
           pathName !== `/${locale}/filter-recipes`
             ? <SearchRecipes />
             : null
         }
+
         <LocaleSwitcher />
       </div>
     </div>
@@ -52,7 +59,7 @@ const SearchRecipes = () => {
 
   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle();
 
-  const {handleFalsy:handleFalsyForFocused, handleTruthy: handleTruthyForFocused, isTrue:forFocused} = useForTruthToggle()
+  const { handleFalsy: handleFalsyForFocused, handleTruthy: handleTruthyForFocused, isTrue: forFocused } = useForTruthToggle()
 
   useEffect(() => {
     handleFalsy()
@@ -63,9 +70,12 @@ const SearchRecipes = () => {
   useForOutsideClick(ref, handleFalsyForFocused)
 
   return (
-    <div className='relative w-1/4 flex items-center xs:text-xs sm:text-sm lg:text-xl' ref={ref} onClick={handleTruthyForFocused}>
-      <input className="w-full h-full rounded-sm pl-4 text-special-foreground bg-transparent border-0 border-b-2 border-b-special placeholder:text-special-foreground" type="text" placeholder='search recipes by name' value={text} onChange={handleTextChange} />
-      <Button onClick={handleTruthy} variant={"ghost"} className="absolute right-0 h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold">Search</Button>
+    <div className='relative xxs:w-fit flex items-center xs:text-xs sm:text-sm lg:text-xl' ref={ref} onClick={handleTruthyForFocused}>
+      <input
+        className="xxs:w-44 sm:w-64 lg:w-[22rem] h-full rounded-sm xxs:pl-0 lg:pl-4 text-special-foreground bg-transparent border-0 border-b-2 border-b-special placeholder:text-special-foreground xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl" type="text" placeholder='search recipes by name'
+        value={text} onChange={handleTextChange}
+      />
+      <Button onClick={handleTruthy} variant={"ghost"} className="absolute right-0 xxs:h-5 lg:h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold xxs:text-[.51rem] md:text-sm lg:text-lg">Search</Button>
       <ShowAllFoundRecipes text={text} isTrue={isTrue} showDropdown={forFocused} />
     </div>
   )
@@ -93,7 +103,7 @@ const ShowAllFoundRecipes = ({ text, isTrue, showDropdown }: { text: string, isT
   }, [text, isTrue])
 
   const renderRecipes = () => recipes.map(item => {
-    const {label, uri, cuisineType, mealType} = item
+    const { label, uri, cuisineType, mealType } = item
     return (
       <Button variant={"link"} key={uri} className='flex gap-x-2 outline-dotted text-primary justify-between' title={label}>
         <span className="text-lg">{label.length > 11 ? ellipsedText(label, 11) : label}</span>
@@ -122,7 +132,7 @@ const RenderNav = ({ ...item }: NavType) => {
 
   return (
     <Link href={`/${locale}/${path}`} className="flex gap-1 items-center font-bold text-primary">
-      <span>{icon}</span>
+      <span className="xxs:text-2xl sm:text-3xl lg:text-2xl">{icon}</span>
       <span className="xxs:hidden md:block">{t(`${name}`)}</span>
     </Link>
   )
