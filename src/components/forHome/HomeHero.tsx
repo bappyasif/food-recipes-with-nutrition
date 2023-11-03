@@ -14,11 +14,13 @@ export const HomeHero = () => {
             <div
                 className='w-2/4 mt-4 mx-auto relative text-ring h-[16.01rem] flex items-center'
             >
-                {/* <img className='absolute h-full w-full object-cover -z-0' src="https://source.unsplash.com/random/200?food=1" alt="a rondom food recipe background image from unsplash" /> */}
                 <Image
-                    src={"https://source.unsplash.com/random/200?food=1"} alt={"a random food picture from unsplash"} width={800} height={400}
+                    src={"https://source.unsplash.com/random/200?food=1"} 
+                    alt={"a random food picture from unsplash"} 
+                    width={800} height={400}
                     className='absolute h-full w-full object-cover -z-0 mix-blend-screen'
-                    blurDataURL={"https://source.unsplash.com/random/200?food=1"} placeholder='blur' loading='lazy'
+                    blurDataURL={"https://source.unsplash.com/random/200?food=1"} 
+                    placeholder='blur' loading='lazy'
                 />
 
                 <div className='w-full z-20 absolute text-special-foreground'>
@@ -83,15 +85,9 @@ const RightExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
     return (
         <div
-            // className={`absolute bg-secondary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-[6.3rem]" : "xxs:translate-x-[10rem] md:translate-x-[24rem]"} xxs:w-40 md:w-[24rem] z-20`}
-
-            // className={`absolute bg-secondary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-4" : "translate-x-60"} xxs:w-fit md:w-[24rem] z-20`}
-
-            className={`absolute bg-card flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-4" : "translate-x-0"} z-20`}
+            className={`absolute bg-card flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1" : "translate-x-0"} z-20`}
         >
             <Button onClick={handleClicked} variant={'secondary'} className='absolute -left-16 top-0 transition-all duration-1000 h-full bg-card hover:bg-muted-foreground hover:text-special-foreground text-7xl flex items-center rounded-r-none text-special'>[</Button>
-
-            {/* <Button onClick={handleClicked} variant={'secondary'} className='absolute -left-16 top-0 h-full bg-card text-7xl flex items-center rounded-r-none text-muted-foreground'>[</Button> */}
 
             <DragAndDrop open={extOpen === "right"} />
         </div>
@@ -107,16 +103,8 @@ const LeftExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
     return (
         <div
-            // className={`flex bg-secondary gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "-translate-x-[41.6rem]"} ${extOpen === "left" ? "z-30" : "z-20"}`}
             className={`flex bg-card gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "-translate-x-0"} ${extOpen === "left" ? "z-30" : "z-20"}`}
         >
-            {/* {
-                extOpen === "left"
-                ?
-                <Scheduler open={extOpen === "left"} />
-                : null
-            } */}
-
             <Scheduler open={extOpen === "left"} />
 
             <Button onClick={handleClicked} variant={'secondary'} className={`absolute bg-card -right-16 bottom-0 transition-all duration-1000 h-full hover:bg-muted-foreground hover:text-special-foreground text-7xl flex items-center rounded-l-none text-special`}>]</Button>

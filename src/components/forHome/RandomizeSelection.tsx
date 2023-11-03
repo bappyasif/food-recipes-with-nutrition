@@ -61,9 +61,6 @@ export const RandomizeSelection = () => {
                         <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
                         : null
                     }
-                    {/* <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
-
-                    <ReuseableWheelCarousel dataset={randomizedDataset.forDishes} title='Randomize Dish Type' updateRnds={updateRnds} /> */}
 
                     {
                         randomizedDataset.forDishes.length
@@ -75,7 +72,7 @@ export const RandomizeSelection = () => {
                 <div className='xxs:w-full lg:w-1/2 flex gap-x-8 justify-evenly items-center'>
                     <GoingOffRandomizer updateRndNames={updateRndNames} />
 
-                    <div className='flex flex-col gap-y-4 justify-between items-center w-56'>
+                    <div className='flex flex-col gap-y-9 justify-between items-center w-56'>
                         <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} />
                         <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} />
                     </div>
@@ -228,12 +225,12 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
     const t = useTranslations("default")
 
     return (
-        <div className='w-full flex flex-col xxs:gap-y-0 md:gap-y-4 relative'>
+        <div className='w-full flex flex-col xxs:gap-y-0 md:gap-y-4 relative h-full'>
             <h2 className='text-center font-bold text-lg'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
             <div className='my-0'>
                 <img src={newImg.src} alt="" width={20} height={20} className='absolute top-8 h-20 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
 
-                <div className="viewport bg-secondary h-14 overflow-hidden mix-blend-lighten rounded-lg">
+                <div className="viewport bg-secondary xxs:h-[5.1rem] lg:h-14 overflow-hidden mix-blend-lighten rounded-lg">
                     <div className="flex flex-col gap-y-1 items-center justify-center" ref={ref}>
                         {renderDivs()}
                     </div>

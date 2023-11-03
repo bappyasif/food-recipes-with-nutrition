@@ -37,7 +37,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
     <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col justify-between'>
       <Image
         src={url} alt={label!} width={width} height={height}
-        className='xxs:w-full lg:w-1/3 h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
+        className='xxs:w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
         blurDataURL={url} placeholder='blur' loading='lazy'
       />
 
@@ -51,7 +51,6 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
       <CardContent className='flex flex-col gap-y-4'>
         <ReuseableBadge txt='Calories' val={calories?.toFixed(2)} />
         <ReuseableBadge txt='Carbon Emission' val={co2EmissionsClass} />
-        {/* <ReuseableBadge txt='Cuisine' val={cuisineType[0]} /> */}
         <ReuseableBadge txt='Cuisine' val={typeof cuisineType === "object" ? cuisineType[0] : cuisineType} />
       </CardContent>
       

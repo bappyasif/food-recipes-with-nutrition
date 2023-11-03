@@ -97,7 +97,7 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
     const t = useTranslations("default")
 
     return (
-        <div className='absolute top-[50%] flex justify-center items-center'>
+        <div className='absolute top-[51%] flex justify-center items-center'>
             <div
                 onWheel={handleScroll}
                 id='wheel'
@@ -143,7 +143,7 @@ const CarouselCard = ({ ...item }: {
             <h2 title={title} className='' 
                 // style={{transform: `rotate(${theta * 45}deg)`}}
             >
-                {title?.length > 9 ? ellipsedText(title, 9) : title} 
+                {title?.length > 6 ? ellipsedText(title, 6 ) : title} 
                 {/* {theta} */}
             </h2>
         </div>
@@ -154,8 +154,10 @@ const styles = {
     card: {
         // left: "50%",
         // top: "50%",
-        height: "60px",
-        width: "170px",
+        // height: "60px",
+        height: "40px",
+        width: "80px",
+        // width: "170px",
         // height: "9rem",
         // width: "9rem",
         // borderRadius: "50%"

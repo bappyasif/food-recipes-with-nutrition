@@ -11,16 +11,16 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 const style: CSSProperties = {
     height: '4rem',
-    width: '12rem',
-    marginRight: '1.5rem',
-    // marginBottom: '1.5rem',
+    width: '13rem',
+    // marginRight: '1.5rem',
+    marginBottom: '1.5rem',
     color: 'white',
     padding: '1rem',
     textAlign: 'center',
     fontSize: '1rem',
     lineHeight: 'normal',
     float: 'left',
-    paddingTop: "1.3rem"
+    paddingTop: "1.37rem"
 }
 
 type BucketProps = {
@@ -42,20 +42,11 @@ export const Bucket = ({ cards, updateCards }: BucketProps) => {
 
     const isActive = canDrop && isOver;
 
-    // let backgroundColor = 'hsl(var(--pf)'
-
-    // if (isActive) {
-    //     backgroundColor = 'darkgreen'
-    // } else if (canDrop) {
-    //     backgroundColor = 'darkred'
-    // }
-
     return (
-        <div className='flex xxs:flex-col-reverse  md:flex-col gap-y-2 w-60 justify-center items-center'>
+        <div className='flex xxs:flex-col-reverse  md:flex-col gap-y-2 w-60 justify-between items-center'>
             <div
                 className={`bg-primary-focus ${isActive ? "bg-accent" : "bg-special-foreground"} mt-1.5 mx-auto`}
                 ref={drop}
-                // style={{ ...style, backgroundColor }}
                 style={{ ...style }}
             >
                 {isActive ? 'Release to drop' : 'Drag a box here'}
@@ -73,9 +64,9 @@ export const Bucket = ({ cards, updateCards }: BucketProps) => {
 const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCards: (data: CardBoxProps[]) => void }) => {
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle();
 
-    const {handleTextChange, text} = useForInputTextChange()
+    const { handleTextChange, text } = useForInputTextChange()
 
-    const {handleTextChange:handleDesc, text: descText} = useForInputTextChange()
+    const { handleTextChange: handleDesc, text: descText } = useForInputTextChange()
 
     const handleScheduler = () => {
 
@@ -93,10 +84,8 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
         ITEMS.push(eventItem)
 
-        // console.log(eventItem)
-        
         updateCards([])
-        
+
         handleFalsy()
     }
 
@@ -104,9 +93,9 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     return (
         <div className=''>
-            <div className='flex justify-between'>
-                <Button className='text-xs' onClick={handleClickedScheduler}>Add To Scheduler</Button>
-                <Button className='text-xs'>Share In Social Media</Button>
+            <div className='flex xxs:flex-col lg:flex-row justify-between'>
+                <Button className='text-xs w-full' onClick={handleClickedScheduler}>Add To Scheduler</Button>
+                <Button className='text-xs w-full'>Share In Social Media</Button>
             </div>
             {
                 isTrue
@@ -178,7 +167,7 @@ const RenderCardBoxes = ({ cards, updateCards }: { cards: CardBoxProps[], update
     const [, drop] = useDrop(() => ({ accept: "card" }))
 
     return (
-        <div ref={drop} className='flex flex-col gap-y-2 h-60 overflow-y-scroll no-scrollbar w-[12.3rem]'>
+        <div ref={drop} className='flex flex-col gap-y-2 h-60 overflow-y-scroll no-scrollbar w-[10.5rem]'>
             {renderCardBoxes()}
         </div>
     )
@@ -193,24 +182,17 @@ type BucketCardProps = {
 const BucketCard = ({ ...items }: BucketCardProps) => {
     const { data, findCard, moveCard } = items
 
-    // if (!data?.id) return
-
-    // const { id, imgSrc, label } = data;
-
     const originalIdx = findCard(data?.id).idx
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "card",
         item: data,
-        // item: {id, originalIdx},
         collect(monitor) {
-            // if (!data?.id) return
             return {
                 isDragging: data?.id ? monitor.isDragging() : false
             }
         },
         end(draggedItem, monitor) {
-            // const {id, originalIdx} = draggedItem;
             if (!data?.id) return
 
             const { id } = draggedItem
@@ -218,8 +200,6 @@ const BucketCard = ({ ...items }: BucketCardProps) => {
 
             if (didDrop) {
                 moveCard(id, originalIdx)
-                // console.log("dropped!!", id, originalIdx)
-                // console.log(id, "moving from drag", originalIdx)
             }
         },
     }), [data?.id, originalIdx, moveCard])
@@ -228,19 +208,16 @@ const BucketCard = ({ ...items }: BucketCardProps) => {
         accept: "card",
         hover(item, monitor) {
             if (!data?.id) return
-            // console.log(item, "HOVERIBNG")
             const { id: draggedId } = item as CardBoxProps;
+
             if (draggedId !== data?.id) {
                 const { idx } = findCard(data?.id)
                 moveCard(draggedId, idx)
-                // console.log(idx, "moving from hover", draggedId, id)
             }
         },
     }))
 
     const opacity = isDragging ? 0 : 1
-
-    // console.log(opacity, "opac")
 
     if (!data?.id) return
 
