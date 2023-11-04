@@ -36,8 +36,8 @@ export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMe
     }
 
     useEffect(() => {
-        recipeData?.uri && addOrUpdateDataIntoStore()
-    }, [recipeData])
+        trackedRecipes.length && recipeData?.uri && addOrUpdateDataIntoStore()
+    }, [recipeData, trackedRecipes.length])
 
     // console.log(trackedRecipes, "trackedRecipes!!")
 
@@ -68,7 +68,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
             {/* recipe details */}
 
-            <section>
+            <section className='my-11'>
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
             </section>
 
@@ -85,7 +85,8 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                     <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-muted-foreground'><span className='font-bold'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
                 </div>
             </section>
-            <section className='flex xxs:flex-col lg:flex-row justify-around items-center'>
+            
+            <section className='flex xxs:flex-col xxs:gap-y-11 lg:flex-row justify-around items-center'>
                 <div className='xxs:w-full lg:w-2/4'>
                     <h2 className='text-xl mb-6 mt-2 font-bold'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
                     <div className='h-80 overflow-y-scroll scroll-smooth no-scrollbar'>
@@ -94,7 +95,10 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 </div>
                 <ShowYoutubeVids recipeStr={label} />
             </section>
+
+            <section className='my-11'>
             <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
+            </section>
         </div>
     )
 }
