@@ -72,9 +72,9 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
 
-  if(lastUpdated) {
-    console.log(lastUpdated, "last updated", lastUpdated < new Date(), moment(lastUpdated).fromNow(), checkIfDayOlder())
-  }
+  // if(lastUpdated) {
+  //   console.log(lastUpdated, "last updated", lastUpdated < new Date(), moment(lastUpdated).fromNow(), checkIfDayOlder())
+  // }
 
   return (
     <div
@@ -84,7 +84,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
     >
       <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} title={label} >
         <Image 
-          src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?sig=${label} recipe` : url} 
+          src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
           alt={label!} width={width} height={height} 
           className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
           blurDataURL={url} placeholder='blur' loading='lazy' 

@@ -37,7 +37,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                 <Image
                     src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
                     // className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-36 rotate-[360deg]` : `h-64 translate-x-3 rotate-[-360deg]`} xxs:w-10 lg:w-64 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-4 object-cover rounded-sm`}
-                    className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-36 rotate-[360deg]` : `h-56 translate-x-3 rotate-[-360deg]`} lg:w-52 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-0 object-cover rounded-sm`}
+                    className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-[8.3rem] rotate-[360deg]` : `h-56 translate-x-2 rotate-[-360deg]`} lg:w-52 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-0 object-cover rounded-sm`}
                     blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' loading='lazy'
                 />
             </div>

@@ -10,6 +10,7 @@ import { extractRecipeId } from '../forFilters/RecipesView'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import Image from 'next/image'
+import moment from 'moment'
 
 export const ShowRecipes = () => {
   const recipesList = useAppSelector(state => state.recipes.list)
@@ -24,7 +25,7 @@ export const ShowRecipes = () => {
 }
 
 const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
-  const { label, calories, co2EmissionsClass, cuisineType, images, uri } = data;
+  const { label, calories, co2EmissionsClass, cuisineType, images, uri, lastUpdated } = data;
   const { height, url, width } = images?.SMALL! || images
 
   const locale = useLocale()
@@ -33,10 +34,14 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   if (!cuisineType) return
 
+  const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
+
   return (
     <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col justify-between'>
       <Image
-        src={url} alt={label!} width={width} height={height}
+        // src={url} 
+        src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
+        alt={label!} width={width} height={height}
         className='xxs:w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
         blurDataURL={url} placeholder='blur' loading='lazy'
       />

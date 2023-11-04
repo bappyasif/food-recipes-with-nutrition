@@ -13,7 +13,7 @@ export const RecipesList = ({ open }: { open: boolean }) => {
 
     return (
         <div
-            className={`flex xxs:flex-col xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "xxs:w-52 sm:w-[14rem] md:w-[33rem] scale-100 min-h-full h-[510px]" : "h-72 w-0 scale-0"}`}
+            className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "xxs:w-52 sm:w-[14rem] md:w-[33rem] scale-100 min-h-full h-[510px]" : "h-72 w-0 scale-0"}`}
         >
             <Bucket cards={recipeCards} updateCards={updateCards} />
             <SearchRecipesByName addToCards={addToCards} />
@@ -49,7 +49,8 @@ const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (
     const renderRecipes = () => recipes.map(item => <CardBox key={item.idMeal} data={returnNeededData(item)} addToCards={addToCards} />)
 
     return (
-        <div className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-[29rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[15.9rem]`}>
+        <div 
+            className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-[29rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[15.9rem]`}>
             {recipes?.length ? renderRecipes() : null}
         </div>
     )

@@ -18,7 +18,7 @@ export const ShowFewRelatedRecipes = ({ mealType, diet, dishType, uri }: { mealT
 
     return (
         <div className='h-fit'>
-            ShowFewRelatedRecipes -- {recipes.length} -- {recipes.filter(item=>item.dishType.length).length} -- {mealType} -- {diet} -- {dishType}
+            {/* ShowFewRelatedRecipes -- {recipes.length} -- {recipes.filter(item=>item.dishType.length).length} -- {mealType} -- {diet} -- {dishType} */}
             <h2 className='text-xl font-bold'>{t("Similar Recipes")}</h2>
             <RenderRecipesListCarousel data={recipes.filter(item=>item.dishType.length)} />
         </div>

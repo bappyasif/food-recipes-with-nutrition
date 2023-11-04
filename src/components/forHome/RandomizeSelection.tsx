@@ -69,10 +69,10 @@ export const RandomizeSelection = () => {
                     }
                 </div>
 
-                <div className='xxs:w-full lg:w-1/2 flex gap-x-8 justify-evenly items-center'>
+                <div className='xxs:w-full lg:w-1/2 flex gap-x-8 justify-evenly items-center px-2'>
                     <GoingOffRandomizer updateRndNames={updateRndNames} />
 
-                    <div className='flex flex-col gap-y-9 justify-between items-center w-56'>
+                    <div className='flex flex-col gap-y-9 justify-between items-center w-52'>
                         <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} />
                         <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} />
                     </div>
@@ -146,18 +146,18 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
     const t = useTranslations("default")
 
     return (
-        <div className='flex flex-col xxs:gap-y-0 md:gap-y-9 w-60 relative'>
+        <div className='flex flex-col xxs:gap-y-0 md:gap-y-1 w-60 relative'>
             <h2 className='text-center font-bold text-lg'>{t("Randomize")} {t("Health")} {t("Label")}</h2>
-            <div>
+            <>
                 <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-full bg-black bg-blend-darken top-[3.9rem] object-cover rounded-xl' />
                 <div
                     ref={ref}
-                    className="viewport flex flex-col justify-center items-center xxs:mt-2 md:mt-0 h-20 font-extrabold"
+                    className="viewport flex flex-col justify-center items-center xxs:mt-2 md:mt-0 xxs:h-[5.1rem] sm:h-[6.7rem] lg:h-28 font-extrabold"
                 >
                     {rnd > 0 ? renderDivs() : rnd === -2 ? <span>Spin It!!</span> : null}
                 </div>
                 <Button className='z-10 w-full bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-secondary'>{t("Spin")}</span></Button>
-            </div>
+            </>
         </div>
     )
 }
@@ -225,19 +225,19 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
     const t = useTranslations("default")
 
     return (
-        <div className='w-full flex flex-col xxs:gap-y-0 md:gap-y-4 relative h-full'>
+        <div className='w-full flex flex-col xxs:gap-y-0 lg:gap-y-4 relative h-full'>
             <h2 className='text-center font-bold text-lg'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
-            <div className='my-0'>
+            <>
                 <img src={newImg.src} alt="" width={20} height={20} className='absolute top-8 h-20 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
 
-                <div className="viewport bg-secondary xxs:h-[5.1rem] lg:h-14 overflow-hidden mix-blend-lighten rounded-lg">
+                <div className="viewport bg-secondary xxs:h-[5.1rem] sm:h-[5.6rem] lg:h-14 overflow-hidden mix-blend-lighten rounded-lg">
                     <div className="flex flex-col gap-y-1 items-center justify-center" ref={ref}>
                         {renderDivs()}
                     </div>
                 </div>
 
-                <Button className='md:mt-3 w-full z-10 bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-muted'>{t("Spin")}</span></Button>
-            </div>
+                <Button className='md:mt-0 w-full z-10 bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-muted'>{t("Spin")}</span></Button>
+            </>
         </div>
     )
 }

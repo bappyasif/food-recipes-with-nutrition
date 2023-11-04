@@ -43,9 +43,9 @@ export const Bucket = ({ cards, updateCards }: BucketProps) => {
     const isActive = canDrop && isOver;
 
     return (
-        <div className='flex xxs:flex-col-reverse  md:flex-col gap-y-2 w-60 justify-between items-center'>
+        <div className='flex flex-col gap-y-2 w-60 justify-between items-center'>
             <div
-                className={`bg-primary-focus ${isActive ? "bg-accent" : "bg-special-foreground"} mt-1.5 mx-auto`}
+                className={`bg-primary-focus ${isActive ? "bg-accent" : "bg-special-foreground"} mt-1.5 mx-auto xxs:hidden lg:block`}
                 ref={drop}
                 style={{ ...style }}
             >
@@ -93,9 +93,9 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     return (
         <div className=''>
-            <div className='flex xxs:flex-col lg:flex-row justify-between'>
-                <Button className='text-xs w-full' onClick={handleClickedScheduler}>Add To Scheduler</Button>
-                <Button className='text-xs w-full'>Share In Social Media</Button>
+            <div className='flex xxs:flex-col gap-2 lg:flex-row justify-between'>
+                <Button className='text-xs w-full text-special' onClick={handleClickedScheduler}>Add To Scheduler</Button>
+                <Button className='text-xs w-full text-special'>Share In Social Media</Button>
             </div>
             {
                 isTrue
@@ -167,7 +167,7 @@ const RenderCardBoxes = ({ cards, updateCards }: { cards: CardBoxProps[], update
     const [, drop] = useDrop(() => ({ accept: "card" }))
 
     return (
-        <div ref={drop} className='flex flex-col gap-y-2 h-60 overflow-y-scroll no-scrollbar w-[10.5rem]'>
+        <div ref={drop} className='flex flex-col gap-y-2 h-80 overflow-y-scroll no-scrollbar w-[10.5rem]'>
             {renderCardBoxes()}
         </div>
     )
@@ -226,7 +226,7 @@ const BucketCard = ({ ...items }: BucketCardProps) => {
     return (
         <div
             ref={node => drag(drop(node))}
-            className='flex gap-x-2 outline outline-primary outline-1 justify-between items-center'
+            className='flex gap-x-2 outline outline-primary outline-1 justify-between items-center px-4'
             style={{ ...cardBoxstyle, opacity }}
         >
             <h2 className='text-primary text-xl'>{label}</h2>
