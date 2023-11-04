@@ -4,6 +4,7 @@ import { Badge } from "../ui/badge"
 import styles from "./Recipe.module.css"
 import Image from "next/image"
 import { ellipsedText } from "./FewNonRelatedRecipes"
+import { ShareInSocialMedias } from "../forUtilities/dragAndDrop/Bucket"
 
 export const RecipeImage = ({ ...data }: RecipeMealType) => {
     const { images, label } = data;
@@ -41,6 +42,8 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                     blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' loading='lazy'
                 />
             </div>
+
+            <ShareInSocialMedias />
         </div>
     )
 }

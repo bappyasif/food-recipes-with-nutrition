@@ -26,8 +26,8 @@ const SearchRecipesByName = ({ addToCards }: { addToCards: (d: any) => void }) =
 
     return (
         <div className='relative'>
-            <input 
-                type="text" placeholder='seacrh recipes by name' 
+            <input
+                type="text" placeholder='seacrh recipes by name'
                 value={text} onChange={handleTextChange}
                 className="w-full mt-2 rounded-sm pl-4 text-special-foreground bg-transparent border-0 border-b-2 border-b-special placeholder:text-special-foreground mb-1.5"
             />
@@ -49,7 +49,7 @@ const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (
     const renderRecipes = () => recipes.map(item => <CardBox key={item.idMeal} data={returnNeededData(item)} addToCards={addToCards} />)
 
     return (
-        <div 
+        <div
             className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-[29rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[15.9rem]`}>
             {recipes?.length ? renderRecipes() : null}
         </div>

@@ -106,21 +106,21 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
         return () => clearTimeout(timer)
     }
 
-    const renderDivs = () => (rnd >= 0 ? clonedData.slice(0, rnd) : clonedData).map((name, idx) => <div key={name + idx} className='absolute z-0'>{name}</div>)
+    const renderDivs = () => (rnd >= 0 ? clonedData.slice(0, rnd) : clonedData).map((name, idx) => <div key={name + idx} className='absolute translate-y-5 z-0'>{name}</div>)
 
     const spewingOut = () => {
         if (ref.current) {
             ref.current.childNodes.forEach((divItm, idx) => {
 
                 if (rnd === -2) {
-                    (divItm as HTMLDivElement).style.transform = `translateY(0px) translateX(0px)`;
+                    (divItm as HTMLDivElement).style.transform = `translateY(18px) translateX(0px)`;
                     updateRndNames("", "health");
                     (divItm as HTMLDivElement).style.opacity = "1";
                     return
                 }
 
                 if (idx === rnd - 1) {
-                    (divItm as HTMLDivElement).style.transform = `translateY(0px) translateX(0px)`;
+                    (divItm as HTMLDivElement).style.transform = `translateY(18px) translateX(0px)`;
                     // console.log("last item!!", divItm.textContent);
                     updateRndNames(divItm.textContent!, "health");
                     (divItm as HTMLDivElement).style.opacity = "1";
@@ -149,10 +149,10 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
         <div className='flex flex-col xxs:gap-y-0 md:gap-y-1 w-60 relative'>
             <h2 className='text-center font-bold text-lg'>{t("Randomize")} {t("Health")} {t("Label")}</h2>
             <>
-                <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-full bg-black bg-blend-darken top-[3.9rem] object-cover rounded-xl' />
+                <img src={newImg.src} alt="" width={20} height={20} className='absolute xxs:h-[4rem] sm:h-[4.7rem] md:h-[5.1rem] w-full bg-black bg-blend-darken top-[3.9rem] object-cover rounded-xl' />
                 <div
                     ref={ref}
-                    className="viewport flex flex-col justify-center items-center xxs:mt-2 md:mt-0 xxs:h-[5.1rem] sm:h-[6.7rem] lg:h-28 font-extrabold"
+                    className="viewport flex flex-col justify-center items-center xxs:mt-2 md:mt-0 xxs:h-[5.6rem] sm:h-[6.7rem] lg:h-28 font-extrabold"
                 >
                     {rnd > 0 ? renderDivs() : rnd === -2 ? <span>Spin It!!</span> : null}
                 </div>

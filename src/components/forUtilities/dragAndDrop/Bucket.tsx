@@ -8,6 +8,7 @@ import { v4 } from 'uuid'
 import { EventItemTypes, ITEMS } from '../bigCalender/Scheduler'
 import { useForInputTextChange, useForTruthToggle } from '@/hooks/forComponents'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton} from "next-share"
 
 const style: CSSProperties = {
     height: '4rem',
@@ -93,9 +94,10 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     return (
         <div className=''>
-            <div className='flex xxs:flex-col gap-2 lg:flex-row justify-between'>
-                <Button className='text-xs w-full text-special' onClick={handleClickedScheduler}>Add To Scheduler</Button>
-                <Button className='text-xs w-full text-special'>Share In Social Media</Button>
+            <div className='flex xxs:flex-col gap-2 justify-between'>
+                <Button className='text-xs w-full text-muted' onClick={handleClickedScheduler}>Add To Scheduler</Button>
+                {/* <Button className='text-xs w-full text-special'>Share In Social Media</Button> */}
+                <ShareInSocialMedias />
             </div>
             {
                 isTrue
@@ -112,10 +114,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                                 <textarea name="description" id="description" className="w-full bg-secondary" rows={6} value={descText} onChange={handleDesc}></textarea>
                             </span>
                         </PopoverContent>
-                        {/* <span className='bg-card w-full'>
-                            <Button onClick={handleScheduler}>Add</Button>
-                            <Button onClick={handleFalsy}>Cancel</Button>
-                        </span> */}
+
                         <PopoverTrigger className='bg-card flex gap-2 w-full my-1'>
                             <Button onClick={handleScheduler} className='w-1/2'>Add</Button>
                             <Button onClick={handleFalsy} className='w-1/2'>Cancel</Button>
@@ -123,6 +122,24 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                     </Popover>
                     : null
             }
+        </div>
+    )
+}
+
+export const ShareInSocialMedias = () => {
+    const decideUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.NEXT_PUBLIC_API_HOSTED
+    return (
+        <div>
+            <h2 className='text-special-foreground font-bold'>Share in Social Media</h2>
+            
+            <FacebookShareButton url={decideUrl!}>
+                <FacebookIcon size={36} round />
+            </FacebookShareButton>
+
+            <TwitterShareButton url={decideUrl!}>
+                <TwitterIcon round size={36} />
+            </TwitterShareButton>
+
         </div>
     )
 }
@@ -167,7 +184,7 @@ const RenderCardBoxes = ({ cards, updateCards }: { cards: CardBoxProps[], update
     const [, drop] = useDrop(() => ({ accept: "card" }))
 
     return (
-        <div ref={drop} className='flex flex-col gap-y-2 h-80 overflow-y-scroll no-scrollbar w-[10.5rem]'>
+        <div ref={drop} className='flex flex-col gap-y-2 h-72 overflow-y-scroll no-scrollbar w-[10.5rem]'>
             {renderCardBoxes()}
         </div>
     )
