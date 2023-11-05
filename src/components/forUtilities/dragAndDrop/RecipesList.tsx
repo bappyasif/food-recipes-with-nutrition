@@ -10,19 +10,23 @@ export const RecipesList = ({ open }: { open: boolean }) => {
     const [recipeCards, setRecipeCards] = useState<CardBoxProps[]>([])
     const addToCards = (item: CardBoxProps) => setRecipeCards(prev => [...prev, item])
     const updateCards = (dataset: CardBoxProps[]) => setRecipeCards(dataset)
+    const { handleTextChange, text, resetText } = useForInputTextChange();
+
+    useEffect(() => {
+        open && resetText()
+    }, [open])
 
     return (
         <div
             className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "xxs:w-52 sm:w-[14rem] md:w-[33rem] scale-100 min-h-full h-[510px]" : "h-72 w-0 scale-0"}`}
         >
             <Bucket cards={recipeCards} updateCards={updateCards} />
-            <SearchRecipesByName addToCards={addToCards} />
+            <SearchRecipesByName addToCards={addToCards} handleTextChange={handleTextChange} text={text} />
         </div>
     )
 }
 
-const SearchRecipesByName = ({ addToCards }: { addToCards: (d: any) => void }) => {
-    const { handleTextChange, text } = useForInputTextChange();
+const SearchRecipesByName = ({ addToCards, text, handleTextChange }: { addToCards: (d: any) => void, text: string, handleTextChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void }) => {
 
     return (
         <div className='relative'>

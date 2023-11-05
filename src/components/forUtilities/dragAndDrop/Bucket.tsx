@@ -1,4 +1,4 @@
-import React, { CSSProperties, useCallback } from 'react'
+import React, { CSSProperties, useCallback, useEffect } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { CardBoxProps } from './RecipesList'
 import update from 'immutability-helper'
@@ -66,13 +66,11 @@ export const Bucket = ({ cards, updateCards }: BucketProps) => {
 const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCards: (data: CardBoxProps[]) => void }) => {
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle();
 
-    const { handleTextChange, text } = useForInputTextChange()
+    const { handleTextChange, text, resetText } = useForInputTextChange()
 
     const { handleTextChange: handleDesc, text: descText } = useForInputTextChange()
 
     const handleScheduler = () => {
-
-        // const getFourRecipes = () => cards.map(item => ({ name: item.label, imgSrc: item.imgSrc })).slice(0, 4);
 
         const getFourRecipes = () => cards.map(item => ({ name: item.label, imgSrc: item.imgSrc }));
 
@@ -95,13 +93,15 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     const handleClickedScheduler = () => handleTruthy()
 
+    useEffect(() => {
+        !isTrue && resetText()
+    }, [isTrue])
+
     return (
         <div className=''>
             <div className='flex xxs:flex-col gap-2 justify-between'>
-                <Button className='text-xs w-full text-muted' onClick={handleClickedScheduler}>Add To Scheduler</Button>
-                {/* <Button className='text-xs w-full text-special'>Share In Social Media</Button> */}
-                {/* <ShareInSocialMedias /> */}
-                <ShareInSocialMedias hashtags={["meal1", "meal2"]} description='Get to know your cooking side of it' title='Cooking Recipes' />
+                <Button className='text-xs w-full text-muted' disabled={!cards?.length} onClick={handleClickedScheduler}>Add To Scheduler</Button>
+                <ShareInSocialMedias hashtags={["cooking", "recipes"]} description='Get to know your cooking side of it' title='Cooking Recipes' ready={!!cards.length} />
             </div>
             {
                 isTrue
@@ -119,16 +119,6 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                             </span>
                         </PopoverContent>
 
-                        {/* <span className='bg-card flex gap-2 w-full my-1'>
-                            <Button onClick={handleScheduler} className='w-1/2'>Add</Button>
-                            <Button onClick={handleFalsy} className='w-1/2'>Cancel</Button>
-                        </span> */}
-
-                        {/* <PopoverTrigger className='bg-card flex gap-2 w-full my-1'>
-                            <Button onClick={handleScheduler} className='w-1/2'>Add</Button>
-                            <Button onClick={handleFalsy} className='w-1/2'>Cancel</Button>
-                        </PopoverTrigger> */}
-
                         <PopoverTrigger className='bg-card flex gap-2 w-full my-1'>
                             <Badge onClick={handleScheduler} className='w-full text-center flex justify-center'>Add</Badge>
                             <Badge onClick={handleFalsy} className='w-full flex justify-center'>Cancel</Badge>
@@ -140,37 +130,24 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     )
 }
 
-export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description }: { nestedRoute?: string, hashtags?: string[], title: string, description: string }) => {
+export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description, ready }: { nestedRoute?: string, hashtags?: string[], title: string, description: string, ready: boolean }) => {
     const decideUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.NEXT_PUBLIC_API_HOSTED
 
-    // const renderComp = (
-    //     <>
-    //     <h2>This is a test!!</h2>
-    //     <ul>
-    //         <li>item1</li>
-    //         <li>item2</li>
-    //     </ul>
-    //     </>
-    // )
     return (
         <>
-            <h2 className='text-special-foreground font-bold'>Share in Social Media</h2>
+            <span className='text-special-foreground font-bold'>Share in Social Media</span>
 
-            <div className='flex justify-between gap-2'>
+            <span className={`flex justify-between gap-2 ${ready ? "cursor-pointer" : "cursor-auto pointer-events-none"}`}>
                 <FacebookShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`} hashtag={`${hashtags?.length ? hashtags[0] : "What's_Cooking_Yo!!"}`} title={title}>
                     <FacebookIcon size={36} round />
                 </FacebookShareButton>
 
                 <TwitterShareButton
                     url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`}
-                    // hashtags={["test", "test2"]} 
                     hashtags={hashtags?.length ? hashtags : ["test", "test2"]}
                     related={["item1", "item2"]} title={title} via="Whats_Cooking_Yo!!">
-                    {/* {renderComp} */}
                     <TwitterIcon round size={36} />
                 </TwitterShareButton>
-
-                {/* <TwitterShareButton url='' children={<TwitterIcon />} /> */}
 
                 <PinterestShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`} media='' description={description || "some description"} title={title}>
                     <PinterestIcon round size={36} />
@@ -179,15 +156,13 @@ export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description 
                 <EmailShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`} subject='Some Subject For Email' body='Some text for body!! some more tetx mose more text!!' separator='[[<#>]]'>
                     <EmailIcon round size={36} />
                 </EmailShareButton>
-            </div>
+            </span>
 
         </>
     )
 }
 
 const RenderCardBoxes = ({ cards, updateCards }: { cards: CardBoxProps[], updateCards: (data: CardBoxProps[]) => void }) => {
-    // const updateCards = (data: CardBoxProps[]) => setTest(data)
-
     const findCard = useCallback(
         (id: string) => {
             const card = cards.find((item, idx) => item?.id === id) as CardBoxProps
@@ -204,7 +179,6 @@ const RenderCardBoxes = ({ cards, updateCards }: { cards: CardBoxProps[], update
     const moveCard = useCallback(
         (id: string, atIndex: number) => {
             const { idx, card } = findCard(id)
-            // console.log(idx, card, atIndex)
             updateCards(
                 update(cards, {
                     $splice: [

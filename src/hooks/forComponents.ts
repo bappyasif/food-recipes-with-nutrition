@@ -1,4 +1,3 @@
-import { fetchAndUpdateData } from "@/components/Header";
 import { FiltersTypes, RecipeMealType } from "@/types";
 import { searchRecipes } from "@/utils/dataFetching";
 import axios from "axios";
@@ -48,36 +47,32 @@ export const useForInputTextChange = () => {
 
     const handleTextChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setText(e.target.value)
 
-    return { text, handleTextChange }
+    const resetText = () => setText("")
+
+    return { text, handleTextChange, resetText }
 }
 
 export const useForExtractingQueriesFromUrl = (handleRecipesFound: (data: RecipeMealType[], nextHref?: string) => void) => {
     const [params, setParams] = useState<URLSearchParams>()
-    // const [mealsRecipes, setMealsRecipes] = useState<RecipeMealType[]>([])
 
     const searchParams = useSearchParams();
-    // console.log(searchParams.get("q"), searchParams.size)
 
     const params2 = new URLSearchParams();
 
     const updateParams = (d: string, k: string) => params2.append(`${k}`, `${d}`)
-    // const updateParams = (d: string, k: string) => setParams(prev => ({ ...prev, [k]: d }))
 
     const runOnce = () => {
         const queriesStr = searchParams.toString();
-        // console.log(queriesStr, "sytringify")
         const tokenized = queriesStr.split("&")
+
         tokenized.forEach(item => {
             const tokens = item.split("=")
-            // console.log(tokens[1].split("+").join(" "))
-            // updateParams(tokens[1], tokens[0])
+
             if (tokens[0] === "co2EmissionsClass") {
-                // console.log(tokens[1], "whart!!")
                 updateParams(tokens[1], tokens[0])
             } else {
                 updateParams(tokens[1]?.split("+").join(" "), tokens[0])
             }
-            // updateParams(tokens[1]?.split("+").join(" "), tokens[0])
         })
 
         setParams(params2)
@@ -88,53 +83,29 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound: (data: Recipe
         updateParams(process.env.NEXT_PUBLIC_EDAMAM_APP_KEY!, "app_key")
         searchParams.get("q") && updateParams(searchParams.get("q")!, "q")
         !searchParams.get("type") && updateParams("public", "type")
-        // if we use random then "nexthref" wont be available which is used to fetch next 20 results from api
-        // updateParams("true", "random")
-
         runOnce()
 
     }, [])
 
     useEffect(() => {
-        // runOnce()
-    }, [params])
-
-    useEffect(() => {
         const timer = setTimeout(() => {
-            // console.log(params, "ready for fetching data!!", searchParams.get("type"), params2, params?.get("app_id"), params?.toString(), params?.get("dishType"))
-            // searchParams.get("type") && fetchAndUpdateData(params?.toString(), setMealsRecipes)
-
-
-            params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
+                params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
                 const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
 
                 const readyForRendering = onlyRecipes.map((item: any) => item.mealType?.length && item.dishType?.length && item.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
                 readyForRendering?.length && handleRecipesFound(readyForRendering, d.data?._links?.next?.href)
-
-                // console.log(d.data?._links?.next?.href, "href", d.data)
-
-                // readyForRendering?.length && setMealsRecipes(readyForRendering)
             })
         }, 1001)
 
-        // console.log(params2, "running!!", params, searchParams.keys(), searchParams.toString(), searchParams.values())
-
         return () => clearTimeout(timer)
     }, [params])
-
-    // useEffect(() => {
-    //     // handleRecipesFound(mealsRecipes)
-    // }, [mealsRecipes])
-
-    // return { mealsRecipes }
 }
 
 export const useForRandomRecipesList = (mealType: string, diet: string, dishType: string, uri?: string) => {
     const [recipes, setRecipes] = useState<RecipeMealType[]>([])
 
     // this will keep count how many times same dat is being fetched when renderable dataset is less than 13
-    // let count = 0;
     const [count, setCount] = useState(1)
 
     const readySimilarRcipesRequest = () => {
@@ -151,17 +122,12 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
         }
 
         searchRecipes(params).then(d => {
-            // console.log(d, "!!")
             const onlyRecipes = d?.hits.map((item: any) => item.recipe)
-            // onlyRecipes?.length && setRecipes(onlyRecipes)
 
             const readyForRendering = onlyRecipes?.map((item: RecipeMealType) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
             if (count <= 4) {
-                // readySimilarRcipesRequest()
-                // count += 1;
                 setCount(prev => prev + 1)
-                // console.log(count, "count")
             }
 
             if (uri) {
@@ -169,10 +135,6 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
             } else {
                 readyForRendering?.length && setRecipes(readyForRendering)
             }
-
-            // readyForRendering?.length && setRecipes(readyForRendering)
-            // console.log(readyForRendering.length, "readyForRendeing")
-
         }).catch(err => console.log(err))
 
     }
@@ -199,7 +161,6 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
         if (beginFrom > data.length) {
             setBeginFrom(0)
         } else {
-            // console.log("Now PAUSE from next, elseblck", isTrue)
             !isTrue && setBeginFrom(prev => prev + 1)
         }
     }
@@ -232,7 +193,6 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
             })
         })
 
-        // console.log(temp, fourCards)
         setOnlyFour(fourCards)
     }
 
@@ -243,7 +203,6 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
     useEffect(() => {
         let timer = setInterval(() => {
 
-            // console.log(isTrue, "istryue!!", timer)
             !isTrue ? handleNext() : clearInterval(timer)
 
             if (!isTrue) {
@@ -286,7 +245,6 @@ export const useForQuerifiedParams = (filters: FiltersTypes, fromHome?: boolean)
             }
         }
 
-        // console.log(str, "querified!!")
         router.push(str.slice(0, str.lastIndexOf("&")), undefined)
     }
 
@@ -305,7 +263,6 @@ export const useForRanmoziedDataset = (items: string[]) => {
     const addOneToDataset = () => {
         const checkIfExistsAlready = dataset.findIndex((val) => val === items[rndNum])
 
-        // console.log(checkIfExistsAlready, "exists!!")
         if (checkIfExistsAlready === -1 && items[rndNum]) {
             setDataset(prev => [...prev, items[rndNum]])
         }
@@ -344,7 +301,6 @@ export const useForOutsideClick = (ref: any, callback: () => void) => {
 export const useForIfRecipesFoundWithExistingFilters = () => {
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
     const searchParams = useSearchParams()
-    // console.log(searchParams, "searchParams!!", searchParams.get("type"))
 
     useEffect(() => {
         handleFalsy()
@@ -353,57 +309,44 @@ export const useForIfRecipesFoundWithExistingFilters = () => {
         return () => clearTimeout(timer)
     }, [searchParams])
 
-    // console.log(isTrue, "isTrue!!")
-
     return { isTimed: isTrue, filtersExist: searchParams.get("type") }
 }
 
 export const useForAddToFiltersFromParams = (setFilters: React.Dispatch<React.SetStateAction<FiltersTypes>>) => {
     const searchParams = useSearchParams()
 
-    // console.log(searchParams.getAll("cuisineType"), searchParams.getAll("mealType"), searchParams.getAll("dishType"), searchParams.getAll("health"), searchParams.getAll("diet"))
-
     // this works partially, but needs to find a wway to go through each filters case currently it only runs for first condition
     // maybe using useHook for each filtersType might do
     const runThis = () => {
         if (searchParams.getAll("cuisineType").length) {
             setFilters(prev => ({ ...prev, cuisineType: searchParams.getAll("cuisineType") }))
-            // console.log(searchParams.getAll("cuisineType"))
         }
         if (searchParams.getAll("dishType").length) {
             setFilters(prev => ({ ...prev, dishType: searchParams.getAll("dishType") }))
-            // console.log(searchParams.getAll("dishType"))
         }
         if (searchParams.getAll("mealType").length) {
             setFilters(prev => ({ ...prev, mealType: searchParams.getAll("mealType") }))
-            // console.log(searchParams.getAll("mealType"))
         }
         if (searchParams.getAll("diet").length) {
             setFilters(prev => ({ ...prev, diet: searchParams.getAll("diet") }))
-            // console.log(searchParams.getAll("diet"))
         }
         if (searchParams.getAll("health").length) {
             setFilters(prev => ({ ...prev, health: searchParams.getAll("health") }))
-            // console.log(searchParams.getAll("health"))
         }
         if (searchParams.getAll("co2EmissionsClass").length) {
             // mapping so that data gets mapped correctly in state variable otherwise A+ wont be detected by it due to url encryption
             const mappedVals = searchParams.getAll("co2EmissionsClass").map(item => item.length > 1 ? "A+" : item)
 
             setFilters(prev => ({ ...prev, co2EmissionsClass: mappedVals }))
-            // console.log(searchParams.getAll("co2EmissionsClass"), mappedVals)
         }
         if (searchParams.getAll("q").length) {
             setFilters(prev => ({ ...prev, q: searchParams.get("q")! }))
-            // console.log(searchParams.get("q"))
         }
     }
 
     useEffect(() => {
         runThis()
     }, [searchParams])
-
-    // console.log(searchParams.get("cuisineType"), searchParams.get("type"))
 }
 
 export const useForGettingViewedRecipesDataFromBackend = () => {
@@ -412,15 +355,11 @@ export const useForGettingViewedRecipesDataFromBackend = () => {
     const recipesList = useAppSelector(state => state.recipes.list)
 
     useEffect(() => {
-        // console.log("running once!!")
         if (!recipesList?.length) {
             axios.get(assembleReqStr()).then(resp => {
-                // console.log(resp.data, "resp!!")
                 const recipes = resp.data?.recipes
                 recipes?.length && dispatch(addRecipesAtOnce(recipes))
             }).catch(err => console.log(err))
-            // getAllViewedRecipes().then(resp => console.log(resp, "resp!!")).catch(err => console.log(err, "error occured!!"))
-            // getAllViewedRecipesFromDb()
         }
     }, [])
 }

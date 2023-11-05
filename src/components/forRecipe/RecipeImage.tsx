@@ -49,21 +49,23 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                 {/* smaller screen */}
                 <Image
                     src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
-                    // className={`xxs:block lg:hidden transition-all duration-700 ${isTrue ? `h-[18.8rem] opacity-20 xxs:w-full sm:w-[13.2rem] xxs:ml-0 rotate-180` : `xxs:h-48 sm:52 lg:h-64 translate-x-0 xxs:w-56 lg:w-64 lg:ml-4 -rotate-180`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover rounded-sm`}
+
                     className={`xxs:block lg:hidden transition-all duration-700 ${isTrue ? `h-[18.8rem] opacity-20 xxs:w-[13.2rem] xxs:ml-0 rotate-180` : `xxs:h-48 sm:52 lg:h-64 translate-x-0 xxs:w-56 lg:w-60 lg:ml-4 -rotate-180`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover rounded-sm`}
+
                     blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' loading='lazy'
                 />
 
                 {/* bigger screen */}
                 <Image
                     src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
-                    // className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-36 rotate-[360deg]` : `h-64 translate-x-3 rotate-[-360deg]`} xxs:w-10 lg:w-64 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-4 object-cover rounded-sm`}
+                    
                     className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-[8.3rem] rotate-[360deg]` : `h-56 translate-x-2 rotate-[-360deg]`} lg:w-52 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-0 object-cover rounded-sm`}
+
                     blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' loading='lazy'
                 />
             </div>
 
-            <ShareInSocialMedias hashtags={prepareHashtags()} nestedRoute={`${locale}/recipe/${extractRecipeId(uri)}`} title={prepTitle()} description={prepDescription()} />
+            <ShareInSocialMedias hashtags={prepareHashtags()} nestedRoute={`${locale}/recipe/${extractRecipeId(uri)}`} title={prepTitle()} description={prepDescription()} ready={!!uri} />
         </div>
     )
 }
@@ -73,8 +75,6 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
 
     return (
         <div 
-            // className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-full sm:w-full lg:w-[701px] rounded-sm" : `bg-slate-800 xxs:left-0 sm:left-[24%] xxs:h-0 sm:h-0 lg:h-64 xxs:w-[16rem] lg:w-[18.6rem] rounded-full ${styles.animateSpin} self-center`} xxs:pl-0 lg:pl-2`}
-
             className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-fit lg:w-[30.6rem] rounded-sm" : `bg-slate-800 xxs:left-0 sm:left-[24%] xxs:h-0 sm:h-0 lg:h-64 rounded-full ${styles.animateSpin} self-center`} xxs:pl-0 lg:pl-2`}
         >
 
@@ -92,7 +92,6 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
                         <ReusableBadge text='Diet' val={dietLabels[0]} />
                         <ReusableBadge text='Cuisine' val={cuisineType[0]} />
                         <ReusableBadge text='Dish' val={dishType[0]} />
-                        {/* <ReusableBadge text='Dish' val={dishType[0].length > 14 ? ellipsedText(dishType[0], 14) : dishType[0]} /> */}
                     </div>
 
                     <div className='flex flex-col gap-y-1'>

@@ -1,23 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Calendar, Event, SlotInfo, Views, momentLocalizer } from 'react-big-calendar'
+import { Calendar, Event, SlotInfo, momentLocalizer } from 'react-big-calendar'
 import withDragAndDrop, { EventInteractionArgs, withDragAndDropProps } from 'react-big-calendar/lib/addons/dragAndDrop'
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import moment from 'moment'
-// import events from './tryouts-I/events'
 import { useForTruthToggle } from '@/hooks/forComponents'
 import { DialogModal, DialogModalForEditOrDelete, EventOptionsDropDown, ShowFullEventDetails } from './Utils'
-// import events from './events'
 import { v4 as uuidv4, v4 } from 'uuid';
 
 
 const DnDCalendar = withDragAndDrop(Calendar)
 
 const localizer = momentLocalizer(moment)
-
-type ViewsType = { MONTH: "month"; WEEK: "week"; WORK_WEEK: "work_week"; DAY: "day"; AGENDA: "agenda"; }
-
-const allViews = Object.keys(Views).map(k => k);
 
 export type EventItemTypes = {
     start: Date;
@@ -29,14 +23,9 @@ export type EventItemTypes = {
         name: string,
         imgSrc: string
     }[]
-    // cooking?: {
-    //     name: string,
-    //     recipes: string[]
-    // }
 }
 
 export const Scheduler = ({ open }: { open: boolean }) => {
-    // const [events, setEvents] = useState<typeof ITEMS>([])
     const [events, setEvents] = useState<EventItemTypes[]>([])
 
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
@@ -50,8 +39,6 @@ export const Scheduler = ({ open }: { open: boolean }) => {
     const [currentlyViewingEventId, setCurrentlyViewingEventId] = useState<string | number>(0)
 
     const updateCurrentlyViewingEventChanges = (title: string, description: string) => {
-        // const updatedEvents = events.map(item => item.id === currentlyViewingEventId ? item.title = title : item)
-
         const updatedEvents = events.map(item => {
             if (item.id === currentlyViewingEventId) {
                 item.title = title ? title : item.title
@@ -59,40 +46,26 @@ export const Scheduler = ({ open }: { open: boolean }) => {
             }
             return item
         })
-
-        // console.log("updated", updatedEvents)
     }
 
     const handleRemoveFromList = () => {
         if (!events.length) return
         const filtered = events.filter(item => item.id !== currentlyViewingEventId)
-        // console.log(filtered, "filtered", events, currentlyViewingEventId, slotData)
         setEvents(filtered)
     }
 
-    // const handleAddToList = (data: EventItemTypes) => setEvents(prev => [...prev, {...data, id: prev.length + 1}])
     const handleAddToList = (data: EventItemTypes) => {
         setEvents(prev => [...prev, { ...data, id: v4() }])
-        // setEvents(prev => [...prev, { ...data, id: prev.length + 1 }])
-        // console.log(events, "added!!")
     }
 
     const handleOnSelectEvent = (event: any | Event) => {
-        // if(ref.current) {
-        //     console.log(ref.current.defaultView, "!!")
-        // }
-        // console.log(event.title, "!!", currentlyViewingEventId, event.id, events)
         setCurrentlyViewingEventId(event.id)
-        // forDDTruthy()
-        // console.log(forDD, "dd")
+
         handleForShowEventTruthy()
-        // forShowEvent ? handleForShowEventFalsy() : handleForShowEventTruthy()
-        console.log(event.id)
-        // !forDD && currentlyViewingEventId && forDDTruthy()
+        // console.log(event.id)
     }
 
     const handleOnSelectSlot = (event: SlotInfo) => {
-        // console.log(event, "from select!!")
         setSlotData(event)
 
         handleTruthy()
@@ -108,7 +81,6 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         nextEvents.splice(foundIdx, 1, updatedEvent)
 
         setEvents(nextEvents)
-        // console.log("moving event", foundIdx, events[foundIdx].title)
     }
 
     const handleResizeEvent: withDragAndDropProps["onEventResize"] = (data) => {
@@ -116,18 +88,10 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
         const nextEvents: any = events.map(item => {
             return item.title === event.title ? { ...item, start, end } : item
-            // return item.id === event.id ? { ...item, start, end } : item
         })
 
         setEvents(nextEvents)
-
-        // console.log(event?.id, "!!", event)
     }
-
-    // const handleEditAction = () => {
-    //     handleForShowEventFalsy();
-    //     forDDTruthy()
-    // }
 
     useEffect(() => {
         handleForShowEventFalsy()
@@ -141,27 +105,10 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         setEvents(ITEMS)
     }, [ITEMS])
 
-    // const { defaultDate, views } = useMemo(
-    //     () => ({
-    //         //   components: {
-    //         //     timeSlotWrapper: ColoredDateCellWrapper,
-    //         //   },
-    //         defaultDate: new Date(2015, 3, 1),
-    //         //   max: dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours'),
-    //         views: Object.keys(Views).map((k) => Views[k as keyof ViewsType]),
-    //     }),
-    //     []
-    // )
-    // const ref = useRef<typeof DnDCalendar | undefined>(null)
-
-    // console.log(allViews, "allViews!!")
-
     const getCurrentlyEditingItemIdx = () => {
         const foundItem = events.findIndex(item => item.id === currentlyViewingEventId)
         return foundItem
     }
-
-    // console.log(events, "events!!")
 
     const eventPropGetter = useCallback(
         (event: any, start: any, end: any, isSelected: boolean) => ({
@@ -170,17 +117,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                     backgroundColor: '#000',
                 },
             }),
-            // ...(isSelected && {
-            //     className: "slotSelected"
-            // }),
 
-            // ...(moment(start).hour() < 12 && {
-            //     className: 'powderBlue',
-            // }),
-            
-            // ...(event.title.includes('Meeting') && {
-            //     className: 'meetingSlots',
-            // }),
             ...(event.title.includes('Meeting') && {
                 style: {
                     backgroundColor: "green"
@@ -217,22 +154,11 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const dayPropGetter = useCallback(
         (date: Date) => ({
-            // ...(moment(date).day() === 2 && {
-            //     className: 'tuesday',
-            // }),
             ...(moment(date).day() % 2 && {
                 className: "oddDays"
-                // style: {
-                //     backgroundColor: 'red',
-                //     color: 'white',
-                // }
             }),
             ...(moment(date).day() % 2 === 0 && {
                 className: "evenDays"
-                // style: {
-                //     backgroundColor: 'red',
-                //     color: 'white',
-                // }
             }),
             ...(((moment(date).day() === 5) || moment(date).day() === 6 || (moment(date).day() === 0)) && {
                 style: {
@@ -246,15 +172,10 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     return (
         <div
-            // className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px]" : "h-72 w-[830px]"}`}
             className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px] scale-100" : "h-72 w-0 scale-0"}`}
         >
             <DnDCalendar
-                // className={styles.rbcToolbar}
-                // ref={ref}
                 localizer={localizer}
-                // startAccessor={() => moment()}
-                // endAccessor="end"
                 events={events}
                 selectable
                 resizable
@@ -264,12 +185,6 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                 defaultDate={new Date()}
                 showMultiDayTimes
                 step={15}
-                // view='week'
-                // views={allViews}
-                // views={views}
-                // defaultDate={defaultDate}
-                // defaultView='day'
-                // views={Views.MONTH}
 
                 dayPropGetter={dayPropGetter}
 
@@ -283,25 +198,9 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                     event: props => (<EventOptionsDropDown remove={handleRemoveFromList} edit={forDDTruthy} {...props} />)
                 }}
 
-                // components={{
-                //     event: props => (<EventOptionsDropDown remove={handleRemoveFromList} edit={handleEditAction} {...props} />)
-                // }}
-
                 onSelectEvent={handleOnSelectEvent}
                 onSelectSlot={handleOnSelectSlot}
             />
-
-            {/* {
-                isTrue
-                    ? <DialogModal handleClose={handleFalsy} open={isTrue} slotData={slotData} handleAddToList={handleAddToList} />
-                    : null
-            } */}
-
-            {/* {
-                forDD
-                    ? <DialogModalForEditOrDelete handleClose={forDDFalsy} open={forDD} handleRemoveFromList={handleRemoveFromList} handleEdit={updateCurrentlyViewingEventChanges} eventItem={events[getCurrentlyEditingItemIdx()]} />
-                    : null
-            } */}
 
             <DialogModal handleClose={handleFalsy} open={isTrue} slotData={slotData} handleAddToList={handleAddToList} />
 
