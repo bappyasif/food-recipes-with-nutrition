@@ -8,7 +8,8 @@ import { v4 } from 'uuid'
 import { EventItemTypes, ITEMS } from '../bigCalender/Scheduler'
 import { useForInputTextChange, useForTruthToggle } from '@/hooks/forComponents'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import {FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton} from "next-share"
+import { EmailIcon, EmailShareButton, FacebookIcon, FacebookShareButton, PinterestIcon, PinterestShareButton, TwitterIcon, TwitterShareButton } from "next-share"
+import { Badge } from '@/components/ui/badge'
 
 const style: CSSProperties = {
     height: '4rem',
@@ -71,7 +72,9 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     const handleScheduler = () => {
 
-        const getFourRecipes = () => cards.map(item => ({ name: item.label, imgSrc: item.imgSrc })).slice(0, 4);
+        // const getFourRecipes = () => cards.map(item => ({ name: item.label, imgSrc: item.imgSrc })).slice(0, 4);
+
+        const getFourRecipes = () => cards.map(item => ({ name: item.label, imgSrc: item.imgSrc }));
 
         const eventItem: EventItemTypes = {
             start: moment().toDate(),
@@ -97,7 +100,8 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
             <div className='flex xxs:flex-col gap-2 justify-between'>
                 <Button className='text-xs w-full text-muted' onClick={handleClickedScheduler}>Add To Scheduler</Button>
                 {/* <Button className='text-xs w-full text-special'>Share In Social Media</Button> */}
-                <ShareInSocialMedias />
+                {/* <ShareInSocialMedias /> */}
+                <ShareInSocialMedias hashtags={["meal1", "meal2"]} description='Get to know your cooking side of it' title='Cooking Recipes' />
             </div>
             {
                 isTrue
@@ -115,9 +119,19 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                             </span>
                         </PopoverContent>
 
-                        <PopoverTrigger className='bg-card flex gap-2 w-full my-1'>
+                        {/* <span className='bg-card flex gap-2 w-full my-1'>
                             <Button onClick={handleScheduler} className='w-1/2'>Add</Button>
                             <Button onClick={handleFalsy} className='w-1/2'>Cancel</Button>
+                        </span> */}
+
+                        {/* <PopoverTrigger className='bg-card flex gap-2 w-full my-1'>
+                            <Button onClick={handleScheduler} className='w-1/2'>Add</Button>
+                            <Button onClick={handleFalsy} className='w-1/2'>Cancel</Button>
+                        </PopoverTrigger> */}
+
+                        <PopoverTrigger className='bg-card flex gap-2 w-full my-1'>
+                            <Badge onClick={handleScheduler} className='w-full text-center flex justify-center'>Add</Badge>
+                            <Badge onClick={handleFalsy} className='w-full flex justify-center'>Cancel</Badge>
                         </PopoverTrigger>
                     </Popover>
                     : null
@@ -126,21 +140,48 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     )
 }
 
-export const ShareInSocialMedias = () => {
+export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description }: { nestedRoute?: string, hashtags?: string[], title: string, description: string }) => {
     const decideUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.NEXT_PUBLIC_API_HOSTED
+
+    // const renderComp = (
+    //     <>
+    //     <h2>This is a test!!</h2>
+    //     <ul>
+    //         <li>item1</li>
+    //         <li>item2</li>
+    //     </ul>
+    //     </>
+    // )
     return (
-        <div>
+        <>
             <h2 className='text-special-foreground font-bold'>Share in Social Media</h2>
-            
-            <FacebookShareButton url={decideUrl!}>
-                <FacebookIcon size={36} round />
-            </FacebookShareButton>
 
-            <TwitterShareButton url={decideUrl!}>
-                <TwitterIcon round size={36} />
-            </TwitterShareButton>
+            <div className='flex justify-between gap-2'>
+                <FacebookShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`} hashtag={`${hashtags?.length ? hashtags[0] : "What's_Cooking_Yo!!"}`} title={title}>
+                    <FacebookIcon size={36} round />
+                </FacebookShareButton>
 
-        </div>
+                <TwitterShareButton
+                    url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`}
+                    // hashtags={["test", "test2"]} 
+                    hashtags={hashtags?.length ? hashtags : ["test", "test2"]}
+                    related={["item1", "item2"]} title={title} via="Whats_Cooking_Yo!!">
+                    {/* {renderComp} */}
+                    <TwitterIcon round size={36} />
+                </TwitterShareButton>
+
+                {/* <TwitterShareButton url='' children={<TwitterIcon />} /> */}
+
+                <PinterestShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`} media='' description={description || "some description"} title={title}>
+                    <PinterestIcon round size={36} />
+                </PinterestShareButton>
+
+                <EmailShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`} subject='Some Subject For Email' body='Some text for body!! some more tetx mose more text!!' separator='[[<#>]]'>
+                    <EmailIcon round size={36} />
+                </EmailShareButton>
+            </div>
+
+        </>
     )
 }
 

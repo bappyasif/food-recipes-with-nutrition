@@ -50,7 +50,7 @@ const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (
 
     return (
         <div
-            className={`absolute flex flex-col gap-y-2 ${recipes?.length ? "h-[29rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[15.9rem]`}>
+            className={`absolute flex flex-col gap-y-2 ${recipes?.length ? " xxs:h-80 md:h-[29rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[15.9rem]`}>
             {recipes?.length ? renderRecipes() : null}
         </div>
     )

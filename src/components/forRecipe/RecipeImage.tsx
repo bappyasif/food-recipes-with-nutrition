@@ -5,15 +5,35 @@ import styles from "./Recipe.module.css"
 import Image from "next/image"
 import { ellipsedText } from "./FewNonRelatedRecipes"
 import { ShareInSocialMedias } from "../forUtilities/dragAndDrop/Bucket"
+import { extractRecipeId } from "../forFilters/RecipesView"
+import { useLocale } from "next-intl"
 
 export const RecipeImage = ({ ...data }: RecipeMealType) => {
-    const { images, label } = data;
+    const { images, label, uri, cuisineType, mealType, dishType, dietLabels } = data;
 
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
     const handleClick = () => {
         isTrue ? handleFalsy() : handleTruthy()
     }
+
+    const locale = useLocale()
+
+    const modifiers = (str:string, sym: string) => str.split(sym).join("_")
+
+    const prepareHashtags = () => {
+        const mealName = modifiers(label, " ")
+        const dishName = modifiers(dishType[0], " ")
+        const dietName = modifiers(dietLabels[0], " ")
+        const foodType = modifiers(mealType[0], " ")
+        const cusineName = modifiers(cuisineType[0], " ")
+        
+        return [mealName, dishName, dishName, dietName, foodType, cusineName]
+    }
+
+    const prepTitle = () => `Recipe : ${label}`
+
+    const prepDescription = () => `Recipe For Making ${label} from "What's Cooking Yo!!"`
 
     return (
         <div
@@ -43,7 +63,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                 />
             </div>
 
-            <ShareInSocialMedias />
+            <ShareInSocialMedias hashtags={prepareHashtags()} nestedRoute={`${locale}/recipe/${extractRecipeId(uri)}`} title={prepTitle()} description={prepDescription()} />
         </div>
     )
 }

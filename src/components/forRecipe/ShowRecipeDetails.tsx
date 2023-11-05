@@ -186,7 +186,6 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
 
     const contents = (
         <div className='grid grid-cols-5 justify-items-center place-items-center w-full capitalize xs:text-sm lg:text-[1.01rem]'>
-            {/* <img className='' src={image} alt={food} width={60} height={39} /> */}
             <Image
                 src={image} alt={food}
                 width={60} height={39}
@@ -198,7 +197,7 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
 
             <div className=''>{foodCategory}</div>
 
-            <h2 className='flex gap-x-1'><span>{quantity}</span> <span>{measure}</span></h2>
+            <h2 className='flex gap-x-1'><span>{quantity.toFixed(2)}</span> <span>{measure}</span></h2>
 
             <h2>
                 {weight.toFixed(2)}
