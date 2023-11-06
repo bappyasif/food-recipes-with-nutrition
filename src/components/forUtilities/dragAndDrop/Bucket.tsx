@@ -10,6 +10,7 @@ import { useForInputTextChange, useForTruthToggle } from '@/hooks/forComponents'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { EmailIcon, EmailShareButton, FacebookIcon, FacebookShareButton, PinterestIcon, PinterestShareButton, TwitterIcon, TwitterShareButton } from "next-share"
 import { Badge } from '@/components/ui/badge'
+import { useSession } from 'next-auth/react'
 
 const style: CSSProperties = {
     height: '4rem',
@@ -68,7 +69,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     const { handleTextChange, text, resetText } = useForInputTextChange()
 
-    const { handleTextChange: handleDesc, text: descText } = useForInputTextChange()
+    const { handleTextChange: handleDesc, text: descText, resetText:handleResetText } = useForInputTextChange()
 
     const handleScheduler = () => {
 
@@ -79,7 +80,8 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
             end: moment().add(1, "hour").toDate(),
             // id: 1,
             id: v4(),
-            title: text || "no title has provided",
+            // title: text || "no title has provided",
+            title: `Cooking Recipe List:: ${text}` || "no title has provided",
             description: descText || "go gogogogoogog",
             recipes: getFourRecipes()
         }
@@ -95,12 +97,40 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     useEffect(() => {
         !isTrue && resetText()
+        !isTrue && handleResetText()
     }, [isTrue])
+
+    const {status} = useSession()
+
+    const decideTitleText = () => {
+        let str = ""
+        
+        if(status === "authenticated" && cards.length) {
+            str = "Add To Scheuler Event"
+        } else if(status === "unauthenticated" && cards.length) {
+            str = "Please Login First"
+        } else if(status === "authenticated" && !cards.length) {
+            str = "Add Cards First From Search Results Dropdown"
+        } else if(status === "unauthenticated" && !cards.length) {
+            str = "Please Login First And Add Cards "
+        } 
+        return str
+    }
 
     return (
         <div className=''>
-            <div className='flex xxs:flex-col gap-2 justify-between'>
-                <Button className='text-xs w-full text-muted' disabled={!cards?.length} onClick={handleClickedScheduler}>Add To Scheduler</Button>
+            <div 
+            className='flex xxs:flex-col gap-2 justify-between'
+            title={decideTitleText()}>
+                <Button 
+                className='text-xs w-full text-muted' 
+                // className={`text-xs w-full text-muted ${status === "unauthenticated" ? "pointer-events-none" : "pointer-events-auto"}`} 
+                // disabled={!cards?.length} 
+                // disabled={!cards?.length && status === "unauthenticated"} 
+                disabled={!cards?.length || status === "unauthenticated"} 
+                onClick={handleClickedScheduler} 
+                // title={decideTitleText()}
+                >Add To Scheduler</Button>
                 <ShareInSocialMedias hashtags={["cooking", "recipes"]} description='Get to know your cooking side of it' title='Cooking Recipes' ready={!!cards.length} />
             </div>
             {

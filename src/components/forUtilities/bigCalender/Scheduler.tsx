@@ -118,7 +118,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                 },
             }),
 
-            ...(event.title.includes('Meeting') && {
+            ...(event.title.includes('Cooking') && {
                 style: {
                     backgroundColor: "green"
                 }

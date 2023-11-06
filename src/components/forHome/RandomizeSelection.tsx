@@ -9,7 +9,7 @@ import { useForRanmoziedDataset, useForTruthToggle } from '@/hooks/forComponents
 import { searchRecipes } from '@/utils/dataFetching';
 import { RandomizedRecipesView } from './RandomizedRecipesView';
 import newImg from "../../../public/blob-s4f1.svg"
-import { useTranslations } from 'use-intl';
+import { useTranslations, useLocale } from 'use-intl';
 
 export const RandomizeSelection = () => {
     const [rnds, setRnds] = useState({ cuisine: -1, dish: -1 })
@@ -56,7 +56,7 @@ export const RandomizeSelection = () => {
             <h2 className='text-2xl font-extrabold w-full text-center'>{t("Randomly Recipe Finding Game")}</h2>
 
             <div className='flex xxs:flex-col lg:flex-row justify-start h-full'>
-                <div className='flex xxs:flex-col lg:flex-row gap-x-0 justify-between px-28 xxs:w-full lg:w-1/2'>
+                <div className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row gap-x-0 justify-between px-28 xxs:w-full lg:w-1/2'>
                     {randomizedDataset.forCuisines.length <= 8 ?
                         <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
                         : null
@@ -145,9 +145,11 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
 
     const t = useTranslations("default")
 
+    const locale = useLocale();
+
     return (
         <div className='flex flex-col xxs:gap-y-0 md:gap-y-1 w-60 relative'>
-            <h2 className='text-center font-bold text-lg'>{t("Randomize")} {t("Health")} {t("Label")}</h2>
+            <h2 className={`text-center font-bold ${locale === "bn" ? "text-lg" : "xxs:text-xs sm:text-lg"}`}>{t("Randomize")} {t("Health")} {t("Label")}</h2>
             <>
                 <img src={newImg.src} alt="" width={20} height={20} className='absolute xxs:h-[4rem] sm:h-[4.7rem] md:h-[5.1rem] w-full bg-black bg-blend-darken top-[3.9rem] object-cover rounded-xl' />
                 <div
@@ -265,10 +267,27 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
 
     const [recipes, setRecipes] = useState<RecipeMealType[]>([])
 
+    const filtersCounts = () => {
+        let count = 0;
+        if(dishes[dish] && dish !== -1) count++
+        if(cuisines[cuisine] && cuisine !== -1) count++
+        if(dishes[dish] && dish !== -1) count++
+        if(!health.includes("Intrim-spin") && health) count++
+        if(!meal.includes("Spin it") && meal) count++
+        if(!diet.includes("Spin it") && diet) count++
+        return count
+    }
+
     const handleClick = () => {
-        // console.log(diet, health, meal)
         // resetting previously existing recipes
         setRecipes([]);
+
+        const countFound = filtersCounts()
+
+        if(countFound < 4) {
+            alert(`add ${4 - countFound} more filter from randomizer!!`)
+            return
+        }
 
         const params = {
             mealType: !meal.includes("Spin it") ? meal : null,
@@ -355,12 +374,10 @@ const ShowTitle = ({ rnds, wheelDataset }: {
         <div className='flex gap-x-4'>
             <h2 className='flex flex-col gap-y-2'>
                 <span className='font-bold text-lg'>{t("Dish")}</span>
-                {/* <span className='font-semibold text-sm'>{dishes[dish] ? dishes[dish] : "intrim spin"}</span> */}
                 <span className='font-semibold text-sm'>{wheelDataset.forDishes[dish] ? wheelDataset.forDishes[dish] : "intrim spin"}</span>
             </h2>
             <h2 className='flex flex-col gap-y-2'>
                 <span className='font-bold text-lg'>{t("Cuisine")}</span>
-                {/* <span className='font-semibold text-sm'>{cuisines[cuisine] ? cuisines[cuisine] : "intrim spin"}</span> */}
                 <span className='font-semibold text-sm'>{wheelDataset.forCuisines[cuisine] ? wheelDataset.forCuisines[cuisine] : "intrim spin"}</span>
             </h2>
         </div>
@@ -373,7 +390,7 @@ const ReuseableWheelCarousel = ({ dataset, title, updateRnds }: {
     title: string,
     updateRnds: (v: number, t: string) => void
 }) => {
-    const [rndNum, setRndNum] = useState(0);
+    const [rndNum, setRndNum] = useState(-1);
 
     const handleRandomNumber = () => setRndNum(Math.round(Math.random() * 7))
 
