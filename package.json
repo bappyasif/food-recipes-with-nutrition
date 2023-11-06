@@ -34,6 +34,7 @@
     "lucide-react": "^0.274.0",
     "moment": "^2.29.4",
     "next": "13.4.19",
+    "next-auth": "^4.24.4",
     "next-intl": "^2.20.2",
     "next-redux-wrapper": "^8.1.0",
     "next-share": "^0.27.0",

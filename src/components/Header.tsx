@@ -16,6 +16,7 @@ import { useTranslations, useLocale } from "use-intl"
 import { LocaleSwitcher } from "./LocaleSwitcher"
 import { getAllViewedRecipesFromDb } from "@/redux/thunks"
 import store from "@/redux/store"
+import { useSession } from "next-auth/react"
 
 store.dispatch(getAllViewedRecipesFromDb())
 
@@ -29,11 +30,11 @@ export const Header = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-y-6">
       <Link href={"/"} title="What's Cooking Yo!!">
-        <img 
-          src={logo.src} 
-          className="w-24 h-24 rounded-full" 
-          alt="what's cooking yo!! logo" 
-          height={logo.height} width={logo.width} 
+        <img
+          src={logo.src}
+          className="w-24 h-24 rounded-full"
+          alt="what's cooking yo!! logo"
+          height={logo.height} width={logo.width}
         />
       </Link>
 
@@ -49,7 +50,25 @@ export const Header = () => {
         }
 
         <LocaleSwitcher />
+
+        <UserAuth />
       </div>
+    </div>
+  )
+}
+
+const UserAuth = () => {
+  const { status } = useSession()
+
+  return (
+    <div className="text-special flex items-center">
+      {
+        status === "authenticated"
+        ? <Link href={"/api/auth/signout"}>Logout</Link>
+        : status === "loading"
+        ? <Link className="pointer-events-none" href={""}>Wait..</Link>
+        : <Link href={"/api/auth/signin"}>Login</Link>
+      }
     </div>
   )
 }
