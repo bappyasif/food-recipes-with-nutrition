@@ -1,12 +1,21 @@
 import prisma from "@/utils/prismaClientHandler"
 import { connectingDatabase } from "@/utils/server-helpers"
 import { log } from "console"
+import { getServerSession } from "next-auth"
 import { NextRequest, NextResponse } from "next/server"
+import { nextAuthOptions } from "../auth/[...nextauth]/route"
 
 export async function GET (req: NextRequest) {
+    const session = await getServerSession(nextAuthOptions)
+
     try {
-        const recipes = await prisma.recipe.findMany()
-        return NextResponse.json({msg: "get alive!!", recipes}, {status: 201})
+        if(session?.user?.email) {
+            const recipes = await prisma.recipe.findMany()
+            return NextResponse.json({msg: "get alive!!", recipes}, {status: 201})
+        } else {
+            const recipes = (await prisma.recipe.findMany()).slice(0,6)
+            return NextResponse.json({msg: "get alive!!", recipes}, {status: 201})
+        }
     } catch (error) {
         return NextResponse.json({msg: "error occured", error}, {status: 500})
     }

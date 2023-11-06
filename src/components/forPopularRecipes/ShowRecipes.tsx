@@ -11,8 +11,24 @@ import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import Image from 'next/image'
 import moment from 'moment'
+import { useRouter } from 'next/navigation'
 
-export const ShowRecipes = () => {
+export const ShowRecipes = ({user}:{user: any}) => {
+  const locale = useLocale();
+  const {push, replace} = useRouter()
+  
+  if(!user?.email) {
+    // push(`${locale}/prompt-user`)
+    // push(`prompt-user`)
+    replace(`/${locale}/prompt-user`)
+    // replace(`prompt-user`)
+  }
+
+  if(!user?.email) {
+    return
+  }
+
+
   const recipesList = useAppSelector(state => state.recipes.list)
 
   const renderRecipes = () => recipesList?.map(item => <RenderRecipe key={item.uri} data={item} />)
