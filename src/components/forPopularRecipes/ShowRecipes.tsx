@@ -24,14 +24,14 @@ export const ShowRecipes = ({user}:{user: any}) => {
     // replace(`prompt-user`)
   }
 
-  if(!user?.email) {
-    return
-  }
-
 
   const recipesList = useAppSelector(state => state.recipes.list)
 
   const renderRecipes = () => recipesList?.map(item => <RenderRecipe key={item.uri} data={item} />)
+
+  if(!user?.email) {
+    return
+  }
 
   return (
     <div className='grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
@@ -54,12 +54,20 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   return (
     <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col justify-between'>
-      <Image
+      {/* <Image
         // src={url} 
         src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
         alt={label!} width={width} height={height}
         className='xxs:w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
         blurDataURL={url} placeholder='blur' loading='lazy'
+      /> */}
+      <img
+        // src={url} 
+        src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
+        alt={label!} width={width} height={height}
+        className='xxs:w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
+        // blurDataURL={url} placeholder='blur' 
+        loading='lazy'
       />
 
       <CardHeader 

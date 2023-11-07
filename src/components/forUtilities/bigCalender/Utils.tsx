@@ -64,10 +64,16 @@ const RenderRecipesList = ({ hasCooking, items }: { hasCooking: boolean, items: 
         return (
             <span key={name} className="flex flex-col xxs:justify-between lg:justify-center items-center outline outline-primary-content w-full rounded-md">
                 <span>{name}</span>
-                <Image
+                {/* <Image
                     src={imgSrc} alt={name} width={60} height={60}
                     className='xxs:w-36 sm:w-40 md:48 lg:w-56 xxs:h-20 lg:h-48 rounded-sm'
                     blurDataURL={imgSrc} placeholder='blur' loading='lazy'
+                /> */}
+                <img
+                    src={imgSrc} alt={name} width={60} height={60}
+                    className='xxs:w-36 sm:w-40 md:48 lg:w-56 xxs:h-20 lg:h-48 rounded-sm'
+                    // blurDataURL={imgSrc} placeholder='blur' 
+                    loading='lazy'
                 />
             </span>
         )

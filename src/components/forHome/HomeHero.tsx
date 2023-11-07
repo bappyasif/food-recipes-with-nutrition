@@ -14,13 +14,21 @@ export const HomeHero = () => {
             <div
                 className='w-2/4 mt-4 mx-auto relative text-ring h-[16.01rem] flex items-center'
             >
-                <Image
+                {/* <Image
                     src={"https://source.unsplash.com/random/200?food=1"} 
                     alt={"a random food picture from unsplash"} 
                     width={800} height={400}
                     className='absolute h-full w-full object-cover -z-0 mix-blend-screen'
                     blurDataURL={"https://source.unsplash.com/random/200?food=1"} 
                     placeholder='blur' loading='lazy'
+                /> */}
+                <img
+                    src={"https://source.unsplash.com/random/200?food=1"} 
+                    alt={"a random food picture from unsplash"} 
+                    width={800} height={400}
+                    className='absolute h-full w-full object-cover -z-0 mix-blend-screen'
+                    // blurDataURL={"https://source.unsplash.com/random/200?food=1"} placeholder='blur' 
+                    loading='lazy'
                 />
 
                 <div className='w-full z-20 absolute text-special-foreground'>

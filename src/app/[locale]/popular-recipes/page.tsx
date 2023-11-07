@@ -1,5 +1,6 @@
-import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/route'
+// import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/route'
 import { ShowRecipes } from '@/components/forPopularRecipes/ShowRecipes'
+import { nextAuthOptions } from '@/lib/auth'
 import { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
 import React, { Suspense } from 'react'

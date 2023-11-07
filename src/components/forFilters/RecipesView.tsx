@@ -90,41 +90,49 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
         <div
             className={`flex flex-col justify-center items-center ${styles.flipCard} h-[18.6rem] xxs:w-[18.9rem] sm:w-[20.9rem]`}
         >
-            {/* <p
-                className={`${styles.flipCardBack} h-full w-full rounded-sm`}
-                style={{
-                    backgroundImage: `url(${images.SMALL.url})`,
-                    backgroundSize: "100% 100%",
-                    objectFit: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundColor: "rgba(17,17,17,0.6)",
-                    backgroundBlendMode: "darken",
-                }}
-            >
-
-            </p> */}
-
-            <Image
+            {/* <Image
                 alt={label}
                 src={images?.SMALL?.url || images?.REGULAR?.url}
                 className={`${styles.flipCardBack} h-full w-full rounded-sm`}
                 width={images?.SMALL?.width || images?.REGULAR?.width}
                 height={images?.SMALL?.height || images?.REGULAR?.height}
                 style={{
-                    // backgroundImage: `url(${images?.SMALL?.url || images?.REGULAR?.url})`,
                     backgroundSize: "100% 100%",
                     objectFit: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundColor: "rgba(17,17,17,0.6)",
                     backgroundBlendMode: "darken",
                 }}
+            /> */}
+            <img
+                alt={label}
+                src={images?.SMALL?.url || images?.REGULAR?.url}
+                className={`${styles.flipCardBack} h-full w-full rounded-sm`}
+                width={images?.SMALL?.width || images?.REGULAR?.width}
+                height={images?.SMALL?.height || images?.REGULAR?.height}
+                style={{
+                    backgroundSize: "100% 100%",
+                    objectFit: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundColor: "rgba(17,17,17,0.6)",
+                    backgroundBlendMode: "darken",
+                }}
+                loading='lazy'
             />
 
             <div className={`${styles.whenNotFlipped}`}>
                 <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex items-center justify-center flex-col gap-y-2'>
                     <h2 className='font-bold text-lg'>{label.length > 11 ? ellipsedText(label, 11) : label}</h2>
-                    {/* <img className='w-64' src={images?.SMALL?.url || images?.REGULAR?.url} alt={label} width={images?.SMALL?.width} height={images?.SMALL?.height} /> */}
-                    <Image src={images?.SMALL?.url || images?.REGULAR?.url} alt={label} width={images?.SMALL?.width || images?.REGULAR?.width} height={images?.SMALL?.height || images?.REGULAR?.height} className='w-64' blurDataURL={images?.SMALL?.url || images?.REGULAR?.url} placeholder='blur' loading='lazy' />
+                    {/* <Image src={images?.SMALL?.url || images?.REGULAR?.url} alt={label} width={images?.SMALL?.width || images?.REGULAR?.width} height={images?.SMALL?.height || images?.REGULAR?.height} className='w-64' blurDataURL={images?.SMALL?.url || images?.REGULAR?.url} placeholder='blur' loading='lazy' /> */}
+                    <img
+                        src={images?.SMALL?.url || images?.REGULAR?.url}
+                        alt={label}
+                        width={images?.SMALL?.width || images?.REGULAR?.width}
+                        height={images?.SMALL?.height || images?.REGULAR?.height}
+                        className='w-64'
+                        // blurDataURL={images?.SMALL?.url || images?.REGULAR?.url} placeholder='blur' 
+                        loading='lazy'
+                    />
                 </Link>
                 <div className='flex justify-start gap-2'>
                     <RenderBadge text={dishType[0]} />

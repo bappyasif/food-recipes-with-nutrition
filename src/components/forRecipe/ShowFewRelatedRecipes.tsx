@@ -94,11 +94,16 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
         >
             <div className={`absolute transition-transform duration-500 ${isTrue ? "-translate-y-48" : "z-20"} text-center`}>
                 <Badge className='xxs:text-sm lg:text-lg capitalize'>{cuisineType[0]}</Badge>
-                {/* <img className='w-40 h-full rounded-md' src={url} alt={label} height={height} width={width} /> */}
-                <Image
+                {/* <Image
                     src={url} alt={label} height={height} width={width}
                     className='w-40 h-full rounded-md'
                     blurDataURL={url} placeholder='blur' loading='lazy'
+                /> */}
+                <img
+                    src={url} alt={label} height={height} width={width}
+                    className='w-40 h-full rounded-md'
+                    // blurDataURL={url} placeholder='blur' 
+                    loading='lazy'
                 />
             </div>
             <div className={`absolute top-0 capitalize transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>

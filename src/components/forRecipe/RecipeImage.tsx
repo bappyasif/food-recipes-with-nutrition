@@ -47,12 +47,20 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                 <SquareElem showIt={isTrue} data={data} />
 
                 {/* smaller screen */}
-                <Image
+                {/* <Image
                     src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
 
                     className={`xxs:block lg:hidden transition-all duration-700 ${isTrue ? `h-[18.8rem] opacity-20 xxs:w-[13.2rem] xxs:ml-0 rotate-180` : `xxs:h-48 sm:52 lg:h-64 translate-x-0 xxs:w-56 lg:w-60 lg:ml-4 -rotate-180`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover rounded-sm`}
 
                     blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' loading='lazy'
+                /> */}
+                <img
+                    src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
+
+                    className={`xxs:block lg:hidden transition-all duration-700 ${isTrue ? `h-[18.8rem] opacity-20 xxs:w-[13.2rem] xxs:ml-0 rotate-180` : `xxs:h-48 sm:52 lg:h-64 translate-x-0 xxs:w-56 lg:w-60 lg:ml-4 -rotate-180`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover rounded-sm`}
+
+                    // blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' 
+                    loading='lazy'
                 />
 
                 {/* bigger screen */}

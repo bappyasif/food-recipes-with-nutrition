@@ -83,11 +83,18 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
       onMouseLeave={handleFalsy}
     >
       <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} title={label} >
-        <Image 
+        {/* <Image 
           src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
           alt={label!} width={width} height={height} 
           className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
           blurDataURL={url} placeholder='blur' loading='lazy' 
+        /> */}
+        <img 
+          src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
+          alt={label!} width={width} height={height} 
+          className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
+          // blurDataURL={url} placeholder='blur' 
+          loading='lazy' 
         />
 
       </Link>

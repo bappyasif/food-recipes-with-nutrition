@@ -1,9 +1,10 @@
+import { nextAuthOptions } from "@/lib/auth"
 import prisma from "@/utils/prismaClientHandler"
 import { connectingDatabase } from "@/utils/server-helpers"
 import { log } from "console"
 import { getServerSession } from "next-auth"
 import { NextRequest, NextResponse } from "next/server"
-import { nextAuthOptions } from "../auth/[...nextauth]/route"
+// import { nextAuthOptions } from "../auth/[...nextauth]/route"
 
 export async function GET (req: NextRequest) {
     const session = await getServerSession(nextAuthOptions)

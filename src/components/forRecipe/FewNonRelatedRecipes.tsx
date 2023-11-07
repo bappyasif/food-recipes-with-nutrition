@@ -107,10 +107,16 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
                 className={`transition-transform duration-500 ${isTrue ? "scale-0" : "z-20 scale-100"} text-center`}
             >
                 <Badge>{cuisineType[0]}</Badge>
-                <Image
+                {/* <Image
                     src={url} alt={label} height={height} width={width}
                     className='w-36 h-32 object-cover rounded-sm'
                     blurDataURL={url} placeholder='blur' loading='lazy'
+                /> */}
+                <img
+                    src={url} alt={label} height={height} width={width}
+                    className='w-36 h-32 object-cover rounded-sm'
+                    // blurDataURL={url} placeholder='blur' 
+                    loading='lazy'
                 />
             </div>
             <div
