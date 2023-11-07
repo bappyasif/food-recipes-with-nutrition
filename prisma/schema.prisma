@@ -11,20 +11,45 @@ datasource db {
 }
 
 model recipe {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  uri String
-  label String
-  calories Float
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  uri               String
+  label             String
+  calories          Float
   co2EmissionsClass String
-  cuisineType String
-  count Int
-  images SMALL?
-   // as images links are expired after a day we will update them when we revisit those recipes
-  lastUpdated DateTime?
+  cuisineType       String
+  count             Int
+  images            SMALL?
+  // as images links are expired after a day we will update them when we revisit those recipes
+  lastUpdated       DateTime?
 }
 
 type SMALL {
   height Int
-  width Int
-  url String
+  width  Int
+  url    String
+}
+
+model events {
+  id          String           @id @default(auto()) @map("_id") @db.ObjectId
+  start       DateTime
+  end         DateTime
+  // id number string
+  title       String
+  description String
+  recipes     list?
+  user        user?
+}
+
+type list {
+  data recipeSnapshot[]
+}
+
+type user {
+  name  String
+  email String
+}
+
+type recipeSnapshot {
+  name   String
+  imgSrc String
 }

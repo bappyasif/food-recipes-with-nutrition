@@ -22,7 +22,11 @@ export type EventItemTypes = {
     recipes?: {
         name: string,
         imgSrc: string
-    }[]
+    }[],
+    user?: {
+        name: string,
+        email: string
+    }
 }
 
 export const Scheduler = ({ open }: { open: boolean }) => {

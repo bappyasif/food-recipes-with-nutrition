@@ -11,6 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { EmailIcon, EmailShareButton, FacebookIcon, FacebookShareButton, PinterestIcon, PinterestShareButton, TwitterIcon, TwitterShareButton } from "next-share"
 import { Badge } from '@/components/ui/badge'
 import { useSession } from 'next-auth/react'
+import { addToSchedulerEvents } from '@/utils/dbRequests'
 
 const style: CSSProperties = {
     height: '4rem',
@@ -71,6 +72,10 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     const { handleTextChange: handleDesc, text: descText, resetText:handleResetText } = useForInputTextChange()
 
+    const {data} = useSession()
+
+    const userData = data?.user
+    
     const handleScheduler = () => {
 
         const getFourRecipes = () => cards.map(item => ({ name: item.label, imgSrc: item.imgSrc }));
@@ -85,6 +90,17 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
             description: descText || "go gogogogoogog",
             recipes: getFourRecipes()
         }
+
+        if(userData?.email) {
+            eventItem.user = {
+                email: userData.email,
+                name: userData.name!
+            }
+        }
+
+        console.log(eventItem, "eventItem!!")
+
+        addToSchedulerEvents(eventItem).then(() => console.log("added successfully!!")).catch(err => console.log(err, "!!err!!"))
 
         ITEMS.push(eventItem)
 
