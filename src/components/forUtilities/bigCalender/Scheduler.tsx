@@ -88,7 +88,8 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const handleAddToList = (data: EventItemTypes) => {
         setEvents(prev => [...prev, { ...data, id: v4() }])
-        // dispatch(addToEventsData({ ...data, id: v4() }))
+        const eventItem = { ...data, id: v4() }
+        dispatch(addToEventsData(eventItem))
     }
 
     const handleOnSelectEvent = (event: any | Event) => {
@@ -115,7 +116,8 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
         console.log(event, "event moved!!")
         if((event as EventItemTypes)?.user!.email) {
-            updateUserEventDataInDb(updatedEvent as EventItemTypes)
+            dispatch(updateSpecificEventData({id: currentlyViewingEventId, updatedData: updatedEvent}))
+            // updateUserEventDataInDb(updatedEvent as EventItemTypes)
             // updateUserEventDataInDb((event as EventItemTypes).user!.email, (event as EventItemTypes).user!.name)
         }
 
@@ -131,6 +133,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
         if((event as EventItemTypes)?.user!.email) {
             const updatedEvent: any = { ...event, end, start }
+            dispatch(updateSpecificEventData({id: currentlyViewingEventId}))
             updateUserEventDataInDb(updatedEvent as EventItemTypes)
             // updateUserEventDataInDb((event as EventItemTypes).user!.email, (event as EventItemTypes).user!.name)
         }

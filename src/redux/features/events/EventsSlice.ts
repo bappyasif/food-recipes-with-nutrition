@@ -16,7 +16,13 @@ const eventsSlice = createSlice({
     reducers: {
         addToEventsData: (state, action) => {
             console.log(state.list.concat(action.payload))
-            // state.list = state.list.concat(action.payload)
+            state.list = state.list.concat(action.payload)
+        },
+
+        deleteFromEventsData: (state, action) => {
+            const {id} = action.payload;
+            const filter = state.list.filter(item => item.id !== id)
+            state.list = filter
         },
 
         updateSpecificEventData: (state, action) => {
@@ -43,7 +49,7 @@ const eventsSlice = createSlice({
     // },
 })
 
-export const {addToEventsData, initializeUserEventsData, updateSpecificEventData} = eventsSlice.actions
+export const {addToEventsData, initializeUserEventsData, updateSpecificEventData, deleteFromEventsData} = eventsSlice.actions
 
 const EventsReducer = eventsSlice.reducer
 
