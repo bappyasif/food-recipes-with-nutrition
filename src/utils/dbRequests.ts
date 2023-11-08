@@ -1,5 +1,5 @@
-import { EventItemTypes } from "@/components/forUtilities/bigCalender/Scheduler";
-import { RecipeMealType } from "@/types";
+// import { EventItemTypes } from "@/components/forUtilities/bigCalender/Scheduler";
+import { EventItemTypes, RecipeMealType } from "@/types";
 import axios from "axios"
 
 export const updateRecordInCollection = (uri:string, images:object) => {
@@ -68,4 +68,17 @@ export const addToSchedulerEvents = async (eventData: EventItemTypes) => {
     console.log("status code!!", statCode)
 
     // axios.post(reqStr, params).then(() => console.log("done")).catch(err => console.log("error occured", err))
+}
+
+export const fetchUserEventsDataFromDb = async (userEmail:string, userName: string) => {
+    const reqStr = `${getBaseApiUrl()}/${process.env.NEXT_PUBLIC_SCHEDULER_EVENTS_API_ENDPOINT}?email=${userEmail}&name=${userName}`
+    
+    const resp = await axios.get(reqStr)
+
+    const statCode = (resp).status
+
+    const data = resp.data
+
+    console.log("status code!!", statCode, data)
+    return data
 }

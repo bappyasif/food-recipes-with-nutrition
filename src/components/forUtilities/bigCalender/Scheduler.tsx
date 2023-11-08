@@ -7,27 +7,32 @@ import moment from 'moment'
 import { useForTruthToggle } from '@/hooks/forComponents'
 import { DialogModal, DialogModalForEditOrDelete, EventOptionsDropDown, ShowFullEventDetails } from './Utils'
 import { v4 as uuidv4, v4 } from 'uuid';
+import { useSession } from 'next-auth/react'
+import { fetchUserEventsDataFromDb } from '@/utils/dbRequests'
+import { EventItemTypes } from '@/types'
+import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
+import { addToEventsData } from '@/redux/features/events/EventsSlice'
 
 
 const DnDCalendar = withDragAndDrop(Calendar)
 
 const localizer = momentLocalizer(moment)
 
-export type EventItemTypes = {
-    start: Date;
-    end: Date;
-    id: number | string;
-    title: string;
-    description: string;
-    recipes?: {
-        name: string,
-        imgSrc: string
-    }[],
-    user?: {
-        name: string,
-        email: string
-    }
-}
+// export type EventItemTypes = {
+//     start: Date;
+//     end: Date;
+//     id: number | string;
+//     title: string;
+//     description: string;
+//     recipes?: {
+//         name: string,
+//         imgSrc: string
+//     }[],
+//     user?: {
+//         name: string,
+//         email: string
+//     }
+// }
 
 export const Scheduler = ({ open }: { open: boolean }) => {
     const [events, setEvents] = useState<EventItemTypes[]>([])
@@ -97,9 +102,32 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         setEvents(nextEvents)
     }
 
+    const {status, data} = useSession()
+
+    const dispatch = useAppDispatch()
+
+    const eventsData = useAppSelector(state => state.events.list)
+
+    useEffect(() => {
+        if(status === "authenticated") {
+            fetchUserEventsDataFromDb(data.user?.email!, data.user?.name!).then(resp => {
+               console.log(resp, "response!!")
+               if(resp?.eventsData.length) {
+                dispatch(addToEventsData(resp.eventsData))
+               }
+            })
+        }
+    }, [status])
+
     useEffect(() => {
         handleForShowEventFalsy()
     }, [forDD])
+
+    // const eventsData = useAppSelector(state => state.events.list)
+    useEffect(() => {
+        // setEvents(prev => [...prev, eventsData])
+        eventsData.length && setEvents(eventsData)
+    }, [eventsData])
 
     useEffect(() => {
         setEvents(ITEMS)

@@ -190,3 +190,19 @@ export type Props = {
   searchParams: { [key: string]: string | string[] | undefined },
   // searchParams: { [key: string]: string | string[] },
 }
+
+export type EventItemTypes = {
+  start: Date;
+  end: Date;
+  id: number | string;
+  title: string;
+  description: string;
+  recipes?: {
+      name: string,
+      imgSrc: string
+  }[],
+  user?: {
+      name: string,
+      email: string
+  }
+}

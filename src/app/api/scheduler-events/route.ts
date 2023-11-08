@@ -11,11 +11,32 @@ export async function GET(req: NextRequest) {
 
         // const email = req.query["email"]
         const { searchParams } = new URL(req.url)
-        const email = searchParams.get('email')
+        const userEmail = searchParams.get('email')
+        const userName = searchParams.get('name')
+
+        await connectingDatabase()
+
+        const eventsData = await prisma.events.findMany({
+            // where: {
+            //     user: {
+            //         email: userEmail!
+            //     } as object
+            // }
+
+            where: {
+                user: {
+                    email: userEmail!,
+                    name: userName!
+                }
+            }
+            
+        })
+
+        return NextResponse.json({ msg: "het is leven!!", eventsData }, { status: 201 })
 
         // const data = await req.formData()
 
-        return NextResponse.json({ msg: "het is leven!!", email }, { status: 201 })
+        // return NextResponse.json({ msg: "het is leven!!", email }, { status: 201 })
         // prisma.events.findMany()
     } catch (error) {
         console.log(error)
@@ -43,7 +64,10 @@ export const POST = async (req: Request) => {
                 title,
                 // id,
                 // recipes,
-                user
+                user,
+                recipes: {
+                    data: recipes
+                }
             }
         })
         
