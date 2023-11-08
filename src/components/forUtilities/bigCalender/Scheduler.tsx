@@ -8,10 +8,10 @@ import { useForTruthToggle } from '@/hooks/forComponents'
 import { DialogModal, DialogModalForEditOrDelete, EventOptionsDropDown, ShowFullEventDetails } from './Utils'
 import { v4 as uuidv4, v4 } from 'uuid';
 import { useSession } from 'next-auth/react'
-import { fetchUserEventsDataFromDb } from '@/utils/dbRequests'
+import { fetchUserEventsDataFromDb, updateUserEventDataInDb } from '@/utils/dbRequests'
 import { EventItemTypes } from '@/types'
 import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
-import { addToEventsData } from '@/redux/features/events/EventsSlice'
+import { addToEventsData, initializeUserEventsData } from '@/redux/features/events/EventsSlice'
 
 
 const DnDCalendar = withDragAndDrop(Calendar)
@@ -47,6 +47,16 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const [currentlyViewingEventId, setCurrentlyViewingEventId] = useState<string | number>(0)
 
+    const dispatch = useAppDispatch()
+
+    const eventsData = useAppSelector(state => state.events.list)
+
+    console.log(
+        moment().toDate(), 
+        eventsData[1]?.start, 
+        moment(eventsData[1]?.start).toDate()
+    )
+
     const updateCurrentlyViewingEventChanges = (title: string, description: string) => {
         const updatedEvents = events.map(item => {
             if (item.id === currentlyViewingEventId) {
@@ -65,6 +75,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const handleAddToList = (data: EventItemTypes) => {
         setEvents(prev => [...prev, { ...data, id: v4() }])
+        // dispatch(addToEventsData({ ...data, id: v4() }))
     }
 
     const handleOnSelectEvent = (event: any | Event) => {
@@ -89,6 +100,12 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         const nextEvents: typeof events = [...events]
         nextEvents.splice(foundIdx, 1, updatedEvent)
 
+        console.log(event, "event moved!!")
+        if((event as EventItemTypes)?.user!.email) {
+            updateUserEventDataInDb(updatedEvent as EventItemTypes)
+            // updateUserEventDataInDb((event as EventItemTypes).user!.email, (event as EventItemTypes).user!.name)
+        }
+
         setEvents(nextEvents)
     }
 
@@ -99,21 +116,39 @@ export const Scheduler = ({ open }: { open: boolean }) => {
             return item.title === event.title ? { ...item, start, end } : item
         })
 
+        if((event as EventItemTypes)?.user!.email) {
+            const updatedEvent: any = { ...event, end, start }
+            updateUserEventDataInDb(updatedEvent as EventItemTypes)
+            // updateUserEventDataInDb((event as EventItemTypes).user!.email, (event as EventItemTypes).user!.name)
+        }
+
+        console.log(event.title, event.resource, "event resized!!")
+
         setEvents(nextEvents)
     }
 
     const {status, data} = useSession()
 
-    const dispatch = useAppDispatch()
-
-    const eventsData = useAppSelector(state => state.events.list)
-
     useEffect(() => {
         if(status === "authenticated") {
             fetchUserEventsDataFromDb(data.user?.email!, data.user?.name!).then(resp => {
-               console.log(resp, "response!!")
+            //    console.log(resp, "response!!")
                if(resp?.eventsData.length) {
-                dispatch(addToEventsData(resp.eventsData))
+                const modded = resp.eventsData.map((item:EventItemTypes) => {
+                    if(item.end) {
+                        item.end = moment(item.end).toDate()
+                    }
+
+                    if(item.start) {
+                        item.start = moment(item.start).toDate()
+                    }
+
+                    return item
+                })
+
+                dispatch(initializeUserEventsData(modded))
+
+                // dispatch(initializeUserEventsData(resp.eventsData))
                }
             })
         }
@@ -129,9 +164,9 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         eventsData.length && setEvents(eventsData)
     }, [eventsData])
 
-    useEffect(() => {
-        setEvents(ITEMS)
-    }, [])
+    // useEffect(() => {
+    //     setEvents(ITEMS)
+    // }, [])
 
     useEffect(() => {
         setEvents(ITEMS)
@@ -209,13 +244,15 @@ export const Scheduler = ({ open }: { open: boolean }) => {
             <DnDCalendar
                 localizer={localizer}
                 events={events}
+                // events={status === "authenticated" ? eventsData : events}
+                // events={eventsData}
                 selectable
                 resizable
                 onEventResize={handleResizeEvent}
                 onEventDrop={handleMoveEvent}
                 defaultView='month'
                 defaultDate={new Date()}
-                showMultiDayTimes
+                // showMultiDayTimes
                 step={15}
 
                 dayPropGetter={dayPropGetter}
@@ -224,7 +261,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
                 eventPropGetter={eventPropGetter}
 
-                onDropFromOutside={({ start, end, allDay }) => { console.log(start, end, "!!") }}
+                // onDropFromOutside={({ start, end, allDay }) => { console.log(start, end, "!!") }}
 
                 components={{
                     event: props => (<EventOptionsDropDown remove={handleRemoveFromList} edit={forDDTruthy} {...props} />)

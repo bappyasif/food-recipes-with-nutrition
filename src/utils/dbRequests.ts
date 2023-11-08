@@ -82,3 +82,16 @@ export const fetchUserEventsDataFromDb = async (userEmail:string, userName: stri
     console.log("status code!!", statCode, data)
     return data
 }
+
+export const updateUserEventDataInDb = async (params: EventItemTypes
+    ) => {
+    const reqStr = `${getBaseApiUrl()}/${process.env.NEXT_PUBLIC_SCHEDULER_EVENTS_API_ENDPOINT}`
+    
+    const resp = await axios.put(reqStr, {...params})
+
+    const statCode = (resp).status
+
+    const data = resp.data
+
+    console.log("status code!!", statCode, data)
+}

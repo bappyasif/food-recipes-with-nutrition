@@ -83,11 +83,33 @@ export const POST = async (req: Request) => {
 
 export async function PUT (req: Request) {
     try {
-        const {email} = await req.json()
-        return NextResponse.json({ msg: "het is leven!!", email })
+        const {id, start, end, title, description} = await req.json()
+
+        await connectingDatabase()
+
+        console.log(id, start, "what what!!")
+
+        const resp = await prisma.events.update({
+            where: {
+                // user: {
+                //     email: user.email as string
+                // },
+                id: id
+            },
+            data: {
+                start,
+                end,
+                title,
+                description
+            }
+        })
+
+        return NextResponse.json({ msg: "het is leven!!", resp })
     } catch (error) {
         log(error, "error occured")
         return NextResponse.json({ msg: "error occured!!" }, { status: 500 })
+    } finally {
+        prisma.$disconnect()
     }
 }
 

@@ -4,11 +4,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { useForInputTextChange } from "@/hooks/forComponents"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { SlotInfo } from "react-big-calendar"
-import { EventItemTypes } from "./Scheduler"
+// import { EventItemTypes } from "./Scheduler"
 import { ChangeEvent } from "react"
 import moment from "moment"
 import Image from "next/image"
 import { ShareInSocialMedias } from "../dragAndDrop/Bucket"
+import { EventItemTypes } from "@/types"
 
 export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFromList, handleEdit, eventItem }: { open: boolean, handleClose: () => void, handleRemoveFromList: () => void, handleEdit: (t: string, d: string) => void, eventItem: EventItemTypes }) => {
 
