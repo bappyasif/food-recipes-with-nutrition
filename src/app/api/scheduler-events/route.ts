@@ -115,8 +115,15 @@ export async function PUT (req: Request) {
 
 export async function DELETE (req: Request) {
     try {
-        const {email} = await req.json()
-        return NextResponse.json({ msg: "het is leven!!", email })
+        // const {email} = await req.json()
+        const {id} = await req.json()
+        await connectingDatabase()
+        const resp = await prisma.events.delete({
+            where: {
+                id
+            }
+        })
+        return NextResponse.json({ msg: "het is leven!!", id, resp })
     } catch (error) {
         log(error, "error occured")
         return NextResponse.json({ msg: "error occured!!" }, { status: 500 })

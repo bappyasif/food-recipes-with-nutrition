@@ -1,4 +1,5 @@
 import { EventItemTypes } from "@/types"
+import { updateUserEventDataInDb } from "@/utils/dbRequests"
 import { createSlice } from "@reduxjs/toolkit"
 
 type EventsDataType = {
@@ -18,6 +19,21 @@ const eventsSlice = createSlice({
             // state.list = state.list.concat(action.payload)
         },
 
+        updateSpecificEventData: (state, action) => {
+            const {id, updatedData} = action.payload
+
+            console.log(id, updatedData, "ready!!")
+
+            state.list = state.list.map(item => {
+                if(item.id === id) {
+                    item = {...item, ...updatedData}
+                    updateUserEventDataInDb(item)
+                }
+                return item
+            })
+            
+        },
+
         initializeUserEventsData: (state, action) => {
             state.list = action.payload
         }
@@ -27,7 +43,7 @@ const eventsSlice = createSlice({
     // },
 })
 
-export const {addToEventsData, initializeUserEventsData} = eventsSlice.actions
+export const {addToEventsData, initializeUserEventsData, updateSpecificEventData} = eventsSlice.actions
 
 const EventsReducer = eventsSlice.reducer
 

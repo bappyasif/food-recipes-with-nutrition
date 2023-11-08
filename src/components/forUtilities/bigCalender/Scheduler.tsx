@@ -8,10 +8,10 @@ import { useForTruthToggle } from '@/hooks/forComponents'
 import { DialogModal, DialogModalForEditOrDelete, EventOptionsDropDown, ShowFullEventDetails } from './Utils'
 import { v4 as uuidv4, v4 } from 'uuid';
 import { useSession } from 'next-auth/react'
-import { fetchUserEventsDataFromDb, updateUserEventDataInDb } from '@/utils/dbRequests'
+import { deleteUserEventDataInDb, fetchUserEventsDataFromDb, updateUserEventDataInDb } from '@/utils/dbRequests'
 import { EventItemTypes } from '@/types'
 import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
-import { addToEventsData, initializeUserEventsData } from '@/redux/features/events/EventsSlice'
+import { addToEventsData, initializeUserEventsData, updateSpecificEventData } from '@/redux/features/events/EventsSlice'
 
 
 const DnDCalendar = withDragAndDrop(Calendar)
@@ -51,26 +51,39 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const eventsData = useAppSelector(state => state.events.list)
 
-    console.log(
-        moment().toDate(), 
-        eventsData[1]?.start, 
-        moment(eventsData[1]?.start).toDate()
-    )
+    // console.log(
+    //     moment().toDate(), 
+    //     eventsData[1]?.start, 
+    //     moment(eventsData[1]?.start).toDate()
+    // )
 
     const updateCurrentlyViewingEventChanges = (title: string, description: string) => {
-        const updatedEvents = events.map(item => {
-            if (item.id === currentlyViewingEventId) {
-                item.title = title ? title : item.title
-                item.description = description ? description : item.description
-            }
-            return item
-        })
+        dispatch(updateSpecificEventData({id: currentlyViewingEventId, updatedData: {title, description}}))
+        // const updatedEvents = events.map(item => {
+        //     if (item.id === currentlyViewingEventId) {
+        //         item.title = title ? title : item.title
+        //         item.description = description ? description : item.description
+        //     }
+        //     return item
+        // })
+        // const foundItem = events.find(item => item.id === currentlyViewingEventId)
+        // console.log("here!! update!!", title, description, currentlyViewingEventId, foundItem)
+        // if((foundItem as EventItemTypes)?.user!.email) {
+        //     if(!(foundItem?.title && foundItem?.description)) return
+        //     foundItem.title = title
+        //     foundItem.description = description
+        //     console.log(foundItem, "updated found!!")
+        //     updateUserEventDataInDb(foundItem as EventItemTypes)
+        //     // updateUserEventDataInDb((event as EventItemTypes).user!.email, (event as EventItemTypes).user!.name)
+        // }
+        // setEvents(updatedEvents)
     }
 
     const handleRemoveFromList = () => {
         if (!events.length) return
         const filtered = events.filter(item => item.id !== currentlyViewingEventId)
         setEvents(filtered)
+        deleteUserEventDataInDb(currentlyViewingEventId as string)
     }
 
     const handleAddToList = (data: EventItemTypes) => {

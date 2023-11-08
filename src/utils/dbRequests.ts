@@ -95,3 +95,17 @@ export const updateUserEventDataInDb = async (params: EventItemTypes
 
     console.log("status code!!", statCode, data)
 }
+
+export const deleteUserEventDataInDb = async (id:string
+    ) => {
+    const reqStr = `${getBaseApiUrl()}/${process.env.NEXT_PUBLIC_SCHEDULER_EVENTS_API_ENDPOINT}`
+    
+    // const resp = await axios.delete(reqStr, {params: {id}})
+    const resp = await axios.delete(reqStr, {data: {id}})
+
+    const statCode = (resp).status
+
+    const data = resp.data
+
+    console.log("status code!!", statCode, data)
+}
