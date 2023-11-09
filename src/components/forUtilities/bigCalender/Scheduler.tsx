@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Calendar, Event, SlotInfo, momentLocalizer } from 'react-big-calendar'
-import withDragAndDrop, { EventInteractionArgs, withDragAndDropProps } from 'react-big-calendar/lib/addons/dragAndDrop'
+import withDragAndDrop, { EventInteractionArgs, OnDragStartArgs, withDragAndDropProps } from 'react-big-calendar/lib/addons/dragAndDrop'
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import moment from 'moment'
@@ -11,7 +11,7 @@ import { useSession } from 'next-auth/react'
 import { deleteUserEventDataInDb, fetchUserEventsDataFromDb, updateUserEventDataInDb } from '@/utils/dbRequests'
 import { EventItemTypes } from '@/types'
 import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
-import { addToEventsData, initializeUserEventsData, updateSpecificEventData } from '@/redux/features/events/EventsSlice'
+import { addToEventsData, deleteFromEventsData, initializeUserEventsData, updateSpecificEventData } from '@/redux/features/events/EventsSlice'
 
 
 const DnDCalendar = withDragAndDrop(Calendar)
@@ -35,7 +35,7 @@ const localizer = momentLocalizer(moment)
 // }
 
 export const Scheduler = ({ open }: { open: boolean }) => {
-    const [events, setEvents] = useState<EventItemTypes[]>([])
+    // const [events, setEvents] = useState<EventItemTypes[]>([])
 
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
@@ -58,7 +58,10 @@ export const Scheduler = ({ open }: { open: boolean }) => {
     // )
 
     const updateCurrentlyViewingEventChanges = (title: string, description: string) => {
+        // dispatch(updateSpecificEventData({updatedData: {title, description}}))
         dispatch(updateSpecificEventData({id: currentlyViewingEventId, updatedData: {title, description}}))
+        // console.log(currentlyViewingEventId, "viewing!!")
+
         // const updatedEvents = events.map(item => {
         //     if (item.id === currentlyViewingEventId) {
         //         item.title = title ? title : item.title
@@ -80,14 +83,16 @@ export const Scheduler = ({ open }: { open: boolean }) => {
     }
 
     const handleRemoveFromList = () => {
-        if (!events.length) return
-        const filtered = events.filter(item => item.id !== currentlyViewingEventId)
-        setEvents(filtered)
-        deleteUserEventDataInDb(currentlyViewingEventId as string)
+        // if (!events.length) return
+        // const filtered = events.filter(item => item.id !== currentlyViewingEventId)
+        // setEvents(filtered)
+        if (!eventsData.length) return
+        dispatch(deleteFromEventsData({id: currentlyViewingEventId}))
+        // deleteUserEventDataInDb(currentlyViewingEventId as string)
     }
 
     const handleAddToList = (data: EventItemTypes) => {
-        setEvents(prev => [...prev, { ...data, id: v4() }])
+        // setEvents(prev => [...prev, { ...data, id: v4() }])
         const eventItem = { ...data, id: v4() }
         dispatch(addToEventsData(eventItem))
     }
@@ -96,7 +101,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         setCurrentlyViewingEventId(event.id)
 
         handleForShowEventTruthy()
-        // console.log(event.id)
+        console.log(event.id)
     }
 
     const handleOnSelectSlot = (event: SlotInfo) => {
@@ -105,14 +110,16 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         handleTruthy()
     }
 
+    const handleMoveEventStart = (e: OnDragStartArgs<object>) => console.log("here!!", e.event)
+
     const handleMoveEvent = (e: EventInteractionArgs<object>) => {
         const { end, event, start } = e;
 
-        const foundIdx = events.findIndex(item => item === event)
+        // const foundIdx = events.findIndex(item => item === event)
         const updatedEvent: any = { ...event, end, start }
 
-        const nextEvents: typeof events = [...events]
-        nextEvents.splice(foundIdx, 1, updatedEvent)
+        // const nextEvents: typeof events = [...events]
+        // nextEvents.splice(foundIdx, 1, updatedEvent)
 
         console.log(event, "event moved!!")
         if((event as EventItemTypes)?.user!.email) {
@@ -121,26 +128,26 @@ export const Scheduler = ({ open }: { open: boolean }) => {
             // updateUserEventDataInDb((event as EventItemTypes).user!.email, (event as EventItemTypes).user!.name)
         }
 
-        setEvents(nextEvents)
+        // setEvents(nextEvents)
     }
 
     const handleResizeEvent: withDragAndDropProps["onEventResize"] = (data) => {
         const { end, start, event } = data;
 
-        const nextEvents: any = events.map(item => {
-            return item.title === event.title ? { ...item, start, end } : item
-        })
+        // const nextEvents: any = events.map(item => {
+        //     return item.title === event.title ? { ...item, start, end } : item
+        // })
 
         if((event as EventItemTypes)?.user!.email) {
             const updatedEvent: any = { ...event, end, start }
-            dispatch(updateSpecificEventData({id: currentlyViewingEventId}))
-            updateUserEventDataInDb(updatedEvent as EventItemTypes)
+            dispatch(updateSpecificEventData({id: currentlyViewingEventId, updatedData: updatedEvent}))
+            // updateUserEventDataInDb(updatedEvent as EventItemTypes)
             // updateUserEventDataInDb((event as EventItemTypes).user!.email, (event as EventItemTypes).user!.name)
         }
 
         console.log(event.title, event.resource, "event resized!!")
 
-        setEvents(nextEvents)
+        // setEvents(nextEvents)
     }
 
     const {status, data} = useSession()
@@ -175,21 +182,26 @@ export const Scheduler = ({ open }: { open: boolean }) => {
     }, [forDD])
 
     // const eventsData = useAppSelector(state => state.events.list)
-    useEffect(() => {
-        // setEvents(prev => [...prev, eventsData])
-        eventsData.length && setEvents(eventsData)
-    }, [eventsData])
+    // useEffect(() => {
+    //     // setEvents(prev => [...prev, eventsData])
+    //     eventsData.length && setEvents(eventsData)
+    // }, [eventsData])
 
     // useEffect(() => {
     //     setEvents(ITEMS)
     // }, [])
 
-    useEffect(() => {
-        setEvents(ITEMS)
-    }, [ITEMS])
+    // useEffect(() => {
+    //     setEvents(ITEMS)
+    // }, [ITEMS])
+
+    // const getCurrentlyEditingItemIdx = () => {
+    //     const foundItem = events.findIndex(item => item.id === currentlyViewingEventId)
+    //     return foundItem
+    // }
 
     const getCurrentlyEditingItemIdx = () => {
-        const foundItem = events.findIndex(item => item.id === currentlyViewingEventId)
+        const foundItem = eventsData.findIndex(item => item.id === currentlyViewingEventId)
         return foundItem
     }
 
@@ -259,13 +271,18 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         >
             <DnDCalendar
                 localizer={localizer}
-                events={events}
+                // events={events}
                 // events={status === "authenticated" ? eventsData : events}
-                // events={eventsData}
+                events={eventsData}
                 selectable
                 resizable
+                onSelectEvent={handleOnSelectEvent}
+                onSelectSlot={handleOnSelectSlot}
+                onDragOver={() => console.log("drag over")}
                 onEventResize={handleResizeEvent}
                 onEventDrop={handleMoveEvent}
+                // onDragStart={handleMoveEventStart}
+                // handleDragStart={handleMoveEventStart}
                 defaultView='month'
                 defaultDate={new Date()}
                 // showMultiDayTimes
@@ -282,16 +299,13 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                 components={{
                     event: props => (<EventOptionsDropDown remove={handleRemoveFromList} edit={forDDTruthy} {...props} />)
                 }}
-
-                onSelectEvent={handleOnSelectEvent}
-                onSelectSlot={handleOnSelectSlot}
             />
 
             <DialogModal handleClose={handleFalsy} open={isTrue} slotData={slotData} handleAddToList={handleAddToList} />
 
-            <DialogModalForEditOrDelete handleClose={forDDFalsy} open={forDD} handleRemoveFromList={handleRemoveFromList} handleEdit={updateCurrentlyViewingEventChanges} eventItem={events[getCurrentlyEditingItemIdx()]} />
+            <DialogModalForEditOrDelete handleClose={forDDFalsy} open={forDD} handleRemoveFromList={handleRemoveFromList} handleEdit={updateCurrentlyViewingEventChanges} eventItem={eventsData[getCurrentlyEditingItemIdx()]} />
 
-            <ShowFullEventDetails isOpen={forShowEvent && !forDD} handleClose={handleForShowEventFalsy} eventItem={events[getCurrentlyEditingItemIdx()] || []} handleBeginEditing={forDDTruthy} handleRemoveFromList={handleRemoveFromList} />
+            <ShowFullEventDetails isOpen={forShowEvent && !forDD} handleClose={handleForShowEventFalsy} eventItem={eventsData[getCurrentlyEditingItemIdx()] || []} handleBeginEditing={forDDTruthy} handleRemoveFromList={handleRemoveFromList} />
         </div>
     )
 }

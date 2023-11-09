@@ -1,5 +1,5 @@
 import { EventItemTypes } from "@/types"
-import { updateUserEventDataInDb } from "@/utils/dbRequests"
+import { deleteUserEventDataInDb, updateUserEventDataInDb } from "@/utils/dbRequests"
 import { createSlice } from "@reduxjs/toolkit"
 
 type EventsDataType = {
@@ -22,16 +22,19 @@ const eventsSlice = createSlice({
         deleteFromEventsData: (state, action) => {
             const {id} = action.payload;
             const filter = state.list.filter(item => item.id !== id)
+            console.log(state.list.length, filter.length)
             state.list = filter
+            deleteUserEventDataInDb(id)
         },
 
         updateSpecificEventData: (state, action) => {
             const {id, updatedData} = action.payload
+            // const {updatedData} = action.payload
 
-            console.log(id, updatedData, "ready!!")
+            console.log(updatedData, "ready!!")
 
             state.list = state.list.map(item => {
-                if(item.id === id) {
+                if(item.id === updatedData?.id || item.id === id) {
                     item = {...item, ...updatedData}
                     updateUserEventDataInDb(item)
                 }
