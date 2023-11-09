@@ -1,13 +1,50 @@
 import { EventItemTypes } from "@/types"
-import { deleteUserEventDataInDb, updateUserEventDataInDb } from "@/utils/dbRequests"
+import { addToSchedulerEvents, deleteUserEventDataInDb, updateUserEventDataInDb } from "@/utils/dbRequests"
 import { createSlice } from "@reduxjs/toolkit"
+import moment from "moment"
+
+export const ITEMS: EventItemTypes[] = [
+    {
+        start: moment().toDate(),
+        end: moment().add(1, "days").toDate(),
+        id: 1,
+        // id: v4(),
+        title: "bees bees",
+        description: "go gogogogoogog"
+    },
+    {
+        start: moment().toDate(),
+        end: moment().add(1, "days").toDate(),
+        id: 2,
+        // id: v4(),
+        title: "bees bees- II",
+        description: "go gogogogoogog"
+    },
+    {
+        start: moment().toDate(),
+        end: moment().add(1, "hour").toDate(),
+        id: 3,
+        // id: v4(),
+        title: "bees bees - III",
+        description: "go gogogogoogog"
+    },
+    {
+        start: moment().toDate(),
+        end: moment().add(2, "hour").toDate(),
+        id: 4,
+        // id: v4(),
+        title: "bees bees - IV",
+        description: "go gogogogoogog"
+    }
+]
 
 type EventsDataType = {
     list: EventItemTypes[]
 }
 
 const initEventsDataState:EventsDataType = {
-    list: []
+    // list: []
+    list: ITEMS
 }
 
 const eventsSlice = createSlice({
@@ -15,16 +52,18 @@ const eventsSlice = createSlice({
     name: "Events",
     reducers: {
         addToEventsData: (state, action) => {
-            console.log(state.list.concat(action.payload))
+            // console.log(state.list.concat(action.payload))
             state.list = state.list.concat(action.payload)
+            action.payload?.user?.email && addToSchedulerEvents(action.payload)
         },
 
         deleteFromEventsData: (state, action) => {
             const {id} = action.payload;
             const filter = state.list.filter(item => item.id !== id)
-            console.log(state.list.length, filter.length)
+            // console.log(state.list.length, filter.length)
+            const removedItem = state.list.find(item => item.id === id)
             state.list = filter
-            deleteUserEventDataInDb(id)
+            removedItem?.user?.email && deleteUserEventDataInDb(id)
         },
 
         updateSpecificEventData: (state, action) => {
@@ -36,7 +75,7 @@ const eventsSlice = createSlice({
             state.list = state.list.map(item => {
                 if(item.id === updatedData?.id || item.id === id) {
                     item = {...item, ...updatedData}
-                    updateUserEventDataInDb(item)
+                    item.user?.email && updateUserEventDataInDb(item)
                 }
                 return item
             })

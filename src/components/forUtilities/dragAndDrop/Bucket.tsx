@@ -5,13 +5,14 @@ import update from 'immutability-helper'
 import { Button } from '@/components/ui/button'
 import moment from 'moment'
 import { v4 } from 'uuid'
-import { EventItemTypes, ITEMS } from '../bigCalender/Scheduler'
 import { useForInputTextChange, useForTruthToggle } from '@/hooks/forComponents'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { EmailIcon, EmailShareButton, FacebookIcon, FacebookShareButton, PinterestIcon, PinterestShareButton, TwitterIcon, TwitterShareButton } from "next-share"
 import { Badge } from '@/components/ui/badge'
 import { useSession } from 'next-auth/react'
-import { addToSchedulerEvents } from '@/utils/dbRequests'
+import { useAppDispatch } from '@/hooks/forRedux'
+import { addToEventsData } from '@/redux/features/events/EventsSlice'
+import { EventItemTypes } from '@/types'
 
 const style: CSSProperties = {
     height: '4rem',
@@ -75,6 +76,8 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     const {data} = useSession()
 
     const userData = data?.user
+
+    const dispatch = useAppDispatch()
     
     const handleScheduler = () => {
 
@@ -83,9 +86,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
         const eventItem: EventItemTypes = {
             start: moment().toDate(),
             end: moment().add(1, "hour").toDate(),
-            // id: 1,
             id: v4(),
-            // title: text || "no title has provided",
             title: `Cooking Recipe List:: ${text}` || "no title has provided",
             description: descText || "go gogogogoogog",
             recipes: getFourRecipes()
@@ -97,12 +98,8 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                 name: userData.name!
             }
         }
-
-        console.log(eventItem, "eventItem!!")
-
-        addToSchedulerEvents(eventItem).then(() => console.log("added successfully!!")).catch(err => console.log(err, "!!err!!"))
-
-        ITEMS.push(eventItem)
+        
+        dispatch(addToEventsData(eventItem))
 
         updateCards([])
 
@@ -139,13 +136,9 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
             className='flex xxs:flex-col gap-2 justify-between'
             title={decideTitleText()}>
                 <Button 
-                className='text-xs w-full text-muted' 
-                // className={`text-xs w-full text-muted ${status === "unauthenticated" ? "pointer-events-none" : "pointer-events-auto"}`} 
-                // disabled={!cards?.length} 
-                // disabled={!cards?.length && status === "unauthenticated"} 
+                className='text-xs w-full text-muted'  
                 disabled={!cards?.length || status === "unauthenticated"} 
                 onClick={handleClickedScheduler} 
-                // title={decideTitleText()}
                 >Add To Scheduler</Button>
                 <ShareInSocialMedias hashtags={["cooking", "recipes"]} description='Get to know your cooking side of it' title='Cooking Recipes' ready={!!cards.length} />
             </div>

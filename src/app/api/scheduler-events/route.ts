@@ -6,10 +6,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
     try {
-        // const resp = await req.json()
-        // console.log(email, "email1!!")
-
-        // const email = req.query["email"]
         const { searchParams } = new URL(req.url)
         const userEmail = searchParams.get('email')
         const userName = searchParams.get('name')
@@ -17,12 +13,6 @@ export async function GET(req: NextRequest) {
         await connectingDatabase()
 
         const eventsData = await prisma.events.findMany({
-            // where: {
-            //     user: {
-            //         email: userEmail!
-            //     } as object
-            // }
-
             where: {
                 user: {
                     email: userEmail!,
@@ -34,10 +24,6 @@ export async function GET(req: NextRequest) {
 
         return NextResponse.json({ msg: "het is leven!!", eventsData }, { status: 201 })
 
-        // const data = await req.formData()
-
-        // return NextResponse.json({ msg: "het is leven!!", email }, { status: 201 })
-        // prisma.events.findMany()
     } catch (error) {
         console.log(error)
         return NextResponse.json({ msg: "error occured!!" }, { status: 500 })
@@ -46,13 +32,7 @@ export async function GET(req: NextRequest) {
 
 export const POST = async (req: Request) => {
     try {
-        // const resp = await req.json()
-        // log(resp?.email, "email1!!")
-        // return NextResponse.json({ msg: "het is leven!!" })
-
         const {description, end, id, start, title, recipes, user} = await req.json()
-
-        console.log(id, "id!!")
 
         await connectingDatabase()
 
@@ -91,9 +71,6 @@ export async function PUT (req: Request) {
 
         const resp = await prisma.events.update({
             where: {
-                // user: {
-                //     email: user.email as string
-                // },
                 id: id
             },
             data: {
@@ -115,7 +92,6 @@ export async function PUT (req: Request) {
 
 export async function DELETE (req: Request) {
     try {
-        // const {email} = await req.json()
         const {id} = await req.json()
         await connectingDatabase()
         const resp = await prisma.events.delete({
