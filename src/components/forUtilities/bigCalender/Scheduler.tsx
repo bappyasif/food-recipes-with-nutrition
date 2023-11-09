@@ -11,10 +11,12 @@ import { useSession } from 'next-auth/react'
 import { fetchUserEventsDataFromDb } from '@/utils/dbRequests'
 import { EventItemTypes } from '@/types'
 import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
-import { addToEventsData, deleteFromEventsData, initializeUserEventsData, updateSpecificEventData } from '@/redux/features/events/EventsSlice'
+import { ITEMS, addToEventsData, deleteFromEventsData, initializeUserEventsData, updateSpecificEventData } from '@/redux/features/events/EventsSlice'
 
 
-const DnDCalendar = withDragAndDrop(Calendar)
+// const DnDCalendar = withDragAndDrop(Calendar)
+const DnDCalendar = withDragAndDrop<EventItemTypes>(Calendar)
+// withDragAndDrop<EventItem>(BigCalendar)
 
 const localizer = momentLocalizer(moment)
 
@@ -31,7 +33,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const [currentlyViewingEventId, setCurrentlyViewingEventId] = useState<string | number>(0)
 
-    const { status, data } = useSession()
+    const { data } = useSession()
 
     const dispatch = useAppDispatch()
 
@@ -74,46 +76,31 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const handleMoveEventStart = (e: OnDragStartArgs<object>) => console.log("here!!", e.event)
 
-    const handleMoveEvent = (e: EventInteractionArgs<object>) => {
-        const { end, event, start } = e;
+    // const handleMoveEvent = (e: EventInteractionArgs<object>) => {
+    //     const { end, event, start } = e;
 
-        const updatedEvent: any = { ...event, end, start }
+    //     const updatedEvent: any = { ...event, end, start }
 
-        dispatch(updateSpecificEventData({ id: currentlyViewingEventId, updatedData: updatedEvent }))
+    //     dispatch(updateSpecificEventData({ id: currentlyViewingEventId, updatedData: updatedEvent }))
+    // }
+
+    const handleEventMove: withDragAndDropProps["onEventDrop"] = data => {
+        const { end, event, start } = data;
+
+        console.log(event, "event!!")
+
+        // const updatedEvent: any = { ...event., end, start }
+
+        // dispatch(updateSpecificEventData({ id: currentlyViewingEventId, updatedData: updatedEvent }))
     }
 
     const handleResizeEvent: withDragAndDropProps["onEventResize"] = (data) => {
         const { end, start, event } = data;
 
         const updatedEvent: any = { ...event, end, start }
-        
+
         dispatch(updateSpecificEventData({ id: currentlyViewingEventId, updatedData: updatedEvent }))
     }
-
-    useEffect(() => {
-        if (status === "authenticated") {
-            fetchUserEventsDataFromDb(data.user?.email!, data.user?.name!).then(resp => {
-                //    console.log(resp, "response!!")
-                if (resp?.eventsData.length) {
-                    const modded = resp.eventsData.map((item: EventItemTypes) => {
-                        if (item.end) {
-                            item.end = moment(item.end).toDate()
-                        }
-
-                        if (item.start) {
-                            item.start = moment(item.start).toDate()
-                        }
-
-                        return item
-                    })
-
-                    dispatch(initializeUserEventsData(modded))
-
-                    // dispatch(initializeUserEventsData(resp.eventsData))
-                }
-            })
-        }
-    }, [status])
 
     useEffect(() => {
         handleForShowEventFalsy()
@@ -192,19 +179,17 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         >
             <DnDCalendar
                 localizer={localizer}
-                events={eventsData}
+                // events={eventsData}
+                events={ITEMS}
                 selectable
                 resizable
                 onSelectEvent={handleOnSelectEvent}
                 onSelectSlot={handleOnSelectSlot}
-                onDragOver={() => console.log("drag over")}
                 onEventResize={handleResizeEvent}
-                onEventDrop={handleMoveEvent}
-                // onDragStart={handleMoveEventStart}
-                // handleDragStart={handleMoveEventStart}
+                onEventDrop={handleEventMove}
                 defaultView='month'
                 defaultDate={new Date()}
-                // showMultiDayTimes
+                showMultiDayTimes
                 step={15}
 
                 dayPropGetter={dayPropGetter}
