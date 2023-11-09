@@ -1,12 +1,15 @@
-import { FiltersTypes, RecipeMealType } from "@/types";
+import { EventItemTypes, FiltersTypes, RecipeMealType } from "@/types";
 import { searchRecipes } from "@/utils/dataFetching";
 import axios from "axios";
 import { useLocale } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "./forRedux";
-import { assembleReqStr } from "@/utils/dbRequests";
+import { assembleReqStr, fetchUserEventsDataFromDb } from "@/utils/dbRequests";
 import { addRecipesAtOnce } from "@/redux/features/recipes/RecipesSlice";
+import { useSession } from "next-auth/react";
+import moment from "moment";
+import { initializeUserEventsData } from "@/redux/features/events/EventsSlice";
 
 export const useForPauseAndPlayMealScroll = () => {
     const [seconds, setSeconds] = useState(30);
@@ -89,7 +92,7 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound: (data: Recipe
 
     useEffect(() => {
         const timer = setTimeout(() => {
-                params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
+            params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
                 const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
 
                 const readyForRendering = onlyRecipes.map((item: any) => item.mealType?.length && item.dishType?.length && item.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
@@ -362,4 +365,34 @@ export const useForGettingViewedRecipesDataFromBackend = () => {
             }).catch(err => console.log(err))
         }
     }, [])
+}
+
+export const getAllEventsDataForAuthenticatedUser = () => {
+    const {data, status} = useSession()
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            fetchUserEventsDataFromDb(data.user?.email!, data.user?.name!).then(resp => {
+                // console.log(resp, "response!!")
+                if (resp?.eventsData.length) {
+                    const modded = resp.eventsData.map((item: EventItemTypes) => {
+                        if (item.end) {
+                            item.end = moment(item.end).toDate()
+                        }
+
+                        if (item.start) {
+                            item.start = moment(item.start).toDate()
+                        }
+
+                        return item
+                    })
+
+                    dispatch(initializeUserEventsData(modded))
+
+                    // dispatch(initializeUserEventsData(resp.eventsData))
+                }
+            })
+        }
+    }, [status, data?.user?.email])
 }

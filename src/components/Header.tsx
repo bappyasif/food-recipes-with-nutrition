@@ -2,7 +2,7 @@
 
 import { MdFoodBank, MdRestaurantMenu } from "react-icons/md"
 import { IoIosColorFilter } from "react-icons/io"
-import { useForInputTextChange, useForOutsideClick, useForTruthToggle } from '@/hooks/forComponents'
+import { getAllEventsDataForAuthenticatedUser, useForInputTextChange, useForOutsideClick, useForTruthToggle } from '@/hooks/forComponents'
 import { NavType, RecipeMealType } from '@/types'
 import { searchRecipes } from '@/utils/dataFetching'
 import Link from 'next/link'
@@ -20,8 +20,13 @@ import { useSession } from "next-auth/react"
 
 store.dispatch(getAllViewedRecipesFromDb())
 
+// store.dispatch(getAllUserSpeceficEventsData())
+
 export const Header = () => {
   const renderNavs = () => navs.map(item => <RenderNav key={item.name} icon={item.icon} name={item.name} path={item.path} />)
+
+  // fetching user specific events data from db once per page load
+  getAllEventsDataForAuthenticatedUser()
 
   const pathName = usePathname()
 
