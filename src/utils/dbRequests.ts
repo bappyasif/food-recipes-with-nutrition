@@ -50,9 +50,15 @@ export const addToSchedulerEvents = async (eventData: EventItemTypes) => {
 
     const reqStr = `${getBaseApiUrl()}/${process.env.NEXT_PUBLIC_SCHEDULER_EVENTS_API_ENDPOINT}`
 
-    const statCode = (await axios.post(reqStr, data)).status
+    const resp = (await axios.post(reqStr, data))
+    
+    const statCode = resp.status
+
+    const newEventData = resp.data.newEvent
 
     console.log("status code!!", statCode)
+
+    return newEventData
 }
 
 export const fetchUserEventsDataFromDb = async (userEmail:string, userName: string) => {

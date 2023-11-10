@@ -62,14 +62,20 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const handleAddToList = (data: EventItemTypes) => {
         const newEvent = { ...data, id: v4() }
-        setEvents(prev => [...prev, newEvent])
         
         if(status === "authenticated") {
             newEvent.user = { email: userData?.user?.email as string, name: userData?.user?.name as string }
 
-            addToSchedulerEvents(newEvent)
-            console.log("data added!!", newEvent)
+            addToSchedulerEvents(newEvent).then((newEventData:any) => {
+                // console.log(newEventData, "resp add!!")
+                setEvents(prev => [...prev, newEventData])
+            })
+            // console.log("data added!!", newEvent)
+        } else {
+            setEvents(prev => [...prev, newEvent])
         }
+
+        // setEvents(prev => [...prev, newEvent])
     }
 
     const handleOnSelectEvent = (event: any | Event) => {

@@ -54,6 +54,8 @@ export const POST = async (req: Request) => {
                 }
             }
         })
+
+        // console.log(newEvent, "nmew event!!")
         
         return NextResponse.json({ msg: "het is leven!!", newEvent })
 
@@ -97,6 +99,7 @@ export async function PUT (req: Request) {
 export async function DELETE (req: Request) {
     try {
         const {id} = await req.json()
+        // console.log(id, "id!!")
         await connectingDatabase()
         const resp = await prisma.events.delete({
             where: {
