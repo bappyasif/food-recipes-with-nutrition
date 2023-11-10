@@ -192,8 +192,8 @@ export type Props = {
 }
 
 export type EventItemTypes = {
-  start: Date;
-  end: Date;
+  start: Date | string;
+  end: Date | string;
   id: number | string;
   title: string;
   description: string;

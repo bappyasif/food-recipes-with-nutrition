@@ -13,6 +13,8 @@ import { useSession } from 'next-auth/react'
 import { useAppDispatch } from '@/hooks/forRedux'
 import { addToEventsData } from '@/redux/features/events/EventsSlice'
 import { EventItemTypes } from '@/types'
+import { useRouter } from 'next/navigation'
+import { addToSchedulerEvents } from '@/utils/dbRequests'
 
 const style: CSSProperties = {
     height: '4rem',
@@ -73,11 +75,13 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     const { handleTextChange: handleDesc, text: descText, resetText:handleResetText } = useForInputTextChange()
 
-    const {data} = useSession()
+    const {data, status} = useSession()
 
     const userData = data?.user
 
     const dispatch = useAppDispatch()
+
+    const route = useRouter()
     
     const handleScheduler = () => {
 
@@ -98,12 +102,17 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                 name: userData.name!
             }
         }
+
+        status === "authenticated" && addToSchedulerEvents(eventItem)
         
-        dispatch(addToEventsData(eventItem))
+        // dispatch(addToEventsData(eventItem))
 
         updateCards([])
 
         handleFalsy()
+
+        // route.refresh()
+        route.replace("/")
     }
 
     const handleClickedScheduler = () => handleTruthy()
@@ -112,8 +121,6 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
         !isTrue && resetText()
         !isTrue && handleResetText()
     }, [isTrue])
-
-    const {status} = useSession()
 
     const decideTitleText = () => {
         let str = ""

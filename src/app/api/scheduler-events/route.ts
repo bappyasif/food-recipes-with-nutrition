@@ -12,6 +12,8 @@ export async function GET(req: NextRequest) {
 
         await connectingDatabase()
 
+        const eventsAll = await prisma.recipe.findMany({})
+
         const eventsData = await prisma.events.findMany({
             where: {
                 user: {
@@ -21,6 +23,8 @@ export async function GET(req: NextRequest) {
             }
             
         })
+
+        console.log(eventsData.length, "all found!!", eventsAll.length)
 
         return NextResponse.json({ msg: "het is leven!!", eventsData }, { status: 201 })
 
