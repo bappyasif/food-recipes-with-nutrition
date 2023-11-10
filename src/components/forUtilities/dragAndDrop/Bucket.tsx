@@ -10,8 +10,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { EmailIcon, EmailShareButton, FacebookIcon, FacebookShareButton, PinterestIcon, PinterestShareButton, TwitterIcon, TwitterShareButton } from "next-share"
 import { Badge } from '@/components/ui/badge'
 import { useSession } from 'next-auth/react'
-import { useAppDispatch } from '@/hooks/forRedux'
-import { addToEventsData } from '@/redux/features/events/EventsSlice'
 import { EventItemTypes } from '@/types'
 import { useRouter } from 'next/navigation'
 import { addToSchedulerEvents } from '@/utils/dbRequests'
@@ -79,7 +77,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     const userData = data?.user
 
-    const dispatch = useAppDispatch()
+    // const dispatch = useAppDispatch()
 
     const route = useRouter()
     

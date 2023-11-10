@@ -26,7 +26,8 @@ export const Header = () => {
   const renderNavs = () => navs.map(item => <RenderNav key={item.name} icon={item.icon} name={item.name} path={item.path} />)
 
   // fetching user specific events data from db once per page load
-  getAllEventsDataForAuthenticatedUser()
+  // reverting back a doing so scheduler events fails to use dnd addons properly
+  // getAllEventsDataForAuthenticatedUser()
 
   const pathName = usePathname()
 

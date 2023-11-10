@@ -1,7 +1,6 @@
 import prisma from "@/utils/prismaClientHandler";
 import { connectingDatabase } from "@/utils/server-helpers";
 import { log } from "console";
-import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -12,8 +11,6 @@ export async function GET(req: NextRequest) {
 
         await connectingDatabase()
 
-        const eventsAll = await prisma.recipe.findMany({})
-
         const eventsData = await prisma.events.findMany({
             where: {
                 user: {
@@ -23,8 +20,6 @@ export async function GET(req: NextRequest) {
             }
             
         })
-
-        console.log(eventsData.length, "all found!!", eventsAll.length)
 
         return NextResponse.json({ msg: "het is leven!!", eventsData }, { status: 201 })
 
@@ -70,8 +65,6 @@ export async function PUT (req: Request) {
         const {id, start, end, title, description} = await req.json()
 
         await connectingDatabase()
-
-        console.log(id, start, "what what!!")
 
         const resp = await prisma.events.update({
             where: {
