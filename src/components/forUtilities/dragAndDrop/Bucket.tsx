@@ -71,16 +71,16 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     const { handleTextChange, text, resetText } = useForInputTextChange()
 
-    const { handleTextChange: handleDesc, text: descText, resetText:handleResetText } = useForInputTextChange()
+    const { handleTextChange: handleDesc, text: descText, resetText: handleResetText } = useForInputTextChange()
 
-    const {data, status} = useSession()
+    const { data, status } = useSession()
 
     const userData = data?.user
 
     // const dispatch = useAppDispatch()
 
     const route = useRouter()
-    
+
     const handleScheduler = () => {
 
         const getFourRecipes = () => cards.map(item => ({ name: item.label, imgSrc: item.imgSrc }));
@@ -94,7 +94,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
             recipes: getFourRecipes()
         }
 
-        if(userData?.email) {
+        if (userData?.email) {
             eventItem.user = {
                 email: userData.email,
                 name: userData.name!
@@ -102,7 +102,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
         }
 
         status === "authenticated" && addToSchedulerEvents(eventItem)
-        
+
         // dispatch(addToEventsData(eventItem))
 
         updateCards([])
@@ -122,28 +122,29 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     const decideTitleText = () => {
         let str = ""
-        
-        if(status === "authenticated" && cards.length) {
+
+        if (status === "authenticated" && cards.length) {
             str = "Add To Scheuler Event"
-        } else if(status === "unauthenticated" && cards.length) {
+        } else if (status === "unauthenticated" && cards.length) {
             str = "Please Login First"
-        } else if(status === "authenticated" && !cards.length) {
+        } else if (status === "authenticated" && !cards.length) {
             str = "Add Cards First From Search Results Dropdown"
-        } else if(status === "unauthenticated" && !cards.length) {
+        } else if (status === "unauthenticated" && !cards.length) {
             str = "Please Login First And Add Cards "
-        } 
+        }
         return str
     }
 
     return (
         <div className=''>
-            <div 
-            className='flex xxs:flex-col gap-2 justify-between'
-            title={decideTitleText()}>
-                <Button 
-                className='text-xs w-full text-muted'  
-                disabled={!cards?.length || status === "unauthenticated"} 
-                onClick={handleClickedScheduler} 
+            <div
+                className='flex xxs:flex-col gap-2 justify-between'
+                title={decideTitleText()}
+            >
+                <Button
+                    className='text-xs w-full text-muted'
+                    disabled={!cards?.length || status === "unauthenticated"}
+                    onClick={handleClickedScheduler}
                 >Add To Scheduler</Button>
                 <ShareInSocialMedias hashtags={["cooking", "recipes"]} description='Get to know your cooking side of it' title='Cooking Recipes' ready={!!cards.length} />
             </div>
@@ -151,7 +152,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                 isTrue
                     ?
                     <Popover open={isTrue}>
-                        <PopoverContent className='bg-card'>
+                        <PopoverContent className='bg-card flex flex-col gap-y-2 w-fit'>
                             <span>
                                 <span>Title</span>
                                 <input type="text" value={text} onChange={handleTextChange} className='bg-secondary w-full' required />
@@ -161,6 +162,8 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                                 <span>Descriptions</span>
                                 <textarea name="description" id="description" className="w-full bg-secondary" rows={6} value={descText} onChange={handleDesc}></textarea>
                             </span>
+
+                            <EventCreateTimeAndDate />
                         </PopoverContent>
 
                         <PopoverTrigger className='bg-card flex gap-2 w-full my-1'>
@@ -171,6 +174,22 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                     : null
             }
         </div>
+    )
+}
+
+const EventCreateTimeAndDate = () => {
+    return (
+        <span className='flex flex-col gap-1'>
+            <span className='flex justify-between gap-x-2 w-full'>
+                <span>Start Date-time</span>
+                <input type="datetime-local" name="date-time" id="date-time" />
+            </span>
+
+            <span className='flex justify-between gap-x-2 w-full'>
+                <span>End Date-time</span>
+                <input type="datetime-local" name="date-time" id="date-time" />
+            </span>
+        </span>
     )
 }
 

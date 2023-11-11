@@ -47,12 +47,64 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const handleRemoveFromList = () => {
         if (!events.length) return
+
+        // forDDFalsy()
+
         const filtered = events.filter(item => item.id !== currentlyViewingEventId)
         if (status === "authenticated") {
             deleteUserEventDataInDb(currentlyViewingEventId as string)
         }
         setEvents(filtered)
     }
+
+    const { handleFalsy: handleFalsyForCC, handleTruthy: handleTruthyForCC, isTrue: showCC } = useForTruthToggle()
+
+    const deleteFromDDModal = () => {
+        // forDDFalsy()
+        handleTruthyForCC()
+        // handleFalsyForCC()
+        // handleForShowEventFalsy()
+
+        // const userPrompt = prompt("Last chance to withdraw from deleting!! To delete press Y")
+
+        // const regStr = /[y|Y]/
+
+        // console.log(regStr.test(userPrompt!), "prompt!!", currentlyViewingEventId)
+
+        // if(regStr.test(userPrompt!)) {
+        //     handleRemoveFromList()
+        // }
+        // console.log("delete!!", forDD, showCC)
+    }
+
+    useEffect(() => {
+        if (showCC && currentlyViewingEventId) {
+            const userPrompt = prompt("Last chance to withdraw from deleting!! To delete press Y")
+
+            const regStr = /[y|Y]/
+
+            // console.log(regStr.test(userPrompt!), "prompt!!", currentlyViewingEventId)
+
+            if (regStr.test(userPrompt!)) {
+                handleRemoveFromList()
+            }
+        }
+    }, [showCC, currentlyViewingEventId])
+
+    // const editFromDDModal = () => {
+    //     forDDTruthy()
+    //     // handleTruthyForCC()
+    //     handleFalsyForCC()
+    //     console.log("edit!!", forDD, showCC)
+    // }
+
+    // const ddAction = () => {
+    //     // forDDFalsy();
+    //     // handleForShowEventFalsy()
+    //     console.log("dd open!!")
+    // }
+
+    // console.log("check!!", forDD, showCC, forShowEvent)
 
     const handleAddToList = (data: EventItemTypes) => {
         const newEvent = { ...data, id: v4() }
@@ -71,7 +123,17 @@ export const Scheduler = ({ open }: { open: boolean }) => {
     const handleOnSelectEvent = (event: any | Event) => {
         setCurrentlyViewingEventId(event.id)
 
-        handleForShowEventTruthy()
+        !showCC && handleForShowEventTruthy()
+
+        showCC && handleFalsyForCC()
+
+        // console.log(event?.id, "eventID!!")
+
+        // console.log("slot clicked!!", showCC)
+
+        // handleFalsyForCC()
+
+        // forDDFalsy()
     }
 
     const handleOnSelectSlot = (event: SlotInfo) => {
@@ -250,7 +312,15 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                 onDropFromOutside={({ start, end, allDay }) => { console.log(start, end, "!!") }}
 
                 components={{
-                    event: props => (<EventOptionsDropDown remove={handleRemoveFromList} edit={forDDTruthy} {...props} />)
+                    event: props => (<EventOptionsDropDown
+                        // remove={handleRemoveFromList} 
+                        remove={deleteFromDDModal}
+                        edit={forDDTruthy}
+                        // edit={editFromDDModal} 
+                        {...props}
+                    // closeED={ddAction} 
+                    // afterOpen={forShowEvent}
+                    />)
                 }}
 
                 onSelectEvent={handleOnSelectEvent}

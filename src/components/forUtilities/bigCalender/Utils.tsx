@@ -5,7 +5,7 @@ import { useForInputTextChange } from "@/hooks/forComponents"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { SlotInfo } from "react-big-calendar"
 // import { EventItemTypes } from "./Scheduler"
-import { ChangeEvent } from "react"
+import { ChangeEvent, useEffect } from "react"
 import moment from "moment"
 import Image from "next/image"
 import { ShareInSocialMedias } from "../dragAndDrop/Bucket"
@@ -159,6 +159,11 @@ const RenderTitleAndDescription = ({ titleText, descText, handleTitle, handleDes
 }
 
 export const EventOptionsDropDown = (props: any) => {
+    // useEffect(() => {
+    //     !props.afterOpen && props.closeED()
+    //     props.afterOpen && console.log("running once!!")
+    // }, [props.afterOpen])
+
     return (
         <div className='flex justify-between'>
             <h2>!! {props.title} !!</h2>
