@@ -41,7 +41,6 @@ export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFrom
                     <DialogTrigger className='text-primary bg-accent font-bold text-xl' onClick={handleConfirmEdit}>Confirm Edit</DialogTrigger>
 
                     <RenderRecipesList hasCooking={eventItem?.recipes?.length ? true : false} items={eventItem?.recipes || []} />
-
                 </DialogDescription>
 
                 <DialogTitle className=''>Reday To Delete?</DialogTitle>
@@ -164,6 +163,8 @@ export const EventOptionsDropDown = (props: any) => {
     //     props.afterOpen && console.log("running once!!")
     // }, [props.afterOpen])
 
+    // console.log("props!!", props.event.id)
+
     return (
         <div className='flex justify-between'>
             <h2>!! {props.title} !!</h2>
@@ -173,7 +174,8 @@ export const EventOptionsDropDown = (props: any) => {
                     <DropdownMenuLabel>Choose To</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={props.edit}>Edit</DropdownMenuItem>
-                    <DropdownMenuItem onClick={props.remove}>Delete</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => props.remove(props.event.id)}>Delete</DropdownMenuItem>
+                    {/* <DropdownMenuItem onClick={props.remove}>Delete</DropdownMenuItem> */}
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

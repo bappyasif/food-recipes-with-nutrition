@@ -1,4 +1,4 @@
-import React, { CSSProperties, useCallback, useEffect } from 'react'
+import React, { CSSProperties, useCallback, useEffect, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { CardBoxProps } from './RecipesList'
 import update from 'immutability-helper'
@@ -80,14 +80,25 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     // const dispatch = useAppDispatch()
 
     const route = useRouter()
+    
+    const [seStr, setSeStr] = useState({start: "", end: ""})
+
+    const getStartStr = (data: any) => setSeStr(prev => ({...prev, start: data.start}))
+    const getEndStr = (data: any) => setSeStr(prev => ({...prev, end: data.end}))
 
     const handleScheduler = () => {
+
+        console.log(seStr.start, seStr.end, "start end!!", moment(seStr.start), moment(seStr.end).toDate())
 
         const getFourRecipes = () => cards.map(item => ({ name: item.label, imgSrc: item.imgSrc }));
 
         const eventItem: EventItemTypes = {
-            start: moment().toDate(),
-            end: moment().add(1, "hour").toDate(),
+            // start: moment().toDate(),
+            // end: moment().add(1, "hour").toDate(),
+            // start: seStr.start,
+            // end: seStr.end,
+            start: seStr.start ? moment(seStr.start!).toDate() : moment().toDate(),
+            end: seStr.end ? moment(seStr.end!).toDate() : moment().add(1, "hour").toDate(),
             id: v4(),
             title: `Cooking Recipe List:: ${text}` || "no title has provided",
             description: descText || "go gogogogoogog",
@@ -152,7 +163,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                 isTrue
                     ?
                     <Popover open={isTrue}>
-                        <PopoverContent className='bg-card flex flex-col gap-y-2 w-fit'>
+                        <PopoverContent className='bg-card flex flex-col gap-y-2 w-fit text-muted-foreground'>
                             <span>
                                 <span>Title</span>
                                 <input type="text" value={text} onChange={handleTextChange} className='bg-secondary w-full' required />
@@ -163,7 +174,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                                 <textarea name="description" id="description" className="w-full bg-secondary" rows={6} value={descText} onChange={handleDesc}></textarea>
                             </span>
 
-                            <EventCreateTimeAndDate />
+                            <EventCreateTimeAndDate getEndStr={getEndStr} getStartStr={getStartStr} />
                         </PopoverContent>
 
                         <PopoverTrigger className='bg-card flex gap-2 w-full my-1'>
@@ -177,18 +188,50 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     )
 }
 
-const EventCreateTimeAndDate = () => {
+const CustomDateAndTime = ({heading, getData}: {heading: string, getData: (item: object) => void}) => {
+    // const [dateStr, setDateStr] = useState()
+
+    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => console.log(e.target.value)
+
+    const {handleTextChange, text, resetText} = useForInputTextChange()
+
+    console.log(text)
+
+    const isStart = () => heading.includes("Start")
+
+    useEffect(() => {
+        getData({[isStart() ? "start" : "end"]: text})
+    }, [text])
+
+    // useEffect(() => {
+    //     resetText()
+    // }, [])
+
+    return (
+        <span className='flex justify-between gap-x-2 w-full'>
+            <span>{heading}</span>
+            <input className='bg-accent' type="datetime-local" name="date-time" id="date-time" onChange={handleTextChange} />
+        </span>
+    )
+}
+
+const EventCreateTimeAndDate = ({getStartStr, getEndStr}: {getStartStr: (data:object) => void, getEndStr: (data:object) => void}) => {
+    // const getStartStr = (data: object) => console.log(data, "!!")
+    // const getEndStr = (data: object) => console.log(data, "!!")
+
     return (
         <span className='flex flex-col gap-1'>
-            <span className='flex justify-between gap-x-2 w-full'>
+            <CustomDateAndTime heading='Start Date-time' getData={getStartStr} />
+            <CustomDateAndTime heading='End Date-time' getData={getEndStr} />
+            {/* <span className='flex justify-between gap-x-2 w-full'>
                 <span>Start Date-time</span>
                 <input type="datetime-local" name="date-time" id="date-time" />
-            </span>
+            </span> */}
 
-            <span className='flex justify-between gap-x-2 w-full'>
+            {/* <span className='flex justify-between gap-x-2 w-full'>
                 <span>End Date-time</span>
                 <input type="datetime-local" name="date-time" id="date-time" />
-            </span>
+            </span> */}
         </span>
     )
 }

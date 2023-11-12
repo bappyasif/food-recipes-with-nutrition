@@ -45,25 +45,66 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         setEvents(updatedEvents)
     }
 
+    // const handleRemoveFromList = (id?: string) => {
+    //     if (!events.length) return
+
+    //     // forDDFalsy()
+
+    //     const filtered = events.filter(item => item.id !== currentlyViewingEventId)
+
+    //     // const filtered = events.filter(item => item.id !== (id ? id : currentlyViewingEventId))
+    //     // console.log(filtered, currentlyViewingEventId, id)
+    //     if (status === "authenticated") {
+    //         // deleteUserEventDataInDb(id ? id : currentlyViewingEventId as string)
+    //         deleteUserEventDataInDb(currentlyViewingEventId as string)
+    //         // handleFalsyForCC()
+    //         // setCurrentlyViewingEventId(0)
+    //     }
+    //     setEvents(filtered)
+    // }
+
     const handleRemoveFromList = () => {
         if (!events.length) return
 
-        // forDDFalsy()
-
         const filtered = events.filter(item => item.id !== currentlyViewingEventId)
-        if (status === "authenticated") {
+
+        // console.log(filtered, currentlyViewingEventId, id)
+        if (status === "authenticated" && currentlyViewingEventId) {
             deleteUserEventDataInDb(currentlyViewingEventId as string)
+            setCurrentlyViewingEventId(0)
         }
-        setEvents(filtered)
+
+        currentlyViewingEventId && setEvents(filtered)
     }
 
     const { handleFalsy: handleFalsyForCC, handleTruthy: handleTruthyForCC, isTrue: showCC } = useForTruthToggle()
 
-    const deleteFromDDModal = () => {
+    const deleteFromDDModal = (id: string) => {
         // forDDFalsy()
         handleTruthyForCC()
         // handleFalsyForCC()
         // handleForShowEventFalsy()
+
+        // handleRemoveFromList(id)
+
+        setCurrentlyViewingEventId(id)
+
+        handleRemoveFromList()
+
+        // console.log(currentlyViewingEventId, "idddd", id)
+
+        // const filtered = events.filter(item => item.id !== id)
+
+        // console.log(filtered, currentlyViewingEventId, id, events)
+
+        // if (status === "authenticated") {
+        //     deleteUserEventDataInDb(id ? id : currentlyViewingEventId as string)
+        //     // deleteUserEventDataInDb(currentlyViewingEventId as string)
+        //     // handleFalsyForCC()
+        //     // setCurrentlyViewingEventId(0)
+        // }
+
+        // setEvents(filtered)
 
         // const userPrompt = prompt("Last chance to withdraw from deleting!! To delete press Y")
 
@@ -79,17 +120,38 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     useEffect(() => {
         if (showCC && currentlyViewingEventId) {
-            const userPrompt = prompt("Last chance to withdraw from deleting!! To delete press Y")
 
-            const regStr = /[y|Y]/
+            const filtered = events.filter(item => item.id !== currentlyViewingEventId)
 
-            // console.log(regStr.test(userPrompt!), "prompt!!", currentlyViewingEventId)
+            console.log(filtered, currentlyViewingEventId, events)
 
-            if (regStr.test(userPrompt!)) {
-                handleRemoveFromList()
+            if (status === "authenticated") {
+                // deleteUserEventDataInDb(id ? id : currentlyViewingEventId as string)
+                deleteUserEventDataInDb(currentlyViewingEventId as string)
+                // handleFalsyForCC()
+                setCurrentlyViewingEventId(0)
             }
+
+            setEvents(filtered)
+
         }
     }, [showCC, currentlyViewingEventId])
+
+    // useEffect(() => {
+    //     if (showCC && currentlyViewingEventId) {
+    //         const userPrompt = prompt("Last chance to withdraw from deleting!! To delete press Y")
+
+    //         const regStr = /[y|Y]/
+
+    //         console.log(showCC, currentlyViewingEventId, "!!!!")
+
+    //         // console.log(regStr.test(userPrompt!), "prompt!!", currentlyViewingEventId)
+
+    //         if (regStr.test(userPrompt!)) {
+    //             handleRemoveFromList()
+    //         }
+    //     }
+    // }, [showCC])
 
     // const editFromDDModal = () => {
     //     forDDTruthy()
@@ -187,7 +249,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
             fetchUserEventsDataFromDb(userData.user?.email!, userData.user?.name!)
                 .then(resp => {
                     if (resp?.eventsData.length) {
-                        const modded = resp.eventsData.map((item: EventItemTypes) => {
+                        const modded = resp.eventsData.map((item: any) => {
                             if (item.end) {
                                 item.end = moment(item.end).toDate()
                             }
@@ -195,6 +257,8 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                             if (item.start) {
                                 item.start = moment(item.start).toDate()
                             }
+
+                            item.recipes = item.recipes.data
 
                             return item
                         })
