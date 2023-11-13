@@ -8,8 +8,10 @@ import { useForTruthToggle } from '@/hooks/forComponents'
 import { DialogModal, DialogModalForEditOrDelete, EventOptionsDropDown, ShowFullEventDetails } from './Utils'
 import { v4 as uuidv4, v4 } from 'uuid';
 import { useSession } from 'next-auth/react'
-import { addToSchedulerEvents, deleteUserEventDataInDb, fetchUserEventsDataFromDb, updateUserEventDataInDb } from '@/utils/dbRequests'
+import { addToSchedulerEvents, deleteUserEventDataInDb, fetchUserEventsDataFromDb, sendUserEmailRequest, updateUserEventDataInDb } from '@/utils/dbRequests'
 import { EventItemTypes } from '@/types'
+// import { resendSMTP } from '@/app/[locale]/page'
+// import { resendSMTP } from '@/email/ResendSmtp'
 
 
 const DnDCalendar = withDragAndDrop(Calendar)
@@ -31,14 +33,21 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const { data: userData, status } = useSession()
 
+    // useEffect(() => {
+    //     // resendSMTP()
+    //     sendUserEmailRequest("asifuzzamanbappy@gmail.com")
+    // }, [])
+
     const updateCurrentlyViewingEventChanges = (title: string, description: string) => {
         const updatedEvents = events.map(item => {
             if (item.id === currentlyViewingEventId) {
                 item.title = title ? title : item.title
+                
                 item.description = description ? description : item.description
 
                 status === "authenticated" && updateUserEventDataInDb({ ...item })
             }
+
             return item
         })
 
@@ -87,6 +96,8 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const handleAddToList = (data: EventItemTypes) => {
         const newEvent = { ...data, id: v4() }
+
+        sendUserEmailRequest("asifuzzamanbappy@gmail.com")
 
         if (status === "authenticated") {
             newEvent.user = { email: userData?.user?.email as string, name: userData?.user?.name as string }

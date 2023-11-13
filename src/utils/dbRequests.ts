@@ -100,3 +100,17 @@ export const deleteUserEventDataInDb = async (id:string
 
     console.log("status code!!", statCode)
 }
+
+export const sendUserEmailRequest = async (reciepientEmail: string) => {
+    const data = {
+        email: reciepientEmail
+    }
+
+    const reqStr = `${getBaseApiUrl()}/api/email`
+
+    const resp = (await axios.post(reqStr, data))
+    
+    const statCode = resp.status
+
+    console.log("status code for email!!", statCode)
+}
