@@ -77,8 +77,6 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     const userData = data?.user
 
-    // const dispatch = useAppDispatch()
-
     const route = useRouter()
     
     const [seStr, setSeStr] = useState({start: "", end: ""})
@@ -93,10 +91,6 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
         const getFourRecipes = () => cards.map(item => ({ name: item.label, imgSrc: item.imgSrc }));
 
         const eventItem: EventItemTypes = {
-            // start: moment().toDate(),
-            // end: moment().add(1, "hour").toDate(),
-            // start: seStr.start,
-            // end: seStr.end,
             start: seStr.start ? moment(seStr.start!).toDate() : moment().toDate(),
             end: seStr.end ? moment(seStr.end!).toDate() : moment().add(1, "hour").toDate(),
             id: v4(),
@@ -189,10 +183,6 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 }
 
 const CustomDateAndTime = ({heading, getData}: {heading: string, getData: (item: object) => void}) => {
-    // const [dateStr, setDateStr] = useState()
-
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => console.log(e.target.value)
-
     const {handleTextChange, text, resetText} = useForInputTextChange()
 
     console.log(text)
@@ -203,10 +193,6 @@ const CustomDateAndTime = ({heading, getData}: {heading: string, getData: (item:
         getData({[isStart() ? "start" : "end"]: text})
     }, [text])
 
-    // useEffect(() => {
-    //     resetText()
-    // }, [])
-
     return (
         <span className='flex justify-between gap-x-2 w-full'>
             <span>{heading}</span>
@@ -216,22 +202,10 @@ const CustomDateAndTime = ({heading, getData}: {heading: string, getData: (item:
 }
 
 const EventCreateTimeAndDate = ({getStartStr, getEndStr}: {getStartStr: (data:object) => void, getEndStr: (data:object) => void}) => {
-    // const getStartStr = (data: object) => console.log(data, "!!")
-    // const getEndStr = (data: object) => console.log(data, "!!")
-
     return (
         <span className='flex flex-col gap-1'>
             <CustomDateAndTime heading='Start Date-time' getData={getStartStr} />
             <CustomDateAndTime heading='End Date-time' getData={getEndStr} />
-            {/* <span className='flex justify-between gap-x-2 w-full'>
-                <span>Start Date-time</span>
-                <input type="datetime-local" name="date-time" id="date-time" />
-            </span> */}
-
-            {/* <span className='flex justify-between gap-x-2 w-full'>
-                <span>End Date-time</span>
-                <input type="datetime-local" name="date-time" id="date-time" />
-            </span> */}
         </span>
     )
 }

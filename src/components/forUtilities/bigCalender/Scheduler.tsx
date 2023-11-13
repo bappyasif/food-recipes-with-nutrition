@@ -45,128 +45,45 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         setEvents(updatedEvents)
     }
 
-    // const handleRemoveFromList = (id?: string) => {
-    //     if (!events.length) return
-
-    //     // forDDFalsy()
-
-    //     const filtered = events.filter(item => item.id !== currentlyViewingEventId)
-
-    //     // const filtered = events.filter(item => item.id !== (id ? id : currentlyViewingEventId))
-    //     // console.log(filtered, currentlyViewingEventId, id)
-    //     if (status === "authenticated") {
-    //         // deleteUserEventDataInDb(id ? id : currentlyViewingEventId as string)
-    //         deleteUserEventDataInDb(currentlyViewingEventId as string)
-    //         // handleFalsyForCC()
-    //         // setCurrentlyViewingEventId(0)
-    //     }
-    //     setEvents(filtered)
-    // }
-
     const handleRemoveFromList = () => {
         if (!events.length) return
 
-        const filtered = events.filter(item => item.id !== currentlyViewingEventId)
-
-        // console.log(filtered, currentlyViewingEventId, id)
-        if (status === "authenticated" && currentlyViewingEventId) {
-            deleteUserEventDataInDb(currentlyViewingEventId as string)
-            setCurrentlyViewingEventId(0)
-        }
-
-        currentlyViewingEventId && setEvents(filtered)
+        currentlyViewingEventId && handleRemove()
     }
 
     const { handleFalsy: handleFalsyForCC, handleTruthy: handleTruthyForCC, isTrue: showCC } = useForTruthToggle()
 
     const deleteFromDDModal = (id: string) => {
-        // forDDFalsy()
         handleTruthyForCC()
-        // handleFalsyForCC()
-        // handleForShowEventFalsy()
-
-        // handleRemoveFromList(id)
-
+        
         setCurrentlyViewingEventId(id)
 
         handleRemoveFromList()
+    }
 
-        // console.log(currentlyViewingEventId, "idddd", id)
+    const handleRemove = () => {
+        const filtered = events.filter(item => item.id !== currentlyViewingEventId)
 
-        // const filtered = events.filter(item => item.id !== id)
+            if (status === "authenticated") {
+                deleteUserEventDataInDb(currentlyViewingEventId as string)
+                setCurrentlyViewingEventId(0)
+            }
 
-        // console.log(filtered, currentlyViewingEventId, id, events)
-
-        // if (status === "authenticated") {
-        //     deleteUserEventDataInDb(id ? id : currentlyViewingEventId as string)
-        //     // deleteUserEventDataInDb(currentlyViewingEventId as string)
-        //     // handleFalsyForCC()
-        //     // setCurrentlyViewingEventId(0)
-        // }
-
-        // setEvents(filtered)
-
-        // const userPrompt = prompt("Last chance to withdraw from deleting!! To delete press Y")
-
-        // const regStr = /[y|Y]/
-
-        // console.log(regStr.test(userPrompt!), "prompt!!", currentlyViewingEventId)
-
-        // if(regStr.test(userPrompt!)) {
-        //     handleRemoveFromList()
-        // }
-        // console.log("delete!!", forDD, showCC)
+            setEvents(filtered)
     }
 
     useEffect(() => {
         if (showCC && currentlyViewingEventId) {
 
-            const filtered = events.filter(item => item.id !== currentlyViewingEventId)
+            const userPrompt = prompt("Last chance to withdraw from deleting!! To delete press Y")
 
-            console.log(filtered, currentlyViewingEventId, events)
+            const regStr = /[y|Y]/
 
-            if (status === "authenticated") {
-                // deleteUserEventDataInDb(id ? id : currentlyViewingEventId as string)
-                deleteUserEventDataInDb(currentlyViewingEventId as string)
-                // handleFalsyForCC()
-                setCurrentlyViewingEventId(0)
+            if(regStr.test(userPrompt!)) {
+                handleRemove()
             }
-
-            setEvents(filtered)
-
         }
     }, [showCC, currentlyViewingEventId])
-
-    // useEffect(() => {
-    //     if (showCC && currentlyViewingEventId) {
-    //         const userPrompt = prompt("Last chance to withdraw from deleting!! To delete press Y")
-
-    //         const regStr = /[y|Y]/
-
-    //         console.log(showCC, currentlyViewingEventId, "!!!!")
-
-    //         // console.log(regStr.test(userPrompt!), "prompt!!", currentlyViewingEventId)
-
-    //         if (regStr.test(userPrompt!)) {
-    //             handleRemoveFromList()
-    //         }
-    //     }
-    // }, [showCC])
-
-    // const editFromDDModal = () => {
-    //     forDDTruthy()
-    //     // handleTruthyForCC()
-    //     handleFalsyForCC()
-    //     console.log("edit!!", forDD, showCC)
-    // }
-
-    // const ddAction = () => {
-    //     // forDDFalsy();
-    //     // handleForShowEventFalsy()
-    //     console.log("dd open!!")
-    // }
-
-    // console.log("check!!", forDD, showCC, forShowEvent)
 
     const handleAddToList = (data: EventItemTypes) => {
         const newEvent = { ...data, id: v4() }
@@ -188,14 +105,6 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         !showCC && handleForShowEventTruthy()
 
         showCC && handleFalsyForCC()
-
-        // console.log(event?.id, "eventID!!")
-
-        // console.log("slot clicked!!", showCC)
-
-        // handleFalsyForCC()
-
-        // forDDFalsy()
     }
 
     const handleOnSelectSlot = (event: SlotInfo) => {
