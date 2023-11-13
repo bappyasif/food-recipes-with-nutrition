@@ -66,15 +66,17 @@ export const Scheduler = ({ open }: { open: boolean }) => {
     const handleRemoveFromList = () => {
         if (!events.length) return
 
-        const filtered = events.filter(item => item.id !== currentlyViewingEventId)
+        currentlyViewingEventId && handleRemove()
 
-        // console.log(filtered, currentlyViewingEventId, id)
-        if (status === "authenticated" && currentlyViewingEventId) {
-            deleteUserEventDataInDb(currentlyViewingEventId as string)
-            setCurrentlyViewingEventId(0)
-        }
+        // const filtered = events.filter(item => item.id !== currentlyViewingEventId)
 
-        currentlyViewingEventId && setEvents(filtered)
+        // // console.log(filtered, currentlyViewingEventId, id)
+        // if (status === "authenticated" && currentlyViewingEventId) {
+        //     deleteUserEventDataInDb(currentlyViewingEventId as string)
+        //     setCurrentlyViewingEventId(0)
+        // }
+
+        // currentlyViewingEventId && setEvents(filtered)
     }
 
     const { handleFalsy: handleFalsyForCC, handleTruthy: handleTruthyForCC, isTrue: showCC } = useForTruthToggle()
@@ -118,10 +120,8 @@ export const Scheduler = ({ open }: { open: boolean }) => {
         // console.log("delete!!", forDD, showCC)
     }
 
-    useEffect(() => {
-        if (showCC && currentlyViewingEventId) {
-
-            const filtered = events.filter(item => item.id !== currentlyViewingEventId)
+    const handleRemove = () => {
+        const filtered = events.filter(item => item.id !== currentlyViewingEventId)
 
             console.log(filtered, currentlyViewingEventId, events)
 
@@ -133,6 +133,33 @@ export const Scheduler = ({ open }: { open: boolean }) => {
             }
 
             setEvents(filtered)
+    }
+
+    useEffect(() => {
+        if (showCC && currentlyViewingEventId) {
+
+            const userPrompt = prompt("Last chance to withdraw from deleting!! To delete press Y")
+
+            const regStr = /[y|Y]/
+
+            if(regStr.test(userPrompt!)) {
+                handleRemove()
+            }
+
+            // handleRemove()
+
+            // const filtered = events.filter(item => item.id !== currentlyViewingEventId)
+
+            // console.log(filtered, currentlyViewingEventId, events)
+
+            // if (status === "authenticated") {
+            //     // deleteUserEventDataInDb(id ? id : currentlyViewingEventId as string)
+            //     deleteUserEventDataInDb(currentlyViewingEventId as string)
+            //     // handleFalsyForCC()
+            //     setCurrentlyViewingEventId(0)
+            // }
+
+            // setEvents(filtered)
 
         }
     }, [showCC, currentlyViewingEventId])
