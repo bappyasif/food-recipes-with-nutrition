@@ -7,7 +7,7 @@ export const updateRecordInCollection = (uri:string, images:object) => {
     axios.put(assembleReqStr(), {uri, images}).then((resp) => console.log(resp.status, "updated!!")).catch(err => console.log(err, "error occured...."))
 }
 
-const getBaseApiUrl = () => {
+export const getBaseApiUrl = () => {
     let apiUrl: string;
 
     if (process.env.NODE_ENV === "development") {
