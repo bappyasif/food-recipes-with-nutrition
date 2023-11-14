@@ -1,47 +1,36 @@
+import { AddedRecipesToEvent } from "@/email/AddedRecipesToEvent";
 import { log } from "console";
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
 
-import nodemailer from 'nodemailer';
+const resend = new Resend(process.env.NEXT_RESEND_API_KEY)
 
 export const POST = async (req: NextRequest) => {
-
-    const { email } = await req.json()
-
     try {
-        if (email) {
-            const transporter = nodemailer.createTransport({
-                host: 'smtp.resend.com',
-                secure: true,
-                port: 465,
-                auth: {
-                    user: 'resend',
-                    pass: process.env.NEXT_RESEND_API_KEY,
-                },
-            });
+        const {email} = await req.json()
+        console.log("email request!!", email)
 
-            const info = await transporter.sendMail({
-                from: 'onboarding@resend.dev',
-                // to: 'asifuzzamanbappy@gmail.com',
-                to: email,
-                replyTo: "asifuzzamanbappy@gmail.com",
-                subject: 'Hello World',
-                html: '<strong>!!It works!!</strong>'
-            });
+        const { data, error } = await resend.emails.send({
+            from: 'Whats Cooking Yo!! App <onboarding@resend.dev>',
+            to: [email],
+            // to: ['delivered@resend.dev'],
+            reply_to: "asifuzzamanbappy@gmail.com",
+            subject: "Hello world",
+            react: AddedRecipesToEvent() as React.ReactElement
+            // react: AddedRecipesToEvent() as React.ReactElement,
+        });
 
-            log('Message sent: %s', info.messageId);
+        log('Message sent: %s', data?.id);
 
-            if (info.messageId) {
-                return NextResponse.json({ msg: "message sent!!", msgId: info.messageId, sent: true })
-            } else {
-                return NextResponse.json({ msg: "email failed", sent: false }, { status: 400 })
-            }
-
+        if (data?.id) {
+            return NextResponse.json({ msg: "message sent!!", msgId: data.id, sent: true })
         } else {
+            log(error)
             return NextResponse.json({ msg: "email failed", sent: false }, { status: 400 })
         }
-
     } catch (error) {
         log(error)
         return NextResponse.json({ message: "Server Error" }, { status: 500 })
     }
+
 }
