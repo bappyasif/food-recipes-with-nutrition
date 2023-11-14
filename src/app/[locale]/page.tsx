@@ -2,6 +2,7 @@ import { DuoCarousels, ReusableCarousel } from "@/components/forHome/DuoCarousel
 import { HomeHero } from "@/components/forHome/HomeHero";
 import { RandomizeSelection } from "@/components/forHome/RandomizeSelection";
 import { RecentlyViewedMealsScroller } from "@/components/forHome/RecentlyViewedMealsScroller";
+// import "@/cron/ScheduledEmail"
 
 // import { Resend } from 'resend';
 // const resend = new Resend('re_dgvjUeao_CSde72KynviYMRSHmUSctjPG');

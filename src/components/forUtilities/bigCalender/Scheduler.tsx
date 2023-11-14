@@ -8,7 +8,7 @@ import { useForTruthToggle } from '@/hooks/forComponents'
 import { DialogModal, DialogModalForEditOrDelete, EventOptionsDropDown, ShowFullEventDetails } from './Utils'
 import { v4 as uuidv4, v4 } from 'uuid';
 import { useSession } from 'next-auth/react'
-import { addToSchedulerEvents, deleteUserEventDataInDb, fetchUserEventsDataFromDb, sendUserEmailRequest, updateUserEventDataInDb } from '@/utils/dbRequests'
+import { addToSchedulerEvents, deleteUserEventDataInDb, fetchUserEventsDataFromDb, sendCronEmailRequest, sendUserEmailRequest, updateUserEventDataInDb } from '@/utils/dbRequests'
 import { EventItemTypes } from '@/types'
 // import { resendSMTP } from '@/app/[locale]/page'
 // import { resendSMTP } from '@/email/ResendSmtp'
@@ -37,6 +37,10 @@ export const Scheduler = ({ open }: { open: boolean }) => {
     //     // resendSMTP()
     //     sendUserEmailRequest("asifuzzamanbappy@gmail.com")
     // }, [])
+
+    useEffect(() => {
+        events.length && sendCronEmailRequest("a@b.c")
+    }, [, userData])
 
     const updateCurrentlyViewingEventChanges = (title: string, description: string) => {
         const updatedEvents = events.map(item => {
