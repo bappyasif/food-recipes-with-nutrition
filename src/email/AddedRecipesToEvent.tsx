@@ -30,7 +30,7 @@ export const AddedRecipesToEvent = () => {
                 <Preview>Hurray!! You planned on cooking....</Preview>
                 <Heading as='h1'>Congratulations!!</Heading>
                 <Heading as='h2'>Good luck completing this cooking list, enjoy</Heading>
-                <Button href={getBaseApiUrl()}>Visit Whats's Cooking Yo!!</Button>
+                <Button href={getBaseApiUrl()}>Visit Whats Cooking Yo!!</Button>
             </Container>
         </Html>
     )

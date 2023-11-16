@@ -2,7 +2,7 @@
 
 import { MdFoodBank, MdRestaurantMenu } from "react-icons/md"
 import { IoIosColorFilter } from "react-icons/io"
-import { getAllEventsDataForAuthenticatedUser, useForInputTextChange, useForOutsideClick, useForTruthToggle } from '@/hooks/forComponents'
+import { useForInputTextChange, useForOutsideClick, useForTruthToggle } from '@/hooks/forComponents'
 import { NavType, RecipeMealType } from '@/types'
 import { searchRecipes } from '@/utils/dataFetching'
 import Link from 'next/link'
@@ -27,7 +27,7 @@ export const Header = () => {
 
   // fetching user specific events data from db once per page load
   // reverting back a doing so scheduler events fails to use dnd addons properly
-  // getAllEventsDataForAuthenticatedUser()
+  // useForGetAllEventsDataForAuthenticatedUser()
 
   const pathName = usePathname()
 
@@ -74,12 +74,12 @@ const UserAuth = () => {
     <div className="text-special flex items-center">
       {
         status === "authenticated"
-        ? <Link href={"/api/auth/signout"}>Logout</Link>
+        ? <Link className="bg-accent px-2 rounded-md" href={"/api/auth/signout"}>Logout</Link>
         : status === "loading"
-        ? <Link className="pointer-events-none" href={""}>Wait..</Link>
+        ? <Link className="pointer-events-none bg-accent px-2 rounded-md" href={""}>Wait..</Link>
         : <div className="flex gap-2">
-          <Link href={"/api/auth/signin"}>Login</Link>
-          <Link href={`/${locale}/signup`}>Signup</Link>
+          <Link className="bg-accent px-2 rounded-md" href={"/api/auth/signin"}>Sign-In</Link>
+          <Link className="bg-accent px-2 rounded-md" href={`/${locale}/signup`}>Signup</Link>
         </div>
       }
     </div>

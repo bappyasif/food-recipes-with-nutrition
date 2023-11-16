@@ -367,7 +367,7 @@ export const useForGettingViewedRecipesDataFromBackend = () => {
     }, [])
 }
 
-export const getAllEventsDataForAuthenticatedUser = () => {
+export const useForGetAllEventsDataForAuthenticatedUser = () => {
     const {data, status} = useSession()
     const dispatch = useAppDispatch()
 

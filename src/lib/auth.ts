@@ -21,7 +21,7 @@ export const nextAuthOptions: NextAuthOptions = {
             from: process.env.EMAIL_FROM
         }),
         CredentialsProvider({
-            name: "Login With Credentials",
+            name: "Credentials",
 
             credentials: {
                 email: { label: "Your Email", type: "email", placeholder: "jsmith@wc.yo" },
