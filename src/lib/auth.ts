@@ -40,7 +40,7 @@ export const nextAuthOptions: NextAuthOptions = {
 
                 const isValid = await compare(credentials?.password!, userFound?.password!)
 
-                console.log(isValid, "isValid!!")
+                console.log(isValid, "isValid!!", userFound)
 
                 if (isValid) {
                 // if (userFound?.email) {
@@ -69,20 +69,38 @@ export const nextAuthOptions: NextAuthOptions = {
             },
         }),
     ],
-    callbacks: {
-        // redirect: async ({ url, baseUrl }) => {
-        //     return baseUrl
-        // },
-        jwt: async ({ token, user, account, profile, isNewUser }) => {
-            if (user) {
-                token.id = user.id
-            }
-            return token
-        },
-        session: async ({ session, user, token }) => {
-            token?.user && (session.user = token.user)
-
-            return session
-        }
+    debug: process.env.NODE_ENV === "development",
+    // when using with credentials, this needs to be a jwt token otherwise session wont be created for user
+    session: {
+        strategy: "jwt"
     }
+    
+    // callbacks: {
+    //     // redirect: async ({ url, baseUrl }) => {
+    //     //     return baseUrl
+    //     // },
+    //     jwt: async ({ token, user, account, profile, isNewUser }) => {
+    //         if (user) {
+    //             token.id = user.id
+    //             // token.user = user
+    //         }
+    //         // console.log(token, "token", user)
+    //         return token
+    //     },
+    //     session: async ({ session, user, token }) => {
+    //         // token?.user && (session.user = token.user)
+
+    //         // token.sub && session.user = 
+    //         if(token?.user) {
+    //             session.user = token.user
+    //         } else {
+    //             session.user = user
+    //             console.log(user, "session bees!!")
+    //         }
+
+    //         console.log(session, "session", token, user)
+
+    //         return session
+    //     }
+    // }
 }

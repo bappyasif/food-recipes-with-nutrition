@@ -64,7 +64,11 @@ export const Header = () => {
 }
 
 const UserAuth = () => {
-  const { status } = useSession()
+  const { status, data } = useSession()
+
+  console.log(status, data?.user, "check!!")
+
+  const locale = useLocale()
 
   return (
     <div className="text-special flex items-center">
@@ -73,7 +77,10 @@ const UserAuth = () => {
         ? <Link href={"/api/auth/signout"}>Logout</Link>
         : status === "loading"
         ? <Link className="pointer-events-none" href={""}>Wait..</Link>
-        : <Link href={"/api/auth/signin"}>Login</Link>
+        : <div className="flex gap-2">
+          <Link href={"/api/auth/signin"}>Login</Link>
+          <Link href={`/${locale}/signup`}>Signup</Link>
+        </div>
       }
     </div>
   )

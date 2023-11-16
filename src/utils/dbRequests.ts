@@ -114,3 +114,17 @@ export const sendUserEmailRequest = async (reciepientEmail: string) => {
 
     console.log("status code for email!!", statCode)
 }
+
+export const signupNewCredsUser = async (userData:object) => {
+    const data = {...userData}
+
+    const reqStr = `${getBaseApiUrl()}/api/signup`
+
+    const resp = (await axios.post(reqStr, data))
+    
+    const statCode = resp.status
+
+    console.log("status code for signup!!", statCode)
+
+    return resp.data
+}
