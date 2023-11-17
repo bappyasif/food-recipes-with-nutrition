@@ -11,7 +11,10 @@ export const POST = async (req: NextRequest) => {
 
         const { data, error } = await resend.emails.send({
             from: 'Whats Cooking Yo!! App <onboarding@resend.dev>',
-            to: [email],
+            // to: [email],
+            // to: [email, "delivered@resend.dev"],
+            // to: [email, "asifuzzamanbappy@gmail.com"],
+            to: ["asifuzzamanbappy@gmail.com"],
             reply_to: "asifuzzamanbappy@gmail.com",
             subject: "New Event Added Successfully In Scheduler",
             react: AddedRecipesToEvent() as React.ReactElement
@@ -20,7 +23,7 @@ export const POST = async (req: NextRequest) => {
         log('Message sent: %s', data?.id);
 
         if (data?.id) {
-            return NextResponse.json({ msg: "message sent!!", msgId: data.id, sent: true })
+            return NextResponse.json({ msg: "message sent!!", msgId: data?.id, sent: true })
         } else {
             log(error)
             return NextResponse.json({ msg: "email failed", sent: false }, { status: 400 })

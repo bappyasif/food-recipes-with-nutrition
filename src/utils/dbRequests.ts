@@ -62,7 +62,7 @@ export const addToSchedulerEvents = async (eventData: EventItemTypes) => {
 }
 
 export const fetchUserEventsDataFromDb = async (userEmail:string, userName: string) => {
-    const reqStr = `${getBaseApiUrl()}/${process.env.NEXT_PUBLIC_SCHEDULER_EVENTS_API_ENDPOINT}?email=${userEmail}&name=${userName}`
+    const reqStr = `${getBaseApiUrl()}/${process.env.NEXT_PUBLIC_SCHEDULER_EVENTS_API_ENDPOINT}?email=${userEmail}&name=${userName || "Dear User"}`
     
     const resp = await axios.get(reqStr)
 

@@ -10,8 +10,6 @@ import { v4 as uuidv4, v4 } from 'uuid';
 import { useSession } from 'next-auth/react'
 import { addToSchedulerEvents, deleteUserEventDataInDb, fetchUserEventsDataFromDb, sendUserEmailRequest, updateUserEventDataInDb } from '@/utils/dbRequests'
 import { EventItemTypes } from '@/types'
-// import { resendSMTP } from '@/app/[locale]/page'
-// import { resendSMTP } from '@/email/ResendSmtp'
 
 
 const DnDCalendar = withDragAndDrop(Calendar)
@@ -33,16 +31,11 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const { data: userData, status } = useSession()
 
-    // useEffect(() => {
-    //     // resendSMTP()
-    //     sendUserEmailRequest("asifuzzamanbappy@gmail.com")
-    // }, [])
-
     const updateCurrentlyViewingEventChanges = (title: string, description: string) => {
         const updatedEvents = events.map(item => {
             if (item.id === currentlyViewingEventId) {
                 item.title = title ? title : item.title
-                
+
                 item.description = description ? description : item.description
 
                 status === "authenticated" && updateUserEventDataInDb({ ...item })
@@ -64,7 +57,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     const deleteFromDDModal = (id: string) => {
         handleTruthyForCC()
-        
+
         setCurrentlyViewingEventId(id)
 
         handleRemoveFromList()
@@ -73,12 +66,12 @@ export const Scheduler = ({ open }: { open: boolean }) => {
     const handleRemove = () => {
         const filtered = events.filter(item => item.id !== currentlyViewingEventId)
 
-            if (status === "authenticated") {
-                deleteUserEventDataInDb(currentlyViewingEventId as string)
-                setCurrentlyViewingEventId(0)
-            }
+        if (status === "authenticated") {
+            deleteUserEventDataInDb(currentlyViewingEventId as string)
+            setCurrentlyViewingEventId(0)
+        }
 
-            setEvents(filtered)
+        setEvents(filtered)
     }
 
     useEffect(() => {
@@ -88,7 +81,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
             const regStr = /[y|Y]/
 
-            if(regStr.test(userPrompt!)) {
+            if (regStr.test(userPrompt!)) {
                 handleRemove()
             }
         }
@@ -97,10 +90,12 @@ export const Scheduler = ({ open }: { open: boolean }) => {
     const handleAddToList = (data: EventItemTypes) => {
         const newEvent = { ...data, id: v4() }
 
-        sendUserEmailRequest("asifuzzamanbappy@gmail.com")
+        // sendUserEmailRequest("asifuzzamanbappy@gmail.com")
 
         if (status === "authenticated") {
-            newEvent.user = { email: userData?.user?.email as string, name: userData?.user?.name as string }
+            sendUserEmailRequest(userData?.user?.email || "asifuzzamanbappy@gmail.com")
+
+            newEvent.user = { email: userData?.user?.email as string, name: userData?.user?.name as string || "Dear User" }
 
             addToSchedulerEvents(newEvent).then((newEventData: any) => {
                 setEvents(prev => [...prev, newEventData])

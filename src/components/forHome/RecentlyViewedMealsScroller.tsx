@@ -19,8 +19,6 @@ export const RecentlyViewedMealsScroller = () => {
 
   const recipesList = useAppSelector(state => state.recipes.list)
 
-  // console.log(recipesList, "recipesList!!")
-
   const { handleFalsy: falsyForEight, onlyFour: onlyEight, handleTruthy: truthyForEight, isTrue: forEight, handleNext, beginFrom } = useForRecipeCarouselItems(recipesList)
 
   const renderForCards = () => onlyEight?.map(item => <RenderMealCard key={item.uri} data={item} />)
@@ -45,6 +43,7 @@ export const RecentlyViewedMealsScroller = () => {
   return (
     <div>
       <h2 className='text-xl font-bold'>Some Recently Viewed Meals</h2>
+      <h3 className='text-sm font-semibold'>Real Recipe Image can be seen from Recipe Detail Page</h3>
       <div
         className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center max-h-[26rem] overflow-clip gap-2'
         onMouseEnter={truthyForEight}
@@ -71,10 +70,6 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
   }
 
   const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
-
-  // if(lastUpdated) {
-  //   console.log(lastUpdated, "last updated", lastUpdated < new Date(), moment(lastUpdated).fromNow(), checkIfDayOlder())
-  // }
 
   return (
     <div

@@ -202,7 +202,7 @@ export type EventItemTypes = {
       imgSrc: string
   }[],
   user?: {
-      name: string,
+      name?: string,
       email: string
   }
 }

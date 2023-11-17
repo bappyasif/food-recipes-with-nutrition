@@ -9,13 +9,15 @@ export async function GET(req: NextRequest) {
         const userEmail = searchParams.get('email')
         const userName = searchParams.get('name')
 
+        console.log(userName, userEmail)
+
         await connectingDatabase()
 
         const eventsData = await prisma.events.findMany({
             where: {
                 user: {
                     email: userEmail!,
-                    name: userName!
+                    name: userName || "Dear User"
                 }
             }
             
@@ -41,8 +43,6 @@ export const POST = async (req: Request) => {
                 end,
                 start,
                 title,
-                // id,
-                // recipes,
                 user,
                 recipes: {
                     data: recipes

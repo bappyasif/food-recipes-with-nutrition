@@ -45,7 +45,7 @@ type list {
 }
 
 type user {
-  name  String
+  name  String?
   email String
 }
 
