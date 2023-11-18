@@ -19,26 +19,9 @@ export const RecentlyViewedMealsScroller = () => {
 
   const recipesList = useAppSelector(state => state.recipes.list)
 
-  const { handleFalsy: falsyForEight, onlyFour: onlyEight, handleTruthy: truthyForEight, isTrue: forEight, handleNext, beginFrom } = useForRecipeCarouselItems(recipesList)
+  const { handleFalsy, onlyFour, handleTruthy } = useForRecipeCarouselItems(recipesList)
 
-  const renderForCards = () => onlyEight?.map(item => <RenderMealCard key={item.uri} data={item} />)
-
-  useEffect(() => {
-    let timer = setInterval(() => {
-
-      // if (!isTrue) {
-      if (!forEight) {
-        handleNext()
-      } else {
-        clearInterval(timer)
-        return
-      }
-
-    }, 26000)
-
-    return () => clearInterval(timer)
-
-  }, [beginFrom, forEight])
+  const renderForCards = () => onlyFour?.map(item => <RenderMealCard key={item.uri} data={item} />)
 
   return (
     <div>
@@ -46,10 +29,10 @@ export const RecentlyViewedMealsScroller = () => {
       <h3 className='text-sm font-semibold'>Real Recipe Image can be seen from Recipe Detail Page</h3>
       <div
         className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center max-h-[26rem] overflow-clip gap-2'
-        onMouseEnter={truthyForEight}
-        onMouseLeave={falsyForEight}
+        onMouseEnter={handleTruthy}
+        onMouseLeave={handleFalsy}
       >
-        {onlyEight!?.length ? renderForCards() : null}
+        {onlyFour!?.length ? renderForCards() : null}
       </div>
     </div>
   )
@@ -84,12 +67,12 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
           className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
           blurDataURL={url} placeholder='blur' loading='lazy' 
         /> */}
-        <img 
-          src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
-          alt={label!} width={width} height={height} 
-          className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
+        <img
+          src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url}
+          alt={label!} width={width} height={height}
+          className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`}
           // blurDataURL={url} placeholder='blur' 
-          loading='lazy' 
+          loading='lazy'
         />
 
       </Link>

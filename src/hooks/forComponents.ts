@@ -164,7 +164,11 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
         if (beginFrom > data.length) {
             setBeginFrom(0)
         } else {
-            !isTrue && setBeginFrom(prev => prev + 1)
+            !isTrue && setBeginFrom(prev => {
+                // console.log(prev, "from inside!!")
+                return prev + 1
+            })
+            // console.log(beginFrom, "begin From!!")
         }
     }
 
@@ -179,8 +183,8 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
     const handleOnlyFour = () => {
         let temp: number[] = [];
         Array.from(Array(8).keys()).forEach((v => {
-            if (v + beginFrom >= 20) {
-                temp.push((v + beginFrom) - 20)
+            if (v + beginFrom >= data.length) {
+                temp.push((v + beginFrom) - data.length)
             } else {
                 temp.push(v + beginFrom)
             }
@@ -206,23 +210,18 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
     useEffect(() => {
         let timer = setInterval(() => {
 
-            !isTrue ? handleNext() : clearInterval(timer)
-
-            if (!isTrue) {
+            if (!isTrue && data.length) {
                 handleNext()
-            } else {
-                clearInterval(timer)
-                return
-            }
+            } 
 
-        }, 200000)
+        }, 20000)
 
         return () => clearInterval(timer)
 
-    }, [beginFrom, isTrue])
+    }, [beginFrom, isTrue, data])
 
     useEffect(() => {
-        handleNext()
+        data.length && handleNext()
     }, [data])
 
     return { onlyFour, handleNext, handlePrev, handleFalsy, handleTruthy, isTrue, beginFrom }
