@@ -22,7 +22,7 @@ export const LocaleSwitcher = () => {
         {/* <p className="sr-only">{t('label')}</p> */}
         <span className='xxs:hidden md:block'>{t("label")}</span>
       <select
-        className="inline-flex appearance-none bg-card py-1 pl-2 pr-6 font-bold text-special xxs:text-xs md:text-sm lg:text-xl"
+        className="inline-flex appearance-none bg-card py-1 pl-2 xxs:p-1 lg:pr-6 font-bold text-special xxs:text-xs md:text-sm lg:text-xl"
         defaultValue={locale}
         disabled={isPending}
         onChange={onSelectChange}

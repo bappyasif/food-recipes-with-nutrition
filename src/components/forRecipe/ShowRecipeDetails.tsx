@@ -75,7 +75,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
             </section>
 
-            <section className='flex xxs:flex-col md:flex-row justify-between items-baseline gap-x-6 mx-6'>
+            <section className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-6 mx-6 gap-y-11'>
 
                 <RecipeImage {...data} />
 
@@ -84,7 +84,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 onClick={handleTruthy}
                 >
                     <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>Recipe Information</h2>
-                    <div className={`${isTrue ? "absolute top-16 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 bg-accent w-full`}>
+                    <div className={`${isTrue ? "xxs:relative md:absolute xxs:top-0 md:top-16 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 bg-accent w-full`}>
 
                         <RecipeIngredientsAndInstructions ingredients={ingredients} />
 

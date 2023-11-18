@@ -83,7 +83,7 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
 
     return (
         <div 
-            className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-fit lg:w-[30.6rem] rounded-sm" : `bg-slate-800 xxs:left-0 sm:left-[31%] xxs:h-0 sm:h-0 lg:h-[22rem] lg:w-[18rem] rounded-full ${styles.animateSpin} self-center`} xxs:pl-0 lg:pl-2`}
+            className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-fit lg:w-[32.1rem] rounded-sm" : `bg-slate-800 xxs:left-0 sm:left-[31%] xxs:h-0 sm:h-0 lg:h-[22rem] lg:w-[18rem] rounded-full ${styles.animateSpin} self-center`} xxs:pl-0 lg:pl-2`}
         >
 
             <div className={`grid grid-cols-1 justify-items-start transition-all duration-700 ${!showIt ? "-translate-y-20 opacity-0 scale-0" : "translate-y-0 opacity-100 scale-100"} py-2 z-10`}>

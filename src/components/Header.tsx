@@ -7,7 +7,7 @@ import { NavType, RecipeMealType } from '@/types'
 import { searchRecipes } from '@/utils/dataFetching'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import logo from "../../public/logo-why.png"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
@@ -17,6 +17,8 @@ import { LocaleSwitcher } from "./LocaleSwitcher"
 import { getAllViewedRecipesFromDb } from "@/redux/thunks"
 import store from "@/redux/store"
 import { useSession } from "next-auth/react"
+import { GoSignIn, GoSignOut } from "react-icons/go"
+import { TiUserAdd } from "react-icons/ti"
 
 store.dispatch(getAllViewedRecipesFromDb())
 
@@ -74,15 +76,24 @@ const UserAuth = () => {
     <div className="text-special flex items-center">
       {
         status === "authenticated"
-        ? <Link className="bg-accent px-2 rounded-md" href={"/api/auth/signout"}>Logout</Link>
-        : status === "loading"
-        ? <Link className="pointer-events-none bg-accent px-2 rounded-md" href={""}>Wait..</Link>
-        : <div className="flex gap-2">
-          <Link className="bg-accent px-2 rounded-md" href={"/api/auth/signin"}>Sign-In</Link>
-          <Link className="bg-accent px-2 rounded-md" href={`/${locale}/signup`}>Signup</Link>
-        </div>
+          ? <UserAuthLinkView href={`/api/auth/signout`} text="Logout" icon={<GoSignOut />} />
+          : status === "loading"
+            ? <Link className="pointer-events-none bg-accent px-2 rounded-md" href={""}>Wait..</Link>
+            : <div className="flex gap-2">
+              <UserAuthLinkView href={`/api/auth/signin`} text="Sign-In" icon={<GoSignIn />} />
+              <UserAuthLinkView href={`/${locale}/signup`} text="Signup" icon={<TiUserAdd />} />
+            </div>
       }
     </div>
+  )
+}
+
+const UserAuthLinkView = ({ href, text, icon }: { href: string, text: string, icon: ReactNode }) => {
+  return (
+    <Link className="bg-accent xxs:p-1 lg:px-2 rounded-md flex gap-2 items-center" href={`${href}`} title={text}>
+      <span className="xxs:hidden lg:block">{text}</span>
+      <span className="">{icon}</span>
+    </Link>
   )
 }
 
