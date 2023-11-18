@@ -37,12 +37,12 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
 
     return (
         <div
-            className='relative xxs:w-full md:w-2/3 lg:w-1/3 rounded flex flex-col gap-y-6 items-center'
+            className='relative xxs:w-full md:w-2/3 lg:w-1/2 rounded flex flex-col gap-y-6 items-center'
             onClick={handleClick}
         >
             <h1 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>{label}</h1>
 
-            <div title="Click To See More Info" className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-start h-full">
+            <div title="Click To See More Info" className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-start">
 
                 <SquareElem showIt={isTrue} data={data} />
 
@@ -67,7 +67,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                 <Image
                     src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
                     
-                    className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] translate-x-[8.3rem] rotate-[360deg]` : `h-56 translate-x-2 rotate-[-360deg]`} lg:w-52 z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-0 object-cover rounded-sm`}
+                    className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] w-56 translate-x-[8.3rem] rotate-[360deg]` : `h-80 lg:w-96 translate-x-2 rotate-[-360deg]`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-0 object-cover hover:object-fill rounded-sm`}
 
                     blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' loading='lazy'
                 />
@@ -83,7 +83,7 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
 
     return (
         <div 
-            className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-fit lg:w-[30.6rem] rounded-sm" : `bg-slate-800 xxs:left-0 sm:left-[24%] xxs:h-0 sm:h-0 lg:h-64 rounded-full ${styles.animateSpin} self-center`} xxs:pl-0 lg:pl-2`}
+            className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-fit lg:w-[30.6rem] rounded-sm" : `bg-slate-800 xxs:left-0 sm:left-[31%] xxs:h-0 sm:h-0 lg:h-[22rem] lg:w-[18rem] rounded-full ${styles.animateSpin} self-center`} xxs:pl-0 lg:pl-2`}
         >
 
             <div className={`grid grid-cols-1 justify-items-start transition-all duration-700 ${!showIt ? "-translate-y-20 opacity-0 scale-0" : "translate-y-0 opacity-100 scale-100"} py-2 z-10`}>

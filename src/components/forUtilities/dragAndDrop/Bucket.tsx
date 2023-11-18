@@ -214,7 +214,7 @@ export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description,
     const decideUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.NEXT_PUBLIC_API_HOSTED
 
     return (
-        <>
+        <div>
             <span className='text-special-foreground font-bold'>Share in Social Media</span>
 
             <span className={`flex justify-between gap-2 ${ready ? "cursor-pointer" : "cursor-auto pointer-events-none"}`}>
@@ -238,7 +238,7 @@ export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description,
                 </EmailShareButton>
             </span>
 
-        </>
+        </div>
     )
 }
 

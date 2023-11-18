@@ -14,8 +14,9 @@ import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
 import { addRecipeToList, updateRecipeCount } from '@/redux/features/recipes/RecipesSlice'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useForTruthToggle } from '@/hooks/forComponents'
 
-export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMealType, params: {"slug-id": string} }) => {
+export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMealType, params: { "slug-id": string } }) => {
     const appDispatch = useAppDispatch()
 
     const trackedRecipes = useAppSelector(state => state.recipes.list)
@@ -49,6 +50,8 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
     const t = useTranslations("default")
 
+    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+
     return (
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20'>
             {/* og metadata for social media sharing */}
@@ -72,20 +75,35 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
             </section>
 
-            <section className='flex xxs:flex-col md:flex-row justify-between items-center gap-x-6 mx-6'>
+            <section className='flex xxs:flex-col md:flex-row justify-between items-baseline gap-x-6 mx-6'>
 
                 <RecipeImage {...data} />
 
-                <div className='xxs:relative lg:absolute right-0 xxs:w-full lg:w-3/5 flex flex-col justify-center gap-y-11 z-40 bg-accent'>
+                <div className='relative xxs:w-full md:w-2/3 lg:w-1/2 rounded flex flex-col gap-y-6 items-center h-fit' 
+                // onClick={isTrue ? handleFalsy : handleTruthy}
+                onClick={handleTruthy}
+                >
+                    <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>Recipe Information</h2>
+                    <div className={`${isTrue ? "absolute top-16 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 bg-accent w-full`}>
+
+                        <RecipeIngredientsAndInstructions ingredients={ingredients} />
+
+                        <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
+
+                        <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-muted-foreground'><span className='font-bold'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
+                    </div>
+                </div>
+
+                {/* <div className='xxs:relative lg:absolute right-0 xxs:w-full lg:w-1/2 flex flex-col justify-start gap-y-11 z-40 bg-accent h-full mt-6'>
 
                     <RecipeIngredientsAndInstructions ingredients={ingredients} />
 
                     <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
 
                     <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-muted-foreground'><span className='font-bold'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
-                </div>
+                </div> */}
             </section>
-            
+
             <section className='flex xxs:flex-col xxs:gap-y-11 lg:flex-row justify-around items-center'>
                 <div className='xxs:w-full lg:w-2/4'>
                     <h2 className='text-xl mb-6 mt-2 font-bold'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
@@ -97,7 +115,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
             </section>
 
             <section className='my-11'>
-            <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
+                <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
             </section>
         </div>
     )

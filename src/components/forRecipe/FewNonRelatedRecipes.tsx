@@ -27,8 +27,6 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
         const rndForMealType = Math.floor(Math.random() * filteredMealType.length)
 
-        // console.log(filteredDiet, filteredDishType, filteredMealType, "filtered!!", diet, dishType, mealType, filteredDiet[rndForDiet], filteredDishType[rndForDishType], filteredMealType[rndForMealType])
-
         setRandomizedFilters({ diet: filteredDiet[rndForDiet], dishType: filteredDishType[rndForDishType], mealType: filteredMealType[rndForMealType] })
     }
 
@@ -36,7 +34,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
         (mealType && diet && dishType) && setTimeout(() => randomlyChooseFromFilteredDataset(), 900)
     }, [diet, dishType, mealType])
 
-    const { recipes } = useForRandomRecipesList(randomizedFilters.mealType, randomizedFilters.diet, randomizedFilters.dishType)
+    const { recipes } = useForRandomRecipesList(randomizedFilters.mealType, randomizedFilters.diet, randomizedFilters.dishType, undefined, true)
 
     const { handleFalsy, handleNext, handlePrev, handleTruthy, isTrue, onlyFour } = useForRecipeCarouselItems(recipes)
 
@@ -47,6 +45,8 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
     const renderRecipes = () => onlyFour?.map((item, idx) => <RenderNonRelatedRecipe key={item.uri} rdata={item} lastCard={idx === 7} firstCard={idx === 0} />)
 
     const t = useTranslations("default")
+
+    // console.log(randomizedFilters, "randomizedFilters - non-related recipes!!")
 
     return (
         recipes.length < 2

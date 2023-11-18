@@ -105,7 +105,7 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound: (data: Recipe
     }, [params])
 }
 
-export const useForRandomRecipesList = (mealType: string, diet: string, dishType: string, uri?: string) => {
+export const useForRandomRecipesList = (mealType: string, diet: string, dishType: string, uri?: string, nonRelated?: boolean) => {
     const [recipes, setRecipes] = useState<RecipeMealType[]>([])
 
     // this will keep count how many times same dat is being fetched when renderable dataset is less than 13
@@ -149,7 +149,14 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
 
     useEffect(() => {
         mealType && diet && dishType && readySimilarRcipesRequest()
-    }, [mealType, diet, dishType])
+    }, [mealType, diet, dishType, nonRelated])
+
+    // juste a safety call incase first usecase missed out on fetching data for non related recipes carousel
+    useEffect(() => {
+        mealType && diet && dishType && nonRelated && readySimilarRcipesRequest()
+    }, [nonRelated])
+
+    // console.log(recipes.length, count, "whatwhat!!")
 
     return { recipes }
 }
