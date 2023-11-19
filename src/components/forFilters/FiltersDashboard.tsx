@@ -24,13 +24,12 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
         for (let k in filters) {
             if (k !== "q") {
-                if (filters[k as keyof FiltersTypes]?.length) {
+                if (filters[k as keyof FiltersTypes]?.length && k === key) {
                     filtered = (filters[k as keyof FiltersTypes] as string[]).filter(item => !item.includes(data));
                 }
             }
         }
 
-        // console.log(filtered, "filtered!!")
         return filtered
     }
 
@@ -59,7 +58,7 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
                 if (found !== -1) {
                     const filtered = getFiltered(data, key)
-                    // console.log({ ...prev, [key]: filtered }, ">!>!>!")
+
                     return { ...prev, [key]: filtered }
                 } else {
                     const updatedList = prev[key as keyof FiltersTypes]?.concat(data)
@@ -89,7 +88,7 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
                 }
             }
         }
-        // console.log(str, "STR!!", str.lastIndexOf("&"), str.slice(0, 143))
+
         router.push(str.slice(0, str.lastIndexOf("&")), undefined)
     }
 
@@ -99,7 +98,6 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
         params.append("app_id", `${process.env.NEXT_PUBLIC_EDAMAM_APP_ID}`);
         params.append("app_key", `${process.env.NEXT_PUBLIC_EDAMAM_APP_KEY}`);
         params.append("type", "public");
-        // params.append("q", "beef")
 
         for (let k in filters) {
             if (filters[k as keyof FiltersTypes]?.length) {
@@ -111,12 +109,12 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
             }
         }
 
-        // console.log(params.getAll("carbonFootprint"))
-
         axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
             const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
             
-            const readyForRendering = onlyRecipes.map((item:any) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item:any) => item).filter((v:any, idx:number, self:any) => idx === self.findIndex((t:any) => t.label === v.label))
+            const readyForRendering = onlyRecipes.map((item:any) => item?.mealType?.length && item?.dishType?.length && item?.dietLabels?.length && item).filter((item:any) => item).filter((v:any, idx:number, self:any) => idx === self.findIndex((t:any) => t.label === v.label))
+
+            console.log(onlyRecipes?.length, readyForRendering?.length, "!!")
 
             readyForRendering?.length && handleRecipesFound(readyForRendering, d.data?._links?.next?.href)
         }).catch(err => console.log(err))
@@ -130,8 +128,6 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
         text && handleFiltersChange(text, "q")
     }, [text])
 
-    // console.log(filters, text)
-
     const handleEnterKeyPressed = (e:KeyboardEvent<HTMLInputElement>) => {
         if(e.code === "Enter") {
             handleSearchNow()
@@ -142,8 +138,6 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     // pass in setFilters to add them into it
     useForAddToFiltersFromParams(setFilters)
-
-    // console.log(filters, "filters!!")
 
     return (
         <FiltersContext.Provider value={{filters: filters, handleFilterChange: handleFiltersChange}}>
@@ -232,15 +226,6 @@ const RenderCheckbox = ({ name, propKey }: CheckboxTypes) => {
     const filters = useContext(FiltersContext).filters
     
     const getIdx = () => (filters[propKey as keyof FiltersTypes] as [])?.findIndex(item => item === name)
-    
-    // console.log(filters[propKey as keyof FiltersTypes], 
-    //     "Value of Filters Type!!", 
-    //     name,
-    //     propKey, 
-    //     filters[propKey as keyof FiltersTypes]![0], 
-    //     filters[propKey as keyof FiltersTypes]?.includes(name), 
-    //     (filters[propKey as keyof FiltersTypes] as [])?.findIndex(item => item === name)
-    // )
 
     const handleFiltersChange = useContext(FiltersContext).handleFilterChange
 

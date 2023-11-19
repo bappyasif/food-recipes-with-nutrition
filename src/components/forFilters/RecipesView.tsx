@@ -1,7 +1,7 @@
 "use client"
 
 import { DigestItemType, IngredientItemType, RecipeMealType } from '@/types'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '../ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { Badge } from '../ui/badge'
@@ -10,15 +10,19 @@ import styles from "./Filters.module.css"
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import axios from 'axios'
-import { useForIfRecipesFoundWithExistingFilters } from '@/hooks/forComponents'
+import { useForIfRecipesFoundWithExistingFilters, useForTruthToggle } from '@/hooks/forComponents'
 import Image from 'next/image'
 
-export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePreviousAndNext, check }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d: RecipeMealType[], href?: string) => void, handlePreviousAndNext: (str: string) => void, check?: boolean }) => {
+export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePreviousAndNext, check, isFirstPage }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d: RecipeMealType[], href?: string) => void, handlePreviousAndNext: (str: string) => void, check?: boolean, isFirstPage: boolean }) => {
+
+    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
 
     const renderRecipes = () => recipes.map(item => <RenderRecipe key={item.label} {...item} />)
 
     const fetchMore = () => {
         // console.log(nextHref)
+        handleTruthy();
+
         if (nextHref) {
             axios
                 .get(nextHref)
@@ -33,6 +37,7 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
                     // handlePreviousAndNext("next")
 
                 }).catch(err => console.log(err, "error!!"))
+                .finally(() => handleFalsy())
         }
     }
 
@@ -64,7 +69,7 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
             </div>
             {/* <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={fetchMore} disabled={!nextHref}>Prev</Button> */}
             <div className='flex gap-x-4 w-full justify-center my-2'>
-                <Button className={`${nextHref ? "block" : "hidden"} bg-card font-bold text-xl text-muted-foreground hover:text-muted`} variant={'default'} onClick={() => handlePreviousAndNext("prev")} disabled={!nextHref}>Prev</Button>
+                <Button className={`${nextHref ? "block" : "hidden"} bg-card font-bold text-xl text-muted-foreground hover:text-muted`} variant={'default'} onClick={() => handlePreviousAndNext("prev")} disabled={!nextHref || isFirstPage}>Prev</Button>
 
                 <Button
                     className={`${nextHref ? "block" : "hidden"} bg-card font-bold text-xl text-muted-foreground hover:text-muted`}
@@ -72,7 +77,7 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
                     // onClick={() => check === -1 ? fetchMore() : handlePreviousAndNext("next")} 
                     onClick={() => !check ? fetchMore() : handlePreviousAndNext("next")}
                     // onClick={fetchMore}
-                    disabled={!nextHref}
+                    disabled={!nextHref || isTrue}
                 >Next</Button>
 
                 {/* <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={fetchMore} disabled={!nextHref}>Show More New Data</Button> */}

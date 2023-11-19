@@ -84,6 +84,7 @@ export const ComponentsContainerFiltersPage = () => {
         handleRecipesFound={handleRecipesFound}
         handlePreviousAndNext={handlePreviousAndNext}
         check={check}
+        isFirstPage={pageNumber <= 1}
       />
 
     </div>
