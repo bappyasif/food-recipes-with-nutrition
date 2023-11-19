@@ -30,7 +30,7 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
 
                     readyForRendering?.length && handleRecipesFound(readyForRendering, resp.data?._links?.next?.href)
 
-                    handlePreviousAndNext("next")
+                    // handlePreviousAndNext("next")
 
                 }).catch(err => console.log(err, "error!!"))
         }

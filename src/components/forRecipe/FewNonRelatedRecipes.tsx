@@ -50,7 +50,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
     return (
         recipes.length < 2
-            ? "Not Enough Similar Recipes found"
+            ? "Not Enough Other Interesting Recipes Found To Show"
             :
             <div className='w-full flex flex-col gap-y-2 text-special-foreground'>
                 <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("You Might Like")}</h2>

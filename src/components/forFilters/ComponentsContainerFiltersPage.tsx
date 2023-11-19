@@ -15,10 +15,8 @@ export const ComponentsContainerFiltersPage = () => {
 
   useForExtractingQueriesFromUrl(handleRecipesFound)
 
-  // console.log(recipesData.nextHref, "nexthref")
-
   // keeping recipes in untracked list so that if needed user can simply reload and re render them without making a fetch request to api
-  const [pageNumber, setPageNumber] = useState(1)
+  const [pageNumber, setPageNumber] = useState(0)
 
   const appDispatch = useAppDispatch()
 
@@ -26,15 +24,14 @@ export const ComponentsContainerFiltersPage = () => {
 
   const addToUntrackedRecipes = () => {
     appDispatch(addRecipesToUntracked({ pageNumber: untrackedList.length, recipesData: recipesData.recipesFound }))
+
+    // updating pagecount when new recipes found after fetching
+    setPageNumber(prev => prev + 1)
   }
 
   useEffect(() => {
     recipesData.nextHref && addToUntrackedRecipes()
   }, [recipesData.nextHref])
-
-  // useEffect(() => {
-  //   foundHref && appDispatch(addRecipesToUntracked({ pageNumber: untrackedList.length, recipesData: foundRecipes }))
-  // }, [])
 
   const handlePreviousAndNext = (action: string) => {
     setPageNumber(prev => {
@@ -46,15 +43,25 @@ export const ComponentsContainerFiltersPage = () => {
         setRecipesData(prev => ({ recipesFound: data, nextHref: prev.nextHref }))
 
         return prev + 1
+
       } else {
-        if (prev > 0) {
-          const data = untrackedList.find(item => item.page === prev)?.data
 
-          if (!data?.length) return prev
+        if(prev === 1) {
+          setRecipesData(prev => ({nextHref: prev.nextHref, recipesFound: untrackedList[1].data}))
 
-          setRecipesData(prev => ({ recipesFound: data, nextHref: prev.nextHref }))
+          // console.log("prev is equal 1", untrackedList[1])
 
-          return prev - 1 > 0 ? prev - 1 : prev
+          return prev
+        }
+
+        if (prev > 1) {
+          const data = untrackedList.find(item => item.page === prev - 1)?.data
+
+          data?.length && setRecipesData(prev => ({nextHref: prev.nextHref, recipesFound: data}))
+
+          // console.log("prev more than 1", data)
+
+          return prev - 1
         }
 
         return 1
@@ -62,16 +69,8 @@ export const ComponentsContainerFiltersPage = () => {
     })
   }
 
-  // useEffect(() => {
-  //   foundRecipes?.length && setRecipesData(({nextHref: foundHref, recipesFound: foundRecipes!}))
-  // }, [])
-
-  // console.log(untrackedList, "untrackedList", pageNumber, untrackedList.findIndex(item => item.page > pageNumber), pageNumber < untrackedList.length, pageNumber < untrackedList[untrackedList.length - 1].page)
-
   // IFNEXTDATAALREADYEXIST
   const check = pageNumber < untrackedList[untrackedList.length - 1].page
-
-  // console.log(check, untrackedList, pageNumber)
 
   return (
     <div
