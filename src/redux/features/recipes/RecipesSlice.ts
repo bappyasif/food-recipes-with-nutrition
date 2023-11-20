@@ -2,6 +2,7 @@ import { fetchRecipesWithShallowRoutingOnce, getAllViewedRecipesFromDb } from "@
 import { RecipeMealType, ViewedMealType } from "@/types"
 import { addToDbCollection, updateRecordInCollection } from "@/utils/dbRequests"
 import { createSlice } from "@reduxjs/toolkit"
+import { stat } from "fs"
 
 type RecipesInitStateTypes = {
     viewedList?: ViewedMealType[]
@@ -40,6 +41,8 @@ const recipesSlice = createSlice({
 
                 return item
             })
+
+            state.list = state.list.sort((a, b) => a.count! < b.count! ? 1 : -1)
         },
 
         // adding fresh new recipe to list
@@ -50,6 +53,8 @@ const recipesSlice = createSlice({
             }
 
             state.list = state.list.concat(withCount)
+
+            state.list = state.list.sort((a, b) => a.count! < b.count! ? 1 : -1)
 
             // add to db too
             addToDbCollection(action.payload)
@@ -65,6 +70,8 @@ const recipesSlice = createSlice({
         addRecipesAtOnce: (state, action) => {
             state.list = action.payload;
             // state.viewedList = action.payload
+            // state.list = state.list.sort((a, b) => a.count! < b.count! ? 1 : -1)
+            // console.log(state.list, "sorted?!")
         }
     },
     extraReducers: builder => {

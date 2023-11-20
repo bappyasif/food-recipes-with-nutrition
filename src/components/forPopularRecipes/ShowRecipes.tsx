@@ -28,7 +28,14 @@ export const ShowRecipes = ({ user }: { user: any }) => {
     replace(`/${locale}/prompt-user`)
   }
 
+  // const [sorted, setSorted] = useState<RecipeMealType[]>([])
+
   const recipesList = useAppSelector(state => state.recipes.list)
+  // ?.sort((a, b) => a.count! > b.count! ? 1 : -1)
+
+  // useEffect(() => {
+    
+  // }, [recipesList])
 
   const [showing, setShowing] = useState<DataType[]>([])
   const [pageNum, setPageNum] = useState(0)
@@ -83,6 +90,8 @@ export const ShowRecipes = ({ user }: { user: any }) => {
   if (!user?.email) {
     return
   }
+
+  console.log(recipesList)
 
   return (
     <div className='flex flex-col gap-y-4'>
