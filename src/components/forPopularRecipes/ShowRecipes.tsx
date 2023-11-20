@@ -14,7 +14,7 @@ import moment from 'moment'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 
-type data = {
+type DataType = {
   page: number;
   data: RecipeMealType[];
 }
@@ -25,19 +25,18 @@ export const ShowRecipes = ({ user }: { user: any }) => {
   const { push, replace } = useRouter();
 
   if (!user?.email) {
-    // push(`${locale}/prompt-user`)
-    // push(`prompt-user`)
     replace(`/${locale}/prompt-user`)
-    // replace(`prompt-user`)
   }
 
   const recipesList = useAppSelector(state => state.recipes.list)
 
-  const [showing, setShowing] = useState<data>({page: 0, data: []})
+  const [showing, setShowing] = useState<DataType[]>([])
+  const [pageNum, setPageNum] = useState(0)
 
   const handleOnce = () => {
     const firstEight = recipesList.slice(0, 8)
-    setShowing({data: firstEight, page: 1})
+    setShowing(prev => [...prev, {data: firstEight, page: 1}])
+    setPageNum(1)
   }
 
   useEffect(() => {
@@ -45,16 +44,41 @@ export const ShowRecipes = ({ user }: { user: any }) => {
   }, [recipesList])
 
   const handleNext = () => {
-    console.log("handle next!!")
+
+    setPageNum(prev => {
+      const howManyLeft = recipesList.length - (8 * prev)
+      
+      if (howManyLeft < 1) return prev
+
+      const chunk = howManyLeft > 8 ? howManyLeft - 8 : howManyLeft
+
+      let recipesSliced:any = []
+
+      if(howManyLeft < 8) {
+        recipesSliced = recipesList.slice(8 * prev, 8 * prev + (howManyLeft))
+      } else {
+        recipesSliced = recipesList.slice(8 * prev, 8 * prev + (howManyLeft - chunk))
+      }
+
+      setShowing(items => [...items, {data: recipesSliced, page: prev + 1}])
+
+      return prev + 1 
+    })
   }
 
   const handlePrev = () => {
-    console.log("handle prev!!")
+    setPageNum(prev => {
+      if(prev > 1) {
+        return prev - 1
+      } 
+
+      return 1
+    })
   }
 
-  const renderRecipes = () => showing?.data?.map(item => <RenderRecipe key={item.uri} data={item} />)
+  const getRecipesForCurrentPage = () => showing.find(item => item.page === pageNum)?.data
 
-  // const renderRecipes = () => recipesList?.map(item => <RenderRecipe key={item.uri} data={item} />)
+  const renderRecipes = () => getRecipesForCurrentPage()?.map(item => <RenderRecipe key={item.uri} data={item} />)
 
   if (!user?.email) {
     return
