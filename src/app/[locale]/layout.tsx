@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 type Props = {
   children: ReactNode;
-  params: {locale: string};
+  params: { locale: string };
 };
 
 async function getMessages(locale: string) {
@@ -37,40 +37,26 @@ async function getMessages(locale: string) {
 }
 
 export async function generateStaticParams() {
-  return ['en', 'bn'].map((locale) => ({locale}));
+  return ['en', 'bn'].map((locale) => ({ locale }));
 }
-
-// export async function generateMetadata({params: {locale}}: Props) {
-//   const messages = await getMessages(locale);
-
-//   // You can use the core (non-React) APIs when you have to use next-intl
-//   // outside of components. Potentially this will be simplified in the future
-//   // (see https://next-intl-docs.vercel.app/docs/next-13/server-components).
-//   const t = createTranslator({locale, messages});
-
-//   return {
-//     title: t('LocaleLayout.title')
-//   };
-// }
 
 export default async function LocaleLayout({
   children,
-  params: {locale}
+  params: { locale }
 }: Props) {
   const messages = await getMessages(locale);
   return (
     <html lang="en">
-      <body 
-        // className={inter.className + ` flex flex-col justify-between min-h-[100vh] bg-accent text-primary-foreground`}
+      <body
         className={`flex flex-col justify-between min-h-[100vh] bg-accent text-primary-foreground`}
       >
         <ReduxStoreProvider>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-        <Header />
-          {children}
-          <Analytics />
-          <Footer />
-        </NextIntlClientProvider>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <Header />
+            {children}
+            <Analytics />
+            <Footer />
+          </NextIntlClientProvider>
         </ReduxStoreProvider>
       </body>
     </html>

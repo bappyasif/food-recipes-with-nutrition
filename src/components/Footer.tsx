@@ -6,10 +6,10 @@ export const Footer = () => {
   const renderStacks = () => stacks.map(item => <RenderStack key={item.name} {...item} />)
 
   return (
-    <div className='w-full h-[16rem] text-2xl bg-primary-focus text-center flex flex-col gap-y-4'>
+    <div className='w-full bg-primary-focus text-center flex flex-col gap-y-4 mt-6'>
       {/* <h2 className='h-20'>Footer</h2> */}
-      <h2 className='font-bold text-2xl'>Stack Used</h2>
-      <div className='grid grid-cols-4 gap-2 justify-items-center place-content-center'>
+      <h2 className='font-bold xxs:text-2xl md:text-4xl text-special-foreground'>Stack Used</h2>
+      <div className='grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 justify-items-center place-content-center xxs:text-xl md:text-2xl text-special'>
         {renderStacks()}
       </div>
     </div>
@@ -24,7 +24,7 @@ const RenderStack = ({ ...item }: {
   const { icon, name, url } = item
 
   return (
-    <a className='flex gap-x-2 items-center px-2 w-80' title={name} href={url} target='_blank'>
+    <a className='flex gap-x-2 items-center px-2 w-80 duration-1000 transition-all hover:underline' title={name} href={url} target='_blank'>
       <span>{name}</span>
       <span>{icon}</span>
     </a>

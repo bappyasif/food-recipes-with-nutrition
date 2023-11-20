@@ -58,13 +58,13 @@ export default function Home() {
       <RandomizeSelection />
 
       {/* smaller screen */}
-      <div className="xxs:flex xxs:flex-col xl:hidden items-center gap-x-20 justify-between text-special-foreground">
+      <div className="xxs:flex xxs:flex-col xl:hidden items-center gap-x-20 justify-between text-special-foreground mb-10">
         <RecentlyViewedMealsScroller />
         <DuoCarousels />
       </div>
 
       {/* bigger screen */}
-      <div className="xxs:hidden xl:flex flex-row items-center gap-x-20 justify-between text-special-foreground">
+      <div className="xxs:hidden xl:flex flex-row items-center gap-x-20 justify-between text-special-foreground mb-16">
         <ReusableCarousel title='Dish' />
         <RecentlyViewedMealsScroller />
         <ReusableCarousel title='Cuisine' />

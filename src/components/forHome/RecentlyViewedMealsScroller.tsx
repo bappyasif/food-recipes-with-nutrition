@@ -24,7 +24,7 @@ export const RecentlyViewedMealsScroller = () => {
   const renderForCards = () => onlyFour?.map(item => <RenderMealCard key={item.uri} data={item} />)
 
   return (
-    <div>
+    <div className=''>
       <h2 className='text-xl font-bold'>Some Recently Viewed Meals</h2>
       <h3 className='text-sm font-semibold'>Real Recipe Image can be seen from Recipe Detail Page</h3>
       <div
