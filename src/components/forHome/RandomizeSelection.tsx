@@ -51,12 +51,18 @@ export const RandomizeSelection = () => {
 
     return (
         <div
-            className='w-full h-fit relative flex flex-col gap-y-6 text-muted-foreground'
+            className='w-full h-fit relative flex flex-col justify-center gap-y-6 text-muted-foreground'
         >
             <h2 className='text-2xl font-extrabold w-full text-center'>{t("Randomly Recipe Finding Game")}</h2>
 
-            <div className='flex xxs:flex-col lg:flex-row justify-start h-full'>
-                <div className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row gap-x-0 justify-between px-28 xxs:w-full lg:w-1/2'>
+            <div 
+                // className='flex xxs:flex-col lg:flex-row justify-start h-full'
+                className='flex flex-col gap-y-10 justify-center h-full'
+            >
+                <div 
+                // className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row gap-x-0 justify-between px-28 xxs:w-full lg:w-1/2'
+                className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row gap-x-0 justify-around px-28 xxs:w-full'
+                >
                     {randomizedDataset.forCuisines.length <= 8 ?
                         <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
                         : null
@@ -69,10 +75,16 @@ export const RandomizeSelection = () => {
                     }
                 </div>
 
-                <div className='xxs:w-full lg:w-1/2 flex gap-x-8 justify-evenly items-center px-2'>
+                <div 
+                    // className='xxs:w-full lg:w-1/2 flex gap-x-8 justify-evenly items-center px-2'
+                    className='xxs:w-full flex gap-x-20 justify-center items-center px-2'
+                >
                     <GoingOffRandomizer updateRndNames={updateRndNames} />
 
-                    <div className='flex flex-col gap-y-9 justify-between items-center w-52'>
+                    <div 
+                    // className='flex flex-col gap-y-9 justify-between items-center w-52'
+                    className='flex gap-x-20 justify-between items-center w-[31rem]'
+                    >
                         <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} />
                         <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} />
                     </div>

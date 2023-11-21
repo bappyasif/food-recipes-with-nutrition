@@ -20,9 +20,9 @@ export const LocaleSwitcher = () => {
   return (
     <label htmlFor="locale-switcher" className='self-end text-muted-foreground flex items-center'>
         {/* <p className="sr-only">{t('label')}</p> */}
-        <span className='xxs:hidden md:block'>{t("label")}</span>
+        <span className='xxs:hidden md:block text-sm'>{t("label")}</span>
       <select
-        className="inline-flex appearance-none bg-card py-1 pl-2 xxs:p-1 lg:pr-6 font-bold text-special xxs:text-xs md:text-sm lg:text-xl"
+        className="inline-flex appearance-none bg-card py-1 pl-2 xxs:p-1 lg:pr-6 font-bold text-special xxs:text-xs md:text-sm lg:text-lg"
         defaultValue={locale}
         disabled={isPending}
         onChange={onSelectChange}

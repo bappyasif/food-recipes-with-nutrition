@@ -48,7 +48,7 @@ export default async function LocaleLayout({
   return (
     <html lang="en">
       <body
-        className={`flex flex-col justify-between min-h-[100vh] bg-accent text-primary-foreground`}
+        className={`py-6 flex flex-col justify-between min-h-[100vh] bg-accent text-primary-foreground`}
       >
         <ReduxStoreProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>

@@ -28,7 +28,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick }: { recipes: Recip
 
 
     return (
-        <div className='font-bold text-xl'>
+        <div className='font-bold text-xl text-center'>
             <Badge
                 // onClick={recipes.length ? handleTruthy : () => null} 
                 // onClick={handleTruthy} 

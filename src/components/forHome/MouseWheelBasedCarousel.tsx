@@ -143,7 +143,7 @@ const CarouselCard = ({ ...item }: {
             <h2 title={title} className='' 
                 // style={{transform: `rotate(${theta * 45}deg)`}}
             >
-                {title?.length > 6 ? ellipsedText(title, 6 ) : title} 
+                {title?.length > 8 ? ellipsedText(title, 7 ) : title} 
                 {/* {theta} */}
             </h2>
         </div>
