@@ -1,7 +1,7 @@
 "use client"
 
 import { DigestItemType, IngredientItemType, RecipeMealType } from '@/types'
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from '../ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { Badge } from '../ui/badge'
@@ -20,22 +20,17 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
     const renderRecipes = () => recipes.map(item => <RenderRecipe key={item.label} {...item} />)
 
     const fetchMore = () => {
-        // console.log(nextHref)
         handleTruthy();
 
         if (nextHref) {
             axios
                 .get(nextHref)
                 .then(resp => {
-                    // console.log(resp.data, "lets see!!")
                     const onlyRecipes = resp.data?.hits.map((item: any) => item.recipe)
 
                     const readyForRendering = onlyRecipes.map((item: any) => item.mealType?.length && item.dishType?.length && item.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
                     readyForRendering?.length && handleRecipesFound(readyForRendering, resp.data?._links?.next?.href)
-
-                    // handlePreviousAndNext("next")
-
                 }).catch(err => console.log(err, "error!!"))
                 .finally(() => handleFalsy())
         }
@@ -57,30 +52,25 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
 
     if (recipes.length === 0) {
         return (
-            <h2 className='font-bold text-xl text-special-foreground'>Try Using Filters To Find Recipes</h2>
+            <h2 className='font-bold text-xl text-special-foreground w-full text-center'>Try Using Filters To Find Recipes</h2>
         )
     }
 
     return (
-        <div>
-            {/* <h1>Recipes View</h1> */}
+        <div className='py-20'>
             <div className='grid xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 xxs:gap-11 lg:gap-11 place-content-center place-items-center'>
                 {recipes.length ? renderRecipes() : null}
             </div>
-            {/* <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={fetchMore} disabled={!nextHref}>Prev</Button> */}
-            <div className='flex gap-x-4 w-full justify-center my-2'>
+
+            <div className='flex gap-x-4 w-full justify-center mt-20'>
                 <Button className={`${nextHref ? "block" : "hidden"} bg-card font-bold text-xl text-muted-foreground hover:text-muted`} variant={'default'} onClick={() => handlePreviousAndNext("prev")} disabled={!nextHref || isFirstPage}>Prev</Button>
 
                 <Button
                     className={`${nextHref ? "block" : "hidden"} bg-card font-bold text-xl text-muted-foreground hover:text-muted`}
                     variant={'default'}
-                    // onClick={() => check === -1 ? fetchMore() : handlePreviousAndNext("next")} 
                     onClick={() => !check ? fetchMore() : handlePreviousAndNext("next")}
-                    // onClick={fetchMore}
                     disabled={!nextHref || isTrue}
                 >Next</Button>
-
-                {/* <Button className={`${nextHref ? "block" : "hidden"}`} variant={'outline'} onClick={fetchMore} disabled={!nextHref}>Show More New Data</Button> */}
             </div>
         </div>
     )
@@ -95,20 +85,6 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
         <div
             className={`flex flex-col justify-center items-center ${styles.flipCard} h-[18.6rem] xxs:w-[18.9rem] sm:w-[20.9rem]`}
         >
-            {/* <Image
-                alt={label}
-                src={images?.SMALL?.url || images?.REGULAR?.url}
-                className={`${styles.flipCardBack} h-full w-full rounded-sm`}
-                width={images?.SMALL?.width || images?.REGULAR?.width}
-                height={images?.SMALL?.height || images?.REGULAR?.height}
-                style={{
-                    backgroundSize: "100% 100%",
-                    objectFit: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundColor: "rgba(17,17,17,0.6)",
-                    backgroundBlendMode: "darken",
-                }}
-            /> */}
             <img
                 alt={label}
                 src={images?.SMALL?.url || images?.REGULAR?.url}
@@ -135,7 +111,6 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                         width={images?.SMALL?.width || images?.REGULAR?.width}
                         height={images?.SMALL?.height || images?.REGULAR?.height}
                         className='w-64'
-                        // blurDataURL={images?.SMALL?.url || images?.REGULAR?.url} placeholder='blur' 
                         loading='lazy'
                     />
                 </Link>
@@ -255,12 +230,12 @@ export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType)
             <span className='capitalize font-bold xxs:text-xs lg:text-sm'>{food}</span>
             <span className='flex flex-col justify-center items-center'>
                 <span className='text-[11px] capitalize font-semibold'>{foodCategory}</span>
-                {/* <img className='w-36 h-28 rounded-xl' src={image} alt={food} width={60} height={39} /> */}
-                <Image
+                <img className='w-36 h-28 rounded-xl' src={image} alt={food} width={60} height={39} placeholder='blur' loading='lazy' />
+                {/* <Image
                     src={image} alt={food} width={80} height={40}
                     className='w-36 h-14 rounded-xl'
                     blurDataURL={image} placeholder='blur' loading='lazy'
-                />
+                /> */}
             </span>
             <span className='font-semibold capitalize text-center'>{quantity.toFixed(2)} {measure}</span>
             <span className='font-semibold text-center'>{weight.toFixed(2)}</span>

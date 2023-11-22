@@ -51,17 +51,17 @@ export const RandomizeSelection = () => {
 
     return (
         <div
-            className='w-full h-fit relative flex flex-col justify-center gap-y-6 text-muted-foreground'
+            className='w-full h-fit relative flex flex-col justify-center gap-y-10 text-muted-foreground'
         >
             <h2 className='text-2xl font-extrabold w-full text-center'>{t("Randomly Recipe Finding Game")}</h2>
 
-            <div 
+            <div
                 // className='flex xxs:flex-col lg:flex-row justify-start h-full'
                 className='flex flex-col gap-y-10 justify-center h-full'
             >
-                <div 
-                // className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row gap-x-0 justify-between px-28 xxs:w-full lg:w-1/2'
-                className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row gap-x-0 justify-around px-28 xxs:w-full'
+                <div
+                    // className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row gap-x-0 justify-between px-28 xxs:w-full lg:w-1/2'
+                    className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row gap-x-0 justify-around px-28 xxs:w-full'
                 >
                     {randomizedDataset.forCuisines.length <= 8 ?
                         <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
@@ -75,15 +75,20 @@ export const RandomizeSelection = () => {
                     }
                 </div>
 
-                <div 
+                {/* <ShowRecipes rnds={rnds} rndNames={rndNames} wheelDataset={randomizedDataset} /> */}
+
+                <div
                     // className='xxs:w-full lg:w-1/2 flex gap-x-8 justify-evenly items-center px-2'
-                    className='xxs:w-full flex gap-x-20 justify-center items-center px-2'
+                    className='xxs:w-full flex gap-x-40 justify-center items-baseline px-2'
                 >
                     <GoingOffRandomizer updateRndNames={updateRndNames} />
 
-                    <div 
-                    // className='flex flex-col gap-y-9 justify-between items-center w-52'
-                    className='flex gap-x-20 justify-between items-center w-[31rem]'
+                    {/* <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} />
+                    <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} /> */}
+
+                    <div
+                        // className='flex flex-col gap-y-9 justify-between items-center w-52'
+                        className='flex gap-x-40 justify-between items-center'
                     >
                         <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} />
                         <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} />
@@ -118,28 +123,30 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
         return () => clearTimeout(timer)
     }
 
-    const renderDivs = () => (rnd >= 0 ? clonedData.slice(0, rnd) : clonedData).map((name, idx) => <div key={name + idx} className='absolute translate-y-5 z-0'>{name}</div>)
+    const renderDivs = () => (rnd >= 0 ? clonedData.slice(0, rnd) : clonedData).map((name, idx) => <div key={name + idx} className='absolute -translate-y-11 translate-x-0 z-0 w-full text-center opacity-1'>{name}</div>)
 
     const spewingOut = () => {
         if (ref.current) {
             ref.current.childNodes.forEach((divItm, idx) => {
 
                 if (rnd === -2) {
-                    (divItm as HTMLDivElement).style.transform = `translateY(18px) translateX(0px)`;
+                    // (divItm as HTMLDivElement).style.transform = `translateY(18px) translateX(0px)`;
+                    (divItm as HTMLDivElement).style.transform = `translateY(-42px) translateX(0)`;
                     updateRndNames("", "health");
                     (divItm as HTMLDivElement).style.opacity = "1";
                     return
                 }
 
                 if (idx === rnd - 1) {
-                    (divItm as HTMLDivElement).style.transform = `translateY(18px) translateX(0px)`;
+                    // (divItm as HTMLDivElement).style.transform = `translateY(18px) translateX(0px)`;
+                    (divItm as HTMLDivElement).style.transform = `translateY(-42px) translateX(0)`;
                     // console.log("last item!!", divItm.textContent);
                     updateRndNames(divItm.textContent!, "health");
                     (divItm as HTMLDivElement).style.opacity = "1";
                 } else {
                     const rndNum = Math.random();
                     (divItm as HTMLDivElement).style.transitionDuration = `${.6}s`;
-                    (divItm as HTMLDivElement).style.transform = rndNum < .2 ? `translateX(${36}px)` : rndNum < .4 ? `translateY(-${36}px)` : rndNum < .6 ? `translateY(${36}px)` : `translateX(-${36}px)`;
+                    (divItm as HTMLDivElement).style.transform = rndNum < .2 ? `translateX(${36}px)` : rndNum < .4 ? `translateY(-${44}px)` : rndNum < .6 ? `translateY(${36}px)` : `translateX(-${44}px)`;
                     (divItm as HTMLDivElement).style.opacity = `0`;
                 }
             })
@@ -160,18 +167,22 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
     const locale = useLocale();
 
     return (
-        <div className='flex flex-col xxs:gap-y-0 md:gap-y-1 w-60 relative'>
+        <div className='flex flex-col xxs:gap-y-0 md:gap-y-10 w-80 relative'>
             <h2 className={`text-center font-bold ${locale === "bn" ? "text-lg" : "xxs:text-xs sm:text-lg"}`}>{t("Randomize")} {t("Health")} {t("Label")}</h2>
-            <>
-                <img src={newImg.src} alt="" width={20} height={20} className='absolute xxs:h-[4rem] sm:h-[4.7rem] md:h-[5.1rem] w-full bg-black bg-blend-darken top-[3.9rem] object-cover rounded-xl' />
+            <div>
+                <img src={newImg.src} alt="" width={20} height={20}
+                    // className='absolute xxs:h-[4rem] sm:h-[4.7rem] md:h-[5.1rem] w-full bg-black bg-blend-darken top-[3.9rem] object-cover rounded-xl' 
+                    className='h-20 w-full bg-black bg-blend-darken bottom-11 object-cover rounded-xl'
+                />
                 <div
                     ref={ref}
-                    className="viewport flex flex-col justify-center items-center xxs:mt-2 md:mt-0 xxs:h-[5.6rem] sm:h-[6.7rem] lg:h-28 font-extrabold"
+                    // className="viewport flex flex-col justify-center items-center xxs:mt-2 md:mt-0 xxs:h-[5.6rem] sm:h-[6.7rem] lg:h-28 font-extrabold"
+                    className="relative viewport flex flex-col justify-center items-center font-extrabold"
                 >
-                    {rnd > 0 ? renderDivs() : rnd === -2 ? <span>Spin It!!</span> : null}
+                    {rnd > 0 ? renderDivs() : rnd === -2 ? <span className='absolute'>Spin It!!</span> : null}
                 </div>
                 <Button className='z-10 w-full bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-secondary'>{t("Spin")}</span></Button>
-            </>
+            </div>
         </div>
     )
 }
@@ -239,19 +250,19 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
     const t = useTranslations("default")
 
     return (
-        <div className='w-full flex flex-col xxs:gap-y-0 lg:gap-y-4 relative h-full'>
+        <div className='w-56 flex flex-col xxs:gap-y-0 lg:gap-y-10 relative h-full'>
             <h2 className='text-center font-bold text-lg'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
-            <>
-                <img src={newImg.src} alt="" width={20} height={20} className='absolute top-8 h-20 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
+            <div>
+                <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
 
-                <div className="viewport bg-secondary xxs:h-[5.1rem] sm:h-[5.6rem] lg:h-14 overflow-hidden mix-blend-lighten rounded-lg">
+                <div className="viewport bg-secondary h-16 overflow-hidden mix-blend-lighten rounded-lg">
                     <div className="flex flex-col gap-y-1 items-center justify-center" ref={ref}>
                         {renderDivs()}
                     </div>
                 </div>
 
-                <Button className='md:mt-0 w-full z-10 bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-muted'>{t("Spin")}</span></Button>
-            </>
+                <Button className='md:mt-6 w-full z-10 bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-muted'>{t("Spin")}</span></Button>
+            </div>
         </div>
     )
 }
@@ -281,12 +292,12 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
 
     const filtersCounts = () => {
         let count = 0;
-        if(dishes[dish] && dish !== -1) count++
-        if(cuisines[cuisine] && cuisine !== -1) count++
-        if(dishes[dish] && dish !== -1) count++
-        if(!health.includes("Intrim-spin") && health) count++
-        if(!meal.includes("Spin it") && meal) count++
-        if(!diet.includes("Spin it") && diet) count++
+        if (dishes[dish] && dish !== -1) count++
+        if (cuisines[cuisine] && cuisine !== -1) count++
+        if (dishes[dish] && dish !== -1) count++
+        if (!health.includes("Intrim-spin") && health) count++
+        if (!meal.includes("Spin it") && meal) count++
+        if (!diet.includes("Spin it") && diet) count++
         return count
     }
 
@@ -296,7 +307,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
 
         const countFound = filtersCounts()
 
-        if(countFound < 4) {
+        if (countFound < 4) {
             alert(`add ${4 - countFound} more filter from randomizer!!`)
             return
         }
@@ -327,10 +338,10 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
 
     return (
         <>
-            <div className='flex flex-col gap-y-4 items-center justify-center w-full self-end h-full'>
+            <div className='flex flex-col gap-y-10 items-center justify-center w-full self-end h-full'>
                 <h2 className='text-2xl font-bold'>{t("Existing Filters")}</h2>
 
-                <div className='flex gap-x-4'>
+                <div className='flex gap-x-4 justify-center'>
                     <ShowTitle rnds={rnds} wheelDataset={wheelDataset} />
                     <ShowRandomlySelectedOptions rndNames={rndNames} />
                 </div>
@@ -360,7 +371,7 @@ const ShowRandomlySelectedOptions = ({ rndNames }: {
 const ShowOptionSelected = ({ title, val }: { title: string, val: string }) => {
     const t = useTranslations("default")
     return (
-        <h2 className='flex flex-col gap-y-2'>
+        <h2 className='flex flex-col gap-y-2 w-32 text-center'>
             {/* <span className='font-bold text-lg'>{t(`${title}`)}</span> */}
             <span className='font-bold text-lg'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</span>
             <span className='font-semibold text-sm'>{val ? val : "intrim spin"}</span>
@@ -383,12 +394,12 @@ const ShowTitle = ({ rnds, wheelDataset }: {
     const t = useTranslations("default")
 
     return (
-        <div className='flex gap-x-4'>
-            <h2 className='flex flex-col gap-y-2'>
+        <div className='flex gap-x-6'>
+            <h2 className='flex flex-col gap-y-2 w-44 text-center'>
                 <span className='font-bold text-lg'>{t("Dish")}</span>
                 <span className='font-semibold text-sm'>{wheelDataset.forDishes[dish] ? wheelDataset.forDishes[dish] : "intrim spin"}</span>
             </h2>
-            <h2 className='flex flex-col gap-y-2'>
+            <h2 className='flex flex-col gap-y-2 w-44 text-center'>
                 <span className='font-bold text-lg'>{t("Cuisine")}</span>
                 <span className='font-semibold text-sm'>{wheelDataset.forCuisines[cuisine] ? wheelDataset.forCuisines[cuisine] : "intrim spin"}</span>
             </h2>

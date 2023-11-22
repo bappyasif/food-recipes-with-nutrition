@@ -91,20 +91,22 @@ export const ShowRecipes = ({ user }: { user: any }) => {
     return
   }
 
-  console.log(recipesList)
+  // console.log(recipesList)
 
   return (
-    <div className='flex flex-col gap-y-4'>
+    <div className='flex flex-col gap-y-20 py-10 min-h-screen'>
       <div 
         className='grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
-        xl:grid-cols-4 gap-4'
+        xl:grid-cols-4 gap-4 h-full'
       >
         {renderRecipes()}
       </div>
 
       <div className='flex gap-x-4 justify-center w-full'>
-        <Button onClick={handlePrev}>Prev</Button>
-        <Button onClick={handleNext}>Next</Button>
+        <Button disabled={pageNum <= 1} onClick={handlePrev}>Prev</Button>
+        <Button 
+        disabled={pageNum * 8 > recipesList.length} 
+        onClick={handleNext}>Next</Button>
       </div>
     </div>
   )

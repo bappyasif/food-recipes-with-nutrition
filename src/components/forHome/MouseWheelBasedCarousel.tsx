@@ -104,8 +104,8 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
                 ref={wheelRef}
                 className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-muted-foreground'
                 style={{
-                    width: "110px",
-                    height: "110px",
+                    width: "90px",
+                    height: "90px",
                     borderRadius: "50%",
                     // clipPath: "polygon(2% 1%, 90% 0, 56% 100%, 39% 100%)"
                 }}
@@ -143,7 +143,7 @@ const CarouselCard = ({ ...item }: {
             <h2 title={title} className='' 
                 // style={{transform: `rotate(${theta * 45}deg)`}}
             >
-                {title?.length > 8 ? ellipsedText(title, 7 ) : title} 
+                {title?.length > 17 ? ellipsedText(title, 15 ) : title} 
                 {/* {theta} */}
             </h2>
         </div>
@@ -155,8 +155,8 @@ const styles = {
         // left: "50%",
         // top: "50%",
         // height: "60px",
-        height: "40px",
-        width: "80px",
+        height: "44px",
+        width: "150px",
         // width: "170px",
         // height: "9rem",
         // width: "9rem",

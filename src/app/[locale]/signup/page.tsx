@@ -28,20 +28,20 @@ export default function CredsUser() {
           <div className='text-muted-foreground'>
             <label htmlFor="username" className="block text-sm font-medium leading-6 text-muted-foreground bg-transparent">User Name</label>
             <div className="mt-2">
-              <input id="username" name="username" type="text" autoComplete="username" required className="block w-full rounded-md border-0 py-1.5 text-muted-foreground bg-transparent shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" onChange={e => setUserData(prev => ({ ...prev, username: e.target.value }))} placeholder='User name' />
+              <input id="username" name="username" type="text" autoComplete="username" required className="block w-full rounded-md border-0 p-1.5 text-muted-foreground bg-transparent shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-special-foreground sm:text-sm sm:leading-6" onChange={e => setUserData(prev => ({ ...prev, username: e.target.value }))} placeholder='User name' />
             </div>
           </div>
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-muted-foreground bg-transparent">Email address</label>
             <div className="mt-2">
-              <input id="email" name="email" type="email" autoComplete="email" required className="block w-full rounded-md border-0 py-1.5 text-muted-foreground bg-transparent shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" onChange={e => setUserData(prev => ({ ...prev, email: e.target.value }))} placeholder='User email' />
+              <input id="email" name="email" type="email" autoComplete="email" required className="block w-full rounded-md border-0 p-1.5 text-muted-foreground bg-transparent shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-special-foreground sm:text-sm sm:leading-6" onChange={e => setUserData(prev => ({ ...prev, email: e.target.value }))} placeholder='User email' />
             </div>
           </div>
 
           <div className="mt-2">
             <label htmlFor="password" className="block text-sm font-medium leading-6 text-muted-foreground bg-transparent">Password</label>
-            <input id="password" name="password" type="password" autoComplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-muted-foreground bg-transparent shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" onChange={e => setUserData(prev => ({ ...prev, password: e.target.value }))} placeholder='User password' />
+            <input id="password" name="password" type="password" autoComplete="current-password" required className="block w-full rounded-md border-0 p-1.5 text-muted-foreground bg-transparent shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-special-foreground sm:text-sm sm:leading-6" onChange={e => setUserData(prev => ({ ...prev, password: e.target.value }))} placeholder='User password' />
           </div>
 
           <div>

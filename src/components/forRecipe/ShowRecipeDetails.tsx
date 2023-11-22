@@ -53,7 +53,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
 
     return (
-        <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20'>
+        <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20 py-20'>
             {/* og metadata for social media sharing */}
             <Head>
                 <title>Recipe : {label}</title>
@@ -71,9 +71,9 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
             {/* recipe details */}
 
-            <section className='my-11'>
+            {/* <section className='my-11'>
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
-            </section>
+            </section> */}
 
             <section className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-6 mx-6 gap-y-11'>
 
@@ -93,15 +93,10 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                         <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-muted-foreground'><span className='font-bold'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
                     </div>
                 </div>
+            </section>
 
-                {/* <div className='xxs:relative lg:absolute right-0 xxs:w-full lg:w-1/2 flex flex-col justify-start gap-y-11 z-40 bg-accent h-full mt-6'>
-
-                    <RecipeIngredientsAndInstructions ingredients={ingredients} />
-
-                    <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
-
-                    <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-muted-foreground'><span className='font-bold'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
-                </div> */}
+            <section className='my-11'>
+                <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
             </section>
 
             <section className='flex xxs:flex-col xxs:gap-y-11 lg:flex-row justify-around items-center'>
@@ -113,6 +108,10 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 </div>
                 <ShowYoutubeVids recipeStr={label} />
             </section>
+
+            {/* <section className='my-11'>
+                <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
+            </section> */}
 
             <section className='my-11'>
                 <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
@@ -204,11 +203,18 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
 
     const contents = (
         <div className='grid grid-cols-5 justify-items-center place-items-center w-full capitalize xs:text-sm lg:text-[1.01rem]'>
-            <Image
+            {/* <Image
                 src={image} alt={food}
                 width={60} height={39}
                 className='w-36 h-12 rounded-xl'
                 blurDataURL={image} placeholder='blur' loading='lazy'
+            /> */}
+            <img
+                src={image} alt={food}
+                width={60} height={39}
+                className='w-36 h-12 rounded-xl'
+                // blurDataURL={image} 
+                placeholder='blur' loading='lazy'
             />
 
             <div className=''>{food}</div>

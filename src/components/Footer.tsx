@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import {TbBrandReact, TbBrandNextjs, TbBrandTypescript, TbBrandRedux, TbBrandPrisma, TbBrandMongodb, TbCalendar, TbBrandUnsplash, TbBrandTailwind, TbBrandOauth, TbSend, TbApi, TbHash} from "react-icons/tb"
+import {TbBrandReact, TbBrandNextjs, TbBrandTypescript, TbBrandRedux, TbBrandPrisma, TbBrandMongodb, TbCalendar, TbBrandUnsplash, TbBrandTailwind, TbBrandOauth, TbSend, TbApi, TbHash, TbIcons} from "react-icons/tb"
 import {SiI18Next, SiMinutemailer, SiAxios, SiVercel, SiFramework7} from "react-icons/si"
 
 export const Footer = () => {
@@ -9,7 +9,7 @@ export const Footer = () => {
     <div className='w-full bg-primary-focus text-center flex flex-col gap-y-4 mt-6'>
       {/* <h2 className='h-20'>Footer</h2> */}
       <h2 className='font-bold xxs:text-2xl md:text-4xl text-special-foreground'>Stack Used</h2>
-      <div className='grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 justify-items-center place-content-center xxs:text-sm md:text-lg text-special'>
+      <div className='grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 justify-items-center place-content-center xxs:text-xs md:text-sm text-special'>
         {renderStacks()}
       </div>
       <CopyrightInfo />
@@ -53,6 +53,6 @@ const stacks = [
 
   { name: "Edamam API", icon: <TbApi />, url: "https://www.edamam.com/" }, { name: "The Meal DB API", icon: <TbApi />, url: "https://www.themealdb.com/api.php" },
   { name: "Unsplash", icon: <TbBrandUnsplash />, url: "https://unsplash.com/" }, { name: "Vercel", icon: <SiVercel />, url: "https://vercel.com/" },
-  { name: "React Icons", icon: <TbApi />, url: "https://react-icons.github.io/react-icons/" }, { name: "TailwindCss", icon: <TbBrandTailwind />, url: "https://tailwindui.com/" },
+  { name: "React Icons", icon: <TbIcons />, url: "https://react-icons.github.io/react-icons/" }, { name: "TailwindCss", icon: <TbBrandTailwind />, url: "https://tailwindui.com/" },
   { name: "Shadcn/ui", icon: <SiFramework7 />, url: "https://ui.shadcn.com/" }, { name: "Bcrypt", icon: <TbHash />, url: "https://www.npmjs.com/package/bcrypt" }
 ]

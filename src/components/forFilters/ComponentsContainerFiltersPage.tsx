@@ -74,7 +74,7 @@ export const ComponentsContainerFiltersPage = () => {
 
   return (
     <div
-      className={`${(recipesData.recipesFound?.length) ? "h-fit" : "min-h-[100vh]"} bg-secondary text-muted-foreground flex flex-col gap-y-4`}
+      className={`${(recipesData.recipesFound?.length) ? "h-fit" : "min-h-[100vh]"} bg-secondary text-muted-foreground flex flex-col gap-y-10`}
     >
       <FiltersDashboard handleRecipesFound={handleRecipesFound} />
 
