@@ -19,6 +19,8 @@ import store from "@/redux/store"
 import { useSession } from "next-auth/react"
 import { GoSignIn, GoSignOut } from "react-icons/go"
 import { TiUserAdd } from "react-icons/ti"
+import { RiUserSettingsFill } from "react-icons/ri"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
 
 store.dispatch(getAllViewedRecipesFromDb())
 
@@ -46,8 +48,8 @@ export const Header = () => {
         />
       </Link>
 
-      <div className="bg-card flex justify-around gap-x-2 w-full py-2">
-        <nav className='flex gap-x-2 justify-end xs:text-[.71rem] lg:text-lg xl:text-2xl'>
+      <div className="bg-card flex justify-center gap-x-10 w-full py-2">
+        <nav className='flex gap-x-10 justify-end xs:text-[.71rem] lg:text-lg xl:text-2xl'>
           {renderNavs()}
         </nav>
 
@@ -57,9 +59,10 @@ export const Header = () => {
             : null
         }
 
-        <LocaleSwitcher />
-
-        <UserAuth />
+        <div className="flex gap-x-4">
+          <LocaleSwitcher />
+          <UserAuth />
+        </div>
       </div>
     </div>
   )
@@ -68,22 +71,36 @@ export const Header = () => {
 const UserAuth = () => {
   const { status, data } = useSession()
 
-  console.log(status, data?.user, "check!!")
-
   const locale = useLocale()
 
   return (
     <div className="text-special flex items-center">
-      {
-        status === "authenticated"
-          ? <UserAuthLinkView href={`/api/auth/signout`} text="Logout" icon={<GoSignOut />} />
-          : status === "loading"
-            ? <Link className="pointer-events-none bg-accent px-2 rounded-md" href={""}>Wait..</Link>
-            : <div className="flex gap-2">
-              <UserAuthLinkView href={`/api/auth/signin`} text="Sign-In" icon={<GoSignIn />} />
-              <UserAuthLinkView href={`/${locale}/signup`} text="Signup" icon={<TiUserAdd />} />
-            </div>
-      }
+
+      <DropdownMenu>
+        <DropdownMenuTrigger className="text-2xl" title="User Auth"><RiUserSettingsFill /></DropdownMenuTrigger>
+        <DropdownMenuContent className="min-w-fit">
+
+          <DropdownMenuLabel>User Auth</DropdownMenuLabel>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuGroup>
+            {
+              status === "authenticated"
+                ? <DropdownMenuItem>
+                  <UserAuthLinkView href={`/api/auth/signout`} text="Logout" icon={<GoSignOut />} />
+                </DropdownMenuItem>
+                : status === "loading"
+                  ? <DropdownMenuItem><Link className="pointer-events-none bg-accent px-2 rounded-md" href={""}>Wait..</Link></DropdownMenuItem>
+                  :
+                  <>
+                    <DropdownMenuItem><UserAuthLinkView href={`/api/auth/signin`} text="Sign-In" icon={<GoSignIn />} /></DropdownMenuItem>
+                    <DropdownMenuItem><UserAuthLinkView href={`/${locale}/signup`} text="Signup" icon={<TiUserAdd />} /></DropdownMenuItem>
+                  </>
+            }
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   )
 }
