@@ -21,9 +21,9 @@ export const RecipesList = ({ open }: { open: boolean }) => {
         <div
             // className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "xxs:w-52 sm:w-[14rem] md:w-[33rem] scale-100 min-h-full h-[510px]" : "h-72 w-0 scale-0"}`}
 
-            className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-52 sm:w-[14rem] md:w-[36rem] h-[690px] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-4`}
+            className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-52 sm:w-[14rem] md:w-[36rem] h-[42rem] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-4`}
         >
-            <Bucket cards={recipeCards} updateCards={updateCards} />
+            <Bucket cards={recipeCards} updateCards={updateCards} searchText={text} />
             <SearchRecipesByName addToCards={addToCards} handleTextChange={handleTextChange} text={text} />
         </div>
     )
@@ -45,6 +45,10 @@ const SearchRecipesByName = ({ addToCards, text, handleTextChange }: { addToCard
 
 const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (d: any) => void }) => {
     const [recipes, setRecipes] = useState<RecipeTypes[]>([])
+
+    useEffect(() => {
+        !text && setRecipes([])
+    }, [text])
 
     useEffect(() => {
         text && searchRecipesByNameFromApi(text).then(data => setRecipes(data.meals)).catch(err => console.log(err))

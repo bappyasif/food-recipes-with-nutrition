@@ -56,11 +56,9 @@ export const RandomizeSelection = () => {
             <h2 className='text-2xl font-extrabold w-full text-center'>{t("Randomly Recipe Finding Game")}</h2>
 
             <div
-                // className='flex xxs:flex-col lg:flex-row justify-start h-full'
                 className='flex flex-col gap-y-10 justify-center h-full'
             >
                 <div
-                    // className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row gap-x-0 justify-between px-28 xxs:w-full lg:w-1/2'
                     className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row gap-x-0 justify-around px-28 xxs:w-full'
                 >
                     {randomizedDataset.forCuisines.length <= 8 ?
@@ -75,20 +73,13 @@ export const RandomizeSelection = () => {
                     }
                 </div>
 
-                {/* <ShowRecipes rnds={rnds} rndNames={rndNames} wheelDataset={randomizedDataset} /> */}
-
                 <div
-                    // className='xxs:w-full lg:w-1/2 flex gap-x-8 justify-evenly items-center px-2'
-                    className='xxs:w-full flex gap-x-40 justify-center items-baseline px-2'
+                    className='xxs:w-full flex gap-x-20 justify-center items-baseline px-2'
                 >
                     <GoingOffRandomizer updateRndNames={updateRndNames} />
 
-                    {/* <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} />
-                    <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} /> */}
-
                     <div
-                        // className='flex flex-col gap-y-9 justify-between items-center w-52'
-                        className='flex gap-x-40 justify-between items-center'
+                        className='flex gap-x-20 justify-between items-center'
                     >
                         <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} />
                         <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} />
@@ -250,10 +241,10 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
     const t = useTranslations("default")
 
     return (
-        <div className='w-56 flex flex-col xxs:gap-y-0 lg:gap-y-10 relative h-full'>
+        <div className='w-80 flex flex-col xxs:gap-y-0 lg:gap-y-10 relative h-full'>
             <h2 className='text-center font-bold text-lg'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
             <div>
-                <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-56 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
+                <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-80 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
 
                 <div className="viewport bg-secondary h-16 overflow-hidden mix-blend-lighten rounded-lg">
                     <div className="flex flex-col gap-y-1 items-center justify-center" ref={ref}>
@@ -373,8 +364,8 @@ const ShowOptionSelected = ({ title, val }: { title: string, val: string }) => {
     return (
         <h2 className='flex flex-col gap-y-2 w-32 text-center'>
             {/* <span className='font-bold text-lg'>{t(`${title}`)}</span> */}
-            <span className='font-bold text-lg'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</span>
-            <span className='font-semibold text-sm'>{val ? val : "intrim spin"}</span>
+            <span className='font-bold text-lg bg-card rounded-md'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</span>
+            <span className='font-semibold text-sm text-special'>{val ? val : "intrim spin"}</span>
         </h2>
     )
 }
@@ -396,12 +387,12 @@ const ShowTitle = ({ rnds, wheelDataset }: {
     return (
         <div className='flex gap-x-6'>
             <h2 className='flex flex-col gap-y-2 w-44 text-center'>
-                <span className='font-bold text-lg'>{t("Dish")}</span>
-                <span className='font-semibold text-sm'>{wheelDataset.forDishes[dish] ? wheelDataset.forDishes[dish] : "intrim spin"}</span>
+                <span className='font-bold text-lg bg-card rounded-md'>{t("Dish")}</span>
+                <span className='font-semibold text-sm text-special'>{wheelDataset.forDishes[dish] ? wheelDataset.forDishes[dish] : "intrim spin"}</span>
             </h2>
             <h2 className='flex flex-col gap-y-2 w-44 text-center'>
-                <span className='font-bold text-lg'>{t("Cuisine")}</span>
-                <span className='font-semibold text-sm'>{wheelDataset.forCuisines[cuisine] ? wheelDataset.forCuisines[cuisine] : "intrim spin"}</span>
+                <span className='font-bold text-lg bg-card rounded-md'>{t("Cuisine")}</span>
+                <span className='font-semibold text-sm text-special'>{wheelDataset.forCuisines[cuisine] ? wheelDataset.forCuisines[cuisine] : "intrim spin"}</span>
             </h2>
         </div>
     )

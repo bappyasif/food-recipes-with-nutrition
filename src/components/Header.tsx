@@ -19,7 +19,7 @@ import store from "@/redux/store"
 import { useSession } from "next-auth/react"
 import { GoSignIn, GoSignOut } from "react-icons/go"
 import { TiUserAdd } from "react-icons/ti"
-import { RiUserSettingsFill } from "react-icons/ri"
+import { RiUserSettingsFill, RiSearchLine } from "react-icons/ri"
 
 store.dispatch(getAllViewedRecipesFromDb())
 
@@ -106,7 +106,7 @@ const ShowDropdown = ({ handleFalsy }: { handleFalsy: () => void }) => {
   )
 
   return (
-    <div ref={ref} onClick={handleFalsy} className="absolute flex flex-col gap-y-2 top-9 right-0 bg-card py-2 px-1 z-50">
+    <div ref={ref} onClick={handleFalsy} className="absolute flex flex-col gap-y-2 top-9 right-0 bg-card py-2 px-1 z-50 w-28">
       <div className="text-center">User Auth</div>
       {options}
     </div>
@@ -115,7 +115,7 @@ const ShowDropdown = ({ handleFalsy }: { handleFalsy: () => void }) => {
 
 const UserAuthLinkView = ({ href, text, icon }: { href: string, text: string, icon: ReactNode }) => {
   return (
-    <Link className="bg-accent xxs:p-1 lg:px-2 rounded-md flex gap-2 items-center duration-1000 transition-all hover:bg-special-foreground hover:text-secondary" href={`${href}`} title={text}>
+    <Link className="bg-accent xxs:p-1 lg:px-2 rounded-md flex gap-2 items-center justify-center duration-1000 transition-all hover:bg-special-foreground hover:text-secondary font-bold" href={`${href}`} title={text}>
       <span className="xxs:hidden lg:block">{text}</span>
       <span className="">{icon}</span>
     </Link>
@@ -143,7 +143,7 @@ const SearchRecipes = () => {
         className="xxs:w-44 sm:w-64 md:w-72 lg:w-[22rem] h-full rounded-sm xxs:pl-0 lg:pl-4 text-special-foreground bg-transparent border-0 border-b-2 border-b-special placeholder:text-special-foreground xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl" type="text" placeholder='search recipes by name'
         value={text} onChange={handleTextChange}
       />
-      <Button onClick={handleTruthy} variant={"ghost"} className="absolute right-0 xxs:h-5 lg:h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold xxs:text-[.51rem] md:text-sm lg:text-lg">Search</Button>
+      <Button onClick={handleTruthy} variant={"ghost"} title="Click To Search Now" className="absolute right-0 xxs:h-5 lg:h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl"><RiSearchLine /></Button>
       <ShowAllFoundRecipes text={text} isTrue={isTrue} showDropdown={forFocused} />
     </div>
   )
