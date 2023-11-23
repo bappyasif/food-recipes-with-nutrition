@@ -86,7 +86,7 @@ const UserAuth = () => {
   )
 }
 
-const ShowDropdown = ({handleFalsy}: {handleFalsy: () => void}) => {
+const ShowDropdown = ({ handleFalsy }: { handleFalsy: () => void }) => {
   const { status } = useSession();
   const locale = useLocale()
 
@@ -100,13 +100,13 @@ const ShowDropdown = ({handleFalsy}: {handleFalsy: () => void}) => {
       : status === "loading"
         ? <Link className="pointer-events-none bg-accent px-2 rounded-md" href={""}>Wait..</Link>
         : <>
-        <UserAuthLinkView href={`/${locale}/signup`} text="Signup" icon={<TiUserAdd />} />
+          <UserAuthLinkView href={`/${locale}/signup`} text="Signup" icon={<TiUserAdd />} />
           <UserAuthLinkView href={`/api/auth/signin`} text="Sign-In" icon={<GoSignIn />} />
         </>
   )
 
   return (
-    <div ref={ref} onClick={handleFalsy} className="absolute flex flex-col gap-y-2 top-9 right-0 bg-card py-2 px-1">
+    <div ref={ref} onClick={handleFalsy} className="absolute flex flex-col gap-y-2 top-9 right-0 bg-card py-2 px-1 z-50">
       <div className="text-center">User Auth</div>
       {options}
     </div>

@@ -107,7 +107,7 @@ const RightExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
     return (
         <div
-            className={`absolute bg-card flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-0" : "translate-x-[33rem]"} z-20`}
+            className={`absolute bg-card flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1.5" : "translate-x-[36rem]"} z-20`}
         >
             <Button onClick={handleClicked} variant={'secondary'} 
             // className='absolute -left-16 top-0 transition-all duration-1000 h-full bg-card hover:bg-muted-foreground hover:text-special-foreground text-7xl flex items-center rounded-r-none text-special'

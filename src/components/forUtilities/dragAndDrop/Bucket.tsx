@@ -48,15 +48,15 @@ export const Bucket = ({ cards, updateCards }: BucketProps) => {
     const isActive = canDrop && isOver;
 
     return (
-        <div className='flex flex-col gap-y-2 w-60 justify-between items-center'>
+        <div className='flex flex-col gap-y-2 w-72 justify-between items-center'>
             <div
-                className={`bg-primary-focus ${isActive ? "bg-accent" : "bg-special-foreground"} mt-1.5 mx-auto xxs:hidden lg:block`}
+                className={`bg-primary-focus ${isActive ? "bg-accent" : "bg-special-foreground"} ${cards.length ? "" : "bg-red-950"} mt-1.5 mx-auto xxs:hidden lg:block`}
                 ref={drop}
                 style={{ ...style }}
             >
-                {isActive ? 'Release to drop' : 'Drag a box here'}
+                {isActive ? 'Release to drop' : !cards.length ? "Search Recipes First" : 'Drag a box here'}
             </div>
-            <h2 className='text-special font-bold text-xl'>Re-arrange Cards</h2>
+            <h2 className={`${cards.length ? "text-special" : "text-muted-foreground" } font-bold text-xl`}>Re-arrange Cards</h2>
             <hr />
             {/* we can directly use this for drop and drag of recipes card but have to make cards item compliance with already implemented module */}
             <RenderCardBoxes cards={cards} updateCards={updateCards} />
@@ -141,7 +141,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     }
 
     return (
-        <div className=''>
+        <div className='w-60 self-center'>
             <div
                 className='flex xxs:flex-col gap-2 justify-between'
                 title={decideTitleText()}

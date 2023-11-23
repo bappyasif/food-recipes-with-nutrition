@@ -14,13 +14,14 @@ export const RecipesList = ({ open }: { open: boolean }) => {
 
     useEffect(() => {
         open && resetText()
+        open && setRecipeCards([])
     }, [open])
 
     return (
         <div
             // className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "xxs:w-52 sm:w-[14rem] md:w-[33rem] scale-100 min-h-full h-[510px]" : "h-72 w-0 scale-0"}`}
 
-            className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-52 sm:w-[14rem] md:w-[33rem] h-[690px] transition-all duration-1000 ${open ? "" : ""}`}
+            className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-52 sm:w-[14rem] md:w-[36rem] h-[690px] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-4`}
         >
             <Bucket cards={recipeCards} updateCards={updateCards} />
             <SearchRecipesByName addToCards={addToCards} handleTextChange={handleTextChange} text={text} />
@@ -56,7 +57,7 @@ const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (
 
     return (
         <div
-            className={`absolute flex flex-col gap-y-2 ${recipes?.length ? " xxs:h-80 md:h-[29rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[15.9rem]`}>
+            className={`absolute flex flex-col gap-y-2 ${recipes?.length ? " xxs:h-80 md:h-[38rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[15.9rem]`}>
             {recipes?.length ? renderRecipes() : null}
         </div>
     )
@@ -105,6 +106,7 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
             className='p-2 bg-primary-foreground flex flex-col gap-y-2 items-center justify-between w-full'
             ref={drag}
             style={{ ...style, opacity }}
+            title='Drag To Drop Box or Click Add'
         >
             <div className='flex gap-x-2 items-center justify-between'>
                 <h2 className='text-primary text-xl'>{label}</h2>
