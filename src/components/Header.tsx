@@ -20,7 +20,6 @@ import { useSession } from "next-auth/react"
 import { GoSignIn, GoSignOut } from "react-icons/go"
 import { TiUserAdd } from "react-icons/ti"
 import { RiUserSettingsFill } from "react-icons/ri"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
 
 store.dispatch(getAllViewedRecipesFromDb())
 
@@ -69,45 +68,54 @@ export const Header = () => {
 }
 
 const UserAuth = () => {
-  const { status, data } = useSession()
-
-  const locale = useLocale()
+  const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
   return (
-    <div className="text-special flex items-center">
+    <div className="text-special flex items-center relative">
 
-      <DropdownMenu>
-        <DropdownMenuTrigger className="text-2xl" title="User Auth"><RiUserSettingsFill /></DropdownMenuTrigger>
-        <DropdownMenuContent className="min-w-fit">
+      <span onClick={isTrue ? handleFalsy : handleTruthy} className="text-2xl relative" title="User Auth">
+        <RiUserSettingsFill />
+      </span>
 
-          <DropdownMenuLabel>User Auth</DropdownMenuLabel>
+      {
+        isTrue
+          ? <ShowDropdown handleFalsy={handleFalsy} />
+          : null
+      }
+    </div>
+  )
+}
 
-          <DropdownMenuSeparator />
+const ShowDropdown = ({handleFalsy}: {handleFalsy: () => void}) => {
+  const { status } = useSession();
+  const locale = useLocale()
 
-          <DropdownMenuGroup>
-            {
-              status === "authenticated"
-                ? <DropdownMenuItem>
-                  <UserAuthLinkView href={`/api/auth/signout`} text="Logout" icon={<GoSignOut />} />
-                </DropdownMenuItem>
-                : status === "loading"
-                  ? <DropdownMenuItem><Link className="pointer-events-none bg-accent px-2 rounded-md" href={""}>Wait..</Link></DropdownMenuItem>
-                  :
-                  <>
-                    <DropdownMenuItem><UserAuthLinkView href={`/api/auth/signin`} text="Sign-In" icon={<GoSignIn />} /></DropdownMenuItem>
-                    <DropdownMenuItem><UserAuthLinkView href={`/${locale}/signup`} text="Signup" icon={<TiUserAdd />} /></DropdownMenuItem>
-                  </>
-            }
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
+  const ref = useRef(null)
+
+  useForOutsideClick(ref, handleFalsy)
+
+  const options = (
+    status === "authenticated"
+      ? <UserAuthLinkView href={`/api/auth/signout`} text="Logout" icon={<GoSignOut />} />
+      : status === "loading"
+        ? <Link className="pointer-events-none bg-accent px-2 rounded-md" href={""}>Wait..</Link>
+        : <>
+        <UserAuthLinkView href={`/${locale}/signup`} text="Signup" icon={<TiUserAdd />} />
+          <UserAuthLinkView href={`/api/auth/signin`} text="Sign-In" icon={<GoSignIn />} />
+        </>
+  )
+
+  return (
+    <div ref={ref} onClick={handleFalsy} className="absolute flex flex-col gap-y-2 top-9 right-0 bg-card py-2 px-1">
+      <div className="text-center">User Auth</div>
+      {options}
     </div>
   )
 }
 
 const UserAuthLinkView = ({ href, text, icon }: { href: string, text: string, icon: ReactNode }) => {
   return (
-    <Link className="bg-accent xxs:p-1 lg:px-2 rounded-md flex gap-2 items-center" href={`${href}`} title={text}>
+    <Link className="bg-accent xxs:p-1 lg:px-2 rounded-md flex gap-2 items-center duration-1000 transition-all hover:bg-special-foreground hover:text-secondary" href={`${href}`} title={text}>
       <span className="xxs:hidden lg:block">{text}</span>
       <span className="">{icon}</span>
     </Link>
