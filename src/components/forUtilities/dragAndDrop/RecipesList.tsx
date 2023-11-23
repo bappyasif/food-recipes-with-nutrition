@@ -18,7 +18,9 @@ export const RecipesList = ({ open }: { open: boolean }) => {
 
     return (
         <div
-            className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "xxs:w-52 sm:w-[14rem] md:w-[33rem] scale-100 min-h-full h-[510px]" : "h-72 w-0 scale-0"}`}
+            // className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between transition-all duration-1000 ${open ? "xxs:w-52 sm:w-[14rem] md:w-[33rem] scale-100 min-h-full h-[510px]" : "h-72 w-0 scale-0"}`}
+
+            className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-52 sm:w-[14rem] md:w-[33rem] h-[690px] transition-all duration-1000 ${open ? "" : ""}`}
         >
             <Bucket cards={recipeCards} updateCards={updateCards} />
             <SearchRecipesByName addToCards={addToCards} handleTextChange={handleTextChange} text={text} />
