@@ -20,6 +20,7 @@ import { useSession } from "next-auth/react"
 import { GoSignIn, GoSignOut } from "react-icons/go"
 import { TiUserAdd } from "react-icons/ti"
 import { RiUserSettingsFill, RiSearchLine } from "react-icons/ri"
+import { extractRecipeId } from "./forFilters/RecipesView"
 
 store.dispatch(getAllViewedRecipesFromDb())
 
@@ -137,19 +138,6 @@ const SearchRecipes = () => {
 
   useForOutsideClick(ref, handleFalsyForFocused)
 
-  return (
-    <div className='relative xxs:w-fit flex items-center xs:text-xs sm:text-sm lg:text-xl' ref={ref} onClick={handleTruthyForFocused}>
-      <input
-        className="xxs:w-44 sm:w-64 md:w-72 lg:w-[22rem] h-full rounded-sm xxs:pl-0 lg:pl-4 text-special-foreground bg-transparent border-0 border-b-2 border-b-primary placeholder:text-accent xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl" type="text" placeholder='search recipes by name'
-        value={text} onChange={handleTextChange}
-      />
-      <Button onClick={handleTruthy} variant={"ghost"} title="Click To Search Now" className="absolute right-0 xxs:h-5 lg:h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl"><RiSearchLine /></Button>
-      <ShowAllFoundRecipes text={text} isTrue={isTrue} showDropdown={forFocused} />
-    </div>
-  )
-}
-
-const ShowAllFoundRecipes = ({ text, isTrue, showDropdown }: { text: string, isTrue: boolean, showDropdown: boolean }) => {
   const [recipes, setRecipes] = useState<RecipeMealType[]>([])
 
   const fetchRecipesFromApi = () => {
@@ -170,21 +158,51 @@ const ShowAllFoundRecipes = ({ text, isTrue, showDropdown }: { text: string, isT
     isTrue && text.length >= 2 && fetchRecipesFromApi()
   }, [text, isTrue])
 
+  const handleEnterPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      text.length >= 2 && fetchRecipesFromApi()
+
+      if (text.length < 2) {
+        alert("at least use two or more letters")
+      }
+    }
+  }
+
+  return (
+    <div className='relative xxs:w-fit flex items-center xs:text-xs sm:text-sm lg:text-xl' ref={ref}
+    >
+      <input
+        className="xxs:w-44 sm:w-64 md:w-72 lg:w-[22rem] h-full rounded-sm xxs:pl-0 lg:pl-4 text-muted-foreground bg-transparent border-0 border-b-2 border-b-primary placeholder:text-accent xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl focus:outline-none" type="text" placeholder='search recipes by name'
+        value={text} onChange={handleTextChange} onFocus={handleTruthyForFocused}
+        onKeyUp={handleEnterPressed}
+      />
+      <Button onClick={handleTruthy} variant={"ghost"} title="Click To Search Now" className="absolute right-2 xxs:h-5 lg:h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl"><RiSearchLine /></Button>
+      <ShowAllFoundRecipes
+        showDropdown={forFocused} handleFalsyForFocused={handleFalsyForFocused} recipes={recipes} />
+    </div>
+  )
+}
+
+const ShowAllFoundRecipes = ({ showDropdown, handleFalsyForFocused, recipes }: { showDropdown: boolean, handleFalsyForFocused: () => void, recipes: RecipeMealType[] }) => {
+  const locale = useLocale()
+
   const renderRecipes = () => recipes.map(item => {
     const { label, uri, cuisineType, mealType } = item
     return (
-      <Button variant={"link"} key={uri} className='flex gap-x-2 outline-dotted text-primary justify-between' title={label}>
+      <Link
+        href={`/${locale}/recipe/${extractRecipeId(uri)}`}
+        key={uri} className='flex gap-x-2 outline-dotted text-primary justify-between' title={label}
+        onClick={handleFalsyForFocused}
+      >
         <span className="text-lg">{label.length > 11 ? ellipsedText(label, 11) : label}</span>
         <Badge>{cuisineType[0]}</Badge>
         <Badge>{mealType[0]}</Badge>
-      </Button>
+      </Link>
     )
   })
 
-  // console.log(recipes, "recipes!!")
-
   return (
-    <div className={`absolute w-full top-8 right-0 flex flex-col gap-y-2 ${recipes?.length && showDropdown ? "h-40" : "h-0"} overflow-y-scroll no-scrollbar z-40 bg-card`}>
+    <div className={`absolute w-full top-8 right-0 flex flex-col gap-y-2 ${recipes?.length && showDropdown ? "max-h-[11rem]" : "h-0"} overflow-y-scroll no-scrollbar z-40 bg-card`}>
       {recipes?.length && showDropdown ? renderRecipes() : null}
     </div>
   )
@@ -199,7 +217,9 @@ const RenderNav = ({ ...item }: NavType) => {
   const locale = useLocale().toString()
 
   return (
-    <Link href={`/${locale}/${path}`} className="flex gap-1 items-center font-bold text-primary">
+    <Link
+      href={`/${locale}/${path}`}
+      className="flex gap-1 items-center font-bold text-primary">
       <span className="xxs:text-2xl sm:text-3xl lg:text-2xl">{icon}</span>
       <span className="xxs:hidden md:block">{t(`${name}`)}</span>
     </Link>

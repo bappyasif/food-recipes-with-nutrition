@@ -53,7 +53,7 @@ export const RandomizeSelection = () => {
         <div
             className='w-full h-fit relative flex flex-col justify-center gap-y-10 text-muted-foreground'
         >
-            <h2 className='text-2xl font-extrabold w-full text-center'>{t("Randomly Recipe Finding Game")}</h2>
+            <h2 className='text-2xl font-extrabold w-full text-center text-special'>{t("Randomly Recipe Finding Game")}</h2>
 
             <div
                 className='flex flex-col gap-y-10 justify-center h-full'
@@ -156,7 +156,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
 
     return (
         <div className='flex flex-col xxs:gap-y-0 md:gap-y-10 w-80 relative'>
-            <h2 className={`text-center font-bold ${locale === "bn" ? "text-lg" : "xxs:text-xs sm:text-lg"}`}>{t("Randomize")} {t("Health")} {t("Label")}</h2>
+            <h2 className={`text-center font-bold ${locale === "bn" ? "text-lg" : "xxs:text-xs sm:text-lg"} bg-card rounded-md`}>{t("Randomize")} {t("Health")} {t("Label")}</h2>
             <div>
                 <img src={newImg.src} alt="" width={20} height={20}
                     className='h-20 w-full bg-black bg-blend-darken bottom-11 object-cover rounded-xl'
@@ -237,7 +237,7 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
 
     return (
         <div className='w-80 flex flex-col xxs:gap-y-0 lg:gap-y-10 relative h-full'>
-            <h2 className='text-center font-bold text-lg'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
+            <h2 className='text-center font-bold text-lg bg-card rounded-md'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
             <div>
                 <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-80 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
 
@@ -325,7 +325,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
     return (
         <>
             <div className='flex flex-col gap-y-10 items-center justify-center w-full self-end h-full'>
-                <h2 className='text-2xl font-bold'>{t("Existing Filters")}</h2>
+                <h2 className='text-2xl font-bold text-primary'>{t("Existing Filters")}</h2>
 
                 <div className='flex gap-x-4 justify-center'>
                     <ShowTitle rnds={rnds} wheelDataset={wheelDataset} />
@@ -415,7 +415,7 @@ const ReuseableWheelCarousel = ({ dataset, title, updateRnds }: {
 
     return (
         <div className={`flex justify-center relative z-20 h-96`}>
-            <h2 className='text-center font-bold text-lg'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
+            <h2 className='text-center font-bold text-lg bg-card h-fit px-20 rounded-md'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
             <MouseWheelBasedCarousel handleRandomNumber={handleRandomNumber} rndNum={rndNum} handleResetRandomNumber={handleResetRandomNumber} dataset={dataset} />
         </div>
     )
