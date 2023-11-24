@@ -4,7 +4,7 @@ import EmailProvider from "next-auth/providers/email"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import prisma from "@/utils/prismaClientHandler"
 import CredentialsProvider from "next-auth/providers/credentials"
-import {compare} from "bcrypt"
+import { compare } from "bcrypt"
 
 export const nextAuthOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
@@ -50,5 +50,9 @@ export const nextAuthOptions: NextAuthOptions = {
     // when using with credentials, this needs to be a jwt token otherwise session wont be created for user
     session: {
         strategy: "jwt"
-    }
+    },
+    pages: {
+        signIn: '/auth/signin',
+        signOut: '/auth/signout',
+    },
 }
