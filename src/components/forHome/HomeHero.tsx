@@ -110,8 +110,8 @@ const RightExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
             className={`absolute bg-card flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1.5" : "translate-x-[36rem]"} z-20`}
         >
             <Button onClick={handleClicked} variant={'secondary'} 
-            // className='absolute -left-16 top-0 transition-all duration-1000 h-full bg-card hover:bg-muted-foreground hover:text-special-foreground text-7xl flex items-center rounded-r-none text-special'
-            className='absolute -left-16 top-0 transition-all duration-1000 h-full bg-card hover:bg-muted-foreground hover:text-special-foreground text-7xl flex items-center rounded-r-none text-special'
+
+            className='absolute -left-16 top-0 transition-all duration-1000 h-full bg-card hover:bg-muted-foreground hover:text-special-foreground text-5xl flex items-center rounded-r-none text-special'
             >[</Button>
 
             <DragAndDrop open={extOpen === "right"} />
@@ -132,7 +132,7 @@ const LeftExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
         >
             <Scheduler open={extOpen === "left"} />
 
-            <Button onClick={handleClicked} variant={'secondary'} className={`absolute bg-card -right-16 bottom-0 transition-all duration-1000 h-full hover:bg-muted-foreground hover:text-special-foreground text-7xl flex items-center rounded-l-none text-special`}>]</Button>
+            <Button onClick={handleClicked} variant={'secondary'} className={`absolute bg-card -right-16 bottom-0 transition-all duration-1000 h-full hover:bg-muted-foreground hover:text-special-foreground text-5xl flex items-center rounded-l-none text-special`}>]</Button>
         </div>
     )
 }

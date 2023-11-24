@@ -121,7 +121,6 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
             ref.current.childNodes.forEach((divItm, idx) => {
 
                 if (rnd === -2) {
-                    // (divItm as HTMLDivElement).style.transform = `translateY(18px) translateX(0px)`;
                     (divItm as HTMLDivElement).style.transform = `translateY(-42px) translateX(0)`;
                     updateRndNames("", "health");
                     (divItm as HTMLDivElement).style.opacity = "1";
@@ -129,9 +128,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
                 }
 
                 if (idx === rnd - 1) {
-                    // (divItm as HTMLDivElement).style.transform = `translateY(18px) translateX(0px)`;
                     (divItm as HTMLDivElement).style.transform = `translateY(-42px) translateX(0)`;
-                    // console.log("last item!!", divItm.textContent);
                     updateRndNames(divItm.textContent!, "health");
                     (divItm as HTMLDivElement).style.opacity = "1";
                 } else {
@@ -162,17 +159,15 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
             <h2 className={`text-center font-bold ${locale === "bn" ? "text-lg" : "xxs:text-xs sm:text-lg"}`}>{t("Randomize")} {t("Health")} {t("Label")}</h2>
             <div>
                 <img src={newImg.src} alt="" width={20} height={20}
-                    // className='absolute xxs:h-[4rem] sm:h-[4.7rem] md:h-[5.1rem] w-full bg-black bg-blend-darken top-[3.9rem] object-cover rounded-xl' 
                     className='h-20 w-full bg-black bg-blend-darken bottom-11 object-cover rounded-xl'
                 />
                 <div
                     ref={ref}
-                    // className="viewport flex flex-col justify-center items-center xxs:mt-2 md:mt-0 xxs:h-[5.6rem] sm:h-[6.7rem] lg:h-28 font-extrabold"
                     className="relative viewport flex flex-col justify-center items-center font-extrabold"
                 >
                     {rnd > 0 ? renderDivs() : rnd === -2 ? <span className='absolute'>Spin It!!</span> : null}
                 </div>
-                <Button className='z-10 w-full bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-secondary'>{t("Spin")}</span></Button>
+                <Button className='md:mt-2 z-10 w-full bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-secondary'>{t("Spin")}</span></Button>
             </div>
         </div>
     )

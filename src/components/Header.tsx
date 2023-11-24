@@ -140,7 +140,7 @@ const SearchRecipes = () => {
   return (
     <div className='relative xxs:w-fit flex items-center xs:text-xs sm:text-sm lg:text-xl' ref={ref} onClick={handleTruthyForFocused}>
       <input
-        className="xxs:w-44 sm:w-64 md:w-72 lg:w-[22rem] h-full rounded-sm xxs:pl-0 lg:pl-4 text-special-foreground bg-transparent border-0 border-b-2 border-b-special placeholder:text-special-foreground xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl" type="text" placeholder='search recipes by name'
+        className="xxs:w-44 sm:w-64 md:w-72 lg:w-[22rem] h-full rounded-sm xxs:pl-0 lg:pl-4 text-special-foreground bg-transparent border-0 border-b-2 border-b-primary placeholder:text-accent xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl" type="text" placeholder='search recipes by name'
         value={text} onChange={handleTextChange}
       />
       <Button onClick={handleTruthy} variant={"ghost"} title="Click To Search Now" className="absolute right-0 xxs:h-5 lg:h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl"><RiSearchLine /></Button>
