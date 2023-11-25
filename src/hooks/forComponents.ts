@@ -91,6 +91,7 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound: (data: Recipe
     }, [])
 
     useEffect(() => {
+        if(params!?.size < 5) return
         const timer = setTimeout(() => {
             params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
                 const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
@@ -98,6 +99,8 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound: (data: Recipe
                 const readyForRendering = onlyRecipes.map((item: any) => item.mealType?.length && item.dishType?.length && item.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
                 readyForRendering?.length && handleRecipesFound(readyForRendering, d.data?._links?.next?.href)
+
+                !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
             })
         }, 1001)
 
@@ -137,7 +140,10 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
                 readyForRendering?.length && setRecipes(readyForRendering.filter((item: RecipeMealType) => item.uri !== uri))
             } else {
                 readyForRendering?.length && setRecipes(readyForRendering)
+                
+                mealType[0] && diet[0] && dishType[0] && !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
             }
+
         }).catch(err => console.log(err))
 
     }
@@ -153,7 +159,7 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
 
     // juste a safety call incase first usecase missed out on fetching data for non related recipes carousel
     useEffect(() => {
-        mealType && diet && dishType && nonRelated && readySimilarRcipesRequest()
+        mealType[0] && diet[0] && dishType[0] && nonRelated && readySimilarRcipesRequest()
     }, [nonRelated])
 
     // console.log(recipes.length, count, "whatwhat!!")

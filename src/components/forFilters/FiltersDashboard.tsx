@@ -114,9 +114,9 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
             
             const readyForRendering = onlyRecipes.map((item:any) => item?.mealType?.length && item?.dishType?.length && item?.dietLabels?.length && item).filter((item:any) => item).filter((v:any, idx:number, self:any) => idx === self.findIndex((t:any) => t.label === v.label))
 
-            console.log(onlyRecipes?.length, readyForRendering?.length, "!!")
-
             readyForRendering?.length && handleRecipesFound(readyForRendering, d.data?._links?.next?.href)
+
+            !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
         }).catch(err => console.log(err))
 
         querifyFilters();
@@ -249,7 +249,7 @@ const RenderCheckbox = ({ name, propKey }: CheckboxTypes) => {
 
 export const diets = ["balanced", "high-fiber", "high-protein", "low-carb", "low-fat", "low-sodium"]
 
-export const health = ["alcohol-free", "alchohol-cocktail", "celery-free", "crustacean-free", "dairy-free", "DASH", "egg-free", "fish-free", "fodmap-free", "gluten-free", "immuno-supportive", "keto-friendly", "kidney-friendly", "kosher", "low-fat-abs", "low-potassium", "low-sugar", "lupine-free", "Mediterranean", "mollusk-free", "mustard-free", "no-oil-added", "paleo", "peanut-free", "pescaterian", "pork-free", "red-meat-free", "sesame-free", "shellfish-free", "soy-free", "sugar-conscious", "sulfite-free", "tree-nut-free", "vegan", "vegetarian", "wheat-free"]
+export const health = ["alcohol-free", "alchohol-cocktail", "celery-free", "crustacean-free", "dairy-free", "DASH", "egg-free", "fish-free", "fodmap-free", "gluten-free", "immuno-supportive", "keto-friendly", "kidney-friendly", "kosher", "low-fat-abs", "low-potassium", "low-sugar", "lupine-free", "Mediterranean", "mollusk-free", "mustard-free", "no-oil-added", "paleo", "peanut-free", "pescatarian", "pork-free", "red-meat-free", "sesame-free", "shellfish-free", "soy-free", "sugar-conscious", "sulfite-free", "tree-nut-free", "vegan", "vegetarian", "wheat-free"]
 
 export const cuisines = ["American", "Asian", "British", "Caribbean", "Central Europe", "Chinese", "Eastern Europe", "French", "Indian", "Italian", "Japanese", "Kosher", "Mediterranean", "Mexican", "Middle eastern", "Nordic", "South American", "South East Asian"]
 
