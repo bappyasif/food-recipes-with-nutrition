@@ -107,7 +107,7 @@ const RightExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
     return (
         <div
-            className={`absolute bg-card flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1.5" : "translate-x-[36rem]"} z-20`}
+            className={`absolute bg-card flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1.5" : "xxs:translate-x-[18.4rem] md:translate-x-[36rem] lg:translate-x-[36rem]"} z-20`}
         >
             <Button onClick={handleClicked} variant={'secondary'} 
 
@@ -128,7 +128,7 @@ const LeftExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
     return (
         <div
-            className={`flex bg-card gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "-translate-x-[52rem]"} ${extOpen === "left" ? "z-30" : "z-20"}`}
+            className={`flex bg-card gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "xxs:-translate-x-[19.33rem] sm:-translate-x-[26.3rem] md:-translate-x-[36rem] lg:-translate-x-[52rem]"} ${extOpen === "left" ? "z-30" : "z-20"}`}
         >
             <Scheduler open={extOpen === "left"} />
 

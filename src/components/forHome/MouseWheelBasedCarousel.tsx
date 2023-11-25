@@ -97,7 +97,7 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
     const t = useTranslations("default")
 
     return (
-        <div className='absolute top-[58%] flex justify-center items-center'>
+        <div className='absolute xxs:top-[65%] lg:top-[58%] flex justify-center items-center'>
             <div
                 onWheel={handleScroll}
                 id='wheel'

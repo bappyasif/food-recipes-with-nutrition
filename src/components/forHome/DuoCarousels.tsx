@@ -15,7 +15,7 @@ export const DuoCarousels = () => {
     const newCuisines = cuisines.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}` }))
 
     return (
-        <div className='flex gap-4'>
+        <div className='flex gap-10'>
             <ReusableCarousel title='Dish' items={newDishes} />
             <ReusableCarousel title='Cuisine' items={newCuisines} />
         </div>

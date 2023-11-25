@@ -110,7 +110,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                         alt={label}
                         width={images?.SMALL?.width || images?.REGULAR?.width}
                         height={images?.SMALL?.height || images?.REGULAR?.height}
-                        className='w-64'
+                        className='w-64 rounded-lg'
                         loading='lazy'
                     />
                 </Link>

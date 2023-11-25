@@ -51,13 +51,14 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
     return (
         <div className='flex flex-col gap-y-2 w-72 justify-between items-center'>
             <div
-                className={`bg-primary-focus ${isActive ? "bg-accent" : (!cards.length && !searchText) ? "bg-secondary" : "bg-special-foreground"} mt-1.5 mx-auto xxs:hidden lg:block`}
+                className={`bg-primary-focus ${isActive ? "bg-accent" : (!cards.length && !searchText) ? "bg-secondary" : "bg-special-foreground"} mt-1.5 mx-auto xxs:hidden md:block`}
                 ref={drop}
                 style={{ ...style }}
             >
                 {isActive ? 'Release to drop' : (!cards.length && !searchText) ? "Search Recipes First" : 'Drag a box here'}
             </div>
-            <h2 className={`${cards.length >= 2 ? "text-special block" : "text-muted-foreground hidden" } font-bold text-xl`}>Re-arrange Cards</h2>
+            {/* <h2 className={`${cards.length >= 2 ? "text-special block" : "text-muted-foreground hidden" } font-bold text-xl`}>Re-arrange Cards</h2> */}
+            <h2 className={`text-special font-bold text-xl`}>{cards.length < 2 ? "Add More Cards" : "Re-arrange Cards"}</h2>
             <hr />
             {/* we can directly use this for drop and drag of recipes card but have to make cards item compliance with already implemented module */}
             <RenderCardBoxes cards={cards} updateCards={updateCards} />

@@ -48,8 +48,8 @@ export const Header = () => {
         />
       </Link>
 
-      <div className="bg-card flex justify-center gap-x-10 w-full py-2">
-        <nav className='flex gap-x-10 justify-end xs:text-[.71rem] lg:text-lg xl:text-2xl'>
+      <div className="bg-card flex justify-center xxs:gap-x-2 lg:gap-x-10 w-full py-2">
+        <nav className='flex xxs:gap-x-2 lg:gap-x-10 justify-end xs:text-[.71rem] lg:text-lg xl:text-2xl'>
           {renderNavs()}
         </nav>
 

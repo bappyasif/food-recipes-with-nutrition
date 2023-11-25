@@ -268,7 +268,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
     return (
         <div
             // className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px] scale-100" : "h-72 w-0 scale-0"}`}
-            className={`h-[42rem] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px] transition-all duration-1000 ${open ? "" : ""}`}
+            className={`h-[42rem] xxs:w-[19.1rem] sm:w-[26rem] md:w-[36rem] xl:w-[830px] transition-all duration-1000 ${open ? "" : ""}`}
         >
             <DnDCalendar
                 localizer={localizer}

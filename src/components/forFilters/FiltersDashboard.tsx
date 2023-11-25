@@ -11,12 +11,15 @@ import axios from 'axios'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
 import { useTranslations } from 'use-intl';
 import { FiltersContext } from '@/hooks/forContext'
+import { useAppDispatch } from '@/hooks/forRedux'
+import { resetUntrackedRecipes } from '@/redux/features/recipes/RecipesSlice'
 
 type FiltersDashboardPropsType = {
-    handleRecipesFound: (d: any, href?: string) => void
+    handleRecipesFound: (d: any, href?: string) => void,
+    resetPageNumber: () => void
 }
 
-export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsType) => {
+export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: FiltersDashboardPropsType) => {
     const [filters, setFilters] = useState<FiltersTypes>({ cuisineType: [], diet: [], dishType: [], health: [], mealType: [], co2EmissionsClass: [], q: "" })
 
     const getFiltered = (data: string, key: string) => {
@@ -51,7 +54,12 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
     const handleFiltersChange = (data: string, key: string) => {
         setFilters(prev => {
-            if (key === "q" && data) {
+            if (key === "q") {
+                if(data) {
+                    // return { ...prev, q: data }
+                }
+
+                // return prev
                 return { ...prev, q: data }
             } else {
                 let found = checkIfFound(data, key)
@@ -92,6 +100,8 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
         router.push(str.slice(0, str.lastIndexOf("&")), undefined)
     }
 
+    const appDispatch = useAppDispatch()
+
     const handleSearchNow = () => {
         const params = new URLSearchParams();
 
@@ -116,6 +126,10 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
             readyForRendering?.length && handleRecipesFound(readyForRendering, d.data?._links?.next?.href)
 
+            readyForRendering?.length && appDispatch(resetUntrackedRecipes())
+
+            readyForRendering?.length && resetPageNumber()
+
             !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
         }).catch(err => console.log(err))
 
@@ -125,7 +139,8 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
     const { handleTextChange, text } = useForInputTextChange()
 
     useEffect(() => {
-        text && handleFiltersChange(text, "q")
+        // text && handleFiltersChange(text, "q")
+        handleFiltersChange(text, "q")
     }, [text])
 
     const handleEnterKeyPressed = (e:KeyboardEvent<HTMLInputElement>) => {
@@ -146,7 +161,7 @@ export const FiltersDashboard = ({ handleRecipesFound }: FiltersDashboardPropsTy
 
             <div className='flex flex-col gap-y-10 justify-center items-center'>
 
-                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2 border-b-special text-special-foreground rounded-md placeholder:text-special-foreground xxs:text-sm md:text-lg xl:text-xl' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
+                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2 border-b-primary text-special rounded-md placeholder:text-muted-foreground xxs:text-sm md:text-lg xl:text-xl focus:outline-none' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
                 <Button className='bg-special-foreground text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary hover:bg-special' onClick={handleSearchNow}>{t("Search")}</Button>
                 
@@ -163,11 +178,10 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
     const t = useTranslations("default")
 
     return (
-        <AccordionItem value={propKey} className='min-w-[380px]'>
-            <AccordionTrigger className='text-lg font-semibold'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
+        <AccordionItem value={propKey} className='min-w-[380px] bg-popover px-2 rounded-md mb-4'>
+            <AccordionTrigger className='text-lg font-semibold my-4'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
             <AccordionContent>
                 <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText} 
-                // handleFiltersChange={handleFiltersChange} 
                 />
             </AccordionContent>
         </AccordionItem>
@@ -176,7 +190,7 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
 
 const MultipleSelectableFilters = () => {
     return (
-        <Accordion type='multiple' className='xxs:columns-1 md:columns-2 xl:columns-3 gap-2 bg-popover'>
+        <Accordion type='multiple' className='xxs:columns-1 md:columns-2 xl:columns-3 gap-4'>
             <ReusuableAccordionItem propKey='co2EmissionsClass' trigText='Carbon Footprint' data={carbonFootprints} />
 
             <ReusuableAccordionItem propKey='mealType' trigText='Meal Types' data={meals} />

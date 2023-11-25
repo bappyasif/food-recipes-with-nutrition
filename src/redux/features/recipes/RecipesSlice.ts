@@ -2,7 +2,6 @@ import { fetchRecipesWithShallowRoutingOnce, getAllViewedRecipesFromDb } from "@
 import { RecipeMealType, ViewedMealType } from "@/types"
 import { addToDbCollection, updateRecordInCollection } from "@/utils/dbRequests"
 import { createSlice } from "@reduxjs/toolkit"
-import { stat } from "fs"
 
 type RecipesInitStateTypes = {
     viewedList?: ViewedMealType[]
@@ -66,12 +65,14 @@ const recipesSlice = createSlice({
             state.untracked = recipesData.length ? [...state.untracked, { data: recipesData, page: pageNumber }] : state.untracked
         },
 
+        // reset untracked recipes list, so that when a new search is done any old data from ealrier search needs to be gone as well
+        resetUntrackedRecipes: (state) => {
+            state.untracked = [{ data: [], page: 0 }]
+        },
+
         // trying alternative to update list from component (now going back to store dispatch instead, willbe keeping this for future reference)
         addRecipesAtOnce: (state, action) => {
             state.list = action.payload;
-            // state.viewedList = action.payload
-            // state.list = state.list.sort((a, b) => a.count! < b.count! ? 1 : -1)
-            // console.log(state.list, "sorted?!")
         }
     },
     extraReducers: builder => {
@@ -80,13 +81,12 @@ const recipesSlice = createSlice({
         }),
         // updating all found data from backend api server to redux store to be used by components who needs it (i.e. recently viewed meal, popular recipes view)
         builder.addCase(getAllViewedRecipesFromDb.fulfilled, (state, action) => {
-            // console.log(action.payload?.recipes.length)
             state.list = action.payload?.recipes
         })
     }
 })
 
-export const { updateRecipeCount, addRecipeToList, addRecipesToUntracked, addRecipesAtOnce } = recipesSlice.actions
+export const { updateRecipeCount, addRecipeToList, addRecipesToUntracked, addRecipesAtOnce, resetUntrackedRecipes } = recipesSlice.actions
 
 const RecipesReducer = recipesSlice.reducer;
 
