@@ -1,7 +1,7 @@
 import { useForRandomRecipesList, useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
 import { RecipeMealType } from '@/types'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import styles from "./Recipe.module.css"
 import { Badge } from '../ui/badge'
@@ -18,7 +18,6 @@ export const ShowFewRelatedRecipes = ({ mealType, diet, dishType, uri }: { mealT
 
     return (
         <div className='flex flex-col gap-y-2 text-special-foreground'>
-            {/* ShowFewRelatedRecipes -- {recipes.length} -- {recipes.filter(item=>item.dishType.length).length} -- {mealType} -- {diet} -- {dishType} */}
             <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("Similar Recipes")}</h2>
             <RenderRecipesListCarousel data={recipes.filter(item=>item.dishType.length)} />
         </div>
@@ -86,6 +85,15 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
 
     const locale = useLocale()
 
+    const [test, setTest] = useState(false);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setTest(true)
+        }, 1500)
+
+        return () => clearTimeout(timer)
+    }, [])
+
     return (
         <div
             className={`${styles.fadeOutCard} w-48 relative ${(lastCard || firstCard) ? "pointer-events-none": "pointer-events-auto"}`}
@@ -93,7 +101,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
             onMouseLeave={handleFalsy}
         >
             <div className={`absolute transition-transform duration-500 ${isTrue ? "-translate-y-48" : "z-20"} text-center`}>
-                <Badge className='xxs:text-sm lg:text-lg capitalize'>{cuisineType[0]}</Badge>
+                <Badge className={`xxs:text-sm lg:text-lg capitalize ${test ? "visible" : "hidden"}`}>{cuisineType[0]}</Badge>
                 {/* <Image
                     src={url} alt={label} height={height} width={width}
                     className='w-40 h-full rounded-md'
@@ -101,8 +109,9 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                 /> */}
                 <img
                     src={url} alt={label} height={height} width={width}
-                    className='w-40 h-full rounded-md'
-                    // blurDataURL={url} placeholder='blur' 
+                    className={`w-40 h-full rounded-md ${test ? "visible" : "hidden"}`}
+                    // blurDataURL={url} 
+                    placeholder='blur' 
                     loading='lazy'
                 />
             </div>

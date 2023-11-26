@@ -51,10 +51,10 @@ export const ShowYoutubeVids = ({ recipeStr }: { recipeStr: string }) => {
   }
 
   return (
-    <div className='flex flex-col justify-between items-center h-96'>
+    <div className='flex flex-col justify-between items-center lg:h-96'>
       <h2 className='text-xl font-bold mt-3'>Popular Youtube Videos About This Recipe</h2>
       {/* smaller screens */}
-      <div className='xxs:flex flex-col lg:hidden gap-x-2 items-center w-full'>
+      <div className='xxs:flex flex-col lg:hidden gap-y-2 items-center w-full mb-10'>
         <iframe className="xxs:w-full" width="720" height="315"
           src={`https://www.youtube.com/embed/${vidId}`}>
         </iframe>

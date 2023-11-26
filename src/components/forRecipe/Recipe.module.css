@@ -1,8 +1,13 @@
 .fadeOutCard {
+    /* visibility: hidden; */
     animation-name: fadeOut;
     animation-duration: 8s;
     animation-timing-function: ease-in-out;
     animation-iteration-count: 1;
+}
+
+.fadeOutCard:nth-child(1) {
+    animation-delay: 100ms;
 }
 
 .fadeOutCard:nth-child(2) {
@@ -36,12 +41,16 @@
 @keyframes fadeOut {
     from {
         opacity: 0;
-        transform: translateX(80%);
+        /* transform: translateX(80%); */
+        transform: translateX(20px);
+        visibility: hidden;
     }
 
     to {
         opacity: 1;
-        transform: translateX(-80%);
+        /* transform: translateX(-80%); */
+        transform: translateX(0);
+        visibility: visible;
     }
 }
 
