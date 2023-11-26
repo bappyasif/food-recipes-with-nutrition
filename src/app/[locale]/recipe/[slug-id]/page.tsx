@@ -34,10 +34,14 @@ export async function generateMetadata(
   const baseTitle = (await (parent)).title?.absolute
 
   return {
-    // title: recipeData?.label,
-    title: `${baseTitle} : ${recipeData?.label}`,
+    title: `${baseTitle} : Details for ${recipeData?.label}`,
+    description: `Details for ${recipeData?.label} and this was originally sourced from : ${recipeData?.source}`,
     openGraph: {
-      images: [recipeData?.images?.REGULAR?.url, ...previousImages],
+      title: `Recipe Detail for ${recipeData?.label}`,
+      description: `Details for ${recipeData?.label} and this was originally sourced from : ${recipeData?.source}`,
+      // images: [recipeData?.images?.REGULAR?.url || recipeData?.images?.SMALL?.url],
+      // description: "Discover recipes from around globes and know how to cook them",
+      images: [recipeData?.images?.REGULAR?.url || recipeData?.images?.SMALL?.url, ...previousImages],
     },
   }
 }

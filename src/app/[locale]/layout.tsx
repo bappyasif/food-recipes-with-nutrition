@@ -6,6 +6,7 @@ import { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
 import { NextIntlClientProvider } from 'next-intl';
 import { Analytics } from '@vercel/analytics/react';
+// import favIcon from "../../../public/preview.png"
 // import { getAllViewedRecipesFromDb } from '@/redux/thunks'
 // import store from '@/redux/store'
 
@@ -17,6 +18,9 @@ import { Analytics } from '@vercel/analytics/react';
 export const metadata: Metadata = {
   title: "What's Cooking Yo",
   description: 'Discover, Lookup Recipes From Various Cuisines And Food Types',
+  openGraph: {
+    images: ["https://source.unsplash.com/random/200?food"]
+  }
 }
 
 type Props = {
@@ -47,6 +51,9 @@ export default async function LocaleLayout({
   const messages = await getMessages(locale);
   return (
     <html lang="en">
+      {/* <head>
+        <meta property="og:image" content="https://source.unsplash.com/random/200?food" />
+      </head> */}
       <body
         className={`py-6 flex flex-col justify-between min-h-[100vh] bg-accent text-primary-foreground`}
       >

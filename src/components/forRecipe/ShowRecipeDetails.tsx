@@ -55,15 +55,22 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20 py-20'>
             {/* og metadata for social media sharing */}
             <Head>
-                <title>Recipe : {label}</title>
-                <meta name="description" content={`Details for ${label} from recipe source : ${source}`} key="desc" />
-                <meta property="og:title" content={`Recipe Detail for ${label}`} />
+                <meta property='og:type' content='webapp' />
+                <meta property='og:url' content={process.env.NEXT_PUBLIC_API_HOSTED} />
+                {/* <title>Recipe : {label}</title> */}
+                {/* <meta name="description" content={`Details for ${label} from recipe source : ${source}`} key="desc" /> */}
+                {/* <meta property="og:title" content={`Recipe Detail for ${label}`} />
                 <meta
                     property="og:description"
                     content={`Details for ${label} and this was originally sourced from : ${source}`}
                 />
                 <meta
                     property="og:image"
+                    content={images?.REGULAR?.url || images?.THUMBNAIL?.url || images?.SMALL?.url}
+                /> */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta
+                    name="twitter:image"
                     content={images?.REGULAR?.url || images?.THUMBNAIL?.url || images?.SMALL?.url}
                 />
             </Head>
@@ -194,7 +201,7 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
 
     const contents = (
         <div className='grid grid-cols-5 justify-items-center place-items-center w-full capitalize xs:text-sm lg:text-[1.01rem]'>
-            
+
             <img
                 src={image} alt={food}
                 width={60} height={39}
