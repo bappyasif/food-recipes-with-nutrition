@@ -18,9 +18,10 @@ import { Analytics } from '@vercel/analytics/react';
 export const metadata: Metadata = {
   title: "What's Cooking Yo",
   description: 'Discover, Lookup Recipes From Various Cuisines And Food Types',
-  openGraph: {
-    images: ["https://source.unsplash.com/random/200?food"]
-  }
+  // openGraph: {
+  //   images: ["https://source.unsplash.com/random/200?food"]
+  //   // images: ["https://source.unsplash.com/random/200?food", "https://source.unsplash.com/random/200?food?sig=2", "https://source.unsplash.com/random/200?food?sig=3", "https://source.unsplash.com/random/200?food?sig=4"]
+  // }
 }
 
 type Props = {

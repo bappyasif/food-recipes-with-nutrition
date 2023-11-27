@@ -35,14 +35,20 @@ export async function generateMetadata(
 
   return {
     title: `${baseTitle} : Details for ${recipeData?.label}`,
-    description: `Details for ${recipeData?.label} and this was originally sourced from : ${recipeData?.source}`,
+    description: `Details for ${recipeData?.label} and this was sourced from EDAMAM api`,
     openGraph: {
+      type: "website",
+      url: `${process.env.NEXT_PUBLIC_API_HOSTED || "https://food-recipes-with-nutrition.vercel.app"}`,
       title: `Recipe Detail for ${recipeData?.label}`,
-      description: `Details for ${recipeData?.label} and this was originally sourced from : ${recipeData?.source}`,
-      // images: [recipeData?.images?.REGULAR?.url || recipeData?.images?.SMALL?.url],
-      // description: "Discover recipes from around globes and know how to cook them",
-      images: [recipeData?.images?.REGULAR?.url || recipeData?.images?.SMALL?.url, ...previousImages],
+      description: `Details for ${recipeData?.label} and this was sourced from EDAMAM api`,
+      images: [recipeData?.images?.REGULAR?.url || recipeData?.images?.THUMBNAIL?.url || recipeData?.images?.SMALL?.url, ...previousImages]
     },
+    twitter: {
+      card: "summary_large_image",
+      title: `Recipe Detail for ${recipeData?.label}`,
+      description: `Details for ${recipeData?.label} and this was sourced from EDAMAM api`,
+      images: [recipeData?.images?.REGULAR?.url || recipeData?.images?.THUMBNAIL?.url || recipeData?.images?.SMALL?.url, ...previousImages],
+    }
   }
 }
 

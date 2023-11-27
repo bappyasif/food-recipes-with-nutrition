@@ -13,6 +13,7 @@ import { useSession } from 'next-auth/react'
 import { EventItemTypes } from '@/types'
 import { useRouter } from 'next/navigation'
 import { addToSchedulerEvents } from '@/utils/dbRequests'
+import { useLocale } from 'next-intl'
 
 const style: CSSProperties = {
     height: '4rem',
@@ -58,7 +59,7 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
                 {isActive ? 'Release to drop' : (!cards.length && !searchText) ? "Search Recipes First" : 'Drag a box here'}
             </div>
             {/* <h2 className={`${cards.length >= 2 ? "text-special block" : "text-muted-foreground hidden" } font-bold text-xl`}>Re-arrange Cards</h2> */}
-            <h2 className={`text-special font-bold text-xl`}>{cards.length < 2 ? "Add More Cards" : "Re-arrange Cards"}</h2>
+            <h2 className={`text-special font-bold text-xl`}>{cards.length === 0 ? "" : cards.length < 2 ? "Add More Cards" : "Re-arrange Cards"}</h2>
             <hr />
             {/* we can directly use this for drop and drag of recipes card but have to make cards item compliance with already implemented module */}
             <RenderCardBoxes cards={cards} updateCards={updateCards} />
@@ -80,15 +81,15 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     const userData = data?.user
 
     const route = useRouter()
-    
-    const [seStr, setSeStr] = useState({start: "", end: ""})
 
-    const getStartStr = (data: any) => setSeStr(prev => ({...prev, start: data.start}))
-    const getEndStr = (data: any) => setSeStr(prev => ({...prev, end: data.end}))
+    const [seStr, setSeStr] = useState({ start: "", end: "" })
+
+    const getStartStr = (data: any) => setSeStr(prev => ({ ...prev, start: data.start }))
+    const getEndStr = (data: any) => setSeStr(prev => ({ ...prev, end: data.end }))
 
     const handleScheduler = () => {
 
-        console.log(seStr.start, seStr.end, "start end!!", moment(seStr.start), moment(seStr.end).toDate())
+        // console.log(seStr.start, seStr.end, "start end!!", moment(seStr.start), moment(seStr.end).toDate())
 
         const getFourRecipes = () => cards.map(item => ({ name: item.label, imgSrc: item.imgSrc }));
 
@@ -146,12 +147,13 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
         <div className='w-60 self-center'>
             <div
                 className='flex xxs:flex-col gap-2 justify-between'
-                title={decideTitleText()}
+            // title={decideTitleText()}
             >
                 <Button
                     className='text-xs w-full text-muted'
                     disabled={!cards?.length || status === "unauthenticated"}
                     onClick={handleClickedScheduler}
+                    title={decideTitleText()}
                 >Add To Scheduler</Button>
                 <ShareInSocialMedias hashtags={["cooking", "recipes"]} description='Get to know your cooking side of it' title='Cooking Recipes' ready={!!cards.length} />
             </div>
@@ -184,15 +186,15 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     )
 }
 
-const CustomDateAndTime = ({heading, getData}: {heading: string, getData: (item: object) => void}) => {
-    const {handleTextChange, text, resetText} = useForInputTextChange()
+const CustomDateAndTime = ({ heading, getData }: { heading: string, getData: (item: object) => void }) => {
+    const { handleTextChange, text, resetText } = useForInputTextChange()
 
     console.log(text)
 
     const isStart = () => heading.includes("Start")
 
     useEffect(() => {
-        getData({[isStart() ? "start" : "end"]: text})
+        getData({ [isStart() ? "start" : "end"]: text })
     }, [text])
 
     return (
@@ -203,7 +205,7 @@ const CustomDateAndTime = ({heading, getData}: {heading: string, getData: (item:
     )
 }
 
-const EventCreateTimeAndDate = ({getStartStr, getEndStr}: {getStartStr: (data:object) => void, getEndStr: (data:object) => void}) => {
+const EventCreateTimeAndDate = ({ getStartStr, getEndStr }: { getStartStr: (data: object) => void, getEndStr: (data: object) => void }) => {
     return (
         <span className='flex flex-col gap-1'>
             <CustomDateAndTime heading='Start Date-time' getData={getStartStr} />
@@ -213,29 +215,41 @@ const EventCreateTimeAndDate = ({getStartStr, getEndStr}: {getStartStr: (data:ob
 }
 
 export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description, ready }: { nestedRoute?: string, hashtags?: string[], title: string, description: string, ready: boolean }) => {
-    const decideUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.NEXT_PUBLIC_API_HOSTED
+    const decideUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : `${process.env.NEXT_PUBLIC_API_HOSTED}`
+
+    const locale = useLocale()
 
     return (
-        <div>
+        <div
+            title={!ready ? "Add Cards First From Search Results Dropdown" : "Ready For Share"}
+        >
             <span className='text-special-foreground font-bold'>Share in Social Media</span>
 
-            <span className={`flex justify-between gap-2 ${ready ? "cursor-pointer" : "cursor-auto pointer-events-none"}`}>
-                <FacebookShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`} hashtag={`${hashtags?.length ? hashtags[0] : "What's_Cooking_Yo!!"}`} title={title}>
+            <span
+                className={`flex justify-between gap-2 ${ready ? "cursor-pointer" : "cursor-auto pointer-events-none"}`}
+            >
+                <FacebookShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`} hashtag={`${hashtags?.length ? hashtags[0] : "What's_Cooking_Yo!!"}`} title={title}
+                >
                     <FacebookIcon size={36} round />
                 </FacebookShareButton>
 
                 <TwitterShareButton
-                    url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`}
+                    url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`}
                     hashtags={hashtags?.length ? hashtags : ["test", "test2"]}
-                    related={["item1", "item2"]} title={title} via="Whats_Cooking_Yo!!">
+                    related={["item1", "item2"]}
+                    title={title}
+                >
                     <TwitterIcon round size={36} />
                 </TwitterShareButton>
 
-                <PinterestShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`} media='' description={description || "some description"} title={title}>
+                <PinterestShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`} media='' description={description || "some description"}
+                    title={title}
+                >
                     <PinterestIcon round size={36} />
                 </PinterestShareButton>
 
-                <EmailShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : ""}`} subject='Some Subject For Email' body='Some text for body!! some more tetx mose more text!!' separator='[[<#>]]'>
+                <EmailShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`} subject='Some Subject For Email' body='Some text for body!! some more tetx mose more text!!' separator='[[<#>]]'
+                >
                     <EmailIcon round size={36} />
                 </EmailShareButton>
             </span>

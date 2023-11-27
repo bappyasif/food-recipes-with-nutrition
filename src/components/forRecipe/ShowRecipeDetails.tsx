@@ -54,12 +54,19 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     return (
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20 py-20'>
             {/* og metadata for social media sharing */}
-            <Head>
-                <meta property='og:type' content='webapp' />
-                <meta property='og:url' content={process.env.NEXT_PUBLIC_API_HOSTED} />
-                {/* <title>Recipe : {label}</title> */}
-                {/* <meta name="description" content={`Details for ${label} from recipe source : ${source}`} key="desc" /> */}
-                {/* <meta property="og:title" content={`Recipe Detail for ${label}`} />
+            {/* <Head>
+                <meta name='twitter:title' content={`Recipe Detail for ${label}`} />
+                <meta name='twitter:description' content={`Details for ${label} and this was sourced from EDAMAM api`} />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta
+                    name="twitter:image"
+                    content={images?.REGULAR?.url || images?.THUMBNAIL?.url || images?.SMALL?.url}
+                />
+            </Head> */}
+            {/* <Head>
+                <title>Recipe : {label}</title>
+                <meta name="description" content={`Details for ${label} from recipe source : ${source}`} key="desc" />
+                <meta property="og:title" content={`Recipe Detail for ${label}`} />
                 <meta
                     property="og:description"
                     content={`Details for ${label} and this was originally sourced from : ${source}`}
@@ -67,13 +74,15 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 <meta
                     property="og:image"
                     content={images?.REGULAR?.url || images?.THUMBNAIL?.url || images?.SMALL?.url}
-                /> */}
+                />
                 <meta name="twitter:card" content="summary_large_image" />
+                <meta name='twitter:title' content={`Recipe Detail for ${label}`} />
+                <meta name='twitter:description' content={`Details for ${label} and this was sourced from EDAMAM api`} />
                 <meta
                     name="twitter:image"
                     content={images?.REGULAR?.url || images?.THUMBNAIL?.url || images?.SMALL?.url}
                 />
-            </Head>
+            </Head> */}
 
             {/* recipe details */}
 
