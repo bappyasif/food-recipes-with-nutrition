@@ -1,7 +1,6 @@
-import React, { CSSProperties, useCallback, useEffect, useState } from 'react'
-import { useDrag, useDrop } from 'react-dnd'
+import React, { CSSProperties, useEffect, useState } from 'react'
+import { useDrop } from 'react-dnd'
 import { CardBoxProps } from './RecipesList'
-import update from 'immutability-helper'
 import { Button } from '@/components/ui/button'
 import moment from 'moment'
 import { v4 } from 'uuid'
@@ -14,6 +13,7 @@ import { EventItemTypes } from '@/types'
 import { useRouter } from 'next/navigation'
 import { addToSchedulerEvents } from '@/utils/dbRequests'
 import { useLocale } from 'next-intl'
+import { BucketCardsContainer } from './BucketCardsContainer'
 
 const style: CSSProperties = {
     height: '4rem',
@@ -58,11 +58,12 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
             >
                 {isActive ? 'Release to drop' : (!cards.length && !searchText) ? "Search Recipes First" : 'Drag a box here'}
             </div>
-            {/* <h2 className={`${cards.length >= 2 ? "text-special block" : "text-muted-foreground hidden" } font-bold text-xl`}>Re-arrange Cards</h2> */}
+
             <h2 className={`text-special font-bold text-xl`}>{cards.length === 0 ? "" : cards.length < 2 ? "Add More Cards" : "Re-arrange Cards"}</h2>
             <hr />
+
             {/* we can directly use this for drop and drag of recipes card but have to make cards item compliance with already implemented module */}
-            <RenderCardBoxes cards={cards} updateCards={updateCards} />
+            <BucketCardsContainer cards={cards} updateCards={updateCards} />
 
             <UserActions cards={cards} updateCards={updateCards} />
         </div>
@@ -88,9 +89,6 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     const getEndStr = (data: any) => setSeStr(prev => ({ ...prev, end: data.end }))
 
     const handleScheduler = () => {
-
-        // console.log(seStr.start, seStr.end, "start end!!", moment(seStr.start), moment(seStr.end).toDate())
-
         const getFourRecipes = () => cards.map(item => ({ name: item.label, imgSrc: item.imgSrc }));
 
         const eventItem: EventItemTypes = {
@@ -111,13 +109,10 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
         status === "authenticated" && addToSchedulerEvents(eventItem)
 
-        // dispatch(addToEventsData(eventItem))
-
         updateCards([])
 
         handleFalsy()
 
-        // route.refresh()
         route.replace("/")
     }
 
@@ -256,117 +251,4 @@ export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description,
 
         </div>
     )
-}
-
-const RenderCardBoxes = ({ cards, updateCards }: { cards: CardBoxProps[], updateCards: (data: CardBoxProps[]) => void }) => {
-    const findCard = useCallback(
-        (id: string) => {
-            const card = cards.find((item, idx) => item?.id === id) as CardBoxProps
-
-            return {
-                card,
-                idx: cards.indexOf(card)
-            }
-        }
-        ,
-        [cards]
-    )
-
-    const moveCard = useCallback(
-        (id: string, atIndex: number) => {
-            const { idx, card } = findCard(id)
-            updateCards(
-                update(cards, {
-                    $splice: [
-                        [idx, 1],
-                        [atIndex, 0, card]
-                    ]
-                })
-            )
-        },
-
-        [findCard, cards, updateCards]
-    )
-
-
-
-    const renderCardBoxes = () => cards.map(item => <BucketCard key={item?.id} data={item} findCard={findCard} moveCard={moveCard} />)
-
-    const [, drop] = useDrop(() => ({ accept: "card" }))
-
-    return (
-        <div ref={drop} className='flex flex-col gap-y-2 h-72 overflow-y-scroll no-scrollbar w-[10.5rem]'>
-            {renderCardBoxes()}
-        </div>
-    )
-}
-
-type BucketCardProps = {
-    data: CardBoxProps,
-    moveCard: (i: string, to: number) => void,
-    findCard: (i: string) => { idx: number }
-}
-
-const BucketCard = ({ ...items }: BucketCardProps) => {
-    const { data, findCard, moveCard } = items
-
-    const originalIdx = findCard(data?.id).idx
-
-    const [{ isDragging }, drag] = useDrag(() => ({
-        type: "card",
-        item: data,
-        collect(monitor) {
-            return {
-                isDragging: data?.id ? monitor.isDragging() : false
-            }
-        },
-        end(draggedItem, monitor) {
-            if (!data?.id) return
-
-            const { id } = draggedItem
-            const didDrop = monitor.didDrop()
-
-            if (didDrop) {
-                moveCard(id, originalIdx)
-            }
-        },
-    }), [data?.id, originalIdx, moveCard])
-
-    const [, drop] = useDrop(() => ({
-        accept: "card",
-        hover(item, monitor) {
-            if (!data?.id) return
-            const { id: draggedId } = item as CardBoxProps;
-
-            if (draggedId !== data?.id) {
-                const { idx } = findCard(data?.id)
-                moveCard(draggedId, idx)
-            }
-        },
-    }))
-
-    const opacity = isDragging ? 0 : 1
-
-    if (!data?.id) return
-
-    const { id, imgSrc, label } = data;
-
-    return (
-        <div
-            ref={node => drag(drop(node))}
-            className='flex gap-x-2 outline outline-primary outline-1 justify-between items-center px-4'
-            style={{ ...cardBoxstyle, opacity }}
-        >
-            <h2 className='text-primary text-xl'>{label}</h2>
-            <img src={imgSrc} width={60} height={60} alt={label} className='w-11 h-11 rounded-full' />
-        </div>
-    )
-}
-
-const cardBoxstyle: CSSProperties = {
-    // border: '1px dashed gray',
-    // padding: '0.5rem 1rem',
-    // marginBottom: '.5rem',
-    backgroundColor: 'white',
-    cursor: 'move',
 }
