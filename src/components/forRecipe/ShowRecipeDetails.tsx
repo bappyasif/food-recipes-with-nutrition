@@ -53,29 +53,6 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
     return (
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20 py-20'>
-            {/* og metadata for social media sharing */}
-            <Head>
-                <meta property='og:type' content='webapp' />
-                <meta property='og:url' content={process.env.NEXT_PUBLIC_API_HOSTED} />
-                {/* <title>Recipe : {label}</title> */}
-                {/* <meta name="description" content={`Details for ${label} from recipe source : ${source}`} key="desc" /> */}
-                {/* <meta property="og:title" content={`Recipe Detail for ${label}`} />
-                <meta
-                    property="og:description"
-                    content={`Details for ${label} and this was originally sourced from : ${source}`}
-                />
-                <meta
-                    property="og:image"
-                    content={images?.REGULAR?.url || images?.THUMBNAIL?.url || images?.SMALL?.url}
-                /> */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta
-                    name="twitter:image"
-                    content={images?.REGULAR?.url || images?.THUMBNAIL?.url || images?.SMALL?.url}
-                />
-            </Head>
-
-            {/* recipe details */}
 
             <section className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-6 mx-6 gap-y-11'>
 
