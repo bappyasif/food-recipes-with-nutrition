@@ -63,7 +63,8 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
             <hr />
 
             {/* we can directly use this for drop and drag of recipes card but have to make cards item compliance with already implemented module */}
-            <BucketCardsContainer cards={cards} updateCards={updateCards} />
+            {/* <BucketCardsContainer cards={cards} updateCards={updateCards} /> */}
+            <BucketCardsContainer recipeCards={cards} />
 
             <UserActions cards={cards} updateCards={updateCards} />
         </div>
