@@ -1,120 +1,129 @@
-import React, { CSSProperties, useCallback } from 'react'
+import React, { CSSProperties, FC, memo, useCallback, useEffect, useState } from 'react'
 import { CardBoxProps } from './RecipesList'
 import { useDrag, useDrop } from 'react-dnd'
 import update from 'immutability-helper'
 
-export const BucketCardsContainer = ({ cards, updateCards }: { cards: CardBoxProps[], updateCards: (data: CardBoxProps[]) => void }) => {
+export const BucketCardsContainer = ({ recipeCards }: { recipeCards: CardBoxProps[] }) => {
+    const [cards, setCards] = useState<CardBoxProps[]>([])
+
+    useEffect(() => {
+        setCards(recipeCards)
+    }, [recipeCards])
+
     const findCard = useCallback(
         (id: string) => {
-            const card = cards.find((item, idx) => item?.id === id) as CardBoxProps
-
+            const card = cards.filter((c) => `${c.id}` === id)[0]
             return {
                 card,
-                idx: cards.indexOf(card)
+                index: cards.indexOf(card),
             }
-        }
-        ,
-        [cards]
+        },
+        [cards],
     )
 
     const moveCard = useCallback(
-        (dragCardId: string, hoverIndex: number) => {
-            const { idx, card } = findCard(dragCardId)
-            updateCards(
+        (id: string, atIndex: number) => {
+            const { card, index } = findCard(id)
+            setCards(
                 update(cards, {
                     $splice: [
-                        [idx, 1],
-                        [hoverIndex, 0, card]
-                    ]
-                })
+                        [index, 1],
+                        [atIndex, 0, card],
+                    ],
+                }),
             )
         },
-
-        [findCard, cards, updateCards]
+        [findCard, cards, setCards],
     )
-
-    const renderCardBoxes = () => cards.map(item => <BucketCard key={item?.id} data={item} findCard={findCard} moveCard={moveCard} />)
 
     const [, drop] = useDrop(() => ({ accept: "card" }))
-
-    return (
-        <div ref={drop} className='flex flex-col gap-y-2 h-72 overflow-y-scroll no-scrollbar w-[10.5rem]'>
-            {renderCardBoxes()}
-        </div>
-    )
-}
-
-type BucketCardProps = {
-    data: CardBoxProps,
-    moveCard: (i: string, to: number) => void,
-    findCard: (i: string) => { idx: number }
-}
-
-const BucketCard = ({ ...items }: BucketCardProps) => {
-    const { data, findCard, moveCard } = items
-
-    const originalIdx = findCard(data?.id).idx
-
-    const [{ isDragging }, drag] = useDrag(() => ({
-        type: "card",
-        item: data,
-        collect(monitor) {
-            return {
-                isDragging: data?.id ? monitor.isDragging() : false
-            }
-        },
-        end(draggedItem, monitor) {
-            if (!data?.id) return
-
-            const { id } = draggedItem
-            const didDrop = monitor.didDrop()
-
-            if (didDrop) {
-                moveCard(id, originalIdx)
-            }
-        },
-    }), [data?.id, originalIdx, moveCard])
-
-    const [, drop] = useDrop(() => ({
-        accept: "card",
-        hover(item, monitor) {
-            if (!data?.id) return
-            const { id: draggedId } = item as CardBoxProps;
-
-            // if (draggedId !== data?.id) {
-            //     const { idx } = findCard(data?.id)
-            //     moveCard(draggedId, idx)
-            // }
-
-            // console.log(draggedId, "draggedId", data.id)
-
-            const { idx } = findCard(data?.id)
-            moveCard(draggedId, idx)
-        },
-    }))
-
-    const opacity = isDragging ? 0 : 1
-
-    if (!data?.id) return
-
-    const { id, imgSrc, label } = data;
-
     return (
         <div
-            ref={node => drag(drop(node))}
-            className='flex gap-x-2 outline outline-primary outline-1 justify-between items-center px-4'
-            style={{ ...cardBoxstyle, opacity }}
+            ref={drop}
+            className='flex flex-col gap-y-2 h-72 overflow-y-scroll no-scrollbar w-[10.5rem]'
         >
-            <h2 className='text-primary text-xl'>{label}</h2>
-            <img src={imgSrc} width={60} height={60} alt={label} className='w-11 h-11 rounded-full' />
+            {cards.map((card) => (
+                <Card
+                    key={card.id}
+                    id={`${card.id}`}
+                    text={card.label}
+                    imgSrc={card.imgSrc}
+                    moveCard={moveCard}
+                    findCard={findCard}
+                />
+            ))}
         </div>
     )
 }
 
-const cardBoxstyle: CSSProperties = {
-    // border: '1px dashed gray',
-    // padding: '0.5rem 1rem',
-    // marginBottom: '.5rem',
+const style: CSSProperties = {
     backgroundColor: 'white',
     cursor: 'move',
 }
+
+export interface CardProps {
+    id: string
+    text: string
+    imgSrc: string
+    moveCard: (id: string, to: number) => void
+    findCard: (id: string) => { index: number }
+}
+
+interface Item {
+    id: string
+    originalIndex: number
+}
+
+export const Card: FC<CardProps> = memo(function Card({
+    id,
+    text,
+    imgSrc,
+    moveCard,
+    findCard,
+}) {
+    const originalIndex = findCard(id).index
+    const [{ isDragging }, drag] = useDrag(
+        () => ({
+            type: "card",
+            item: { id, originalIndex },
+            collect: (monitor) => ({
+                isDragging: monitor.isDragging(),
+            }),
+            end: (item, monitor) => {
+                const { id: droppedId, originalIndex } = item
+                const didDrop = monitor.didDrop()
+                if (!didDrop) {
+                    moveCard(droppedId, originalIndex)
+                }
+            },
+        }),
+        [id, originalIndex, moveCard],
+    )
+
+    const [, drop] = useDrop(
+        () => ({
+            accept: "card",
+            hover({ id: draggedId }: Item) {
+                if (draggedId !== id) {
+                    const { index: overIndex } = findCard(id)
+                    moveCard(draggedId, overIndex)
+                }
+            },
+        }),
+        [findCard, moveCard],
+    )
+
+    const opacity = isDragging ? 0 : 1
+
+    return (
+        <div
+            ref={(node) => drag(drop(node))}
+            className='flex gap-x-2 outline outline-primary outline-1 justify-between items-center px-4'
+            style={{ ...style, opacity }}
+        >
+            <h2 className='text-primary text-xl'>{text}</h2>
+            <img src={imgSrc} width={60} height={60} alt={text} className='w-11 h-11 rounded-full' />
+        </div>
+    )
+})
+
