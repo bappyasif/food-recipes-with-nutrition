@@ -12,10 +12,10 @@ export async function GET (req: NextRequest) {
     try {
         if(session?.user?.email) {
             const recipes = (await prisma.recipe.findMany({orderBy: [{count: "desc"}]}))
-            return NextResponse.json({msg: "get alive!!", recipes}, {status: 201})
+            return NextResponse.json({msg: "het is leven!!", recipes}, {status: 201})
         } else {
-            const recipes = (await prisma.recipe.findMany()).slice(0,6)
-            return NextResponse.json({msg: "get alive!!", recipes}, {status: 201})
+            const recipes = (await prisma.recipe.findMany({orderBy: [{lastUpdated: "desc"}]})).slice(0,10)
+            return NextResponse.json({msg: "het is leven!!", recipes}, {status: 201})
         }
     } catch (error) {
         return NextResponse.json({msg: "error occured", error}, {status: 500})

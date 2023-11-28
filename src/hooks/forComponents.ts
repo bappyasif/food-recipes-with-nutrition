@@ -136,6 +136,9 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
                 setCount(prev => prev + 1)
             }
 
+            // resetting it for safety
+            readyForRendering?.length && setRecipes([])
+
             if (uri) {
                 readyForRendering?.length && setRecipes(readyForRendering.filter((item: RecipeMealType) => item.uri !== uri))
             } else {
@@ -194,6 +197,9 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
     }
 
     const handleOnlyFour = () => {
+        // resetting recipes for safekeeping
+        setOnlyFour([])
+
         let temp: number[] = [];
         Array.from(Array(8).keys()).forEach((v => {
             if (v + beginFrom >= data.length) {
