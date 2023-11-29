@@ -62,16 +62,21 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                     className='relative xxs:w-full md:w-2/3 lg:w-1/2 rounded flex flex-col gap-y-6 items-center'
                     onClick={handleTruthy}
                 >
-                    <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>Recipe Information</h2>
+                    <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>Additional Information</h2>
                     <div className={`${isTrue ? "xxs:relative md:absolute xxs:top-0 md:top-16 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 bg-accent w-full h-[24rem] overflow-scroll scroll-smooth no-scrollbar`}>
 
-                        <RecipeIngredientsAndInstructions ingredients={ingredients} />
+                        {/* <RecipeIngredientsAndInstructions ingredients={ingredients} /> */}
 
                         <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
 
                         <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-primary'><span className='font-bold text-muted-foreground'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
                     </div>
                 </div>
+            </section>
+
+            <section className='mb-11'>
+                <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-10'>Cooking Information</h2>
+                <RecipeIngredientsAndInstructions ingredients={ingredients} />
             </section>
 
             <section className='my-11'>
@@ -144,32 +149,44 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 
     const t = useTranslations("default")
 
+    const headingsMarkup = (
+        <div className='grid grid-cols-5 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm lg:text-xl'>
+            <div className='bg-card px-4 rounded-md'>Picture</div>
+            <div className='bg-card px-4 rounded-md'>Name</div>
+            <div className='bg-card px-4 rounded-md'>Category</div>
+            <div className='bg-card px-4 rounded-md'>Quantity</div>
+            <div className='bg-card px-4 rounded-md'>Weight</div>
+        </div>
+    )
+
+    const ingredientsMarkup = (
+        <div className='flex flex-col gap-y-6 w-4/5'>
+            <h2 className='font-bold xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground pl-10'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
+
+            {headingsMarkup}
+
+            <div className='flex flex-col gap-y-2 justify-center items-center'>
+                {renderIngredientsAndMeasurements()}
+            </div>
+        </div>
+    )
+
+    const instructionsMarkup = (
+        <div className='flex flex-col gap-y-6 w-3/6'>
+            <h2 className='font-bold xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
+            <div 
+            // className='grid grid-flow-col grid-rows-2 gap-4 xs:text-sm lg:text-lg'
+            className='grid grid-cols-2 gap-10 xs:text-sm lg:text-xl font-semibold'
+            >{renderInstructions()}</div>
+        </div>
+    )
+
     return (
-        <Accordion type='multiple'>
-            <AccordionItem value='ingredients-and-measurements' className='relative'>
-                <AccordionTrigger className='text-special-foreground'><h2 className='font-bold xxs:text-sm sm:text-lg lg:text-xl'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2></AccordionTrigger>
-                <AccordionContent>
-                    <div className='grid grid-cols-5 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm lg:text-lg'>
-                        <div>Picture</div>
-                        <div>Name</div>
-                        <div>Category</div>
-                        <div>Quantity</div>
-                        <div>Weight</div>
-                    </div>
-
-                    <div className='flex flex-col gap-y-2 justify-center items-center'>
-                        {renderIngredientsAndMeasurements()}
-                    </div>
-                </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value='instructions'>
-                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl text-special-foreground'>{t("Instructions")}</AccordionTrigger>
-                <AccordionContent >
-                    <div className='grid grid-flow-col grid-rows-2 gap-4 xs:text-sm lg:text-lg'>{renderInstructions()}</div>
-                </AccordionContent>
-            </AccordionItem>
-        </Accordion>
+        <div className='flex gap-x-4'>
+            {ingredientsMarkup}
+            <p className='h-80 w-1 bg-card self-center mr-20'></p>
+            {instructionsMarkup}
+        </div>
     )
 }
 
@@ -177,20 +194,20 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
     const { food, foodCategory, foodId, image, measure, quantity, text, weight } = items
 
     const contents = (
-        <div className='grid grid-cols-5 justify-items-center place-items-center w-full capitalize xs:text-sm lg:text-[1.01rem]'>
+        <div className='grid grid-cols-5 justify-items-center place-items-center w-full capitalize xs:text-sm lg:text-xl'>
 
             <img
                 src={image} alt={food}
                 width={60} height={39}
-                className='w-36 h-12 rounded-xl'
+                className='w-36 h-20 rounded-xl object-cover'
                 placeholder='blur' loading='lazy'
             />
 
-            <div className=''>{food}</div>
+            <div className='font-semibold'>{food}</div>
 
             <div className=''>{foodCategory}</div>
 
-            <h2 className='flex gap-x-1'><span>{quantity.toFixed(2)}</span> <span>{measure}</span></h2>
+            <h2 className='flex gap-x-1 font-semibold'><span>{quantity.toFixed(2)}</span> <span>{measure}</span></h2>
 
             <h2>
                 {weight.toFixed(2)}

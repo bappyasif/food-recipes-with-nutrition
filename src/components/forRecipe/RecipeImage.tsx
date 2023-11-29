@@ -42,7 +42,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
         >
             <h1 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>{label}</h1>
 
-            <div title="Click To See More Info" className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-start">
+            <div title={isTrue ? "" : "Click To See More Info"} className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-start">
 
                 <SquareElem showIt={isTrue} data={data} />
 

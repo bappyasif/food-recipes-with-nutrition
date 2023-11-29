@@ -68,7 +68,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
       <Link 
       href={`/${locale}/recipe/${extractRecipeId(uri!)}`} 
       // title={label} 
-      title={ checkIfDayOlder() ? `You might be looking at a random picture, Recipe Details will have real picture of this recipe: ${label}, thank you :)` : label} 
+      title={ checkIfDayOlder() ? `You might be looking at a random picture, click here to view recipe detail page for real info: ${label}` : `Click to view details: ${label}`} 
       >
         {/* <Image 
           src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 

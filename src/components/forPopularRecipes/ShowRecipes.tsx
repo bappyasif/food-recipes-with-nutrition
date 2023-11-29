@@ -129,21 +129,14 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
   }
 
   return (
-    <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col justify-between'>
-      {/* <Image
-        // src={url} 
-        src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
-        alt={label!} width={width} height={height}
-        className='xxs:w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
-        blurDataURL={url} placeholder='blur' loading='lazy'
-      /> */}
-
+    <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col justify-between h-[39rem]'>
       <img
         src={url} 
         // src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url}
         alt={label!} width={width} height={height}
-        className='xxs:w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
-        // blurDataURL={url} placeholder='blur' 
+        className='xxs:w-full h-72 object-cover rounded-sm transition-all duration-700 hover:object-fill mix-blend-lighten'
+        // blurDataURL={url} 
+        placeholder='blur' 
         loading='lazy'
         onError={addRandomPicture}
       />
