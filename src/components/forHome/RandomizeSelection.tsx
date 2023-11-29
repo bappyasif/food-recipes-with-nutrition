@@ -287,7 +287,8 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
 
     const handleClick = () => {
         // resetting previously existing recipes
-        setRecipes([]);
+        // going against it so that from modal we dont have to forcefully exit after brigning see more button within modal
+        // setRecipes([]);
 
         const countFound = filtersCounts()
 
@@ -321,6 +322,19 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
 
     const t = useTranslations("default")
 
+    const filterValues = () => {
+        // const temp:{[key:string]: string} = {}
+        const temp:any = {}
+        temp.cuisine = wheelDataset.forCuisines[rnds.cuisine]
+        temp.dish = wheelDataset.forDishes[rnds.dish]
+        temp.diet = rndNames.diet !== "Spint it" ? rndNames.diet : ""
+        temp.health = rndNames.health !== "Spin it" ? rndNames.health : ""
+        temp.meal = rndNames.meal !== "Spin it" ? rndNames.meal : ""
+        return temp
+    }
+
+    console.log(filterValues(), "filter values")
+
     return (
         <>
             <div className='flex flex-col gap-y-10 items-center justify-center w-full self-end h-full'>
@@ -333,7 +347,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
 
                 <Button className='bg-muted-foreground font-bold w-fit hover:bg-primary' onClick={handleClick} variant={'default'}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>{t("Find Recipes")}</span></Button>
             </div>
-            <RandomizedRecipesView recipes={recipes} handleClick={handleClick} />
+            <RandomizedRecipesView recipes={recipes} handleClick={handleClick} existingFilters={filterValues()} />
         </>
     )
 }

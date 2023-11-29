@@ -5,69 +5,95 @@ import { Badge } from '../ui/badge'
 import Link from 'next/link'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
-import { Button } from '../ui/button'
-import { useForTruthToggle } from '@/hooks/forComponents'
-import Image from 'next/image'
 
-export const RandomizedRecipesView = ({ recipes, handleClick }: { recipes: RecipeMealType[], handleClick: () => void }) => {
-    const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
+export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }: { recipes: RecipeMealType[], handleClick: () => void, existingFilters: { cuisine: string, dish: string, health: string, diet: string, meal: string } }) => {
+
+    const { cuisine, diet, dish, health, meal } = existingFilters
+
+    const filtersMarkup = (
+        <>
+            <FilterUsed title={"Cuisine"} val={cuisine} />
+            <FilterUsed title={"Dish"} val={dish} />
+            <FilterUsed title={"Diet"} val={diet} />
+            <FilterUsed title={"Health-Label"} val={health} />
+            <FilterUsed title={"Meal"} val={meal} />
+        </>
+    )
+
+    const existingFiltersMarkup = (
+        <span className='flex flex-col gap-y-4 w-full justify-center items-center my-10'>
+            <span className='text-4xl font-bold text-muted-foreground'>Existing Filters</span>
+            <span className='flex gap-x-6 flex-wrap text-2xl'>
+                {filtersMarkup}
+            </span>
+        </span>
+    )
 
     const processRefetch = () => {
-        handleFalsy()
+        // handleFalsy()
         handleClick()
-    }
-
-    const afterOneSecond = () => {
-        const timer = setTimeout(() => handleTruthy(), 1000)
-
-        return () => clearTimeout(timer)
     }
 
     const renderRecipes = () => recipes.map(item => <RenderRecipeItem key={item.uri} data={item} />)
 
-
-
     return (
         <div className='font-bold text-xl text-center'>
             <Badge
-                // onClick={recipes.length ? handleTruthy : () => null} 
-                // onClick={handleTruthy} 
                 className={`bg-accent hover:bg-accent-foreground text-primary my-2 `}>{recipes.length ? `Recipes Found - ${recipes.length}` : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
             {
                 recipes.length
-                    ? <ReusableModal title='Randomly Chosen Recipes Based On Chosen Filters' triggerText='Click To View' changeWidth={true} handleTrigger={afterOneSecond}>
-                        <span className='grid xxs:grid-cols-1 md:grid-cols-3 h-[650px] justify-items-center place-items-center gap-4 overflow-y-scroll scroll-smooth no-scrollbar'>
+                    ? <ReusableModal title='Randomly Chosen Recipes Based On Chosen Filters' triggerText='Click To View' changeWidth={true} handleTrigger={() => null}>
+
+                        {existingFiltersMarkup}
+
+                        <span className='grid xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[650px] justify-items-center place-items-center gap-10 overflow-y-scroll scroll-smooth no-scrollbar'>
                             {renderRecipes()}
+
+                            {
+                                recipes.length
+                                    ? <span className='w-96 min-h-[23.6rem] h-full rounded-sm bg-card text-muted-foreground flex justify-center items-center gap-x-4 text-xl'>Want To See More? <span className='py-2 text-lg text-secondary font-bold h-6 bg-primary hover:bg-special hover:text-muted cursor-pointer px-4 rounded-full flex items-center justify-center' onClick={processRefetch}>Click Here</span></span>
+                                    : null
+                            }
                         </span>
                     </ReusableModal>
                     : null
             }
 
-            {
+            {/* {
                 recipes.length && isTrue
                     ? <Badge className='bg-special hover:bg-special-foreground text-muted'>Want To See More? <Button className='my-0 py-0 text-sm h-4 bg-special-foreground hover:bg-special hover:text-muted' onClick={processRefetch}>Click Here</Button></Badge>
                     : null
-            }
+            } */}
         </div>
+    )
+}
+
+const FilterUsed = ({ ...item }: { title: string, val: string }) => {
+    const { title, val } = item;
+
+    return (
+        <span className='flex gap-x-2'><span className='bg-card px-2'>{title}:</span><span className='font-semibold px-2 text-special-foreground'>{val || "N/A"}</span></span>
     )
 }
 
 const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     const { uri, label, calories, images, mealType, co2EmissionsClass } = data;
     const { LARGE, REGULAR, SMALL } = images;
-    const { height, url, width } = REGULAR
+    // const { height, url, width } = REGULAR
+    // const { height: smHt, url: smUrl, width: smWd } = SMALL
     const locale = useLocale()
     return (
-        <span className='flex flex-col gap-y-2 justify-center items-center w-56'>
+        <span className='flex flex-col gap-y-2 justify-center items-center w-96 bg-card rounded-md'>
             <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex flex-col gap-y-2' title={label}>
-                <span className='font-bold text-lg'>{label.length > 13 ? ellipsedText(label, 13) : label}</span>
-                {/* <img src={REGULAR.url} height={REGULAR.height} width={REGULAR.width} alt={label} className='w-56 h-48 rounded-sm' /> */}
+                <span className='font-bold text-2xl text-primary text-center'>{label.length > 26 ? ellipsedText(label, 26) : label}</span>
 
-                <Image
+                <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='w-[23.6rem] h-64 rounded-sm duration-1000 transition-all hover:object-contain' placeholder='blur' loading='lazy' />
+
+                {/* <Image
                     src={url} alt={label!} width={width} height={height}
                     className='w-56 h-48 rounded-sm'
                     blurDataURL={url} placeholder='blur' loading='lazy'
-                />
+                /> */}
             </Link>
 
             <span className='flex flex-col gap-y-1.5'>
@@ -81,9 +107,9 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
 
 const RenderReusableBadgeItem = ({ title, text }: { title: string, text: string }) => {
     return (
-        <span className='flex justify-around gap-x-4 bg-muted text-muted-foreground'>
-            <span>{title}</span>
-            <span>{text}</span>
+        <span className='flex justify-between gap-x-10 text-muted-foreground w-full'>
+            <span className='font-bold text-xl'>{title}</span>
+            <span className='text-lg font-semibold text-special-foreground'>{text}</span>
         </span>
     )
 }
