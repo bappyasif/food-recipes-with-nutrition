@@ -124,6 +124,10 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
 
+  const addRandomPicture = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${label}`
+  }
+
   return (
     <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col justify-between'>
       {/* <Image
@@ -135,17 +139,18 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
       /> */}
 
       <img
-        // src={url} 
-        src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url}
+        src={url} 
+        // src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url}
         alt={label!} width={width} height={height}
         className='xxs:w-full h-48 object-fill rounded-sm transition-all duration-700 hover:object-cover mix-blend-lighten'
         // blurDataURL={url} placeholder='blur' 
         loading='lazy'
+        onError={addRandomPicture}
       />
 
       <CardHeader
         className='font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-primary'
-        title={`Recipe: ${label}, Click To View details`}
+        title={checkIfDayOlder () ? `You might be looking at a random picture!!, Recipe: ${label}, Click To View details` : `Recipe: ${label}, Click To View details`}
       >
         <Link href={recipeLink}>{label!?.length > 20 ? ellipsedText(label!, 19) : label}</Link>
       </CardHeader>

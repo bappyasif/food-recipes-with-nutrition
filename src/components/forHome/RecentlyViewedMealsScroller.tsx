@@ -1,8 +1,7 @@
 "use client"
 
 import { RecipeMealType } from '@/types'
-import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
 import styles from "@/app/[locale]/Home.module.css"
 import { Badge } from '../ui/badge'
@@ -54,13 +53,23 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
 
+  const addRandomUrl = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    // e.target.src = ""
+    e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${label}`
+    // ref.current = `https://source.unsplash.com/random/200?recipe=${label}`
+  }
+
   return (
     <div
       className={`${styles.dissolvePhoto} h-[13.2rem] overflow-clip`}
       onMouseEnter={handleTruthy}
       onMouseLeave={handleFalsy}
     >
-      <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} title={label} >
+      <Link 
+      href={`/${locale}/recipe/${extractRecipeId(uri!)}`} 
+      // title={label} 
+      title={ checkIfDayOlder() ? `You might be looking at a random picture, Recipe Details will have real picture of this recipe: ${label}, thank you :)` : label} 
+      >
         {/* <Image 
           src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
           alt={label!} width={width} height={height} 
@@ -68,11 +77,13 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
           blurDataURL={url} placeholder='blur' loading='lazy' 
         /> */}
         <img
-          src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url}
+          // src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url}
+          src={url}
           alt={label!} width={width} height={height}
           className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`}
           // blurDataURL={url} placeholder='blur' 
           loading='lazy'
+          onError={addRandomUrl}
         />
 
       </Link>

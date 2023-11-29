@@ -333,8 +333,6 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
         return temp
     }
 
-    console.log(filterValues(), "filter values")
-
     return (
         <>
             <div className='flex flex-col gap-y-10 items-center justify-center w-full self-end h-full'>
