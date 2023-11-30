@@ -63,7 +63,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                     onClick={handleTruthy}
                 >
                     <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>Additional Information</h2>
-                    <div className={`${isTrue ? "xxs:relative md:absolute xxs:top-0 md:top-16 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 bg-accent w-full h-[25.2rem] overflow-scroll scroll-smooth no-scrollbar`}>
+                    <div className={`${isTrue ? "xxs:relative md:absolute xxs:top-0 md:top-16 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 bg-accent w-full xxs:h-[20rem] lg:h-[25.2rem] overflow-scroll scroll-smooth no-scrollbar`}>
 
                         {/* <RecipeIngredientsAndInstructions ingredients={ingredients} /> */}
 
@@ -162,17 +162,17 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     const t = useTranslations("default")
 
     const headingsMarkup = (
-        <div className='grid grid-cols-5 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm lg:text-xl'>
+        <div className='grid xxs:grid-cols-3 lg:grid-cols-5 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm lg:text-xl'>
             <div className='bg-card px-4 rounded-md'>Picture</div>
             <div className='bg-card px-4 rounded-md'>Name</div>
-            <div className='bg-card px-4 rounded-md'>Category</div>
+            <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Category</div>
             <div className='bg-card px-4 rounded-md'>Quantity</div>
-            <div className='bg-card px-4 rounded-md'>Weight</div>
+            <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Weight</div>
         </div>
     )
 
     const ingredientsMarkup = (
-        <div className='flex flex-col gap-y-6 w-4/5'>
+        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-4/5'>
             <h2 className='font-bold xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground pl-10'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
 
             {headingsMarkup}
@@ -184,7 +184,7 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     )
 
     const instructionsMarkup = (
-        <div className='flex flex-col gap-y-6 w-3/6'>
+        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-3/6 px-10'>
             <h2 className='font-bold xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
             <div
                 // className='grid grid-flow-col grid-rows-2 gap-4 xs:text-sm lg:text-lg'
@@ -194,9 +194,10 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     )
 
     return (
-        <div className='flex gap-x-4'>
+        <div className='flex xxs:flex-col xxs:gap-y-6 lg:flex-row lg:gap-x-4'>
             {ingredientsMarkup}
-            <p className='h-80 w-1 bg-card self-center mr-20'></p>
+            <p className='xxs:hidden lg:block h-80 w-1 bg-card self-center mr-20'></p>
+            <p className='xxs:block lg:hidden h-1 w-40 bg-card self-center my-4'></p>
             {instructionsMarkup}
         </div>
     )
@@ -210,23 +211,23 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
     }
 
     const contents = (
-        <div className='grid grid-cols-5 justify-items-center place-items-center w-full capitalize xs:text-sm lg:text-xl'>
+        <div className='grid xxs:grid-cols-3 lg:grid-cols-5 justify-items-center place-items-center w-full capitalize xxs:text-xs xs:text-sm lg:text-xl'>
 
             <img
                 src={image} alt={food}
                 width={60} height={39}
-                className='w-36 h-20 rounded-xl object-cover'
+                className='xxs:w-14 xxs:h-16 lg:w-36 lg:h-20 rounded-xl object-cover'
                 placeholder='blur' loading='lazy'
                 onError={addRandomUrl}
             />
 
             <div className='font-semibold'>{food}</div>
 
-            <div className=''>{foodCategory}</div>
+            <div className='xxs:hidden lg:block'>{foodCategory}</div>
 
             <h2 className='flex gap-x-1 font-semibold'><span>{quantity.toFixed(2)}</span> <span>{measure}</span></h2>
 
-            <h2>
+            <h2 className='xxs:hidden lg:block'>
                 {weight.toFixed(2)}
             </h2>
         </div>

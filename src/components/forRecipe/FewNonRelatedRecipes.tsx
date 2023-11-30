@@ -55,8 +55,8 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
             <div className='w-full flex flex-col gap-y-2 text-special-foreground xxs:h-28 lg:h-48'>
                 <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("You Might Like")}</h2>
 
-                <div className='flex gap-x-6 justify-between items-center mx-4 h-60'>
-                    <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card h-64' variant={'default'} onClick={handlePrev}>Prev</Button>
+                <div className='flex gap-x-6 justify-between items-center mx-4 xxs:h-24 lg:h-60'>
+                    <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card xxs:h-24 lg:h-64' variant={'default'} onClick={handlePrev}>Prev</Button>
 
                     {/* very smaller screen */}
                     <div
@@ -81,7 +81,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
                     >
                         {renderRecipes()}
                     </div>
-                    <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-card text-muted-foreground hover:text-primary-foreground h-64' variant={'default'} onClick={handleNext}>Next</Button>
+                    <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-card text-muted-foreground hover:text-primary-foreground xxs:h-24 lg:h-64' variant={'default'} onClick={handleNext}>Next</Button>
                 </div>
             </div>
     )
@@ -99,7 +99,7 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
 
     return (
         <div
-            className='flex justify-center gap-4 relative w-56'
+            className='flex justify-center gap-4 relative xxs:w-40 lg:w-56'
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
@@ -114,15 +114,15 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
                 /> */}
                 <img
                     src={url} alt={label} height={height} width={width}
-                    className='w-48 h-44 object-cover rounded-sm'
+                    className='xxs:w-20 lg:w-48 xxs:h-20 lg:h-44 object-cover rounded-sm'
                     // blurDataURL={url} placeholder='blur' 
                     loading='lazy'
                 />
             </div>
             <div
-                className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center flex flex-col gap-y-2 text-lg`}
+                className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center flex flex-col gap-y-2 xxs:text-xs lg:text-lg`}
             >
-                <Link className={`${isTrue ? "text-xl" : ""} hover:underline`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</Link>
+                <Link className={`${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</Link>
 
                 <Badge className='w-fit'>{mealType[0]}</Badge>
                 <Badge className='w-fit'>{dishType[0]}</Badge>
