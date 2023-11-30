@@ -47,6 +47,8 @@ export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMe
 const RenderRecipe = ({ ...data }: RecipeMealType) => {
     const { calories, cautions, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, shareAs, source, tags, totalWeight, uri, url, yield: servings, count } = data;
 
+    console.log(cautions, tags, "chekc!!", shareAs, cuisineType)
+
     const t = useTranslations("default")
 
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
@@ -63,11 +65,11 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                     onClick={handleTruthy}
                 >
                     <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>Additional Information</h2>
-                    <div className={`${isTrue ? "xxs:relative md:absolute xxs:top-0 md:top-16 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 bg-accent w-full h-[24rem] overflow-scroll scroll-smooth no-scrollbar`}>
+                    <div className={`${isTrue ? "xxs:relative md:absolute xxs:top-0 md:top-16 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 bg-accent w-full h-[25.2rem] overflow-scroll scroll-smooth no-scrollbar`}>
 
                         {/* <RecipeIngredientsAndInstructions ingredients={ingredients} /> */}
 
-                        <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} />
+                        <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} cautions={cautions} tags={tags} />
 
                         <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-primary'><span className='font-bold text-muted-foreground'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
                     </div>
@@ -83,14 +85,20 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
             </section>
 
-            <section className='flex xxs:flex-col xxs:gap-y-11 lg:flex-row justify-around items-center'>
-                <div className='xxs:w-full lg:w-2/4'>
-                    <h2 className='text-xl mb-6 mt-2 font-bold'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
-                    <div className='h-80 overflow-y-scroll scroll-smooth no-scrollbar'>
-                        <RenderDigestTable heading='Digest' labels={digest} />
+            <section className='mb-11 flex flex-col gap-y-20'>
+                <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center'>Some Related Information About This Recipe</h2>
+                <div className='flex xxs:flex-col xxs:gap-y-11 lg:flex-row justify-around items-center px-10'>
+                    <div className='xxs:w-full lg:w-2/4'>
+                        <h2 className='text-xl mb-6 mt-2 font-bold text-center'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
+                        <div className='h-[27rem] overflow-y-scroll scroll-smooth no-scrollbar'>
+                            <RenderDigestTable heading='Digest' labels={digest} />
+                        </div>
+                    </div>
+                    <div className='xxs:w-full lg:w-2/4'>
+                        <h2 className='text-xl font-bold mb-6 mt-2 text-center'>Popular Youtube Videos Found</h2>
+                        <ShowYoutubeVids recipeStr={label} />
                     </div>
                 </div>
-                <ShowYoutubeVids recipeStr={label} />
             </section>
 
             <section className='my-11'>
@@ -100,41 +108,47 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     )
 }
 
-const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels }: { digest: DigestItemType[], healthLabels: string[], dietLabels: string[] }) => {
-    const renderAcordionItemsForHealthLabels = () => healthLabels.map(val => {
-        return (
-            <Badge key={val} className='bg-muted-foreground text-muted xs:text-sm lg:text-[1.01rem] m-1'>
-                {val}
-            </Badge>
-        )
-    })
+const CustomBadge = ({ val }: { val: string }) => {
+    return (
+        <Badge className='bg-muted-foreground text-muted xs:text-sm lg:text-[1.01rem] m-1'>
+            {val}
+        </Badge>
+    )
+}
 
-    const renderAcordionItemsForDietLabels = () => dietLabels.map(val => {
-        return (
-            <Badge key={val} className='bg-muted-foreground text-muted xs:text-sm lg:text-[1.01rem] m-1'>
-                {val}
-            </Badge>
-        )
-    })
+const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels, cautions, tags }: { digest: DigestItemType[], healthLabels: string[], dietLabels: string[], cautions: string[], tags: string[] }) => {
+
+    const renderAcordionItemsForHealthLabels = () => healthLabels.map(val => <CustomBadge key={val} val={val} />)
+
+    const renderAcordionItemsForDietLabels = () => dietLabels.map(val => <CustomBadge key={val} val={val} />)
+
+    const renderAccordionItemsForCautions = () => cautions.map(val => <CustomBadge key={val} val={val} />)
+
+    // const renderAccordionItemsForTags = () => tags?.map(val => <CustomBadge key={val} val={val} />)
 
     const t = useTranslations("default")
 
     return (
         <Accordion type='single' collapsible={true}>
-            <AccordionItem value={"health"}>
-                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl text-special-foreground'>{t("Health")} {t("Label")}</AccordionTrigger>
-                <AccordionContent>
-                    {renderAcordionItemsForHealthLabels()}
-                </AccordionContent>
-            </AccordionItem>
+            <CustomAccordionItem content={healthLabels.length ? renderAcordionItemsForHealthLabels() : <span>Not found</span>} name='helath' title={`${t("Health")} ${t("Label")}`} />
 
-            <AccordionItem value={"diet"}>
-                <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl text-special-foreground'>{t("Diet")} {t("Label")}</AccordionTrigger>
-                <AccordionContent>
-                    {renderAcordionItemsForDietLabels()}
-                </AccordionContent>
-            </AccordionItem>
+            <CustomAccordionItem content={dietLabels.length ? renderAcordionItemsForDietLabels() : <span>Not found</span>} name='diet' title={`${t("Diet")} ${t("Label")}`} />
+
+            <CustomAccordionItem content={cautions.length ? renderAccordionItemsForCautions() : <span>Not found</span>} name='cautions' title={`${t("Cautions")} ${t("Label")}`} />
+
+            {/* <CustomAccordionItem content={renderAccordionItemsForTags() || <span>Not found</span>} name='tags' title={`${t("Tags")} ${t("Label")}`} /> */}
         </Accordion>
+    )
+}
+
+const CustomAccordionItem = ({ name, title, content }: { name: string, title: string, content: React.JSX.Element | React.JSX.Element[] }) => {
+    return (
+        <AccordionItem value={name}>
+            <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl text-special-foreground'>{title}</AccordionTrigger>
+            <AccordionContent>
+                {content}
+            </AccordionContent>
+        </AccordionItem>
     )
 }
 
@@ -174,9 +188,9 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     const instructionsMarkup = (
         <div className='flex flex-col gap-y-6 w-3/6'>
             <h2 className='font-bold xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
-            <div 
-            // className='grid grid-flow-col grid-rows-2 gap-4 xs:text-sm lg:text-lg'
-            className='grid grid-cols-2 gap-10 xs:text-sm lg:text-xl font-semibold'
+            <div
+                // className='grid grid-flow-col grid-rows-2 gap-4 xs:text-sm lg:text-lg'
+                className='grid grid-cols-2 gap-10 xs:text-sm lg:text-xl font-semibold'
             >{renderInstructions()}</div>
         </div>
     )
@@ -193,6 +207,10 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 const RednerIngredients = ({ ...items }: IngredientItemType) => {
     const { food, foodCategory, foodId, image, measure, quantity, text, weight } = items
 
+    const addRandomUrl = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+        e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${food}`
+    }
+
     const contents = (
         <div className='grid grid-cols-5 justify-items-center place-items-center w-full capitalize xs:text-sm lg:text-xl'>
 
@@ -201,6 +219,7 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
                 width={60} height={39}
                 className='w-36 h-20 rounded-xl object-cover'
                 placeholder='blur' loading='lazy'
+                onError={addRandomUrl}
             />
 
             <div className='font-semibold'>{food}</div>
