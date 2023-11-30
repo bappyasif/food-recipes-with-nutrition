@@ -47,8 +47,6 @@ export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMe
 const RenderRecipe = ({ ...data }: RecipeMealType) => {
     const { calories, cautions, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, shareAs, source, tags, totalWeight, uri, url, yield: servings, count } = data;
 
-    console.log(cautions, tags, "chekc!!", shareAs, cuisineType)
-
     const t = useTranslations("default")
 
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()

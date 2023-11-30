@@ -91,7 +91,7 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound: (data: Recipe
     }, [])
 
     useEffect(() => {
-        if(params!?.size < 5) return
+        if (params!?.size < 5) return
         const timer = setTimeout(() => {
             params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
                 const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
@@ -132,20 +132,28 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
 
             const readyForRendering = onlyRecipes?.map((item: RecipeMealType) => item.mealType.length && item.dishType.length && item.dietLabels.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
-            if (count <= 4) {
+            if (count <= 2) {
                 setCount(prev => prev + 1)
             }
 
             // resetting it for safety
-            readyForRendering?.length && setRecipes([])
+            if (readyForRendering.length > 11) {
+                if (uri) {
+                    readyForRendering?.length && setRecipes(readyForRendering.filter((item: RecipeMealType) => item.uri !== uri))
+                } else {
+                    readyForRendering?.length && setRecipes(readyForRendering)
 
-            if (uri) {
-                readyForRendering?.length && setRecipes(readyForRendering.filter((item: RecipeMealType) => item.uri !== uri))
-            } else {
-                readyForRendering?.length && setRecipes(readyForRendering)
-                
-                mealType[0] && diet[0] && dishType[0] && !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
+                    mealType[0] && diet[0] && dishType[0] && !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
+                }
             }
+
+            // if (uri) {
+            //     readyForRendering?.length && setRecipes(readyForRendering.filter((item: RecipeMealType) => item.uri !== uri))
+            // } else {
+            //     readyForRendering?.length && setRecipes(readyForRendering)
+
+            //     mealType[0] && diet[0] && dishType[0] && !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
+            // }
 
         }).catch(err => console.log(err))
 
@@ -153,7 +161,7 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
 
     // to make sure that recipes has a good amount of options to render on page
     useEffect(() => {
-        recipes.length && recipes.length < 13 && count <= 4 && readySimilarRcipesRequest()
+        recipes.length && recipes.length < 13 && count <= 2 && readySimilarRcipesRequest()
     }, [recipes])
 
     useEffect(() => {
@@ -231,7 +239,7 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
 
             if (!isTrue && data.length) {
                 handleNext()
-            } 
+            }
 
         }, 20000)
 
@@ -386,7 +394,7 @@ export const useForGettingViewedRecipesDataFromBackend = () => {
 }
 
 export const useForGetAllEventsDataForAuthenticatedUser = () => {
-    const {data, status} = useSession()
+    const { data, status } = useSession()
     const dispatch = useAppDispatch()
 
     useEffect(() => {

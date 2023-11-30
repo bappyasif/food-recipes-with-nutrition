@@ -37,7 +37,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
         data.length < 2
         ? "Not Enough Similar Recipes found"
         :
-        <div className='flex gap-x-4 items-center justify-between xxs:h-28 lg:h-48'>
+        <div className='flex gap-x-4 items-center justify-center xxs:h-28 lg:h-48'>
             <Button className='absolute left-0 xxs:h-20 lg:h-48 z-40 xxs:w-4 lg:w-20 text-primary font-extrabold bg-blend-lighten hover:text-card-foreground bg-card' onClick={handlePrev} variant={'default'}>Prev</Button>
             
             {/* very smaller screen */}
@@ -58,7 +58,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
 
             {/* bigger screen */}
             <div
-                className='xxs:hidden lg:flex gap-4 flex-nowrap overflow-hidden h-40' 
+                className='xxs:hidden lg:flex gap-4 flex-nowrap overflow-hidden h-48' 
                 onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
             >
                 {renderRecipes()}
@@ -96,7 +96,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
 
     return (
         <div
-            className={`${styles.fadeOutCard} w-48 relative ${(lastCard || firstCard) ? "pointer-events-none": "pointer-events-auto"}`}
+            className={`${styles.fadeOutCard} w-60 relative ${(lastCard || firstCard) ? "pointer-events-none": "pointer-events-auto"}`}
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
@@ -109,7 +109,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                 /> */}
                 <img
                     src={url} alt={label} height={height} width={width}
-                    className={`w-40 h-full rounded-md ${test ? "visible" : "hidden"}`}
+                    className={`w-56 h-40 rounded-md ${test ? "visible" : "hidden"} object-cover`}
                     // blurDataURL={url} 
                     placeholder='blur' 
                     loading='lazy'

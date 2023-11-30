@@ -52,11 +52,11 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
         recipes.length < 2
             ? "Not Enough Other Interesting Recipes Found To Show"
             :
-            <div className='w-full flex flex-col gap-y-2 text-special-foreground'>
+            <div className='w-full flex flex-col gap-y-2 text-special-foreground xxs:h-28 lg:h-48'>
                 <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("You Might Like")}</h2>
 
-                <div className='flex gap-x-4 justify-between mx-4'>
-                    <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card' variant={'default'} onClick={handlePrev}>Prev</Button>
+                <div className='flex gap-x-6 justify-between items-center mx-4 h-60'>
+                    <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card h-64' variant={'default'} onClick={handlePrev}>Prev</Button>
 
                     {/* very smaller screen */}
                     <div
@@ -68,7 +68,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
                     {/* smaller screen */}
                     <div
-                        className='capitalize xxs:hidden md:flex lg:hidden gap-4 flex-nowrap overflow-hidden xxs:h-20 lg:h-40'
+                        className='capitalize xxs:hidden md:flex lg:hidden gap-x-6 flex-nowrap overflow-hidden xxs:h-20 lg:h-40'
                         onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                     >
                         {renderRecipes()?.slice(0, 5)}
@@ -76,12 +76,12 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
                     {/* bigger screen */}
                     <div
-                        className='capitalize xxs:hidden lg:grid grid-flow-row grid-cols-8 gap-4 justify-items-center place-items-center'
+                        className='capitalize xxs:hidden lg:grid grid-flow-row grid-cols-8 gap-x-6 justify-items-center place-items-center'
                         onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                     >
                         {renderRecipes()}
                     </div>
-                    <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-card text-muted-foreground hover:text-primary-foreground' variant={'default'} onClick={handleNext}>Next</Button>
+                    <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-card text-muted-foreground hover:text-primary-foreground h-64' variant={'default'} onClick={handleNext}>Next</Button>
                 </div>
             </div>
     )
@@ -99,14 +99,14 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
 
     return (
         <div
-            className='flex justify-center gap-x-4 relative'
+            className='flex justify-center gap-4 relative w-56'
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
             <div
                 className={`transition-transform duration-500 ${isTrue ? "scale-0" : "z-20 scale-100"} text-center`}
             >
-                <Badge>{cuisineType[0]}</Badge>
+                <Badge className='xxs:text-sm lg:text-lg capitalize'>{cuisineType[0]}</Badge>
                 {/* <Image
                     src={url} alt={label} height={height} width={width}
                     className='w-36 h-32 object-cover rounded-sm'
@@ -114,15 +114,15 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
                 /> */}
                 <img
                     src={url} alt={label} height={height} width={width}
-                    className='w-36 h-32 object-cover rounded-sm'
+                    className='w-48 h-44 object-cover rounded-sm'
                     // blurDataURL={url} placeholder='blur' 
                     loading='lazy'
                 />
             </div>
             <div
-                className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center flex flex-col gap-y-2`}
+                className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center flex flex-col gap-y-2 text-lg`}
             >
-                <Link className={`${isTrue ? "text-lg" : ""} hover:underline`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</Link>
+                <Link className={`${isTrue ? "text-xl" : ""} hover:underline`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</Link>
 
                 <Badge className='w-fit'>{mealType[0]}</Badge>
                 <Badge className='w-fit'>{dishType[0]}</Badge>
