@@ -55,12 +55,12 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
             <div className='w-full flex flex-col gap-y-2 text-special-foreground xxs:h-28 lg:h-48'>
                 <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("You Might Like")}</h2>
 
-                <div className='flex gap-x-6 justify-between items-center mx-4 xxs:h-24 lg:h-60'>
+                <div className='flex gap-x-6 justify-between items-center mx-4 xxs:h-32 lg:h-60'>
                     <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card xxs:h-24 lg:h-64' variant={'default'} onClick={handlePrev}>Prev</Button>
 
                     {/* very smaller screen */}
                     <div
-                        className='capitalize xxs:grid md:hidden grid-flow-row grid-cols-2 gap-4 justify-items-center place-items-center'
+                        className='capitalize xxs:grid sm:hidden grid-flow-row grid-cols-2 gap-4 justify-items-center place-items-center'
                         onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                     >
                         {renderRecipes()?.slice(0, 2)}
@@ -68,10 +68,18 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
                     {/* smaller screen */}
                     <div
-                        className='capitalize xxs:hidden md:flex lg:hidden gap-x-6 flex-nowrap overflow-hidden xxs:h-20 lg:h-40'
+                        className='capitalize xxs:hidden sm:flex md:hidden gap-x-6 flex-nowrap overflow-hidden lg:h-40 w-full'
                         onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                     >
-                        {renderRecipes()?.slice(0, 5)}
+                        {renderRecipes()?.slice(0, 4)}
+                    </div>
+
+                    {/* medium screen */}
+                    <div
+                        className='capitalize xxs:hidden md:flex lg:hidden gap-x-6 flex-nowrap overflow-hidden lg:h-40 w-full'
+                        onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
+                    >
+                        {renderRecipes()?.slice(0, 6)}
                     </div>
 
                     {/* bigger screen */}
@@ -99,14 +107,14 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
 
     return (
         <div
-            className='flex justify-center gap-4 relative xxs:w-40 lg:w-56'
+            className='flex justify-center gap-4 relative xxs:w-40 sm:w-52 lg:w-56'
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
             <div
-                className={`transition-transform duration-500 ${isTrue ? "scale-0" : "z-20 scale-100"} text-center`}
+                className={`transition-transform duration-500 ${isTrue ? "scale-0" : "z-20 scale-100"} text-center flex flex-col gap-y-1`}
             >
-                <Badge className='xxs:text-sm lg:text-lg capitalize'>{cuisineType[0]}</Badge>
+                <Badge className='xxs:text-sm lg:text-lg capitalize text-center'>{cuisineType[0]}</Badge>
                 {/* <Image
                     src={url} alt={label} height={height} width={width}
                     className='w-36 h-32 object-cover rounded-sm'
@@ -114,7 +122,7 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
                 /> */}
                 <img
                     src={url} alt={label} height={height} width={width}
-                    className='xxs:w-20 lg:w-48 xxs:h-20 lg:h-44 object-cover rounded-sm'
+                    className='xxs:w-20 sm:w-44 lg:w-48 xxs:h-20 lg:h-44 object-cover rounded-sm mx-auto'
                     // blurDataURL={url} placeholder='blur' 
                     loading='lazy'
                 />

@@ -37,7 +37,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
         data.length < 2
         ? "Not Enough Similar Recipes found"
         :
-        <div className='flex gap-x-4 items-center justify-center xxs:h-28 lg:h-48'>
+        <div className='flex gap-x-4 items-center justify-center xxs:h-40 lg:h-48'>
             <Button className='absolute left-0 xxs:h-20 lg:h-48 z-40 xxs:w-4 lg:w-20 text-primary font-extrabold bg-blend-lighten hover:text-card-foreground bg-card' onClick={handlePrev} variant={'default'}>Prev</Button>
             
             {/* very smaller screen */}
@@ -96,12 +96,12 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
 
     return (
         <div
-            className={`${styles.fadeOutCard} w-60 relative ${(lastCard || firstCard) ? "pointer-events-none": "pointer-events-auto"}`}
+            className={`${styles.fadeOutCard} xxs:w-44 lg:w-60 relative ${(lastCard || firstCard) ? "pointer-events-none": "pointer-events-auto"}`}
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
             <div className={`absolute transition-transform duration-500 ${isTrue ? "-translate-y-48" : "z-20"} text-center`}>
-                <Badge className={`xxs:text-sm lg:text-lg capitalize ${test ? "visible" : "hidden"}`}>{cuisineType[0]}</Badge>
+                <Badge className={`xxs:text-xs sm:text-sm lg:text-lg capitalize ${test ? "visible" : "hidden"}`}>{cuisineType[0]}</Badge>
                 {/* <Image
                     src={url} alt={label} height={height} width={width}
                     className='w-40 h-full rounded-md'
@@ -109,14 +109,14 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                 /> */}
                 <img
                     src={url} alt={label} height={height} width={width}
-                    className={`w-56 h-40 rounded-md ${test ? "visible" : "hidden"} object-cover`}
+                    className={`xxs:w-40 xxs:h-24 lg:w-56 lg:h-40 rounded-md ${test ? "visible" : "hidden"} object-cover`}
                     // blurDataURL={url} 
                     placeholder='blur' 
                     loading='lazy'
                 />
             </div>
             <div className={`absolute top-0 capitalize transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>
-                <Link className={`${isTrue ? "text-xl" : ""}`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 11 ? ellipsedText(label, 11) : label}</Link>
+                <Link className={`${isTrue ? "xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""}`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 11 ? ellipsedText(label, 11) : label}</Link>
                 <Badge>{mealType[0]}</Badge>
                 <Badge>{dishType[0]}</Badge>
             </div>

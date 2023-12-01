@@ -52,9 +52,9 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
     return (
-        <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20 py-20'>
+        <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20 lg:py-20 xxs:py-4 '>
 
-            <section className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-6 mx-6 gap-y-11'>
+            <section className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-6 mx-6 xxs:gap-y-4 md:gap-y-11'>
 
                 <RecipeImage {...data} />
 
@@ -74,16 +74,16 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 </div>
             </section>
 
-            <section className='mb-11'>
+            <section className='xxs:mb-4 lg:mb-11'>
                 <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-10'>Cooking Information</h2>
                 <RecipeIngredientsAndInstructions ingredients={ingredients} />
             </section>
 
-            <section className='my-11'>
+            <section className='xxs:my-4 lg:my-11'>
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
             </section>
 
-            <section className='mb-11 flex flex-col gap-y-20'>
+            <section className='xxs:mb-4 lg:mb-11 flex flex-col xxs:gap-y-8 lg:gap-y-20'>
                 <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center'>Some Related Information About This Recipe</h2>
                 <div className='flex xxs:flex-col xxs:gap-y-11 lg:flex-row justify-around items-center px-10'>
                     <div className='xxs:w-full lg:w-2/4'>
@@ -99,7 +99,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 </div>
             </section>
 
-            <section className='my-11'>
+            <section className='xxs:my-4 lg:my-11'>
                 <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
             </section>
         </div>
@@ -162,7 +162,7 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     const t = useTranslations("default")
 
     const headingsMarkup = (
-        <div className='grid xxs:grid-cols-3 lg:grid-cols-5 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm lg:text-xl'>
+        <div className='grid xxs:grid-cols-3 lg:grid-cols-5 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm md:text-lg lg:text-xl'>
             <div className='bg-card px-4 rounded-md'>Picture</div>
             <div className='bg-card px-4 rounded-md'>Name</div>
             <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Category</div>
@@ -173,7 +173,7 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 
     const ingredientsMarkup = (
         <div className='flex flex-col gap-y-6 xxs:w-full lg:w-4/5'>
-            <h2 className='font-bold xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground pl-10'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
+            <h2 className='font-bold xxs:text-sm sm:text-lg md:text-2xl  lg:text-3xl text-special-foreground pl-10'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
 
             {headingsMarkup}
 
@@ -188,7 +188,7 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
             <h2 className='font-bold xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
             <div
                 // className='grid grid-flow-col grid-rows-2 gap-4 xs:text-sm lg:text-lg'
-                className='grid grid-cols-2 gap-10 xs:text-sm lg:text-xl font-semibold'
+                className='grid grid-cols-2 xxs:gap-6 lg:gap-10 capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl font-semibold'
             >{renderInstructions()}</div>
         </div>
     )
@@ -211,7 +211,7 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
     }
 
     const contents = (
-        <div className='grid xxs:grid-cols-3 lg:grid-cols-5 justify-items-center place-items-center w-full capitalize xxs:text-xs xs:text-sm lg:text-xl'>
+        <div className='grid xxs:grid-cols-3 lg:grid-cols-5 justify-items-center place-items-center w-full capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'>
 
             <img
                 src={image} alt={food}
