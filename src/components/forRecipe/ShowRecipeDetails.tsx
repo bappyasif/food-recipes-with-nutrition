@@ -52,9 +52,9 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
     return (
-        <div className='flex flex-col xxs:gap-y-2 lg:gap-y-20 lg:py-20 xxs:py-4 '>
+        <div className='flex flex-col xxs:gap-y-2 lg:gap-y-10 sm:py-4 lg:py-6'>
 
-            <section className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-6 mx-6 xxs:gap-y-4 md:gap-y-11'>
+            <section className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-6 mx-6 xxs:gap-y-4 sm:gap-y-11'>
 
                 <RecipeImage {...data} />
 
@@ -74,16 +74,16 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 </div>
             </section>
 
-            <section className='xxs:mb-4 lg:mb-11'>
+            <section className='xxs:mb-4 md:mt-8'>
                 <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-10'>Cooking Information</h2>
                 <RecipeIngredientsAndInstructions ingredients={ingredients} />
             </section>
 
-            <section className='xxs:my-4 lg:my-11'>
+            <section className='xxs:my-4 lg:my-6'>
                 <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
             </section>
 
-            <section className='xxs:mb-4 lg:mb-11 flex flex-col xxs:gap-y-8 lg:gap-y-20'>
+            <section className='xxs:mb-4 lg:mb-6 flex flex-col xxs:gap-y-8 lg:gap-y-20'>
                 <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center'>Some Related Information About This Recipe</h2>
                 <div className='flex xxs:flex-col xxs:gap-y-11 lg:flex-row justify-around items-center px-10'>
                     <div className='xxs:w-full lg:w-2/4'>
@@ -99,7 +99,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 </div>
             </section>
 
-            <section className='xxs:my-4 lg:my-11'>
+            <section className='xxs:my-4 lg:my-6'>
                 <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
             </section>
         </div>

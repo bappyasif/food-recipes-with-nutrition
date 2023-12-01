@@ -17,7 +17,7 @@ export const ShowFewRelatedRecipes = ({ mealType, diet, dishType, uri }: { mealT
     const t = useTranslations("default")
 
     return (
-        <div className='flex flex-col gap-y-2 text-special-foreground'>
+        <div className='flex flex-col xxs:gap-y-4 md:gap-y-10 text-special-foreground'>
             <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("Similar Recipes")}</h2>
             <RenderRecipesListCarousel data={recipes.filter(item=>item.dishType.length)} />
         </div>
@@ -37,20 +37,28 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
         data.length < 2
         ? "Not Enough Similar Recipes found"
         :
-        <div className='flex gap-x-4 items-center justify-center xxs:h-40 lg:h-48'>
+        <div className='flex gap-x-4 items-center justify-center'>
             <Button className='absolute left-0 xxs:h-20 lg:h-48 z-40 xxs:w-4 lg:w-20 text-primary font-extrabold bg-blend-lighten hover:text-card-foreground bg-card' onClick={handlePrev} variant={'default'}>Prev</Button>
             
             {/* very smaller screen */}
             <div
-                className='xxs:flex md:hidden gap-4 flex-nowrap overflow-hidden xxs:h-20 lg:h-40' 
+                className='xxs:flex sm:hidden gap-4 flex-nowrap overflow-hidden mx-10' 
+                onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
+            >
+                {renderRecipes()?.slice(0, 2)}
+            </div>
+
+            {/* smaller screen */}
+            <div
+                className='xxs:hidden sm:flex md:hidden gap-4 flex-nowrap overflow-hidden mx-10' 
                 onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
             >
                 {renderRecipes()?.slice(0, 3)}
             </div>
 
-            {/* smaller screen */}
+            {/* medium screen */}
             <div
-                className='xxs:hidden md:flex lg:hidden gap-4 flex-nowrap overflow-hidden xxs:h-20 lg:h-40' 
+                className='xxs:hidden md:flex lg:hidden gap-4 flex-nowrap overflow-hidden mx-14' 
                 onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
             >
                 {renderRecipes()?.slice(0, 5)}
@@ -58,7 +66,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
 
             {/* bigger screen */}
             <div
-                className='xxs:hidden lg:flex gap-4 flex-nowrap overflow-hidden h-48' 
+                className='xxs:hidden lg:flex gap-4 flex-nowrap overflow-hidden' 
                 onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
             >
                 {renderRecipes()}
@@ -96,7 +104,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
 
     return (
         <div
-            className={`${styles.fadeOutCard} xxs:w-44 lg:w-60 relative ${(lastCard || firstCard) ? "pointer-events-none": "pointer-events-auto"}`}
+            className={`${styles.fadeOutCard} xxs:w-44 lg:w-60 relative ${(lastCard || firstCard) ? "lg:pointer-events-none": "pointer-events-auto"} xxs:h-36 lg:w-56 lg:h-40`}
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
@@ -109,13 +117,13 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                 /> */}
                 <img
                     src={url} alt={label} height={height} width={width}
-                    className={`xxs:w-40 xxs:h-24 lg:w-56 lg:h-40 rounded-md ${test ? "visible" : "hidden"} object-cover`}
+                    className={`xxs:w-40 sm:w-44 md:w-48 xxs:h-24 sm:h-28 md:h-32 lg:w-56 lg:h-40 rounded-md ${test ? "visible" : "hidden"} object-cover ${firstCard || lastCard ? "lg:opacity-60" : "lg:opacity-100"}`}
                     // blurDataURL={url} 
                     placeholder='blur' 
                     loading='lazy'
                 />
             </div>
-            <div className={`absolute top-0 capitalize transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>
+            <div className={`absolute top-[20%] left-[20%] capitalize transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>
                 <Link className={`${isTrue ? "xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""}`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 11 ? ellipsedText(label, 11) : label}</Link>
                 <Badge>{mealType[0]}</Badge>
                 <Badge>{dishType[0]}</Badge>

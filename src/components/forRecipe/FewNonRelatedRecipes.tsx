@@ -52,10 +52,10 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
         recipes.length < 2
             ? "Not Enough Other Interesting Recipes Found To Show"
             :
-            <div className='w-full flex flex-col gap-y-2 text-special-foreground xxs:h-28 lg:h-48'>
+            <div className='w-full flex flex-col xxs:gap-y-4 md:gap-y-10 text-special-foreground'>
                 <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("You Might Like")}</h2>
 
-                <div className='flex gap-x-6 justify-between items-center mx-4 xxs:h-32 lg:h-60'>
+                <div className='flex gap-x-6 justify-between items-center mx-4'>
                     <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card xxs:h-24 lg:h-64' variant={'default'} onClick={handlePrev}>Prev</Button>
 
                     {/* very smaller screen */}
@@ -68,7 +68,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
                     {/* smaller screen */}
                     <div
-                        className='capitalize xxs:hidden sm:flex md:hidden gap-x-6 flex-nowrap overflow-hidden lg:h-40 w-full'
+                        className='capitalize xxs:hidden sm:flex md:hidden gap-x-6 flex-nowrap overflow-hidden sm:h-40 w-full'
                         onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                     >
                         {renderRecipes()?.slice(0, 4)}
@@ -76,7 +76,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
                     {/* medium screen */}
                     <div
-                        className='capitalize xxs:hidden md:flex lg:hidden gap-x-6 flex-nowrap overflow-hidden lg:h-40 w-full'
+                        className='capitalize xxs:hidden md:flex lg:hidden gap-x-6 flex-nowrap overflow-hidden md:h-40 w-full'
                         onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
                     >
                         {renderRecipes()?.slice(0, 6)}
@@ -122,7 +122,7 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
                 /> */}
                 <img
                     src={url} alt={label} height={height} width={width}
-                    className='xxs:w-20 sm:w-44 lg:w-48 xxs:h-20 lg:h-44 object-cover rounded-sm mx-auto'
+                    className='xxs:w-28 sm:w-44 md:w-48 xxs:h-20 sm:h-36 lg:h-44 object-cover rounded-sm mx-auto'
                     // blurDataURL={url} placeholder='blur' 
                     loading='lazy'
                 />
