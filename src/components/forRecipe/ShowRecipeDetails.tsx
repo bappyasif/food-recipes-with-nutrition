@@ -52,7 +52,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
     return (
-        <div className='flex flex-col xxs:gap-y-2 lg:gap-y-10 sm:py-4 lg:py-6'>
+        <div className='flex flex-col xxs:gap-y-2 lg:gap-y-10 pt-10'>
 
             <section className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-6 mx-6 xxs:gap-y-4 sm:gap-y-11'>
 

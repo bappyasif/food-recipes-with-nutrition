@@ -21,9 +21,9 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }:
     )
 
     const existingFiltersMarkup = (
-        <span className='flex flex-col gap-y-4 w-full justify-center items-center my-10'>
-            <span className='text-4xl font-bold text-muted-foreground'>Existing Filters</span>
-            <span className='flex gap-x-6 flex-wrap text-2xl'>
+        <span className='flex flex-col gap-y-4 w-full justify-center items-center xxs:mb-4 lg:mb-8'>
+            <span className='xxs:text-xl sm:text-2xl lg:text-4xl font-bold text-muted-foreground'>Existing Filters</span>
+            <span className='flex gap-2 flex-wrap text-2xl'>
                 {filtersMarkup}
             </span>
         </span>
@@ -46,7 +46,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }:
 
                         {existingFiltersMarkup}
 
-                        <span className='grid xxs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[650px] justify-items-center place-items-center gap-10 overflow-y-scroll scroll-smooth no-scrollbar'>
+                        <span className='grid xxs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 h-[650px] justify-items-center place-items-center gap-6 overflow-y-scroll scroll-smooth no-scrollbar'>
                             {renderRecipes()}
 
                             {
@@ -72,7 +72,7 @@ const FilterUsed = ({ ...item }: { title: string, val: string }) => {
     const { title, val } = item;
 
     return (
-        <span className='flex gap-x-2'><span className='bg-card px-2'>{title}:</span><span className='font-semibold px-2 text-special-foreground'>{val || "N/A"}</span></span>
+        <span className='flex gap-x-2 xxs:text-sm sm:text-lg lg:text-2xl'><span className='bg-card px-2'>{title}:</span><span className='font-semibold px-2 text-special-foreground'>{val || "N/A"}</span></span>
     )
 }
 
@@ -83,11 +83,11 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     // const { height: smHt, url: smUrl, width: smWd } = SMALL
     const locale = useLocale()
     return (
-        <span className='flex flex-col gap-y-2 justify-center items-center w-96 bg-card rounded-md'>
+        <span className='flex flex-col gap-y-2 justify-center items-center xxs:w-96 md:w-80 lg:w-96 bg-card rounded-md'>
             <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex flex-col gap-y-2' title={label}>
                 <span className='font-bold text-2xl text-primary text-center'>{label.length > 26 ? ellipsedText(label, 26) : label}</span>
 
-                <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='w-[23.6rem] h-64 rounded-sm duration-1000 transition-all hover:object-contain' placeholder='blur' loading='lazy' />
+                <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] h-64 rounded-sm duration-1000 transition-all hover:object-contain' placeholder='blur' loading='lazy' />
 
                 {/* <Image
                     src={url} alt={label!} width={width} height={height}

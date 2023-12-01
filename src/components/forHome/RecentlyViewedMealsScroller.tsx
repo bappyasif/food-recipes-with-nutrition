@@ -27,7 +27,7 @@ export const RecentlyViewedMealsScroller = () => {
       <h2 className='text-xl font-bold'>Some Recently Viewed Meals</h2>
       <h3 className='text-sm font-semibold'>Real Recipe Image can be seen from Recipe Detail Page</h3>
       <div
-        className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center max-h-[26rem] overflow-clip gap-2'
+        className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center max-h-[26rem] overflow-clip gap-2 mt-10'
         onMouseEnter={handleTruthy}
         onMouseLeave={handleFalsy}
       >

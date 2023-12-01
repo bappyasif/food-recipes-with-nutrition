@@ -38,7 +38,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
         ? "Not Enough Similar Recipes found"
         :
         <div className='flex gap-x-4 items-center justify-center'>
-            <Button className='absolute left-0 xxs:h-20 lg:h-48 z-40 xxs:w-4 lg:w-20 text-primary font-extrabold bg-blend-lighten hover:text-card-foreground bg-card' onClick={handlePrev} variant={'default'}>Prev</Button>
+            <Button className='absolute left-0 xxs:h-20 lg:h-56 z-40 xxs:w-4 lg:w-20 text-primary font-extrabold bg-blend-lighten hover:text-card-foreground bg-card' onClick={handlePrev} variant={'default'}>Prev</Button>
             
             {/* very smaller screen */}
             <div
@@ -72,7 +72,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
                 {renderRecipes()}
             </div>
 
-            <Button className='absolute right-0 bg-card text-primary xxs:h-20 lg:h-48 z-40 xxs:w-4 lg:w-20 font-extrabold hover:text-card-foreground' onClick={handleNext} variant={'default'}>Next</Button>
+            <Button className='absolute right-0 bg-card text-primary xxs:h-20 lg:h-56 z-40 xxs:w-4 lg:w-20 font-extrabold hover:text-card-foreground' onClick={handleNext} variant={'default'}>Next</Button>
         </div>
     )
 }
@@ -104,11 +104,11 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
 
     return (
         <div
-            className={`${styles.fadeOutCard} xxs:w-44 lg:w-60 relative ${(lastCard || firstCard) ? "lg:pointer-events-none": "pointer-events-auto"} xxs:h-36 lg:w-56 lg:h-40`}
+            className={`${styles.fadeOutCard} xxs:w-44 lg:w-60 relative ${(lastCard || firstCard) ? "lg:pointer-events-none": "pointer-events-auto"} xxs:h-36 lg:w-56 lg:h-52`}
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
-            <div className={`absolute transition-transform duration-500 ${isTrue ? "-translate-y-48" : "z-20"} text-center`}>
+            <div className={`absolute transition-transform duration-500 ${isTrue ? "-translate-y-56" : "z-20"} text-center`}>
                 <Badge className={`xxs:text-xs sm:text-sm lg:text-lg capitalize ${test ? "visible" : "hidden"}`}>{cuisineType[0]}</Badge>
                 {/* <Image
                     src={url} alt={label} height={height} width={width}
@@ -117,7 +117,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                 /> */}
                 <img
                     src={url} alt={label} height={height} width={width}
-                    className={`xxs:w-40 sm:w-44 md:w-48 xxs:h-24 sm:h-28 md:h-32 lg:w-56 lg:h-40 rounded-md ${test ? "visible" : "hidden"} object-cover ${firstCard || lastCard ? "lg:opacity-60" : "lg:opacity-100"}`}
+                    className={`xxs:w-40 sm:w-44 md:w-48 xxs:h-24 sm:h-28 md:h-32 lg:w-56 lg:h-52 rounded-md ${test ? "visible" : "hidden"} object-cover ${firstCard || lastCard ? "lg:opacity-60" : "lg:opacity-100"}`}
                     // blurDataURL={url} 
                     placeholder='blur' 
                     loading='lazy'
