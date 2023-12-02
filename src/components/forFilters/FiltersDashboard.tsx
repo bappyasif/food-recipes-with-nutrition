@@ -1,10 +1,10 @@
 "use client"
 
-import React, { KeyboardEvent, useContext, useEffect, useState } from 'react'
+import React, { KeyboardEvent, useContext, useEffect, useRef, useState } from 'react'
 import { Checkbox } from '../ui/checkbox'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
-import { useForAddToFiltersFromParams, useForInputTextChange } from '@/hooks/forComponents'
+import { useForAddToFiltersFromParams, useForInputTextChange, useForOutsideClick, useForTruthToggle } from '@/hooks/forComponents'
 import { Badge } from '../ui/badge'
 import { FiltersTypes } from '@/types'
 import axios from 'axios'
@@ -175,11 +175,17 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
 }
 
 const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string, propKey: string, data: string[] }) => {
+    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+
     const t = useTranslations("default")
 
+    const ref = useRef(null)
+
+    useForOutsideClick(ref, handleFalsy)
+
     return (
-        <AccordionItem value={propKey} className='min-w-[380px] bg-popover px-2 rounded-md mb-4'>
-            <AccordionTrigger className='text-lg font-semibold my-4'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
+        <AccordionItem ref={ref} value={propKey} className={`min-w-[380px] px-2 rounded-md mb-4 bg-popover duration-1000 transition-all hover:text-special ${isTrue ? "text-special-foreground ring-special-foreground ring-2" : "ring-0"}`} onClick={handleTruthy}>
+            <AccordionTrigger className='xxs:text-lg sm:text-xl lg:text-2xl font-semibold my-4'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
             <AccordionContent>
                 <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText} 
                 />

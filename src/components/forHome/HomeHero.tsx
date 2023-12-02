@@ -18,7 +18,7 @@ export const HomeHero = () => {
                     src={"https://source.unsplash.com/random/200?food=1"} 
                     alt={"a random food picture from unsplash"} 
                     width={800} height={400}
-                    className='absolute h-full w-full object-cover -z-0 mix-blend-overlay rounded'
+                    className='absolute h-full w-full object-cover -z-0 mix-blend-normal rounded'
                     blurDataURL={"https://source.unsplash.com/random/200?food=1"} 
                     placeholder='blur' loading='lazy'
                 />
@@ -37,11 +37,11 @@ export const HomeHero = () => {
                             <span className='border-r-primary border border-t-0 border-b-primary border-l-0 w-1/2'></span>
                             <span className='border-r-primary border border-t-0 border-b-primary border-l-0 w-1/2'></span>
                         </div>
-                        <h2 className='col-span-2 sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full bg-card flex items-center w-full text-center pl-[.38rem] opacity-90 place-content-center'>Make Cooking</h2>
+                        <h2 className='col-span-2 sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full bg-card flex items-center w-full text-center pl-[.38rem]  place-content-center'>Make Cooking</h2>
                     </div>
 
                     <div className='grid grid-cols-3 place-items-center items-center h-[8rem]'>
-                        <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-card flex items-center justify-center opacity-90'>Exciting</h2>
+                        <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-card flex items-center justify-center '>Exciting</h2>
                         <div className='col-span-2 h-full w-full bg-transparent flex justify-between'>
                             <span className='border-r-primary border border-t-primary border-b-primary border-l-primary w-1/4'></span>
                             <span className='border-r-primary border border-t-primary border-b-primary border-l-0 w-1/4'></span>
@@ -55,7 +55,7 @@ export const HomeHero = () => {
                             <span className='border border-primary border-l-0 border-b-0 w-1/2'></span>
                             <span className='border border-primary border-l-0 border-b-0 w-1/2'></span>
                         </div>
-                        <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-card flex items-center justify-center opacity-90'>Fun</h2>
+                        <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-card flex items-center justify-center '>Fun</h2>
                         <div className='h-full w-full bg-transparent flex justify-between'>
                             {/* <span className='border border-primary border-b-0 w-1/4'></span>
                             <span className='border border-primary border-b-0 w-1/4'></span> */}

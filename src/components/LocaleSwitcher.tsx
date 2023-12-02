@@ -22,12 +22,13 @@ export const LocaleSwitcher = () => {
         {/* <p className="sr-only">{t('label')}</p> */}
         <span className='xxs:hidden md:block text-sm'>{t("label")}</span>
       <select
-        className="inline-flex appearance-none bg-card py-1 pl-2 xxs:p-1 lg:pr-6 font-bold text-special xxs:text-xs md:text-sm lg:text-lg"
+        className="inline-flex appearance-none bg-card py-1 pl-2 xxs:p-1 lg:pr-6 font-bold xxs:text-xs md:text-sm lg:text-lg text-special-foreground duration-1000 transition-all hover:text-special cursor-pointer"
         defaultValue={locale}
         disabled={isPending}
         onChange={onSelectChange}
       >
-        {t("label")}
+        {/* <span className='duration-1000 transition-all hover:text-special'>{t("label")}</span> */}
+        {/* {t("label")} */}
         {['en', 'bn'].map((cur) => (
           <option key={cur} value={cur} className='font-bold'>
             {/* {t('locales', {locale: cur})} {cur} */}

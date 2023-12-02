@@ -87,13 +87,13 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center'>Some Related Information About This Recipe</h2>
                 <div className='flex xxs:flex-col xxs:gap-y-11 lg:flex-row justify-around items-center px-10'>
                     <div className='xxs:w-full lg:w-2/4'>
-                        <h2 className='text-xl mb-6 mt-2 font-bold text-center'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
+                        <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl mb-6 mt-2 font-bold text-center text-special-foreground'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
                         <div className='h-[27rem] overflow-y-scroll scroll-smooth no-scrollbar'>
                             <RenderDigestTable heading='Digest' labels={digest} />
                         </div>
                     </div>
                     <div className='xxs:w-full lg:w-2/4'>
-                        <h2 className='text-xl font-bold mb-6 mt-2 text-center'>Popular Youtube Videos Found</h2>
+                        <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold mb-6 mt-2 text-center text-special-foreground'>Popular Youtube Videos Found</h2>
                         <ShowYoutubeVids recipeStr={label} />
                     </div>
                 </div>
@@ -142,7 +142,7 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels, cautions,
 const CustomAccordionItem = ({ name, title, content }: { name: string, title: string, content: React.JSX.Element | React.JSX.Element[] }) => {
     return (
         <AccordionItem value={name}>
-            <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl text-special-foreground'>{title}</AccordionTrigger>
+            <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl text-special-foreground duration-1000 transition-all hover:text-special'>{title}</AccordionTrigger>
             <AccordionContent>
                 {content}
             </AccordionContent>
@@ -155,37 +155,42 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 
     const renderInstructions = () => ingredients.map(item => {
         return (
-            <h3 key={item.foodId}>{item.text}</h3>
+            <li className='list-none' key={item.foodId}>{item.text}</li>
+            // <h3 key={item.foodId}>{item.text}</h3>
         )
     })
 
     const t = useTranslations("default")
 
     const headingsMarkup = (
-        <div className='grid xxs:grid-cols-3 lg:grid-cols-5 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm md:text-lg lg:text-xl'>
+        <div className='grid xxs:grid-cols-3 lg:grid-cols-4 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm md:text-lg lg:text-xl'>
+            <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Category</div>
             <div className='bg-card px-4 rounded-md'>Picture</div>
             <div className='bg-card px-4 rounded-md'>Name</div>
-            <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Category</div>
+            {/* <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Category</div> */}
             <div className='bg-card px-4 rounded-md'>Quantity</div>
-            <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Weight</div>
+            {/* <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Weight</div> */}
         </div>
     )
 
     const ingredientsMarkup = (
-        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-4/5'>
-            <h2 className='font-bold xxs:text-sm sm:text-lg md:text-2xl  lg:text-3xl text-special-foreground pl-10'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
+        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 shadow-md pb-2'>
+            <h2 className='font-bold text-center xxs:text-sm sm:text-lg md:text-2xl lg:text-3xl text-special-foreground pl-10'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
 
             {headingsMarkup}
 
-            <div className='flex flex-col gap-y-2 justify-center items-center'>
+            {/* <div className='flex flex-col gap-y-2 justify-center items-center'>
                 {renderIngredientsAndMeasurements()}
-            </div>
+            </div> */}
+            <ol className='flex flex-col gap-y-2 justify-center items-center list-inside'>
+                {renderIngredientsAndMeasurements()}
+            </ol>
         </div>
     )
 
     const instructionsMarkup = (
-        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-3/6 px-10'>
-            <h2 className='font-bold xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
+        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 shadow-md pb-2 pl-6'>
+            <h2 className='font-bold text-center xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
             <div
                 // className='grid grid-flow-col grid-rows-2 gap-4 xs:text-sm lg:text-lg'
                 className='grid grid-cols-2 xxs:gap-6 lg:gap-10 capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl font-semibold'
@@ -194,10 +199,10 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     )
 
     return (
-        <div className='flex xxs:flex-col xxs:gap-y-6 lg:flex-row lg:gap-x-4'>
+        <div className='flex lg:justify-between xxs:flex-col xxs:gap-y-6 lg:flex-row lg:gap-x-16 mx-6'>
             {ingredientsMarkup}
-            <p className='xxs:hidden lg:block h-80 w-1 bg-card self-center mr-20'></p>
-            <p className='xxs:block lg:hidden h-1 w-40 bg-card self-center my-4'></p>
+            {/* <p className='xxs:hidden lg:block h-96 w-0.5 bg-muted-foreground self-center mx-4'></p>
+            <p className='xxs:block lg:hidden h-1 w-40 bg-muted-foreground self-center my-4'></p> */}
             {instructionsMarkup}
         </div>
     )
@@ -211,7 +216,9 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
     }
 
     const contents = (
-        <div className='grid xxs:grid-cols-3 lg:grid-cols-5 justify-items-center place-items-center w-full capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'>
+        <div className='grid xxs:grid-cols-3 lg:grid-cols-4 justify-items-center place-items-center w-full capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'>
+
+            <div className='xxs:hidden lg:block'>{foodCategory}</div>
 
             <img
                 src={image} alt={food}
@@ -223,13 +230,13 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
 
             <div className='font-semibold'>{food}</div>
 
-            <div className='xxs:hidden lg:block'>{foodCategory}</div>
+            {/* <div className='xxs:hidden lg:block'>{foodCategory}</div> */}
 
             <h2 className='flex gap-x-1 font-semibold'><span>{quantity.toFixed(2)}</span> <span>{measure}</span></h2>
 
-            <h2 className='xxs:hidden lg:block'>
+            {/* <h2 className='xxs:hidden lg:block'>
                 {weight.toFixed(2)}
-            </h2>
+            </h2> */}
         </div>
     )
 

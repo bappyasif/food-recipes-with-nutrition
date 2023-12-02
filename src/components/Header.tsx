@@ -42,7 +42,7 @@ export const Header = () => {
       <Link href={"/"} title="What's Cooking Yo!!">
         <img
           src={logo.src}
-          className="w-24 h-24 rounded-full"
+          className="w-60 h-60 rounded-full"
           alt="what's cooking yo!! logo"
           height={logo.height} width={logo.width}
         />
@@ -72,9 +72,9 @@ const UserAuth = () => {
   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
   return (
-    <div className="text-special flex items-center relative">
+    <div className="text-special-foreground flex items-center relative cursor-pointer">
 
-      <span onClick={isTrue ? handleFalsy : handleTruthy} className="text-2xl relative" title="User Auth">
+      <span onClick={isTrue ? handleFalsy : handleTruthy} className="text-2xl relative duration-1000 transition-all hover:text-special" title="User Auth">
         <RiUserSettingsFill />
       </span>
 
