@@ -171,16 +171,17 @@ const RenderBasicTextInfo = ({ text, val }: { text: string, val: string | number
     )
 }
 
-export const ReusableModal = ({ children, triggerText, title, changeWidth, handleTrigger }: { children: any, triggerText: string, title: string, changeWidth?: boolean, handleTrigger?: () => void }) => {
+export const ReusableModal = ({ children, triggerText, title, changeWidth, handleTrigger }: { children: React.ReactNode, triggerText: string, title: string, changeWidth?: boolean, handleTrigger?: () => void }) => {
     return (
         <Dialog>
             <DialogTrigger onClick={() => handleTrigger && handleTrigger()}><Badge variant={'secondary'} className='w-full text-secondary bg-muted-foreground transition-colors duration-1000 hover:bg-primary'>{triggerText}</Badge></DialogTrigger>
             <DialogContent
+                // className='bg-accent border-ring xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
                 className='bg-accent border-ring'
                 style={{ minWidth: changeWidth ? "80%" : "auto" }}
             >
                 <DialogHeader>
-                    <DialogTitle className='text-primary'>{title}</DialogTitle>
+                    <DialogTitle className='text-muted-foreground text-center'>{title}</DialogTitle>
                 </DialogHeader>
 
                 <DialogDescription>
@@ -205,8 +206,12 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
     })
 
     return (
-        <ReusableModal triggerText={"Recipe Ingredients"} title={"Ingredients And Measurements"}>
-            <span className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'>
+        <ReusableModal triggerText={"Recipe Ingredients"} title={"Measurements And Instructions"}>
+            <span 
+                className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
+            >
+                <span className='font-bold text-lg text-special-foreground'>Ingredients And Measurements</span>
+
                 <span className='grid grid-cols-4 place-content-center place-items-center xxs:gap-2 lg:gap-4 font-bold text-lg xxs:text-sm md:text-lg lg:text-xl'>
                     <span className='bg-card xxs:px-2 lg:px-4'>category</span>
                     <span className='bg-card xxs:px-2 lg:px-4'>Picture</span>
@@ -217,7 +222,7 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
                 <span className='flex flex-col gap-y-2 xxs:h-56 lg:h-[40rem] overflow-y-scroll no-scrollbar'>
                     {renderIngredientsAndMeasurements()}
                 </span>
-                <span className='font-bold text-lg text-primary'>Instructions</span>
+                <span className='font-bold text-lg text-special-foreground'>Instructions</span>
                 <span className='flex flex-col gap-y-2 xxs:h-40 lg:h-96 overflow-y-scroll no-scrollbar'>{renderInstructions()}</span>
             </span>
         </ReusableModal>
@@ -238,28 +243,6 @@ export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType)
         </span>
     )
 }
-
-// export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType) => {
-//     const { food, foodCategory, measure, quantity, weight, image } = items;
-//     return (
-//         <span
-//             className='grid grid-cols-4 gap-4 place-content-center place-items-center'
-//         >
-//             <span className='capitalize font-bold xxs:text-xs lg:text-sm'>{food}</span>
-//             <span className='flex flex-col justify-center items-center'>
-//                 <span className='text-[11px] capitalize font-semibold'>{foodCategory}</span>
-//                 <img className='xxs:w-24 xxs:h-11 lg:w-36 lg:h-28 rounded-xl object-cover' src={image} alt={food} width={60} height={39} placeholder='blur' loading='lazy' />
-//                 {/* <Image
-//                     src={image} alt={food} width={80} height={40}
-//                     className='w-36 h-14 rounded-xl'
-//                     blurDataURL={image} placeholder='blur' loading='lazy'
-//                 /> */}
-//             </span>
-//             <span className='font-semibold capitalize text-center'>{quantity.toFixed(2)} {measure}</span>
-//             <span className='font-semibold text-center'>{weight.toFixed(2)}</span>
-//         </span>
-//     )
-// }
 
 const RenderRecipeDigestInfo = ({ digestLabels }: { digestLabels: DigestItemType[] }) => {
     const renderItems = () => digestLabels.map(item => {

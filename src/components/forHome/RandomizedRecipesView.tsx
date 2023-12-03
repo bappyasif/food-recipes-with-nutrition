@@ -22,8 +22,8 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }:
 
     const existingFiltersMarkup = (
         <span className='flex flex-col gap-y-4 w-full justify-center items-center xxs:mb-4 lg:mb-8'>
-            <span className='xxs:text-xl sm:text-2xl lg:text-4xl font-bold text-muted-foreground'>Existing Filters</span>
-            <span className='flex gap-2 flex-wrap text-2xl'>
+            <span className='xxs:text-lg md:text-xl lg:text-4xl font-bold text-muted-foreground'>Existing Filters</span>
+            <span className='flex gap-2 flex-wrap xxs:text-sm sm:text-lg md:text-xl lg:text-2xl'>
                 {filtersMarkup}
             </span>
         </span>
@@ -42,18 +42,21 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }:
                 className={`bg-accent hover:bg-accent-foreground text-primary my-2 `}>{recipes.length ? `Recipes Found - ${recipes.length}` : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
             {
                 recipes.length
-                    ? <ReusableModal title='Randomly Chosen Recipes Based On Chosen Filters' triggerText='Click To View' changeWidth={true} handleTrigger={() => null}>
+                    ? <ReusableModal title='Showing Randomly Chosen Recipes' triggerText='Click To View' changeWidth={true} handleTrigger={() => null}>
+                        <span
+                            className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
+                        >
+                            {existingFiltersMarkup}
 
-                        {existingFiltersMarkup}
+                            <span className='grid xxs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 h-[45rem] justify-items-center place-items-center gap-6 overflow-y-scroll scroll-smooth no-scrollbar'>
+                                {renderRecipes()}
 
-                        <span className='grid xxs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 h-[650px] justify-items-center place-items-center gap-6 overflow-y-scroll scroll-smooth no-scrollbar'>
-                            {renderRecipes()}
-
-                            {
-                                recipes.length
-                                    ? <span className='w-96 min-h-[23.6rem] h-full rounded-sm bg-card text-muted-foreground flex justify-center items-center gap-x-4 text-xl'>Want To See More? <span className='py-2 text-lg text-secondary font-bold h-6 bg-primary hover:bg-special hover:text-muted cursor-pointer px-4 rounded-full flex items-center justify-center' onClick={processRefetch}>Click Here</span></span>
-                                    : null
-                            }
+                                {
+                                    recipes.length
+                                        ? <span className='w-96 min-h-[23.6rem] h-full rounded-sm bg-card text-muted-foreground flex justify-center items-center gap-x-4 text-xl'>Want To See More? <span className='py-2 text-lg text-secondary font-bold h-6 bg-primary hover:bg-special hover:text-muted cursor-pointer px-4 rounded-full flex items-center justify-center' onClick={processRefetch}>Click Here</span></span>
+                                        : null
+                                }
+                            </span>
                         </span>
                     </ReusableModal>
                     : null
@@ -72,7 +75,7 @@ const FilterUsed = ({ ...item }: { title: string, val: string }) => {
     const { title, val } = item;
 
     return (
-        <span className='flex gap-x-2 xxs:text-sm sm:text-lg lg:text-2xl'><span className='bg-card px-2'>{title}:</span><span className='font-semibold px-2 text-special-foreground'>{val || "N/A"}</span></span>
+        <span className='flex gap-x-2'><span className='bg-card px-2'>{title}:</span><span className='font-semibold px-2 text-special-foreground'>{val || "N/A"}</span></span>
     )
 }
 
@@ -87,7 +90,7 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
             <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex flex-col gap-y-2' title={label}>
                 <span className='font-bold text-2xl text-primary text-center'>{label.length > 26 ? ellipsedText(label, 26) : label}</span>
 
-                <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] h-64 rounded-sm duration-1000 transition-all hover:object-contain' placeholder='blur' loading='lazy' />
+                <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] xxs:h-40 lg:h-64 rounded-sm duration-1000 transition-all hover:object-contain' placeholder='blur' loading='lazy' />
 
                 {/* <Image
                     src={url} alt={label!} width={width} height={height}
@@ -108,8 +111,8 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
 const RenderReusableBadgeItem = ({ title, text }: { title: string, text: string }) => {
     return (
         <span className='flex justify-between gap-x-10 text-muted-foreground w-full'>
-            <span className='font-bold text-xl'>{title}</span>
-            <span className='text-lg font-semibold text-special-foreground'>{text}</span>
+            <span className='font-bold xxs:text-sm lg:text-xl'>{title}</span>
+            <span className='xxs:text-sm lg:text-lg font-semibold text-special-foreground'>{text}</span>
         </span>
     )
 }
