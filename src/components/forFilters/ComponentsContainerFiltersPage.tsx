@@ -75,7 +75,7 @@ export const ComponentsContainerFiltersPage = () => {
   // IFNEXTDATAALREADYEXIST
   const check = pageNumber < untrackedList[untrackedList.length - 1]?.page
 
-  console.log(untrackedList, "untrackedList", pageNumber, "page number")
+  // console.log(untrackedList, "untrackedList", pageNumber, "page number")
 
   return (
     <div

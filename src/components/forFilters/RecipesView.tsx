@@ -15,7 +15,7 @@ import Image from 'next/image'
 
 export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePreviousAndNext, check, isFirstPage }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d: RecipeMealType[], href?: string) => void, handlePreviousAndNext: (str: string) => void, check?: boolean, isFirstPage: boolean }) => {
 
-    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+    const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
     const renderRecipes = () => recipes.map(item => <RenderRecipe key={item.label} {...item} />)
 
@@ -58,7 +58,7 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
 
     return (
         <div className='py-20'>
-            <div className='grid xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 xxs:gap-11 lg:gap-11 place-content-center place-items-center'>
+            <div className='grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 xxs:gap-11 lg:gap-11 place-content-center place-items-center xxs:px-4 lg:px-10'>
                 {recipes.length ? renderRecipes() : null}
             </div>
 
@@ -83,7 +83,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
     return (
         <div
-            className={`flex flex-col justify-center items-center ${styles.flipCard} h-[18.6rem] xxs:w-[18.9rem] sm:w-[20.9rem]`}
+            className={`flex flex-col justify-center items-center ${styles.flipCard} h-[19.6rem] xxs:w-[18.9rem] sm:w-[20.9rem]`}
         >
             <img
                 alt={label}
@@ -101,6 +101,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                 loading='lazy'
             />
 
+            {/* before card is flipped */}
             <div className={`${styles.whenNotFlipped}`}>
                 <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex items-center justify-center flex-col gap-y-2'>
                     <h2 className='font-bold text-lg'>{label.length > 11 ? ellipsedText(label, 11) : label}</h2>
@@ -121,10 +122,11 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                 </div>
             </div>
 
+            {/* after card is flipped */}
             <div
                 className={`${styles.whenFlipped} px-1.5 items-center justify-center `}
             >
-                <Link className='bg-card opacity-70 w-full text-center rounded-t-md' href={`/${locale}/recipe/${extractRecipeId(uri)}`}>
+                <Link className='bg-card opacity-80 w-full text-center rounded-t-md' href={`/${locale}/recipe/${extractRecipeId(uri)}`}>
                     <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</h2>
                 </Link>
 
@@ -134,7 +136,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                     <RenderBadge text={mealType[0]} />
                 </div>
 
-                <div className='grid grid-cols-2 gap-y-2 bg-card py-0.5 opacity-70 my-1'>
+                <div className='grid grid-cols-2 gap-y-2 bg-card py-0.5 opacity-80 my-1'>
                     <RenderBasicTextInfo text="Calories" val={calories.toFixed(2)} />
                     <RenderBasicTextInfo text="carbon footprint" val={co2EmissionsClass} />
                     <RenderBasicTextInfo text="servings" val={servings} />
@@ -150,7 +152,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
                 <div className='w-full my-1'>
                     <RenderBasicTextInfo text='Source' val={source} />
-                    <Button variant={"default"} title={url} className='w-full bg-special-foreground hover:bg-special hover:text-secondary'><a target='_blank' href={url}>Recipe Source Site</a></Button>
+                    <Button variant={"default"} title={url} className='w-full bg-muted-foreground duration-1000 transition-all hover:bg-card hover:text-primary'><a target='_blank' href={url}>Recipe Source Site</a></Button>
                 </div>
             </div>
         </div>
@@ -159,13 +161,13 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
 const RenderBadge = ({ text }: { text: string }) => {
     return (
-        <Badge className='bg-muted-foreground text-muted hover:text-muted-foreground capitalize' variant={"secondary"} title={text}>{text.length > 9 ? ellipsedText(text, 9) : text}</Badge>
+        <Badge className='bg-muted-foreground text-muted hover:text-muted-foreground capitalize' variant={"secondary"} title={text}>{text.length > 10 ? ellipsedText(text, 8) : text}</Badge>
     )
 }
 
 const RenderBasicTextInfo = ({ text, val }: { text: string, val: string | number }) => {
     return (
-        <h3 className={`flex justify-between px-2 gap-2 xxs:text-xs lg:text-sm text-muted-foreground ${text === "Source" ? "bg-card py-0.5 opacity-70 rounded-b-md" : ""} capitalize`}><span className='font-semibold'>{text}</span>{val}</h3>
+        <h3 className={`flex justify-between px-2 gap-2 xxs:text-xs lg:text-sm text-muted-foreground ${text === "Source" ? "bg-card py-0.5 opacity-80 rounded-b-md" : ""} capitalize`}><span className='font-semibold'>{text}</span><span className='text-special-foreground font-semibold'>{val}</span></h3>
     )
 }
 
@@ -196,26 +198,27 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
 
     const renderIngredientsAndMeasurements = () => ingredients.map(item => <RenderIngredientAndMeasurement key={item.foodId} {...item} />)
 
-    const renderInstructions = () => ingredients.map(item => {
+    const renderInstructions = () => ingredients.map((item, idx) => {
         return (
-            <span key={item.foodId + item.weight}>{item.text}</span>
+            <span key={item.foodId + item.weight + idx} className='font-semibold'>{item.text}</span>
         )
     })
 
     return (
         <ReusableModal triggerText={"Recipe Ingredients"} title={"Ingredients And Measurements"}>
-            <span className='textarea-primary flex flex-col gap-y-4 h-[33rem]'>
-                <span className='grid grid-cols-4 place-content-center place-items-center font-bold text-lg'>
-                    <span>Name</span>
-                    <span>Picture</span>
-                    <span>Quantity</span>
-                    <span>Weight</span>
+            <span className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'>
+                <span className='grid grid-cols-4 place-content-center place-items-center xxs:gap-2 lg:gap-4 font-bold text-lg xxs:text-sm md:text-lg lg:text-xl'>
+                    <span className='bg-card xxs:px-2 lg:px-4'>category</span>
+                    <span className='bg-card xxs:px-2 lg:px-4'>Picture</span>
+                    <span className='bg-card xxs:px-2 lg:px-4'>Name</span>
+                    <span className='bg-card xxs:px-2 lg:px-4'>Quantity</span>
+                    {/* <span>Weight</span> */}
                 </span>
-                <span className='flex flex-col gap-y-2 h-96 overflow-y-scroll no-scrollbar'>
+                <span className='flex flex-col gap-y-2 xxs:h-56 lg:h-[40rem] overflow-y-scroll no-scrollbar'>
                     {renderIngredientsAndMeasurements()}
                 </span>
                 <span className='font-bold text-lg text-primary'>Instructions</span>
-                <span className='flex flex-col gap-y-2 h-40 overflow-y-scroll no-scrollbar'>{renderInstructions()}</span>
+                <span className='flex flex-col gap-y-2 xxs:h-40 lg:h-96 overflow-y-scroll no-scrollbar'>{renderInstructions()}</span>
             </span>
         </ReusableModal>
     )
@@ -225,23 +228,38 @@ export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType)
     const { food, foodCategory, measure, quantity, weight, image } = items;
     return (
         <span
-            className='grid grid-cols-4 gap-4 place-content-center place-items-center'
+            className='grid grid-cols-4 gap-4 place-content-center place-items-center xxs:text-xs lg:text-sm'
         >
-            <span className='capitalize font-bold xxs:text-xs lg:text-sm'>{food}</span>
-            <span className='flex flex-col justify-center items-center'>
-                <span className='text-[11px] capitalize font-semibold'>{foodCategory}</span>
-                <img className='w-36 h-28 rounded-xl' src={image} alt={food} width={60} height={39} placeholder='blur' loading='lazy' />
-                {/* <Image
-                    src={image} alt={food} width={80} height={40}
-                    className='w-36 h-14 rounded-xl'
-                    blurDataURL={image} placeholder='blur' loading='lazy'
-                /> */}
-            </span>
+            <span className='capitalize font-semibold text-center'>{foodCategory}</span>
+            <img className='xxs:w-24 xxs:h-11 lg:w-36 lg:h-14 rounded-xl object-cover' src={image} alt={food} width={60} height={39} placeholder='blur' loading='lazy' />
+            <span className='capitalize font-bold text-center'>{food}</span>
             <span className='font-semibold capitalize text-center'>{quantity.toFixed(2)} {measure}</span>
-            <span className='font-semibold text-center'>{weight.toFixed(2)}</span>
+            {/* <span className='font-semibold text-center'>{weight.toFixed(2)}</span> */}
         </span>
     )
 }
+
+// export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType) => {
+//     const { food, foodCategory, measure, quantity, weight, image } = items;
+//     return (
+//         <span
+//             className='grid grid-cols-4 gap-4 place-content-center place-items-center'
+//         >
+//             <span className='capitalize font-bold xxs:text-xs lg:text-sm'>{food}</span>
+//             <span className='flex flex-col justify-center items-center'>
+//                 <span className='text-[11px] capitalize font-semibold'>{foodCategory}</span>
+//                 <img className='xxs:w-24 xxs:h-11 lg:w-36 lg:h-28 rounded-xl object-cover' src={image} alt={food} width={60} height={39} placeholder='blur' loading='lazy' />
+//                 {/* <Image
+//                     src={image} alt={food} width={80} height={40}
+//                     className='w-36 h-14 rounded-xl'
+//                     blurDataURL={image} placeholder='blur' loading='lazy'
+//                 /> */}
+//             </span>
+//             <span className='font-semibold capitalize text-center'>{quantity.toFixed(2)} {measure}</span>
+//             <span className='font-semibold text-center'>{weight.toFixed(2)}</span>
+//         </span>
+//     )
+// }
 
 const RenderRecipeDigestInfo = ({ digestLabels }: { digestLabels: DigestItemType[] }) => {
     const renderItems = () => digestLabels.map(item => {

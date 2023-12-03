@@ -145,7 +145,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
         className='font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-primary'
         title={checkIfDayOlder () ? `You might be looking at a random picture!!, Recipe: ${label}, Click To View details` : `Recipe: ${label}, Click To View details`}
       >
-        <Link href={recipeLink}>{label!?.length > 20 ? ellipsedText(label!, 19) : label}</Link>
+        <Link href={recipeLink}>{label!?.length > 29 ? ellipsedText(label!, 26) : label}</Link>
       </CardHeader>
 
       <CardContent className='flex flex-col gap-y-4'>

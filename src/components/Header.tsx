@@ -42,7 +42,7 @@ export const Header = () => {
       <Link href={"/"} title="What's Cooking Yo!!">
         <img
           src={logo.src}
-          className="w-60 h-60 rounded-full"
+          className="xxs:w-36 xxs:h-36 sm:w-40 sm:h-40 xl:w-52 xl:h-52 rounded-full"
           alt="what's cooking yo!! logo"
           height={logo.height} width={logo.width}
         />
