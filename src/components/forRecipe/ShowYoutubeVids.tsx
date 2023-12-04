@@ -69,7 +69,7 @@ export const ShowYoutubeVids = ({ recipeStr }: { recipeStr: string }) => {
       {/* bigger screens */}
       <div className='xxs:hidden lg:flex gap-x-2 items-center'>
         <Button className='bg-card text-muted-foreground hover:text-primary-foreground' variant={'default'} onClick={handlePrev}>Prev</Button>
-        <iframe className="xxs:w-full lg:w-1/2 lg:h-[27rem] xl:w-[40rem]" width="720" height="315"
+        <iframe className="xxs:w-full lg:h-[27rem] lg:w-[40rem] xl:w-[33rem] 2xl:w-[40rem]" width="720" height="315"
           src={`https://www.youtube.com/embed/${vidId}`}>
         </iframe>
         <Button className='bg-card text-muted-foreground hover:text-primary-foreground' variant={'default'} onClick={handleNext}>Next</Button>

@@ -80,27 +80,27 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
             </section>
 
             <section className='xxs:my-4 lg:my-6'>
-                <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
+                {/* <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} /> */}
             </section>
 
             <section className='xxs:mb-4 lg:mb-6 flex flex-col xxs:gap-y-8 lg:gap-y-20'>
                 <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center'>Some Related Information About This Recipe</h2>
-                <div className='flex xxs:flex-col xxs:gap-y-11 lg:flex-row justify-around items-center px-10'>
-                    <div className='xxs:w-full lg:w-2/4'>
-                        <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl mb-6 mt-2 font-bold text-center text-special-foreground'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
+                <div className='flex xxs:flex-col xxs:gap-y-11 xl:flex-row lg:gap-x-6 justify-around items-center px-10'>
+                    <div className='xxs:w-full xl:w-2/4'>
+                        <h2 className='xxs:text-2xl md:text-3xl xl:text-4xl mb-6 mt-2 font-bold text-center text-special-foreground'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
                         <div className='h-[27rem] overflow-y-scroll scroll-smooth no-scrollbar'>
                             <RenderDigestTable heading='Digest' labels={digest} />
                         </div>
                     </div>
-                    <div className='xxs:w-full lg:w-2/4'>
-                        <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold mb-6 mt-2 text-center text-special-foreground'>Popular Youtube Videos Found</h2>
+                    <div className='xxs:w-full xl:w-2/4'>
+                        <h2 className='xxs:text-2xl md:text-3xl xl:text-4xl font-bold mb-6 mt-2 text-center text-special-foreground'>Popular Youtube Videos Found</h2>
                         <ShowYoutubeVids recipeStr={label} />
                     </div>
                 </div>
             </section>
 
             <section className='xxs:my-4 lg:my-6'>
-                <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
+                {/* <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} /> */}
             </section>
         </div>
     )
@@ -163,8 +163,8 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     const t = useTranslations("default")
 
     const headingsMarkup = (
-        <div className='grid xxs:grid-cols-3 lg:grid-cols-4 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm md:text-lg lg:text-xl'>
-            <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Category</div>
+        <div className='grid xxs:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 2xl:grid-cols-4 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm md:text-lg lg:text-xl'>
+            <div className='bg-card px-4 rounded-md xxs:hidden md:block lg:hidden 2xl:block'>Category</div>
             <div className='bg-card px-4 rounded-md'>Picture</div>
             <div className='bg-card px-4 rounded-md'>Name</div>
             {/* <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Category</div> */}
@@ -216,19 +216,19 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
     }
 
     const contents = (
-        <div className='grid xxs:grid-cols-3 lg:grid-cols-4 justify-items-center place-items-center w-full capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'>
+        <div className='grid xxs:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 2xl:grid-cols-4 justify-items-center place-items-center w-full capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'>
 
-            <div className='xxs:hidden lg:block'>{foodCategory}</div>
+            <div className='xxs:hidden md:block lg:hidden 2xl:block'>{foodCategory}</div>
 
             <img
                 src={image} alt={food}
                 width={60} height={39}
-                className='xxs:w-14 xxs:h-16 lg:w-36 lg:h-20 rounded-xl object-cover'
+                className='xxs:w-14 xxs:h-16 sm:w-24 lg:w-36 lg:h-20 rounded-xl object-cover'
                 placeholder='blur' loading='lazy'
                 onError={addRandomUrl}
             />
 
-            <div className='font-semibold'>{food}</div>
+            <div className='font-semibold text-center'>{food}</div>
 
             {/* <div className='xxs:hidden lg:block'>{foodCategory}</div> */}
 

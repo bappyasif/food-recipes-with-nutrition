@@ -196,7 +196,7 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
 
 const MultipleSelectableFilters = () => {
     return (
-        <Accordion type='multiple' className='xxs:columns-1 md:columns-2 xl:columns-3 gap-4'>
+        <Accordion type='multiple' className='xxs:columns-1 md:columns-2 gap-4'>
             <ReusuableAccordionItem propKey='co2EmissionsClass' trigText='Carbon Footprint' data={carbonFootprints} />
 
             <ReusuableAccordionItem propKey='mealType' trigText='Meal Types' data={meals} />

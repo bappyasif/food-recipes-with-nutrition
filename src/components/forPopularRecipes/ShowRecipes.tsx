@@ -129,7 +129,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
   }
 
   return (
-    <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col justify-between h-[39rem]'>
+    <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col gap-y-4 justify-between xl:h-[39rem]'>
       <img
         src={url} 
         // src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url}
@@ -142,13 +142,13 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
       />
 
       <CardHeader
-        className='font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-primary'
+        className='font-bold xxs:text-lg md:text-2xl text-muted-foreground hover:text-primary text-center'
         title={checkIfDayOlder () ? `You might be looking at a random picture!!, Recipe: ${label}, Click To View details` : `Recipe: ${label}, Click To View details`}
       >
         <Link href={recipeLink}>{label!?.length > 29 ? ellipsedText(label!, 26) : label}</Link>
       </CardHeader>
 
-      <CardContent className='flex flex-col gap-y-4'>
+      <CardContent className='flex flex-row gap-4 flex-wrap'>
         <ReuseableBadge txt='Calories' val={calories?.toFixed(2)} />
         <ReuseableBadge txt='Carbon Emission' val={co2EmissionsClass} />
         <ReuseableBadge txt='Cuisine' val={typeof cuisineType === "object" ? cuisineType[0] : cuisineType} />
