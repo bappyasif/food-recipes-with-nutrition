@@ -1,5 +1,5 @@
 import { RecipeMealType } from '@/types'
-import React from 'react'
+import React, { useRef } from 'react'
 import { ReusableModal, extractRecipeId } from '../forFilters/RecipesView'
 import { Badge } from '../ui/badge'
 import Link from 'next/link'
@@ -29,9 +29,14 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }:
         </span>
     )
 
+    const ref = useRef<HTMLSpanElement | null>(null)
+
+    const handleScrollTopTop = () => ref.current?.scrollIntoView( { behavior: 'smooth', block: 'start' } )
+
     const processRefetch = () => {
         // handleFalsy()
         handleClick()
+        handleScrollTopTop()
     }
 
     const renderRecipes = () => recipes.map(item => <RenderRecipeItem key={item.uri} data={item} />)
@@ -44,6 +49,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }:
                 recipes.length
                     ? <ReusableModal title='Showing Randomly Chosen Recipes' triggerText='Click To View' changeWidth={true} handleTrigger={() => null}>
                         <span
+                            ref={ref}
                             className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
                         >
                             {existingFiltersMarkup}
