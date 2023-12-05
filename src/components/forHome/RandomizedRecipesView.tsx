@@ -1,14 +1,17 @@
 import { RecipeMealType } from '@/types'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { ReusableModal, extractRecipeId } from '../forFilters/RecipesView'
 import { Badge } from '../ui/badge'
 import Link from 'next/link'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
+import { useForTruthToggle } from '@/hooks/forComponents'
 
 export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }: { recipes: RecipeMealType[], handleClick: () => void, existingFilters: { cuisine: string, dish: string, health: string, diet: string, meal: string } }) => {
 
     const { cuisine, diet, dish, health, meal } = existingFilters
+
+    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
 
     const filtersMarkup = (
         <>
@@ -26,20 +29,29 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }:
             <span className='flex gap-2 flex-wrap xxs:text-sm sm:text-lg md:text-xl lg:text-2xl'>
                 {filtersMarkup}
             </span>
+            <span className='xxs:text-sm md:text-lg lg:text-xl font-bold text-muted-foreground'>{isTrue ? "Fetching New Recipes" : "" }</span>
         </span>
     )
 
     const ref = useRef<HTMLSpanElement | null>(null)
 
-    const handleScrollTopTop = () => ref.current?.scrollIntoView( { behavior: 'smooth', block: 'start' } )
+    const handleScrollTopTop = () => {
+        // ref.current?.scrollIntoView( { behavior: 'instant', block: 'end' } )
+        ref.current?.scrollTo({top: 0, behavior: "smooth"})
+    }
 
     const processRefetch = () => {
         // handleFalsy()
+        handleTruthy()
         handleClick()
         handleScrollTopTop()
     }
 
     const renderRecipes = () => recipes.map(item => <RenderRecipeItem key={item.uri} data={item} />)
+
+    useEffect(() => {
+        recipes.length && handleFalsy()
+    }, [recipes])
 
     return (
         <div className='font-bold text-xl text-center'>
@@ -49,12 +61,11 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }:
                 recipes.length
                     ? <ReusableModal title='Showing Randomly Chosen Recipes' triggerText='Click To View' changeWidth={true} handleTrigger={() => null}>
                         <span
-                            ref={ref}
                             className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
                         >
                             {existingFiltersMarkup}
 
-                            <span className='grid xxs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 h-[45rem] justify-items-center place-items-center gap-6 overflow-y-scroll scroll-smooth no-scrollbar'>
+                            <span ref={ref} className='grid xxs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 h-[45rem] justify-items-center place-items-center gap-6 overflow-y-scroll scroll-smooth no-scrollbar'>
                                 {renderRecipes()}
 
                                 {

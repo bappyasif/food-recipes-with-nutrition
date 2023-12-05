@@ -152,6 +152,8 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
 
     const locale = useLocale();
 
+    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+
     return (
         <div className='flex flex-col xxs:gap-y-4 md:gap-y-10 w-80 relative'>
             <h2 className={`text-center font-bold ${locale === "bn" ? "text-lg" : "text-lg"} bg-card rounded-md`}>{t("Randomize")} {t("Health")} {t("Label")}</h2>
@@ -165,7 +167,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
                 >
                     {rnd > 0 ? renderDivs() : rnd === -2 ? <span className='absolute'>Spin It!!</span> : null}
                 </div>
-                <Button className='md:mt-2 z-10 w-full bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={chooseRnd}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-secondary'>{t("Spin")}</span></Button>
+                <Button className='md:mt-2 z-10 w-full bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={chooseRnd} onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}><span className={`transition-all duration-1000 hover:scale-150 w-full text-secondary ${isTrue ? "scale-150" : ""}`}>{t("Spin")}</span></Button>
             </div>
         </div>
     )
@@ -312,7 +314,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
         searchRecipes(params).then(res => {
             const onlyRecipes = res?.hits.map((item: any) => item.recipe)
 
-            const readyForRendering = onlyRecipes.map((item: any) => item?.mealType?.length && item?.dishType?.length && item?.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
+            const readyForRendering = onlyRecipes?.map((item: any) => item?.mealType?.length && item?.dishType?.length && item?.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
             readyForRendering?.length && setRecipes(readyForRendering)
             
@@ -333,6 +335,11 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
         return temp
     }
 
+    const handleClickForSpinners = () => {
+        setRecipes([])
+        handleClick()
+    }
+
     return (
         <>
             <div className='flex flex-col gap-y-10 items-center justify-center w-full self-end h-full'>
@@ -343,7 +350,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
                     <ShowRandomlySelectedOptions rndNames={rndNames} />
                 </div>
 
-                <Button className='bg-muted-foreground font-bold w-fit hover:bg-primary' onClick={handleClick} variant={'default'}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>{t("Find Recipes")}</span></Button>
+                <Button className='bg-muted-foreground font-bold w-fit hover:bg-primary' onClick={handleClickForSpinners} variant={'default'}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>{t("Find Recipes")}</span></Button>
             </div>
             <RandomizedRecipesView recipes={recipes} handleClick={handleClick} existingFilters={filterValues()} />
         </>
