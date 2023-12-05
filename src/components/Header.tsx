@@ -48,8 +48,8 @@ export const Header = () => {
         />
       </Link>
 
-      <div className="bg-card flex justify-center xxs:gap-x-2 lg:gap-x-10 w-full py-2">
-        <nav className='flex xxs:gap-x-2 lg:gap-x-10 justify-end xs:text-[.71rem] lg:text-lg xl:text-2xl'>
+      <div className="bg-card flex xxs:justify-around lg:justify-center xxs:gap-x-2 lg:gap-x-10 w-full py-2 px-1">
+        <nav className='flex xxs:gap-x-2 xs:gap-x-6 lg:gap-x-10 justify-end xs:text-[.71rem] lg:text-sm xl:text-2xl 2xl:text-3xl'>
           {renderNavs()}
         </nav>
 
@@ -59,7 +59,7 @@ export const Header = () => {
             : null
         }
 
-        <div className="flex gap-x-4">
+        <div className="flex gap-x-4 items-center">
           <LocaleSwitcher />
           <UserAuth />
         </div>
@@ -74,7 +74,7 @@ const UserAuth = () => {
   return (
     <div className="text-special-foreground flex items-center relative cursor-pointer">
 
-      <span onClick={isTrue ? handleFalsy : handleTruthy} className="text-2xl relative duration-1000 transition-all hover:text-special" title="User Auth">
+      <span onClick={isTrue ? handleFalsy : handleTruthy} className="xxs:text-xl xs:text-2xl sm:text-3xl lg:text-3xl relative duration-1000 transition-all hover:text-special" title="User Auth">
         <RiUserSettingsFill />
       </span>
 
@@ -107,8 +107,8 @@ const ShowDropdown = ({ handleFalsy }: { handleFalsy: () => void }) => {
   )
 
   return (
-    <div ref={ref} onClick={handleFalsy} className="absolute flex flex-col gap-y-2 top-9 right-0 bg-card py-2 px-1 z-50 w-28">
-      <div className="text-center">User Auth</div>
+    <div ref={ref} onClick={handleFalsy} className="absolute flex flex-col gap-y-2 top-10 right-0 bg-card py-2 px-1 z-50 xxs:w-28 lg:w-36">
+      <div className="xxs:text-sm sm:text-lg lg:text-xl text-center text-muted-foreground">User Auth</div>
       {options}
     </div>
   )
@@ -116,8 +116,8 @@ const ShowDropdown = ({ handleFalsy }: { handleFalsy: () => void }) => {
 
 const UserAuthLinkView = ({ href, text, icon }: { href: string, text: string, icon: ReactNode }) => {
   return (
-    <Link className="bg-accent xxs:p-1 lg:px-2 rounded-md flex gap-2 items-center justify-center duration-1000 transition-all hover:bg-special-foreground hover:text-secondary font-bold" href={`${href}`} title={text}>
-      <span className="xxs:hidden lg:block">{text}</span>
+    <Link className="bg-accent xxs:p-1 lg:px-2 rounded-md flex gap-2 items-center justify-center duration-1000 transition-all hover:bg-special-foreground hover:text-secondary font-bold xxs:text-sm xs:text-lg sm:text-xl" href={`${href}`} title={text}>
+      <span className="xxs:hidden xs:block">{text}</span>
       <span className="">{icon}</span>
     </Link>
   )
@@ -172,7 +172,7 @@ const SearchRecipes = () => {
     <div className='relative xxs:w-fit flex items-center xs:text-xs sm:text-sm lg:text-xl' ref={ref}
     >
       <input
-        className="xxs:w-44 sm:w-64 md:w-72 lg:w-[22rem] h-full rounded-sm xxs:pl-0 lg:pl-4 text-muted-foreground bg-transparent border-0 border-b-2 border-b-primary placeholder:text-accent xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl focus:outline-none" type="text" placeholder='search recipes by name'
+        className="xxs:w-44 sm:w-64 md:w-72 lg:w-[22rem] h-full rounded-sm xxs:pl-1.5 lg:pl-4 text-muted-foreground bg-transparent border-0 border-b-2 border-b-primary placeholder:text-accent xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl focus:outline-none" type="text" placeholder='search recipes by name'
         value={text} onChange={handleTextChange} onFocus={handleTruthyForFocused}
         onKeyUp={handleEnterPressed}
       />
@@ -219,9 +219,9 @@ const RenderNav = ({ ...item }: NavType) => {
   return (
     <Link
       href={`/${locale}/${path}`}
-      className="flex gap-1 items-center font-bold text-primary">
-      <span className="xxs:text-2xl sm:text-3xl lg:text-2xl">{icon}</span>
-      <span className="xxs:hidden md:block">{t(`${name}`)}</span>
+      className="flex gap-1 items-center justify-center font-bold text-primary">
+      <span className="xxs:text-3xl xs:text-4xl sm:text-5xl lg:text-4xl">{icon}</span>
+      <span className="xxs:hidden lg:block">{t(`${name}`)}</span>
     </Link>
   )
 }

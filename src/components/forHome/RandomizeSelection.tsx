@@ -287,6 +287,8 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
         return count
     }
 
+    const [fetchText, setFetchText] = useState("")
+
     const handleClick = () => {
         // resetting previously existing recipes
         // going against it so that from modal we dont have to forcefully exit after brigning see more button within modal
@@ -298,6 +300,8 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
             alert(`add ${4 - countFound} more filter from randomizer!!`)
             return
         }
+
+        setFetchText("Loading")
 
         const params = {
             mealType: !meal.includes("Spin it") ? meal : null,
@@ -317,9 +321,16 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
             const readyForRendering = onlyRecipes?.map((item: any) => item?.mealType?.length && item?.dishType?.length && item?.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
             readyForRendering?.length && setRecipes(readyForRendering)
+
+            readyForRendering?.length && setFetchText("")
             
             !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
-        }).catch(err => console.log(err))
+
+            !readyForRendering?.length && setFetchText("Not Found!!")
+        }).catch(err => {
+            console.log(err)
+            setFetchText("Fetch Failed!!")
+        })
     }
 
     const t = useTranslations("default")
@@ -350,9 +361,9 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
                     <ShowRandomlySelectedOptions rndNames={rndNames} />
                 </div>
 
-                <Button className='bg-muted-foreground font-bold w-fit hover:bg-primary' onClick={handleClickForSpinners} variant={'default'}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>{t("Find Recipes")}</span></Button>
+                <Button disabled={fetchText === "Loading"} className='bg-muted-foreground font-bold w-fit hover:bg-primary' onClick={handleClickForSpinners} variant={'default'}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>{t("Find Recipes")}</span></Button>
             </div>
-            <RandomizedRecipesView recipes={recipes} handleClick={handleClick} existingFilters={filterValues()} />
+            <RandomizedRecipesView recipes={recipes} handleClick={handleClick} existingFilters={filterValues()} fetchText={fetchText} />
         </>
     )
 }

@@ -7,7 +7,7 @@ import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import { useForTruthToggle } from '@/hooks/forComponents'
 
-export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }: { recipes: RecipeMealType[], handleClick: () => void, existingFilters: { cuisine: string, dish: string, health: string, diet: string, meal: string } }) => {
+export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, fetchText }: { recipes: RecipeMealType[], handleClick: () => void, existingFilters: { cuisine: string, dish: string, health: string, diet: string, meal: string }, fetchText: string }) => {
 
     const { cuisine, diet, dish, health, meal } = existingFilters
 
@@ -56,7 +56,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters }:
     return (
         <div className='font-bold text-xl text-center'>
             <Badge
-                className={`bg-accent hover:bg-accent-foreground text-primary my-2 `}>{recipes.length ? `Recipes Found - ${recipes.length}` : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
+                className={`bg-accent hover:bg-accent-foreground text-primary my-2 `}>{recipes.length ? `Recipes Found - ${recipes.length}` : fetchText ? fetchText : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
             {
                 recipes.length
                     ? <ReusableModal title='Showing Randomly Chosen Recipes' triggerText='Click To View' changeWidth={true} handleTrigger={() => null}>

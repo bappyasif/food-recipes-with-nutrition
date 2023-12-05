@@ -12,7 +12,7 @@ export const HomeHero = () => {
             <TwoExtensions />
 
             <div
-                className='w-2/4 mt-4 mx-auto relative text-ring h-[40.01rem] flex items-center'
+                className='xxs:w-2/3 lg:w-2/4 mt-4 mx-auto relative text-ring h-[40.01rem] flex items-center'
             >
                 <Image
                     src={"https://source.unsplash.com/random/200?food=1"} 
@@ -128,7 +128,7 @@ const LeftExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
     return (
         <div
-            className={`flex bg-card gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "xxs:-translate-x-[19.33rem] sm:-translate-x-[26.3rem] md:-translate-x-[36rem] lg:-translate-x-[52rem]"} ${extOpen === "left" ? "z-30" : "z-20"}`}
+            className={`flex bg-card gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "xxs:-translate-x-[19.33rem] sm:-translate-x-[26.3rem] md:-translate-x-[36rem] xl:-translate-x-[52rem]"} ${extOpen === "left" ? "z-30" : "z-20"}`}
         >
             <Scheduler open={extOpen === "left"} />
 

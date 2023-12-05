@@ -15,7 +15,7 @@ export const DuoCarousels = () => {
     const newCuisines = cuisines.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}` }))
 
     return (
-        <div className='flex gap-10'>
+        <div className='flex gap-10 justify-evenly px-4 w-full'>
             <ReusableCarousel title='Dish' items={newDishes} />
             <ReusableCarousel title='Cuisine' items={newCuisines} />
         </div>
@@ -63,8 +63,8 @@ export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisin
 
     return (
         <Button variant={'link'} onClick={prepareForDataFetching} className='flex flex-col-reverse gap-x-4 p-1 justify-center items-center h-16 transition-all duration-500 hover:scale-110 -z-0'>
-            <Image
-                className='w-44 h-11 object-cover relative'
+            {/* <Image
+                className='w-44 xxs:h-11 lg:h-16 object-cover relative'
                 // fill={true}
                 placeholder='blur'
                 blurDataURL={picture}
@@ -73,8 +73,17 @@ export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisin
                 height={50}
                 alt={`${name}`}
                 src={picture}
+            /> */}
+            <img
+                className='w-44 xxs:h-11 lg:h-16 object-cover relative rounded-md'
+                placeholder='blur'
+                loading='lazy'
+                width={80}
+                height={50}
+                alt={`${name}`}
+                src={picture}
             />
-            <p className='absolute bg-muted-foreground text-muted px-2 capitalize opacity-80 text-sm'>{name}</p>
+            <p className='absolute bg-muted text-primary font-bold px-2 capitalize opacity-80 xxs:text-sm lg:text-lg'>{name}</p>
         </Button>
     )
 }

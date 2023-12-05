@@ -65,7 +65,7 @@ export const CarouselVertical = ({...items}: ReuseableCarouselType) => {
         {/* {activeIdx} */}
         <Button className='bg-primary' variant={'default'} onClick={() => handleCarousel("prev")}>Prev</Button>
         <div 
-            className='flex flex-col items-center flex-nowrap overflow-y-clip gap-y-4 h-80 bg-primary-content
+            className='flex flex-col items-center flex-nowrap overflow-y-clip gap-y-4 xxs:h-80 lg:h-96 bg-primary-content
 
             before:content-[""] before:h-8 before:absolute before:text-red-600 before:w-44 before:bg-gradient-to-b before:from-primary before:to-muted before:opacity-80 before:z-40
 

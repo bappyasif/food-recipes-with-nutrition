@@ -155,7 +155,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
       </CardContent>
 
       <CardFooter>
-        <Link className='w-full bg-accent text-center font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-muted hover:bg-special-foreground rounded-lg' href={`/${locale}/recipe/${extractRecipeId(uri!)}`}>See Details</Link>
+        <Link className='w-full py-2 bg-accent text-center font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-muted hover:bg-primary rounded-lg' href={`/${locale}/recipe/${extractRecipeId(uri!)}`}>See Details</Link>
       </CardFooter>
     </Card>
   )
