@@ -1,6 +1,6 @@
 "use client"
 
-import { useAppSelector } from '@/hooks/forRedux'
+import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
 import { RecipeMealType } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { Badge } from '../ui/badge'
@@ -13,6 +13,8 @@ import Image from 'next/image'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
+import { sortByVisitCounts } from '@/redux/features/recipes/RecipesSlice'
+import { useForTruthToggle } from '@/hooks/forComponents'
 
 type DataType = {
   page: number;
@@ -37,6 +39,17 @@ export const ShowRecipes = ({ user }: { user: any }) => {
     
   // }, [recipesList])
 
+  const dispatch = useAppDispatch()
+
+  const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+
+  // making sure that data is sorted based on counts
+  useEffect(() => {
+    dispatch(sortByVisitCounts())
+
+    handleTruthy()
+  }, [])
+
   const [showing, setShowing] = useState<DataType[]>([])
   const [pageNum, setPageNum] = useState(0)
 
@@ -44,11 +57,15 @@ export const ShowRecipes = ({ user }: { user: any }) => {
     const firstEight = recipesList.slice(0, 8)
     setShowing(prev => [...prev, {data: firstEight, page: 1}])
     setPageNum(1)
+
+    handleFalsy()
   }
 
   useEffect(() => {
-    recipesList.length && handleOnce()
-  }, [recipesList])
+    isTrue && recipesList.length && handleOnce()
+    // recipesList.length && handleOnce()
+    // recipesList.length && dispatch(sortByVisitCounts())
+  }, [recipesList, isTrue])
 
   const handleNext = () => {
 

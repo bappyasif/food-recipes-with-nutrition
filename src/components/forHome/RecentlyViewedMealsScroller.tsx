@@ -1,22 +1,31 @@
 "use client"
 
 import { RecipeMealType } from '@/types'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForRecipeCarouselItems, useForTruthToggle } from '@/hooks/forComponents'
 import styles from "@/app/[locale]/Home.module.css"
 import { Badge } from '../ui/badge'
-import { useAppSelector } from '@/hooks/forRedux'
+import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import { extractRecipeId } from '../forFilters/RecipesView'
 import moment from 'moment'
+import { sortByRecentlyViewed } from '@/redux/features/recipes/RecipesSlice'
 
 export const RecentlyViewedMealsScroller = () => {
 
   // useForGettingViewedRecipesDataFromBackend()
 
   const recipesList = useAppSelector(state => state.recipes.list)
+
+  // console.log(recipesList, "sorted!!")
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // recipesList.length && dispatch(sortByRecentlyViewed())
+    dispatch(sortByRecentlyViewed())
+  }, [])
 
   const { handleFalsy, onlyFour, handleTruthy } = useForRecipeCarouselItems(recipesList)
 

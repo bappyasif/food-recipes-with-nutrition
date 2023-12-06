@@ -45,6 +45,7 @@ const recipesSlice = createSlice({
             })
 
             state.list = state.list.sort((a, b) => a.count! < b.count! ? 1 : -1)
+            // state.list = state.list.sort((a, b) => a.lastUpdated! < b.lastUpdated! ? 1 : -1)
         },
 
         // adding fresh new recipe to list
@@ -57,6 +58,7 @@ const recipesSlice = createSlice({
             state.list = state.list.concat(withCount)
 
             state.list = state.list.sort((a, b) => a.count! < b.count! ? 1 : -1)
+            // state.list = state.list.sort((a, b) => a.lastUpdated! < b.lastUpdated! ? 1 : -1)
 
             // add to db too
             addToDbCollection(action.payload)
@@ -76,20 +78,34 @@ const recipesSlice = createSlice({
         // trying alternative to update list from component (now going back to store dispatch instead, willbe keeping this for future reference)
         addRecipesAtOnce: (state, action) => {
             state.list = action.payload;
+            state.list = state.list.sort((a, b) => a.lastUpdated! < b.lastUpdated! ? 1 : -1)
+        },
+
+        // sort it based on recentlyViewed
+        sortByRecentlyViewed: (state) => {
+            state.list = state.list.sort((a, b) => a.lastUpdated! < b.lastUpdated! ? 1 : -1)
+        },
+
+        // sort it based on counts
+        sortByVisitCounts: (state) => {
+            state.list = state.list.sort((a, b) => a.count! < b.count! ? 1 : -1)
+            // console.log(state.list.length, "sorted!!")
         }
     },
     extraReducers: builder => {
         builder.addCase(fetchRecipesWithShallowRoutingOnce.fulfilled, (state, action) => {
             // console.log(action.payload, "payload!!")
         }),
-        // updating all found data from backend api server to redux store to be used by components who needs it (i.e. recently viewed meal, popular recipes view)
-        builder.addCase(getAllViewedRecipesFromDb.fulfilled, (state, action) => {
-            state.list = action.payload?.recipes
-        })
+            // updating all found data from backend api server to redux store to be used by components who needs it (i.e. recently viewed meal, popular recipes view)
+            builder.addCase(getAllViewedRecipesFromDb.fulfilled, (state, action) => {
+                state.list = action.payload?.recipes
+                // sorting based on recently viewed date
+                state.list = state.list.sort((a, b) => a.lastUpdated! < b.lastUpdated! ? 1 : -1)
+            })
     }
 })
 
-export const { updateRecipeCount, addRecipeToList, addRecipesToUntracked, addRecipesAtOnce, resetUntrackedRecipes } = recipesSlice.actions
+export const { updateRecipeCount, addRecipeToList, addRecipesToUntracked, addRecipesAtOnce, resetUntrackedRecipes, sortByRecentlyViewed, sortByVisitCounts } = recipesSlice.actions
 
 const RecipesReducer = recipesSlice.reducer;
 
