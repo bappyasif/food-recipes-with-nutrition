@@ -12,37 +12,42 @@ import { useTranslations } from 'use-intl';
 import Image from 'next/image'
 
 export const ShowFewRelatedRecipes = ({ mealType, diet, dishType, uri }: { mealType: string, diet: string, dishType: string, uri?: string }) => {
-    const {recipes} = useForRandomRecipesList(mealType, diet, dishType, uri)
+    const { recipes } = useForRandomRecipesList(mealType, diet, dishType, uri)
 
     const t = useTranslations("default")
 
+    if (recipes.length < 2) return
+
     return (
+        // recipes.length < 2
+        // ? "Not Enough Similar Recipes found"
+        // :
         <div className='flex flex-col xxs:gap-y-4 md:gap-y-10 text-special-foreground'>
             <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("Similar Recipes")}</h2>
-            <RenderRecipesListCarousel data={recipes.filter(item=>item.dishType.length)} />
+            <RenderRecipesListCarousel data={recipes.filter(item => item.dishType.length)} />
         </div>
     )
 }
 
 export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) => {
-    const {handleFalsy, handleNext, handlePrev, handleTruthy, isTrue, onlyFour} = useForRecipeCarouselItems(data)
+    const { handleFalsy, handleNext, handlePrev, handleTruthy, isTrue, onlyFour } = useForRecipeCarouselItems(data)
 
     useEffect(() => {
         handleNext()
     }, [data])
 
-    const renderRecipes = () => onlyFour?.map((item, idx) => <RenderRecipeForCarousel key={item.uri} rdata={item} lastCard={idx === 7} firstCard={idx===0} />)
+    const renderRecipes = () => onlyFour?.map((item, idx) => <RenderRecipeForCarousel key={item.uri} rdata={item} lastCard={idx === 7} firstCard={idx === 0} />)
 
     return (
-        data.length < 2
-        ? "Not Enough Similar Recipes found"
-        :
+        // data.length < 2
+        // ? "Not Enough Similar Recipes found"
+        // :
         <div className='flex gap-x-4 items-center justify-center'>
             <Button className='absolute left-0 xxs:h-20 lg:h-56 z-40 xxs:w-4 lg:w-20 text-primary font-extrabold bg-blend-lighten hover:text-card-foreground bg-card' onClick={handlePrev} variant={'default'}>Prev</Button>
-            
+
             {/* very smaller screen */}
             <div
-                className='xxs:flex sm:hidden gap-4 flex-nowrap overflow-hidden mx-10' 
+                className='xxs:flex sm:hidden gap-4 flex-nowrap overflow-hidden mx-10'
                 onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
             >
                 {renderRecipes()?.slice(0, 2)}
@@ -50,7 +55,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
 
             {/* smaller screen */}
             <div
-                className='xxs:hidden sm:flex md:hidden gap-4 flex-nowrap overflow-hidden mx-10' 
+                className='xxs:hidden sm:flex md:hidden gap-4 flex-nowrap overflow-hidden mx-10'
                 onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
             >
                 {renderRecipes()?.slice(0, 3)}
@@ -58,7 +63,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
 
             {/* medium screen */}
             <div
-                className='xxs:hidden md:flex lg:hidden gap-4 flex-nowrap overflow-hidden mx-14' 
+                className='xxs:hidden md:flex lg:hidden gap-4 flex-nowrap overflow-hidden mx-14'
                 onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
             >
                 {renderRecipes()?.slice(0, 5)}
@@ -66,7 +71,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
 
             {/* bigger screen */}
             <div
-                className='xxs:hidden lg:flex gap-4 flex-nowrap overflow-hidden' 
+                className='xxs:hidden lg:flex gap-4 flex-nowrap overflow-hidden'
                 onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
             >
                 {renderRecipes()}
@@ -104,7 +109,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
 
     return (
         <div
-            className={`${styles.fadeOutCard} xxs:w-44 lg:w-60 relative ${(lastCard || firstCard) ? "lg:pointer-events-none": "pointer-events-auto"} xxs:h-36 lg:w-56 lg:h-52`}
+            className={`${styles.fadeOutCard} xxs:w-44 lg:w-60 relative ${(lastCard || firstCard) ? "lg:pointer-events-none" : "pointer-events-auto"} xxs:h-36 lg:w-56 lg:h-52`}
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
@@ -119,7 +124,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                     src={url} alt={label} height={height} width={width}
                     className={`xxs:w-40 sm:w-44 md:w-48 xxs:h-24 sm:h-28 md:h-32 lg:w-56 lg:h-52 rounded-md ${test ? "visible" : "hidden"} object-cover ${firstCard || lastCard ? "lg:opacity-60" : "lg:opacity-100"}`}
                     // blurDataURL={url} 
-                    placeholder='blur' 
+                    placeholder='blur'
                     loading='lazy'
                 />
             </div>

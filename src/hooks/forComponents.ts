@@ -166,14 +166,11 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
 
     useEffect(() => {
         mealType && diet && dishType && readySimilarRcipesRequest()
-    }, [mealType, diet, dishType, nonRelated])
+    }, [mealType, diet, dishType])
 
-    // juste a safety call incase first usecase missed out on fetching data for non related recipes carousel
     useEffect(() => {
         mealType[0] && diet[0] && dishType[0] && nonRelated && readySimilarRcipesRequest()
     }, [nonRelated])
-
-    // console.log(recipes.length, count, "whatwhat!!")
 
     return { recipes }
 }

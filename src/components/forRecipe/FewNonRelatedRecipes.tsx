@@ -11,7 +11,7 @@ import { useTranslations } from "use-intl"
 import Image from 'next/image'
 
 export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: string, dishType: string, mealType: string }) => {
-    
+
     const [randomizedFilters, setRandomizedFilters] = useState({ diet: "", dishType: "", mealType: "" })
 
     const randomlyChooseFromFilteredDataset = () => {
@@ -46,76 +46,78 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
     const t = useTranslations("default")
 
+    if (recipes.length < 2) return
+
     // console.log(randomizedFilters, "randomizedFilters - non-related recipes!!")
 
     return (
-        recipes.length < 2
-            ? "Not Enough Other Interesting Recipes Found To Show"
-            :
-            <div className='w-full flex flex-col xxs:gap-y-4 md:gap-y-10 text-special-foreground'>
-                <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("You Might Like")}</h2>
+        // recipes.length < 2
+        //     ? "Not Enough Other Interesting Recipes Found To Show"
+        //     :
+        <div className='w-full flex flex-col xxs:gap-y-4 md:gap-y-10 text-special-foreground'>
+            <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("You Might Like")}</h2>
 
-                <div className='flex gap-x-6 justify-between items-center mx-4'>
-                    <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card xxs:h-24 lg:h-64' variant={'default'} onClick={handlePrev}>Prev</Button>
+            <div className='flex gap-x-6 justify-between items-center mx-4'>
+                <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card xxs:h-24 lg:h-64' variant={'default'} onClick={handlePrev}>Prev</Button>
 
-                    {/* very very small screen */}
-                    <div
-                        className='capitalize xxs:grid xs:hidden grid-flow-row grid-cols-2 gap-4 justify-items-center place-items-center'
-                        onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
-                    >
-                        {renderRecipes()?.slice(0, 2)}
-                    </div>
-
-                    {/* very smaller screen */}
-                    <div
-                        className='capitalize xxs:hidden xs:grid sm:hidden grid-flow-row grid-cols-3 gap-4 justify-items-center place-items-center'
-                        onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
-                    >
-                        {renderRecipes()?.slice(0, 3)}
-                    </div>
-
-                    {/* smaller screen */}
-                    <div
-                        className='capitalize xxs:hidden sm:flex md:hidden gap-x-6 flex-nowrap overflow-hidden sm:h-40 w-full'
-                        onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
-                    >
-                        {renderRecipes()?.slice(0, 4)}
-                    </div>
-
-                    {/* medium screen */}
-                    <div
-                        className='capitalize xxs:hidden md:flex lg:hidden gap-x-6 flex-nowrap overflow-hidden md:h-56 w-full'
-                        onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
-                    >
-                        {renderRecipes()?.slice(0, 5)}
-                    </div>
-
-                    {/* bigger screen */}
-                    <div
-                        className='capitalize xxs:hidden lg:flex xl:hidden gap-x-6 flex-nowrap overflow-hidden w-full'
-                        onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
-                    >
-                        {renderRecipes()?.slice(0, 6)}
-                    </div>
-
-                    {/* larger screen */}
-                    <div
-                        className='capitalize xxs:hidden xl:flex 3xl:hidden gap-x-6 flex-nowrap overflow-hidden w-full'
-                        onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
-                    >
-                        {renderRecipes()?.slice(0, 7)}
-                    </div>
-
-                    {/* large screen */}
-                    <div
-                        className='capitalize xxs:hidden 3xl:grid grid-flow-row grid-cols-8 gap-x-6 justify-items-center place-items-center'
-                        onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
-                    >
-                        {renderRecipes()}
-                    </div>
-                    <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-card text-muted-foreground hover:text-primary-foreground xxs:h-24 lg:h-64' variant={'default'} onClick={handleNext}>Next</Button>
+                {/* very very small screen */}
+                <div
+                    className='capitalize xxs:grid xs:hidden grid-flow-row grid-cols-2 gap-4 justify-items-center place-items-center'
+                    onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
+                >
+                    {renderRecipes()?.slice(0, 2)}
                 </div>
+
+                {/* very smaller screen */}
+                <div
+                    className='capitalize xxs:hidden xs:grid sm:hidden grid-flow-row grid-cols-3 gap-4 justify-items-center place-items-center'
+                    onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
+                >
+                    {renderRecipes()?.slice(0, 3)}
+                </div>
+
+                {/* smaller screen */}
+                <div
+                    className='capitalize xxs:hidden sm:flex md:hidden gap-x-6 flex-nowrap overflow-hidden sm:h-40 w-full'
+                    onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
+                >
+                    {renderRecipes()?.slice(0, 4)}
+                </div>
+
+                {/* medium screen */}
+                <div
+                    className='capitalize xxs:hidden md:flex lg:hidden gap-x-6 flex-nowrap overflow-hidden md:h-56 w-full'
+                    onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
+                >
+                    {renderRecipes()?.slice(0, 5)}
+                </div>
+
+                {/* bigger screen */}
+                <div
+                    className='capitalize xxs:hidden lg:flex xl:hidden gap-x-6 flex-nowrap overflow-hidden w-full'
+                    onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
+                >
+                    {renderRecipes()?.slice(0, 6)}
+                </div>
+
+                {/* larger screen */}
+                <div
+                    className='capitalize xxs:hidden xl:flex 3xl:hidden gap-x-6 flex-nowrap overflow-hidden w-full'
+                    onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
+                >
+                    {renderRecipes()?.slice(0, 7)}
+                </div>
+
+                {/* large screen */}
+                <div
+                    className='capitalize xxs:hidden 3xl:grid grid-flow-row grid-cols-8 gap-x-6 justify-items-center place-items-center'
+                    onMouseEnter={handleTruthy} onMouseLeave={handleFalsy}
+                >
+                    {renderRecipes()}
+                </div>
+                <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-card text-muted-foreground hover:text-primary-foreground xxs:h-24 lg:h-64' variant={'default'} onClick={handleNext}>Next</Button>
             </div>
+        </div>
     )
 }
 

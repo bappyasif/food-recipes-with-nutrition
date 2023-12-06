@@ -80,7 +80,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
             </section>
 
             <section className='xxs:my-4 lg:my-6'>
-                {/* <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} /> */}
+                <ShowFewRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} uri={uri} />
             </section>
 
             <section className='xxs:mb-4 lg:mb-6 flex flex-col xxs:gap-y-8 lg:gap-y-20'>
@@ -100,7 +100,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
             </section>
 
             <section className='xxs:my-4 lg:my-6'>
-                {/* <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} /> */}
+                <FewNonRelatedRecipes diet={dietLabels[0]} dishType={dishType[0]} mealType={mealType[0].split("/")[0]} />
             </section>
         </div>
     )
@@ -151,11 +151,11 @@ const CustomAccordionItem = ({ name, title, content }: { name: string, title: st
 }
 
 const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: IngredientItemType[] }) => {
-    const renderIngredientsAndMeasurements = () => ingredients.map(item => <RednerIngredients key={item.foodId} {...item} />)
+    const renderIngredientsAndMeasurements = () => ingredients.map(item => <RednerIngredients key={item.foodId + item.food} {...item} />)
 
     const renderInstructions = () => ingredients.map(item => {
         return (
-            <li className='list-none' key={item.foodId}>{item.text}</li>
+            <li className='list-none' key={item.foodId + item.text}>{item.text}</li>
             // <h3 key={item.foodId}>{item.text}</h3>
         )
     })

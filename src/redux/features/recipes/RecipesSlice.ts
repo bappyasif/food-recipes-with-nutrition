@@ -33,8 +33,11 @@ const recipesSlice = createSlice({
                     } else {
                         item.count = 1
                     }
+                    // updated images and lastUpdated value so that on hover they get updated dattime and image
                     item.images = images
+                    item.lastUpdated = new Date()
 
+                    // update record in database as well
                     updateRecordInCollection(recipeUri, images)
                 }
 
