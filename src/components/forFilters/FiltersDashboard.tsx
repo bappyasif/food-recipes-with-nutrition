@@ -161,7 +161,7 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
 
             <div className='flex flex-col gap-y-10 justify-center items-center'>
 
-                <input type="text" placeholder='search your recipe here by name....' className='w-full py-1 px-2 bg-transparent border-b-2 border-b-primary text-special rounded-md placeholder:text-muted-foreground xxs:text-sm md:text-lg xl:text-xl focus:outline-none' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
+                <input type="text" placeholder='search your recipe here by name....' className='xxs:w-2/3 md:w-1/2 xl:w-1/3 py-1 px-2 bg-transparent border-b-2 border-b-primary text-muted-foreground rounded-md placeholder:opacity-60 placeholder:text-center placeholder:text-muted-foreground xxs:text-sm md:text-lg xl:text-xl focus:outline-none' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
                 <Button className='bg-special-foreground text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary hover:bg-special' onClick={handleSearchNow}>{t("Search")}</Button>
                 
@@ -184,7 +184,7 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
     useForOutsideClick(ref, handleFalsy)
 
     return (
-        <AccordionItem ref={ref} value={propKey} className={`min-w-[380px] px-2 rounded-md mb-4 bg-popover duration-1000 transition-all hover:text-special ${isTrue ? "text-special-foreground ring-special-foreground ring-2" : "ring-0"}`} onClick={handleTruthy}>
+        <AccordionItem ref={ref} value={propKey} className={`min-w-[380px] px-2 rounded-md mb-4 bg-popover ring-special-foreground duration-1000 transition-all hover:text-special hover:ring-1 ${isTrue ? "text-special-foreground ring-2" : "ring-0"} border-b-0`} onClick={handleTruthy}>
             <AccordionTrigger className='xxs:text-lg sm:text-xl lg:text-2xl font-semibold my-4'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
             <AccordionContent>
                 <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText} 
@@ -196,7 +196,7 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
 
 const MultipleSelectableFilters = () => {
     return (
-        <Accordion type='multiple' className='xxs:columns-1 md:columns-2 gap-4'>
+        <Accordion type='multiple' className='xxs:columns-1 md:columns-2 xl:columns-3 gap-4 px-20'>
             <ReusuableAccordionItem propKey='co2EmissionsClass' trigText='Carbon Footprint' data={carbonFootprints} />
 
             <ReusuableAccordionItem propKey='mealType' trigText='Meal Types' data={meals} />
