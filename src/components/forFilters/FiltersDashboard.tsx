@@ -23,7 +23,7 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
     const [filters, setFilters] = useState<FiltersTypes>({ cuisineType: [], diet: [], dishType: [], health: [], mealType: [], co2EmissionsClass: [], q: "" })
 
     const [notifyText, setNotifyText] = useState("")
-    
+
     const getFiltered = (data: string, key: string) => {
         let filtered = null;
 
@@ -57,7 +57,7 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
     const handleFiltersChange = (data: string, key: string) => {
         setFilters(prev => {
             if (key === "q") {
-                if(data) {
+                if (data) {
                     // return { ...prev, q: data }
                 }
 
@@ -127,8 +127,8 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
 
         axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
             const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
-            
-            const readyForRendering = onlyRecipes.map((item:any) => item?.mealType?.length && item?.dishType?.length && item?.dietLabels?.length && item).filter((item:any) => item).filter((v:any, idx:number, self:any) => idx === self.findIndex((t:any) => t.label === v.label))
+
+            const readyForRendering = onlyRecipes.map((item: any) => item?.mealType?.length && item?.dishType?.length && item?.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label))
 
             readyForRendering?.length && handleRecipesFound(readyForRendering, d.data?._links?.next?.href)
 
@@ -156,8 +156,8 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
         handleFiltersChange(text, "q")
     }, [text])
 
-    const handleEnterKeyPressed = (e:KeyboardEvent<HTMLInputElement>) => {
-        if(e.code === "Enter") {
+    const handleEnterKeyPressed = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.code === "Enter") {
             handleSearchNow()
         }
     }
@@ -168,29 +168,30 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
     useForAddToFiltersFromParams(setFilters)
 
     return (
-        <FiltersContext.Provider value={{filters: filters, handleFilterChange: handleFiltersChange}}>
-            <div className='flex flex-col mt-20 mb-10 gap-y-20 justify-center items-center h-fit'>
-            <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold text-special-foreground'>{t("Refine Searches Using Filters")}</h1>
+        <FiltersContext.Provider value={{ filters: filters, handleFilterChange: handleFiltersChange }}>
+            <div className='flex flex-col mt-20 mb-0 gap-y-10 justify-center items-center h-fit'>
+                <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold text-special-foreground'>{t("Refine Searches Using Filters")}</h1>
 
-            <div className='flex flex-col gap-y-10 justify-center items-center'>
+                <div className='flex flex-col gap-y-12 justify-center items-center'>
 
-                <input type="text" placeholder='search your recipe here by name....' className='xxs:w-2/3 md:w-1/2 xl:w-1/3 py-1 px-2 bg-transparent border-b-2 border-b-primary text-muted-foreground rounded-md placeholder:opacity-60 placeholder:text-center placeholder:text-muted-foreground xxs:text-sm md:text-lg xl:text-xl focus:outline-none' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
+                    <input type="text" placeholder='search your recipe here by name....' className='xxs:w-2/3 md:w-1/2 xl:w-1/3 py-1 px-2 bg-transparent border-b-2 border-b-primary text-muted-foreground rounded-md placeholder:opacity-60 placeholder:text-center placeholder:text-muted-foreground xxs:text-sm md:text-lg xl:text-xl focus:outline-none' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
-                <Button className='bg-special-foreground text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary hover:bg-special' onClick={handleSearchNow}>{t("Search")}</Button>
-                
-                <MultipleSelectableFilters 
+                    <Button className='bg-special-foreground text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary hover:bg-special' onClick={handleSearchNow}>{t("Search")}</Button>
+
+                    <MultipleSelectableFilters
                     // handleFiltersChange={handleFiltersChange} 
-                />
-            </div>
+                    />
+                </div>
 
-            <h2 className='font-bold text-2xl'>{notifyText}</h2>
-        </div>
+                <h2 className='font-bold text-2xl'>{notifyText}</h2>
+                <p className='h-0.5 w-full bg-muted-foreground'></p>
+            </div>
         </FiltersContext.Provider>
     )
 }
 
 const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string, propKey: string, data: string[] }) => {
-    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+    const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
     const t = useTranslations("default")
 
@@ -202,7 +203,7 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
         <AccordionItem ref={ref} value={propKey} className={`sm:min-w-[380px] max-w-[33rem] xxs:min-w-[20rem] xs:w-[26rem] sm:w-[31rem] px-2 rounded-md mb-4 bg-popover ring-special-foreground duration-1000 transition-all hover:text-special hover:ring-1 ${isTrue ? "text-special-foreground ring-2" : "ring-0"} border-b-0 h-fit relative`} onClick={handleTruthy}>
             <AccordionTrigger className='xxs:text-lg sm:text-xl lg:text-2xl font-semibold my-4'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
             <AccordionContent className={`duration-1000 transition-all ${propKey === "health" ? "absolute -left-0 ring-1 hover:ring-special" : "ring-0"} bg-card ${isTrue && propKey === "health" ? "ring-special ring-1 rounded-md z-40" : "ring-0"}`}>
-                <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText} 
+                <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText}
                 />
             </AccordionContent>
         </AccordionItem>
@@ -211,7 +212,7 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
 
 const MultipleSelectableFilters = () => {
     return (
-        <Accordion type='multiple' 
+        <Accordion type='multiple'
             // className='xxs:columns-1 md:columns-2 xl:columns-3 gap-4 px-20'
             // className='flex flex-col flex-wrap px-20 gap-4 w-full min-h-[36rem] max-h-[60rem]'
             // className='flex flex-col flex-wrap px-20 gap-4 w-full max-h-[40rem]'
@@ -233,9 +234,9 @@ const MultipleSelectableFilters = () => {
 }
 
 type ReuseableCheckboxTypes = {
-    data: string[], 
-    title: string, 
-    propKey: keyof FiltersTypes, 
+    data: string[],
+    title: string,
+    propKey: keyof FiltersTypes,
     // handleFiltersChange: (d: string, k: string) => void
 }
 
@@ -264,18 +265,18 @@ type CheckboxTypes = {
 
 const RenderCheckbox = ({ name, propKey }: CheckboxTypes) => {
     const filters = useContext(FiltersContext).filters
-    
+
     const getIdx = () => (filters[propKey as keyof FiltersTypes] as [])?.findIndex(item => item === name)
 
     const handleFiltersChange = useContext(FiltersContext).handleFilterChange
 
     return (
         <Badge variant={'secondary'} className="flex space-x-2 py-1 min-w-fit h-8">
-            <Checkbox 
+            <Checkbox
                 // value={filters[propKey as keyof FiltersTypes]![getIdx()]} 
                 checked={filters[propKey as keyof FiltersTypes]![getIdx()] ? true : false}
-                id={name} 
-                onClick={() => handleFiltersChange(name, propKey)} 
+                id={name}
+                onClick={() => handleFiltersChange(name, propKey)}
             />
             <label
                 htmlFor={name}

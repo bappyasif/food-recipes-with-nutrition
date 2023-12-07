@@ -324,9 +324,9 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
 
             readyForRendering?.length && setFetchText("")
             
-            !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
+            // !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
 
-            !readyForRendering?.length && setFetchText("Not Found!!")
+            !readyForRendering?.length && setFetchText("Sorry, Not Enough Recipes Found With This Combination!! Please Try Another Combination, Thank You :)")
         }).catch(err => {
             console.log(err)
             setFetchText("Fetch Failed!!")

@@ -50,14 +50,14 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
         )
     }
 
-    if (recipes.length === 0) {
-        return (
-            <h2 className='font-bold text-xl text-special-foreground w-full text-center'>Try Using Filters To Find Recipes</h2>
-        )
-    }
+    // if (recipes.length === 0) {
+    //     return (
+    //         <h2 className='font-bold text-xl text-muted-foreground w-full text-center'>Try Using Filters To Find Recipes</h2>
+    //     )
+    // }
 
     return (
-        <div className='py-20'>
+        <div className='py-10'>
             <div className='grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 xxs:gap-11 lg:gap-11 place-content-center place-items-center xxs:px-4 lg:px-10'>
                 {recipes.length ? renderRecipes() : null}
             </div>
