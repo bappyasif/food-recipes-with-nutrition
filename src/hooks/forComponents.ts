@@ -330,7 +330,7 @@ export const useForIfRecipesFoundWithExistingFilters = () => {
 
     useEffect(() => {
         handleFalsy()
-        const timer = setTimeout(handleTruthy, 4000)
+        const timer = setTimeout(handleTruthy, 8000)
 
         return () => clearTimeout(timer)
     }, [searchParams])

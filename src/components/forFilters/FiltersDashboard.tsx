@@ -22,6 +22,8 @@ type FiltersDashboardPropsType = {
 export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: FiltersDashboardPropsType) => {
     const [filters, setFilters] = useState<FiltersTypes>({ cuisineType: [], diet: [], dishType: [], health: [], mealType: [], co2EmissionsClass: [], q: "" })
 
+    const [notifyText, setNotifyText] = useState("")
+    
     const getFiltered = (data: string, key: string) => {
         let filtered = null;
 
@@ -103,6 +105,8 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
     const appDispatch = useAppDispatch()
 
     const handleSearchNow = () => {
+        setNotifyText("Preparing Fetch")
+
         const params = new URLSearchParams();
 
         params.append("app_id", `${process.env.NEXT_PUBLIC_EDAMAM_APP_ID}`);
@@ -119,6 +123,8 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
             }
         }
 
+        setNotifyText("Fetching Data")
+
         axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
             const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
             
@@ -130,8 +136,15 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
 
             readyForRendering?.length && resetPageNumber()
 
-            !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
-        }).catch(err => console.log(err))
+            readyForRendering?.length && setNotifyText("")
+
+            // !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
+
+            !readyForRendering?.length && setNotifyText("No Recipes Found With This Combination, please try again later, thank you")
+        }).catch(err => {
+            console.log(err)
+            setNotifyText("Fetch Failed!! Please try again later, thank you")
+        })
 
         querifyFilters();
     }
@@ -169,6 +182,8 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
                     // handleFiltersChange={handleFiltersChange} 
                 />
             </div>
+
+            <h2 className='font-bold text-2xl'>{notifyText}</h2>
         </div>
         </FiltersContext.Provider>
     )
@@ -184,9 +199,9 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
     useForOutsideClick(ref, handleFalsy)
 
     return (
-        <AccordionItem ref={ref} value={propKey} className={`min-w-[380px] px-2 rounded-md mb-4 bg-popover ring-special-foreground duration-1000 transition-all hover:text-special hover:ring-1 ${isTrue ? "text-special-foreground ring-2" : "ring-0"} border-b-0`} onClick={handleTruthy}>
+        <AccordionItem ref={ref} value={propKey} className={`sm:min-w-[380px] max-w-[33rem] xxs:min-w-[20rem] xs:w-[26rem] sm:w-[31rem] px-2 rounded-md mb-4 bg-popover ring-special-foreground duration-1000 transition-all hover:text-special hover:ring-1 ${isTrue ? "text-special-foreground ring-2" : "ring-0"} border-b-0 h-fit relative`} onClick={handleTruthy}>
             <AccordionTrigger className='xxs:text-lg sm:text-xl lg:text-2xl font-semibold my-4'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
-            <AccordionContent>
+            <AccordionContent className={`duration-1000 transition-all ${propKey === "health" ? "absolute -left-0 ring-1 hover:ring-special" : "ring-0"} bg-card ${isTrue && propKey === "health" ? "ring-special ring-1 rounded-md z-40" : "ring-0"}`}>
                 <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText} 
                 />
             </AccordionContent>
@@ -196,7 +211,12 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
 
 const MultipleSelectableFilters = () => {
     return (
-        <Accordion type='multiple' className='xxs:columns-1 md:columns-2 xl:columns-3 gap-4 px-20'>
+        <Accordion type='multiple' 
+            // className='xxs:columns-1 md:columns-2 xl:columns-3 gap-4 px-20'
+            // className='flex flex-col flex-wrap px-20 gap-4 w-full min-h-[36rem] max-h-[60rem]'
+            // className='flex flex-col flex-wrap px-20 gap-4 w-full max-h-[40rem]'
+            className='grid xxs:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 grid-flow-row gap-4 px-10'
+        >
             <ReusuableAccordionItem propKey='co2EmissionsClass' trigText='Carbon Footprint' data={carbonFootprints} />
 
             <ReusuableAccordionItem propKey='mealType' trigText='Meal Types' data={meals} />
@@ -205,9 +225,9 @@ const MultipleSelectableFilters = () => {
 
             <ReusuableAccordionItem propKey='dishType' trigText='Dish Types' data={dishes} />
 
-            <ReusuableAccordionItem propKey='health' trigText='Health Label Types' data={health} />
-
             <ReusuableAccordionItem propKey='cuisineType' trigText='Cuisine Types' data={cuisines} />
+
+            <ReusuableAccordionItem propKey='health' trigText='Health Label Types' data={health} />
         </Accordion>
     )
 }
