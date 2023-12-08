@@ -6,6 +6,7 @@ import { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
 import { NextIntlClientProvider } from 'next-intl';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 // import favIcon from "../../../public/preview.png"
 // import { getAllViewedRecipesFromDb } from '@/redux/thunks'
 // import store from '@/redux/store'
@@ -61,7 +62,8 @@ export default async function LocaleLayout({
           <NextIntlClientProvider locale={locale} messages={messages}>
             <Header />
             {children}
-            <Analytics />
+            {/* <Analytics /> */}
+            <SpeedInsights />
             <Footer />
           </NextIntlClientProvider>
         </ReduxStoreProvider>

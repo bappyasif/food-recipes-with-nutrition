@@ -17,9 +17,22 @@ export const RandomizeSelection = () => {
 
     const updateRnds = (val: number, key: string) => {
         setRnds(prev => ({ ...prev, [key]: val }))
+        handleFalsy()
     }
 
-    const updateRndNames = (val: string, key: string) => setRndNames(prev => ({ ...prev, [key]: val }))
+    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+
+    const resetAllFilters = () => {
+        handleTruthy();
+
+        setRnds({cuisine: -1, dish: -1})
+        setRndNames({diet: "", health: "", meal: ""})
+    }
+
+    const updateRndNames = (val: string, key: string) => {
+        setRndNames(prev => ({ ...prev, [key]: val }))
+        handleFalsy()
+    }
 
     const { dataset: cuisinesRandomized } = useForRanmoziedDataset(cuisines)
 
@@ -38,6 +51,8 @@ export const RandomizeSelection = () => {
         if (dishesRandomized.length === 8) {
             setRandomizedDataset(prev => ({ ...prev, forDishes: dishesRandomized }))
         }
+
+        handleFalsy()
 
     }, [setRandomizedDataset, cuisinesRandomized, dishesRandomized])
 
@@ -60,13 +75,13 @@ export const RandomizeSelection = () => {
                     className='flex xxs:flex-col xxs:gap-y-20 lg:gap-y-10 lg:flex-row gap-x-0 justify-around px-28 xxs:w-full'
                 >
                     {randomizedDataset.forCuisines.length <= 8 ?
-                        <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} />
+                        <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} clearExisting={isTrue} />
                         : null
                     }
 
                     {
                         randomizedDataset.forDishes.length
-                            ? <ReuseableWheelCarousel dataset={randomizedDataset.forDishes} title='Randomize Dish' updateRnds={updateRnds} />
+                            ? <ReuseableWheelCarousel dataset={randomizedDataset.forDishes} title='Randomize Dish' updateRnds={updateRnds} clearExisting={isTrue} />
                             : null
                     }
                 </div>
@@ -74,23 +89,23 @@ export const RandomizeSelection = () => {
                 <div
                     className='xxs:w-full flex xxs:flex-col xxs:gap-y-10 lg:flex-row lg:gap-x-20 justify-center xxs:items-center lg:items-baseline px-2'
                 >
-                    <GoingOffRandomizer updateRndNames={updateRndNames} />
+                    <GoingOffRandomizer updateRndNames={updateRndNames} clearExisting={isTrue} />
 
                     <div
                         className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row lg:gap-x-20 justify-between items-center'
                     >
-                        <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} />
-                        <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} />
+                        <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} clearExisting={isTrue} />
+                        <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} clearExisting={isTrue} />
                     </div>
                 </div>
             </div>
 
-            <ShowRecipes rnds={rnds} rndNames={rndNames} wheelDataset={randomizedDataset} />
+            <ShowRecipes rnds={rnds} rndNames={rndNames} wheelDataset={randomizedDataset} resetAllFilters={resetAllFilters} />
         </div>
     )
 }
 
-const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k: string) => void }) => {
+const GoingOffRandomizer = ({ updateRndNames, clearExisting }: { updateRndNames: (v: string, k: string) => void, clearExisting: boolean }) => {
     const [rnd, setRnd] = useState<number>(-1);
 
     const ref = useRef<HTMLDivElement>(null)
@@ -148,11 +163,15 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
         rnd === -1 && updateRndNames("Intrim-spin", "health");
     }, [rnd])
 
+    useEffect(() => {
+        clearExisting && setRnd(-2)
+    }, [clearExisting])
+
     const t = useTranslations("default")
 
     const locale = useLocale();
 
-    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+    const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
     return (
         <div className='flex flex-col xxs:gap-y-4 md:gap-y-10 w-80 relative'>
@@ -173,7 +192,7 @@ const GoingOffRandomizer = ({ updateRndNames }: { updateRndNames: (v: string, k:
     )
 }
 
-const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: string[], title: string, updateRndNames: (v: string, t: string) => void }) => {
+const ReuseableBoxedRandomizer = ({ data, title, updateRndNames, clearExisting }: { data: string[], title: string, updateRndNames: (v: string, t: string) => void, clearExisting: boolean }) => {
     const clonedData = data.concat(data, data, data, data, data, data)
 
     const renderDivs = () => clonedData.map((name, idx) => <div className={`h-8 w-full flex justify-center items-center text-muted-foreground ${idx === prevSlideShown ? "bg-primary font-bold text-secondary" : "bg-secondary"}`} key={name + idx}>{name}</div>)
@@ -233,6 +252,10 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames }: { data: strin
         isTrue && spinningEffectRandomAmount()
     }, [isTrue])
 
+    useEffect(() => {
+        clearExisting && setPrevSlideShown(-1)
+    }, [clearExisting])
+
     const t = useTranslations("default")
 
     return (
@@ -260,7 +283,7 @@ type RndNamesTypes = {
 }
 
 
-const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
+const ShowRecipes = ({ rnds, rndNames, wheelDataset, resetAllFilters }: {
     rnds: {
         dish: number,
         cuisine: number
@@ -269,7 +292,8 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
     wheelDataset: {
         forCuisines: string[];
         forDishes: string[];
-    }
+    },
+    resetAllFilters: () => void
 }) => {
     const { cuisine, dish } = rnds;
     const { diet, health, meal } = rndNames;
@@ -284,6 +308,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
         if (!health.includes("Intrim-spin") && health) count++
         if (!meal.includes("Spin it") && meal) count++
         if (!diet.includes("Spin it") && diet) count++
+        // console.log(count, "filters exists!!", health)
         return count
     }
 
@@ -301,14 +326,14 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
             return
         }
 
-        setFetchText("Loading")
+        setFetchText("Fetch Ready....")
 
         const params = {
             mealType: !meal.includes("Spin it") ? meal : null,
             diet: !diet.includes("Spin it") ? diet.toLocaleLowerCase() : null,
             dishType: dishes[dish],
             cuisine: cuisines[cuisine],
-            health: health,
+            health: health || "immuno-supportive",
             random: true,
             type: "public",
             app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
@@ -323,7 +348,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
             readyForRendering?.length && setRecipes(readyForRendering)
 
             readyForRendering?.length && setFetchText("")
-            
+
             // !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
 
             !readyForRendering?.length && setFetchText("Sorry, Not Enough Recipes Found With This Combination!! Please Try Another Combination, Thank You :)")
@@ -337,7 +362,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
 
     const filterValues = () => {
         // const temp:{[key:string]: string} = {}
-        const temp:any = {}
+        const temp: any = {}
         temp.cuisine = wheelDataset.forCuisines[rnds.cuisine]
         temp.dish = wheelDataset.forDishes[rnds.dish]
         temp.diet = rndNames.diet !== "Spint it" ? rndNames.diet : ""
@@ -351,6 +376,11 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
         handleClick()
     }
 
+    const handleResetFilters = () => {
+        resetAllFilters()
+        setRecipes([])
+    }
+
     return (
         <>
             <div className='flex flex-col gap-y-10 items-center justify-center w-full self-end h-full'>
@@ -361,7 +391,10 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset }: {
                     <ShowRandomlySelectedOptions rndNames={rndNames} />
                 </div>
 
-                <Button disabled={fetchText === "Loading"} className='bg-muted-foreground font-bold w-fit hover:bg-primary' onClick={handleClickForSpinners} variant={'default'}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>{t("Find Recipes")}</span></Button>
+                <div className='flex gap-x-4 justify-center'>
+                    <Button disabled={fetchText === "Recipes Data Is Loading, In Progress...."} className='bg-muted-foreground font-bold w-fit hover:bg-primary' onClick={handleClickForSpinners} variant={'default'}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>{t("Find Recipes")}</span></Button>
+                    <Button className='bg-muted-foreground font-bold w-fit hover:bg-destructive-foreground' onClick={handleResetFilters}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>Clear Filters</span></Button>
+                </div>
             </div>
             <RandomizedRecipesView recipes={recipes} handleClick={handleClick} existingFilters={filterValues()} fetchText={fetchText} />
         </>
@@ -422,10 +455,11 @@ const ShowTitle = ({ rnds, wheelDataset }: {
 }
 
 
-const ReuseableWheelCarousel = ({ dataset, title, updateRnds }: {
+const ReuseableWheelCarousel = ({ dataset, title, updateRnds, clearExisting }: {
     dataset: string[],
     title: string,
-    updateRnds: (v: number, t: string) => void
+    updateRnds: (v: number, t: string) => void,
+    clearExisting: boolean
 }) => {
     const [rndNum, setRndNum] = useState(-1);
 
@@ -438,6 +472,10 @@ const ReuseableWheelCarousel = ({ dataset, title, updateRnds }: {
     useEffect(() => {
         updateRnds(rndNum, isItForDish() ? "dish" : "cuisine")
     }, [rndNum])
+
+    useEffect(() => {
+        clearExisting && setRndNum(-1)
+    }, [clearExisting])
 
     const t = useTranslations("default")
 
