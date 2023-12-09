@@ -5,7 +5,7 @@ import styles from "./Recipe.module.css"
 import Image from "next/image"
 import { ellipsedText } from "./FewNonRelatedRecipes"
 import { ShareInSocialMedias } from "../forUtilities/dragAndDrop/Bucket"
-import { extractRecipeId } from "../forFilters/RecipesView"
+import { extractRecipeId, removeWrodRecipe } from "../forFilters/RecipesView"
 import { useLocale } from "next-intl"
 
 export const RecipeImage = ({ ...data }: RecipeMealType) => {
@@ -40,7 +40,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
             className='relative xxs:w-full md:w-2/3 lg:w-1/2 rounded flex flex-col gap-y-6 items-center'
             onClick={handleClick}
         >
-            <h1 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>{label}</h1>
+            <h1 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>{removeWrodRecipe(label)}</h1>
 
             <div title={isTrue ? "Back To Minimal View" : "Click To See More Info"} className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-start">
 

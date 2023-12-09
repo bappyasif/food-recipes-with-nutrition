@@ -76,6 +76,8 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
     )
 }
 
+export const removeWrodRecipe = (text: string) => text.replace(/recipe[a-zA-Z]*/gi, "")
+
 const RenderRecipe = ({ ...items }: RecipeMealType) => {
     const { calories, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, source, tags, totalWeight, url, yield: servings, uri } = items
 
@@ -104,7 +106,8 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
             {/* before card is flipped */}
             <div className={`${styles.whenNotFlipped}`}>
                 <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex items-center justify-center flex-col gap-y-2'>
-                    <h2 className='font-bold text-lg'>{label.length > 11 ? ellipsedText(label, 11) : label}</h2>
+                    {/* <h2 className='font-bold text-lg'>{label.length > 11 ? ellipsedText(label, 11) : label}</h2> */}
+                    <h2 className='font-bold text-lg'>{removeWrodRecipe(label).length > 25 ? ellipsedText(removeWrodRecipe(label), 25) : removeWrodRecipe(label)}</h2>
                     {/* <Image src={images?.SMALL?.url || images?.REGULAR?.url} alt={label} width={images?.SMALL?.width || images?.REGULAR?.width} height={images?.SMALL?.height || images?.REGULAR?.height} className='w-64' blurDataURL={images?.SMALL?.url || images?.REGULAR?.url} placeholder='blur' loading='lazy' /> */}
                     <img
                         src={images?.SMALL?.url || images?.REGULAR?.url}
@@ -127,7 +130,8 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                 className={`${styles.whenFlipped} px-1.5 items-center justify-center `}
             >
                 <Link className='bg-card opacity-80 w-full text-center rounded-t-md' href={`/${locale}/recipe/${extractRecipeId(uri)}`}>
-                    <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</h2>
+                    <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{removeWrodRecipe(label).length > 25 ? ellipsedText(removeWrodRecipe(label), 25) : removeWrodRecipe(label)}</h2>
+                    {/* <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</h2> */}
                 </Link>
 
                 <div className='flex justify-center gap-2 my-1'>
@@ -207,7 +211,7 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
 
     return (
         <ReusableModal triggerText={"Recipe Ingredients"} title={"Measurements And Instructions"}>
-            <span 
+            <span
                 className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
             >
                 <span className='font-bold text-lg text-special-foreground'>Ingredients And Measurements</span>

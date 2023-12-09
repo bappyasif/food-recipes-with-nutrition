@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
-import { extractRecipeId } from '../forFilters/RecipesView'
+import { extractRecipeId, removeWrodRecipe } from '../forFilters/RecipesView'
 import moment from 'moment'
 import { sortByRecentlyViewed } from '@/redux/features/recipes/RecipesSlice'
 
@@ -106,7 +106,8 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} >
           <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted' title={label}>
             <span>Name:</span>
-            <span>{label!?.length > 11 ? ellipsedText(label!, 11) : label!}</span>
+            <span>{removeWrodRecipe(label!)!?.length > 11 ? ellipsedText(removeWrodRecipe(label!)!, 11) : removeWrodRecipe(label!)!}</span>
+            {/* <span>{label!?.length > 11 ? ellipsedText(label!, 11) : label!}</span> */}
           </Badge>
         </Link>
       </div>

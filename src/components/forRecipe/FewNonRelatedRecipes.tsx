@@ -4,7 +4,7 @@ import { ForCarouselTypes } from './ShowFewRelatedRecipes'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import Link from 'next/link'
-import { extractRecipeId } from '../forFilters/RecipesView'
+import { extractRecipeId, removeWrodRecipe } from '../forFilters/RecipesView'
 import { diets, dishes, meals } from '../forFilters/FiltersDashboard'
 import { useLocale } from 'next-intl'
 import { useTranslations } from "use-intl"
@@ -158,10 +158,18 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
             <div
                 className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center flex flex-col gap-y-2 xxs:text-xs lg:text-lg`}
             >
-                <Link className={`${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</Link>
+                <Link className={`xl:hidden ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`} href={`/${locale}/recipe/${recipeId}`} title={label}>
+                    {removeWrodRecipe(label).length > 18 ? ellipsedText(removeWrodRecipe(label), 18) : removeWrodRecipe(label)}
+                    {/* {label.length > 18 ? ellipsedText(label, 18) : label} */}
+                </Link>
 
-                <Badge className='w-fit'>{mealType[0]}</Badge>
-                <Badge className='w-fit'>{dishType[0]}</Badge>
+                <Link className={`hidden xl:block ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`} href={`/${locale}/recipe/${recipeId}`} title={label}>
+                    {removeWrodRecipe(label).length > 36 ? ellipsedText(removeWrodRecipe(label), 36) : removeWrodRecipe(label)}
+                    {/* {label.length > 18 ? ellipsedText(label, 18) : label} */}
+                </Link>
+
+                <Badge className='w-fit mx-auto'>{mealType[0]}</Badge>
+                <Badge className='w-fit mx-auto'>{dishType[0]}</Badge>
             </div>
         </div>
     )

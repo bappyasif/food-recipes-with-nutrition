@@ -326,7 +326,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset, resetAllFilters }: {
             return
         }
 
-        setFetchText("Fetch Ready....")
+        setFetchText("Fetch Recipes In Progress....")
 
         const params = {
             mealType: !meal.includes("Spin it") ? meal : null,

@@ -1,6 +1,6 @@
 import { RecipeMealType } from '@/types'
 import React, { useEffect, useRef } from 'react'
-import { ReusableModal, extractRecipeId } from '../forFilters/RecipesView'
+import { ReusableModal, extractRecipeId, removeWrodRecipe } from '../forFilters/RecipesView'
 import { Badge } from '../ui/badge'
 import Link from 'next/link'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
@@ -56,7 +56,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
     return (
         <div className='font-bold text-xl text-center'>
             <Badge
-                className={`bg-accent hover:bg-accent-foreground text-primary my-2 `}>{recipes.length ? `Recipes Found - ${recipes.length}` : fetchText ? fetchText : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
+                className={`bg-accent hover:bg-accent-foreground text-primary my-2 xxs:text-sm lg:text-lg mr`}>{recipes.length ? `Recipes Found - ${recipes.length}` : fetchText ? fetchText : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
             {
                 recipes.length
                     ? <ReusableModal title='Showing Randomly Chosen Recipes' triggerText='Click To View' changeWidth={true} handleTrigger={() => null}>
@@ -105,7 +105,8 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     return (
         <span className='flex flex-col gap-y-2 justify-center items-center xxs:w-96 md:w-80 lg:w-96 bg-card rounded-md'>
             <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex flex-col gap-y-2' title={label}>
-                <span className='font-bold text-2xl text-primary text-center'>{label.length > 26 ? ellipsedText(label, 26) : label}</span>
+            <span className='font-bold text-2xl text-primary text-center'>{removeWrodRecipe(label).length > 26 ? ellipsedText(removeWrodRecipe(label), 26) : removeWrodRecipe(label)}</span>
+                {/* <span className='font-bold text-2xl text-primary text-center'>{label.length > 26 ? ellipsedText(label, 26) : label}</span> */}
 
                 <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] xxs:h-40 lg:h-64 rounded-sm duration-1000 transition-all hover:object-contain' placeholder='blur' loading='lazy' />
 

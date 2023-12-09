@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { Badge } from '../ui/badge'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import Link from 'next/link'
-import { extractRecipeId } from '../forFilters/RecipesView'
+import { extractRecipeId, removeWrodRecipe } from '../forFilters/RecipesView'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import Image from 'next/image'
@@ -162,7 +162,8 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
         className='font-bold xxs:text-lg md:text-2xl text-muted-foreground hover:text-primary text-center'
         title={checkIfDayOlder () ? `You might be looking at a random picture!!, Recipe: ${label}, Click To View details` : `Recipe: ${label}, Click To View details`}
       >
-        <Link href={recipeLink}>{label!?.length > 29 ? ellipsedText(label!, 26) : label}</Link>
+        <Link href={recipeLink}>{removeWrodRecipe(label!)!?.length > 29 ? ellipsedText(removeWrodRecipe(label!)!, 26) : removeWrodRecipe(label!)}</Link>
+        {/* <Link href={recipeLink}>{label!?.length > 29 ? ellipsedText(label!, 26) : label}</Link> */}
       </CardHeader>
 
       <CardContent className='flex flex-row gap-4 flex-wrap'>

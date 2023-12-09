@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import styles from "./Recipe.module.css"
 import { Badge } from '../ui/badge'
-import { extractRecipeId } from '../forFilters/RecipesView'
+import { extractRecipeId, removeWrodRecipe } from '../forFilters/RecipesView'
 import { ellipsedText } from './FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import { useTranslations } from 'use-intl';
@@ -128,8 +128,15 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                     loading='lazy'
                 />
             </div>
-            <div className={`absolute top-[20%] left-[20%] capitalize transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>
-                <Link className={`${isTrue ? "xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""}`} href={`/${locale}/recipe/${recipeId}`} title={label}>{label.length > 11 ? ellipsedText(label, 11) : label}</Link>
+            <div className={`absolute top-[20%] left-[6%] capitalize transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>
+                <Link className={`${isTrue ? "xl:hidden xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""}`} href={`/${locale}/recipe/${recipeId}`} title={label}>
+                    {removeWrodRecipe(label).length > 20 ? ellipsedText(removeWrodRecipe(label), 20) : removeWrodRecipe(label)}
+                    {/* {label.length > 11 ? ellipsedText(label, 11) : label} */}
+                </Link>
+                <Link className={`${isTrue ? "xxs:hidden xl:block xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""}`} href={`/${locale}/recipe/${recipeId}`} title={label}>
+                    {removeWrodRecipe(label).length > 36 ? ellipsedText(removeWrodRecipe(label), 36) : removeWrodRecipe(label)}
+                    {/* {label.length > 11 ? ellipsedText(label, 11) : label} */}
+                </Link>
                 <Badge>{mealType[0]}</Badge>
                 <Badge>{dishType[0]}</Badge>
             </div>
