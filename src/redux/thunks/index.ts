@@ -39,5 +39,6 @@ export const fetchRecipesWithShallowRoutingOnce = createAsyncThunk("fetchRecipes
 
 export const getAllViewedRecipesFromDb = createAsyncThunk("getAllViewedRecipes", async () => {
     const resp = await axios.get(assembleReqStr())
+    // console.log(resp.data, "recipes viewed data!!")
     return resp.data
 })

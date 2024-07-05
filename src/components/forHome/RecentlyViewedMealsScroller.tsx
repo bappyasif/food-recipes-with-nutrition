@@ -12,6 +12,7 @@ import { useLocale } from 'next-intl'
 import { extractRecipeId, removeWrodRecipe } from '../forFilters/RecipesView'
 import moment from 'moment'
 import { sortByRecentlyViewed } from '@/redux/features/recipes/RecipesSlice'
+import { useToGetAnImageUrl, useToGetRandomImageUrlIfFails } from '@/hooks/forPexels'
 
 export const RecentlyViewedMealsScroller = () => {
 
@@ -52,6 +53,9 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const { height, url, width } = images?.SMALL! || images
 
+  const {imgSrc} = useToGetAnImageUrl(label!)
+  const {failSafeUrl, handleFailsafe} = useToGetRandomImageUrlIfFails(imgSrc)
+
   const locale = useLocale()
 
   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
@@ -60,11 +64,15 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
     return
   }
 
-  const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
+  // const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
+  const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 1
+
+  // console.log(moment(lastUpdated).fromNow(), moment(), moment(lastUpdated), moment().diff(moment(lastUpdated), 'days'))
 
   const addRandomUrl = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = `https://picsum.photos/200`
     // e.target.src = ""
-    e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${label}`
+    // e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${label}`
     // ref.current = `https://source.unsplash.com/random/200?recipe=${label}`
   }
 
@@ -74,10 +82,11 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
       onMouseEnter={handleTruthy}
       onMouseLeave={handleFalsy}
     >
-      <Link 
-      href={`/${locale}/recipe/${extractRecipeId(uri!)}`} 
-      // title={label} 
-      title={ checkIfDayOlder() ? `You might be looking at a random picture, click here to view recipe detail page for real info: ${label}` : `Click to view details: ${label}`} 
+      <Link
+        href={`/${locale}/recipe/${extractRecipeId(uri!)}`}
+        // title={label} 
+        title={checkIfDayOlder() ? `You might be looking at a random picture, click here to view recipe detail page for real info: ${label}` : `Click to view details: ${label}`}
+        className='relative'
       >
         {/* <Image 
           src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
@@ -85,15 +94,24 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
           className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
           blurDataURL={url} placeholder='blur' loading='lazy' 
         /> */}
+
+        <p className={`absolute top-0.5 left-0.5 text-center w-60 text-accent font-medium transition-all duration-1000 ${isTrue ? "text-lg" : "text-2xl"}`}>{label}</p>
+
         <img
-          // src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url}
-          src={url}
+          src={checkIfDayOlder() ? failSafeUrl : url}
+          // src={checkIfDayOlder() ? `https://picsum.photos/400` : url}
+          // src={url}
           alt={label!} width={width} height={height}
           className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`}
           // blurDataURL={url} placeholder='blur' 
           loading='lazy'
-          onError={addRandomUrl}
+          // onError={addRandomUrl}
+          onError={handleFailsafe}
         />
+
+        {/* <p className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} aspect-square`}>
+        {label}
+        </p> */}
 
       </Link>
       <div className='flex flex-col gap-y-2 items-center justify-center'>

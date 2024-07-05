@@ -7,7 +7,7 @@ export type ViewedMealCardType = {
 
 export type CategoriesCuisinesCarouselType = {
   name: string,
-  picture: string
+  picture?: string
 }
 
 export type ReuseableCarouselType = {

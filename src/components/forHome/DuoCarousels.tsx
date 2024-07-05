@@ -8,6 +8,7 @@ import { Button } from '../ui/button'
 import { cuisines, dishes } from '../forFilters/FiltersDashboard'
 import { useForQuerifiedParams } from '@/hooks/forComponents'
 import { useTranslations } from 'use-intl';
+import { useToGetAnImageUrl, useToGetRandomImageUrlIfFails } from '@/hooks/forPexels'
 
 export const DuoCarousels = () => {
     const newDishes = dishes.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?meal=${name.split(" ").join("")}` }))
@@ -25,9 +26,17 @@ export const DuoCarousels = () => {
 export const ReusableCarousel = ({ ...item }: ReuseableCarouselType) => {
     const { items, title } = item;
 
-    const newDishes = dishes.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?meal=${name.split(" ").join("")}` }))
+    // const newDishes = dishes.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?meal=${name.split(" ").join("")}` }))
 
-    const newCuisines = cuisines.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}` }))
+    // const newCuisines = cuisines.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}` }))
+
+    // const newDishes = dishes.map(name => ({ name: name, picture: `https://picsum.photos/200` }))
+
+    // const newCuisines = cuisines.map(name => ({ name: name, picture: `https://picsum.photos/200` }))
+
+    const newDishes = dishes.map(name => ({ name: name }))
+
+    const newCuisines = cuisines.map(name => ({ name: name }))
 
     const t = useTranslations("default")
 
@@ -41,7 +50,11 @@ export const ReusableCarousel = ({ ...item }: ReuseableCarouselType) => {
 }
 
 export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisinesCarouselType & { carouselType: string }) => {
-    const { name, picture } = item;
+    // const { name, picture } = item;
+    const { name } = item;
+
+    const { imgSrc } = useToGetAnImageUrl(name)
+    const { failSafeUrl, handleFailsafe } = useToGetRandomImageUrlIfFails(imgSrc)
 
     const [params, setParams] = useState<FiltersTypes>({})
 
@@ -81,7 +94,9 @@ export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisin
                 width={80}
                 height={50}
                 alt={`${name}`}
-                src={picture}
+                // src={picture}
+                src={failSafeUrl}
+                onError={handleFailsafe}
             />
             <p className='absolute bg-muted text-primary font-bold px-2 capitalize opacity-80 xxs:text-sm lg:text-lg'>{name}</p>
         </Button>

@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 import { sortByVisitCounts } from '@/redux/features/recipes/RecipesSlice'
 import { useForTruthToggle } from '@/hooks/forComponents'
+import { useToGetAnImageUrl, useToGetRandomImageUrlIfFails } from '@/hooks/forPexels'
 
 type DataType = {
   page: number;
@@ -133,29 +134,37 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
   const { label, calories, co2EmissionsClass, cuisineType, images, uri, lastUpdated } = data;
   const { height, url, width } = images?.SMALL! || images
 
+  const {imgSrc} = useToGetAnImageUrl(label!)
+  const {failSafeUrl, handleFailsafe} = useToGetRandomImageUrlIfFails(imgSrc)
+
   const locale = useLocale()
 
   const recipeLink = `/${locale}/recipe/${extractRecipeId(uri!)}`
 
   if (!cuisineType) return
 
-  const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
+  // const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
+  const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 1
 
   const addRandomPicture = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${label}`
+    // e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${label}`
+    e.currentTarget.src = `https://picsum.photos/200`
   }
 
   return (
     <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col gap-y-4 justify-between xl:h-[39rem]'>
       <img
-        src={url} 
+        // src={url} 
         // src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url}
+        // src={checkIfDayOlder() ? `https://picsum.photos/400` : url}
+        src={checkIfDayOlder() ? failSafeUrl : url}
         alt={label!} width={width} height={height}
         className='xxs:w-full h-72 object-cover rounded-sm transition-all duration-700 hover:object-fill mix-blend-lighten'
         // blurDataURL={url} 
         placeholder='blur' 
         loading='lazy'
-        onError={addRandomPicture}
+        // onError={addRandomPicture}
+        onError={handleFailsafe}
       />
 
       <CardHeader
