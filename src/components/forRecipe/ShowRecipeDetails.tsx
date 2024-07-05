@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
 import { addRecipeToList, updateRecipeCount } from '@/redux/features/recipes/RecipesSlice'
 import Head from 'next/head'
 import { useForTruthToggle } from '@/hooks/forComponents'
+import { useToGetAnImageUrl, useToGetRandomImageUrlIfFails } from '@/hooks/forPexels'
 
 export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMealType, params: { "slug-id": string } }) => {
     const appDispatch = useAppDispatch()
@@ -211,6 +212,9 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 const RednerIngredients = ({ ...items }: IngredientItemType) => {
     const { food, foodCategory, foodId, image, measure, quantity, text, weight } = items
 
+    const {imgSrc} = useToGetAnImageUrl(food)
+    const {failSafeUrl, handleFailsafe} = useToGetRandomImageUrlIfFails(imgSrc)
+
     const addRandomUrl = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
         e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${food}`
     }
@@ -221,11 +225,14 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
             <div className='xxs:hidden md:block lg:hidden 2xl:block'>{foodCategory}</div>
 
             <img
-                src={image} alt={food}
+                // src={image} 
+                src={failSafeUrl} 
+                alt={food}
                 width={60} height={39}
                 className='xxs:w-14 xxs:h-16 sm:w-24 lg:w-36 lg:h-20 rounded-xl object-cover'
                 placeholder='blur' loading='lazy'
-                onError={addRandomUrl}
+                // onError={addRandomUrl}
+                onError={handleFailsafe}
             />
 
             <div className='font-semibold text-center'>{food}</div>

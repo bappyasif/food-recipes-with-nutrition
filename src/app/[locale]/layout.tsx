@@ -56,7 +56,8 @@ export default async function LocaleLayout({
         <meta property="og:image" content="https://source.unsplash.com/random/200?food" />
       </head> */}
       <body
-        className={`py-6 flex flex-col justify-between min-h-[100vh] bg-accent text-primary-foreground`}
+        // className={`py-6 flex flex-col justify-between min-h-[100vh] bg-accent text-primary-foreground`}
+        className={`flex flex-col justify-between min-h-[100vh] bg-accent text-primary-foreground`}
       >
         <ReduxStoreProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>

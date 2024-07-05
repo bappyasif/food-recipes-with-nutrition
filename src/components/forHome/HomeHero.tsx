@@ -12,7 +12,8 @@ export const HomeHero = () => {
             <TwoExtensions />
 
             <div
-                className='xxs:w-2/3 lg:w-2/4 mt-4 mx-auto relative text-ring h-[40.01rem] flex items-center'
+                // className='xxs:w-2/3 lg:w-2/4 mt-4 mx-auto relative text-ring h-[40.01rem] flex items-center'
+                className='xxs:w-2/3 lg:w-5/6 mt-4 mx-auto relative text-ring h-[40.01rem] flex items-center'
             >
                 <Image
                     src={"https://source.unsplash.com/random/200?food=1"} 

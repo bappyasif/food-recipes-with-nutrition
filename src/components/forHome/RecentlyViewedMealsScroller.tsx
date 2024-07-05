@@ -95,7 +95,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
           blurDataURL={url} placeholder='blur' loading='lazy' 
         /> */}
 
-        <p className={`absolute top-0.5 left-0.5 text-center w-60 text-accent font-medium transition-all duration-1000 ${isTrue ? "text-lg" : "text-2xl"}`}>{label}</p>
+        <p className={`absolute top-0.5 left-0.5 text-center w-60 text-foreground/80 font-medium bg-accent/40 transition-all duration-1000 ${isTrue ? "text-lg" : "text-2xl"}`}>{label}</p>
 
         <img
           src={checkIfDayOlder() ? failSafeUrl : url}

@@ -52,7 +52,7 @@ const stacks = [
   { name: "NextAuth - Credentials", icon: <TbBrandOauth />, url: "https://authjs.dev/guides/providers/credentials" }, { name: "NextAuth - Email", icon: <TbBrandOauth />, url: "https://authjs.dev/guides/providers/email" },
 
   { name: "Edamam API", icon: <TbApi />, url: "https://www.edamam.com/" }, { name: "The Meal DB API", icon: <TbApi />, url: "https://www.themealdb.com/api.php" },
-  { name: "Unsplash", icon: <TbBrandUnsplash />, url: "https://unsplash.com/" }, { name: "Vercel", icon: <SiVercel />, url: "https://vercel.com/" },
+  { name: "Pexels", icon: <TbBrandUnsplash />, url: "https://pexels.com/" }, { name: "Vercel", icon: <SiVercel />, url: "https://vercel.com/" },
   { name: "React Icons", icon: <TbIcons />, url: "https://react-icons.github.io/react-icons/" }, { name: "TailwindCss", icon: <TbBrandTailwind />, url: "https://tailwindui.com/" },
   { name: "Shadcn/ui", icon: <SiFramework7 />, url: "https://ui.shadcn.com/" }, { name: "Bcrypt", icon: <TbHash />, url: "https://www.npmjs.com/package/bcrypt" }
 ]
