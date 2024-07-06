@@ -53,8 +53,8 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const { height, url, width } = images?.SMALL! || images
 
-  const {imgSrc} = useToGetAnImageUrl(label!)
-  const {failSafeUrl, handleFailsafe} = useToGetRandomImageUrlIfFails(imgSrc)
+  const { imgSrc } = useToGetAnImageUrl(label!)
+  const { failSafeUrl, handleFailsafe } = useToGetRandomImageUrlIfFails(imgSrc)
 
   const locale = useLocale()
 
@@ -65,7 +65,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
   }
 
   // const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
-  const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 1
+  const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 0
 
   // console.log(moment(lastUpdated).fromNow(), moment(), moment(lastUpdated), moment().diff(moment(lastUpdated), 'days'))
 
@@ -95,14 +95,18 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
           blurDataURL={url} placeholder='blur' loading='lazy' 
         /> */}
 
-        <p className={`absolute top-0.5 left-0.5 text-center w-60 text-foreground/80 font-medium bg-accent/40 transition-all duration-1000 ${isTrue ? "text-lg" : "text-2xl"}`}>{label}</p>
+        <p className={`absolute top-0.5 left-0.5 text-center w-60 text-foreground/80 font-medium bg-accent/40 transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"}`}>
+          {label!?.length > 40 ? ellipsedText(label!, 40) : label!}
+          {/* {label} */}
+        </p>
 
         <img
           src={checkIfDayOlder() ? failSafeUrl : url}
           // src={checkIfDayOlder() ? `https://picsum.photos/400` : url}
           // src={url}
           alt={label!} width={width} height={height}
-          className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`}
+          // className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`}
+          className={`w-60 transition-all duration-500 h-[11.4rem] object-cover hover:object-cover rounded-sm`}
           // blurDataURL={url} placeholder='blur' 
           loading='lazy'
           // onError={addRandomUrl}
@@ -114,7 +118,10 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         </p> */}
 
       </Link>
-      <div className='flex flex-col gap-y-2 items-center justify-center'>
+      <div
+        // className='flex flex-col gap-y-2 items-center justify-center'
+        className={`flex flex-col gap-y-2 items-center justify-center transition-all duration-500 ${isTrue ? "-translate-y-28" : "translate-y-0"}`}
+      >
         <ReusableBadge text={co2EmissionsClass!} title='Carbon Emission' />
 
         <ReusableBadge text={calories?.toFixed(2)!} title='Calorie' />

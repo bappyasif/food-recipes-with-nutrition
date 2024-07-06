@@ -49,20 +49,49 @@ export const Header = () => {
         />
       </Link> */}
 
+      {/* <div className="flex gap-x-4 items-center self-end">
+        <LocaleSwitcher />
+        <UserAuth />
+      </div> */}
+
       <div
         // className="bg-card flex xxs:justify-around lg:justify-center xxs:gap-x-2 lg:gap-x-10 w-full py-2 px-1"
         className="bg-card flex items-end xxs:justify-around lg:justify-between xxs:gap-x-2 lg:gap-x-10 w-full py-0.5 pl-2 pr-6"
       >
-        <Link href={"/"} title="What's Cooking Yo!!" className="self-start">
-        <img
-          src={logo.src}
-          // className="xxs:w-36 xxs:h-36 sm:w-40 sm:h-40 xl:w-52 xl:h-52 rounded-full"
-          className="w-16 rounded-full"
-          alt="what's cooking yo!! logo"
-          height={logo.height} width={logo.width}
-        />
-      </Link>
-        <nav
+        <Link href={"/"} title="What's Cooking Yo!!" className="self-start w-[6%]">
+          <img
+            src={logo.src}
+            // className="xxs:w-36 xxs:h-36 sm:w-40 sm:h-40 xl:w-52 xl:h-52 rounded-full"
+            className="w-20 rounded-full"
+            alt="what's cooking yo!! logo"
+            height={logo.height} width={logo.width}
+          />
+        </Link>
+
+        <div className="flex flex-col w-full gap-y-2">
+          <div className="flex gap-x-10 items-center justify-end">
+            <LocaleSwitcher />
+            <UserAuth />
+          </div>
+          
+          <div className="flex justify-start gap-x-20 w-fit">
+            <nav
+              // className='flex xxs:gap-x-2 xs:gap-x-6 lg:gap-x-10 justify-end xs:text-[.71rem] lg:text-sm xl:text-2xl 2xl:text-3xl'
+              className='flex justify-start items-end xxs:gap-x-2 xs:gap-x-6 lg:gap-x-16 w-2/3'
+            >
+              {renderNavs()}
+            </nav>
+
+            {
+              pathName !== `/${locale}/filter-recipes`
+                ? <SearchRecipes />
+                : null
+            }
+          </div>
+        </div>
+
+
+        {/* <nav
           // className='flex xxs:gap-x-2 xs:gap-x-6 lg:gap-x-10 justify-end xs:text-[.71rem] lg:text-sm xl:text-2xl 2xl:text-3xl'
           className='flex items-end xxs:gap-x-2 xs:gap-x-6 lg:gap-x-14'
         >
@@ -78,7 +107,7 @@ export const Header = () => {
         <div className="flex gap-x-4 items-center">
           <LocaleSwitcher />
           <UserAuth />
-        </div>
+        </div> */}
       </div>
     </div>
   )
@@ -185,8 +214,8 @@ const SearchRecipes = () => {
   }
 
   return (
-    <div 
-      className='relative xxs:w-fit flex items-end xs:text-xs sm:text-sm lg:text-xl h-fit' 
+    <div
+      className='relative xxs:w-fit flex items-end xs:text-xs sm:text-sm lg:text-xl h-fit self-end pb-0.5'
       ref={ref}
     >
       <input
@@ -196,7 +225,7 @@ const SearchRecipes = () => {
         value={text} onChange={handleTextChange} onFocus={handleTruthyForFocused}
         onKeyUp={handleEnterPressed}
       />
-      <Button onClick={handleTruthy} variant={"ghost"} title="Click To Search Now" className="absolute right-2 bottom-1 xxs:h-5 lg:h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl"><RiSearchLine /></Button>
+      <Button onClick={handleTruthy} variant={"ghost"} title="Click To Search Now" className="absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl"><RiSearchLine /></Button>
       <ShowAllFoundRecipes
         showDropdown={forFocused} handleFalsyForFocused={handleFalsyForFocused} recipes={recipes} />
     </div>
@@ -211,7 +240,7 @@ const ShowAllFoundRecipes = ({ showDropdown, handleFalsyForFocused, recipes }: {
     return (
       <Link
         href={`/${locale}/recipe/${extractRecipeId(uri)}`}
-        key={uri} 
+        key={uri}
         // className='flex gap-x-2 outline-dotted text-primary justify-between' 
         className='grid grid-cols-3 gap-1 text-primary justify-between p-1 xxs:px-1.5 lg:px-2.5 hover:bg-accent'
         title={`Click to see in detail: ${label}`}

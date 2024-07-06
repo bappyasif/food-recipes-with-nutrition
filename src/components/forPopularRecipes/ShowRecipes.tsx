@@ -144,7 +144,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
   if (!cuisineType) return
 
   // const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
-  const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 1
+  const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 0
 
   const addRandomPicture = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     // e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${label}`
