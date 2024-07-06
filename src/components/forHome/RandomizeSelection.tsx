@@ -20,13 +20,13 @@ export const RandomizeSelection = () => {
         handleFalsy()
     }
 
-    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+    const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
     const resetAllFilters = () => {
         handleTruthy();
 
-        setRnds({cuisine: -1, dish: -1})
-        setRndNames({diet: "", health: "", meal: ""})
+        setRnds({ cuisine: -1, dish: -1 })
+        setRndNames({ diet: "", health: "", meal: "" })
     }
 
     const updateRndNames = (val: string, key: string) => {
@@ -56,23 +56,38 @@ export const RandomizeSelection = () => {
 
     }, [setRandomizedDataset, cuisinesRandomized, dishesRandomized])
 
+    // useEffect(() => {
+    //     setRandomizedDataset({ forCuisines: cuisines, forDishes: dishes })
+    // }, [])
+
     useEffect(() => {
         setRandomizedDataset({ forCuisines: cuisines, forDishes: dishes })
-    }, [])
+        console.log("!!!!")
+    }, [cuisines, dishes])
 
     const t = useTranslations("default")
 
     return (
         <div
-            className='w-full h-fit relative flex flex-col justify-center gap-y-10 text-muted-foreground'
+            className='w-full h-fit relative flex flex-col justify-center gap-y-20 text-muted-foreground'
         >
             <h2 className='text-2xl font-extrabold w-full text-center text-special'>{t("Randomly Recipe Finding Game")}</h2>
 
             <div
-                className='flex flex-col xxs:gap-y-20 lg:gap-y-10 justify-center h-full'
+                className='flex flex-col xxs:gap-y-20 lg:gap-y-20 justify-center h-full w-full'
             >
+                {/* <div
+                    className='xxs:w-full flex xxs:flex-col xxs:gap-y-10 lg:flex-row lg:gap-x-20 justify-center xxs:items-center lg:items-baseline px-2'
+                >
+                    <GoingOffRandomizer updateRndNames={updateRndNames} clearExisting={isTrue} />
+
+                    <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} clearExisting={isTrue} />
+                    <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} clearExisting={isTrue} />
+                </div> */}
+
                 <div
-                    className='flex xxs:flex-col xxs:gap-y-20 lg:gap-y-10 lg:flex-row gap-x-0 justify-around px-28 xxs:w-full'
+                    // className='flex xxs:flex-col xxs:gap-y-20 lg:gap-y-10 lg:flex-row gap-x-0 justify-around px-28 xxs:w-full'
+                    className='flex xxs:flex-col xxs:gap-y-20 lg:gap-y-10 lg:flex-row gap-x-10 justify-between px-10'
                 >
                     {randomizedDataset.forCuisines.length <= 8 ?
                         <ReuseableWheelCarousel dataset={randomizedDataset.forCuisines} title='Randomize Cuisine' updateRnds={updateRnds} clearExisting={isTrue} />
@@ -87,6 +102,15 @@ export const RandomizeSelection = () => {
                 </div>
 
                 <div
+                    className='xxs:w-full flex xxs:flex-col xxs:gap-y-10 lg:flex-row lg:gap-x-20 justify-center xxs:items-center lg:items-baseline px-28'
+                >
+                    <GoingOffRandomizer updateRndNames={updateRndNames} clearExisting={isTrue} />
+
+                    <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} clearExisting={isTrue} />
+                    <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} clearExisting={isTrue} />
+                </div>
+
+                {/* <div
                     className='xxs:w-full flex xxs:flex-col xxs:gap-y-10 lg:flex-row lg:gap-x-20 justify-center xxs:items-center lg:items-baseline px-2'
                 >
                     <GoingOffRandomizer updateRndNames={updateRndNames} clearExisting={isTrue} />
@@ -97,7 +121,7 @@ export const RandomizeSelection = () => {
                         <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} clearExisting={isTrue} />
                         <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} clearExisting={isTrue} />
                     </div>
-                </div>
+                </div> */}
             </div>
 
             <ShowRecipes rnds={rnds} rndNames={rndNames} wheelDataset={randomizedDataset} resetAllFilters={resetAllFilters} />
@@ -383,7 +407,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset, resetAllFilters }: {
 
     return (
         <>
-            <div className='flex flex-col gap-y-10 items-center justify-center w-full self-end h-full'>
+            <div className='flex flex-col gap-y-20 items-center justify-center w-full self-end h-full'>
                 <h2 className='text-2xl font-bold text-primary'>{t("Existing Filters")}</h2>
 
                 <div className='flex gap-4 justify-center flex-wrap'>
@@ -480,8 +504,12 @@ const ReuseableWheelCarousel = ({ dataset, title, updateRnds, clearExisting }: {
     const t = useTranslations("default")
 
     return (
-        <div className={`flex justify-center relative z-20 h-96`}>
+        <div 
+            // className={`flex justify-center relative z-20 h-96 px-28`}
+            className={`flex justify-center relative z-20 h-[31rem] px-28`}
+        >
             <h2 className='text-center font-bold text-lg bg-card h-fit px-20 rounded-md'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
+
             <MouseWheelBasedCarousel handleRandomNumber={handleRandomNumber} rndNum={rndNum} handleResetRandomNumber={handleResetRandomNumber} dataset={dataset} />
         </div>
     )

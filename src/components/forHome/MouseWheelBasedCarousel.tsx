@@ -13,7 +13,7 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
 
     const {rndNum, handleRandomNumber, handleResetRandomNumber, dataset} = item;
 
-    const radius = 125
+    const radius = 135
 
     // const wheelRef = useRef<HTMLDivElement>(window.document?.querySelector("#wheel") as HTMLDivElement)
     const wheelRef = useRef<HTMLDivElement>(null)
@@ -37,7 +37,7 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
         const newCards:React.JSX.Element[] = [];
 
         for(let i=0; i<8; i++) {
-            newCards.push(<MemoizedCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} title={dataset[i]} selected={dataset[i] === dataset[rndNum]} />)
+            newCards.push(<MemoizedCard key={i} center={centerOfWheel} radius={radius} theta={(Math.PI / 4.0) * i} title={dataset[i]} selected={dataset[i] === dataset[rndNum]} idx={i} />)
         }
 
         setCards(newCards)
@@ -100,7 +100,11 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
     const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
 
     return (
-        <div className='absolute xxs:top-[65%] lg:top-[58%] flex justify-center items-center'>
+        <div 
+            className='absolute xxs:top-[65%] lg:top-[58%] flex justify-center items-center'
+            // className='absolute xxs:top-[65%] lg:top-[0%] flex justify-center items-center lg:mt-20 h-full'
+            // className='relative xxs:top-[65%] lg:top-[0%] flex justify-center items-center'
+        >
             <div
                 onWheel={handleScroll}
                 id='wheel'
@@ -130,17 +134,20 @@ const CarouselCard = ({ ...item }: {
     selected: boolean, title: string, theta: number, radius: number, center: {
         x: number;
         y: number;
-    }
+    }, idx: number
 }) => {
-    const { center, radius, theta, title, selected } = item;
+    const { center, radius, theta, title, selected, idx } = item;
 
     const newCoords = {
         x: Math.cos(theta) * radius,
-        y: Math.sin(theta) * radius
+        // y: Math.sin(theta) * radius
+        y: idx === 2 ? Math.sin(theta) * radius + 31 : idx === 6 ? Math.sin(theta) * radius - 31 : Math.sin(theta) * radius
     }
 
     return (
-        <div className={`absolute -translate-x-[50%] -translate-y-[50%] bg-muted text-muted-foreground rounded-full flex justify-center items-center ${selected ? "bg-primary z-20 text-primary-foreground" : ""} hover:scale-110 hover:z-20 hover:bg-muted-foreground hover:text-muted`}
+        <div 
+        // className={`absolute -translate-x-[50%] -translate-y-[50%]  text-muted-foreground rounded-full flex justify-center items-center ${selected ? "bg-primary z-20 text-primary-foreground" : ""} hover:scale-110 hover:z-20 hover:bg-muted-foreground hover:text-muted`}
+        className={`absolute -translate-x-[50%] -translate-y-[50%]  text-muted-foreground rounded-full flex justify-center items-center ${selected ? "bg-primary z-20 text-primary-foreground" : ""} hover:scale-110 hover:z-20 bg-muted-foreground text-secondary`}
             style={{...styles.card, left: `${center.x + newCoords.x}px`, top: `${center.y + newCoords.y}px`, 
             // clipPath: "polygon(2% 1%, 90% 0, 56% 100%, 39% 100%)"
         }}
