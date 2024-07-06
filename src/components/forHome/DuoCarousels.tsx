@@ -75,7 +75,11 @@ export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisin
     }, [params])
 
     return (
-        <Button variant={'link'} onClick={prepareForDataFetching} className='flex flex-col-reverse gap-x-4 p-1 justify-center items-center h-16 transition-all duration-500 hover:scale-110 -z-0'>
+        <Button 
+            variant={'link'} onClick={prepareForDataFetching} 
+            // className='flex flex-col-reverse gap-x-4 p-1 justify-center items-center h-16 transition-all duration-500 hover:scale-110 -z-0'
+            className='flex flex-col-reverse gap-x-4 p-1 justify-center items-center h-24 transition-all duration-500 hover:scale-110 -z-0'
+        >
             {/* <Image
                 className='w-44 xxs:h-11 lg:h-16 object-cover relative'
                 // fill={true}
@@ -88,7 +92,7 @@ export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisin
                 src={picture}
             /> */}
             <img
-                className='w-44 xxs:h-11 lg:h-16 object-cover relative rounded-md'
+                className='w-44 xxs:h-11 lg:h-20 object-cover relative rounded-md'
                 placeholder='blur'
                 loading='lazy'
                 width={80}

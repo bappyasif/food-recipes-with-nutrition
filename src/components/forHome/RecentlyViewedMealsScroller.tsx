@@ -37,7 +37,8 @@ export const RecentlyViewedMealsScroller = () => {
       <h2 className='text-xl font-bold'>Some Recently Viewed Meals</h2>
       <h3 className='text-sm font-semibold'>Real Recipe Image can be seen from Recipe Detail Page</h3>
       <div
-        className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center max-h-[26rem] overflow-clip gap-2 mt-10'
+        // className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center max-h-[26rem] overflow-clip gap-2 mt-10'
+        className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center  overflow-clip gap-2 mt-10'
         onMouseEnter={handleTruthy}
         onMouseLeave={handleFalsy}
       >
@@ -78,7 +79,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   return (
     <div
-      className={`${styles.dissolvePhoto} h-[13.2rem] overflow-clip`}
+      className={`${styles.dissolvePhoto} h-[17.39rem] overflow-clip`}
       onMouseEnter={handleTruthy}
       onMouseLeave={handleFalsy}
     >
@@ -95,8 +96,8 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
           blurDataURL={url} placeholder='blur' loading='lazy' 
         /> */}
 
-        <p className={`absolute top-0.5 left-0.5 text-center w-60 text-foreground/80 font-medium bg-accent/40 transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"}`}>
-          {label!?.length > 40 ? ellipsedText(label!, 40) : label!}
+        <p className={`absolute top-2 left-0.5 text-center w-60 text-foreground/80 font-medium bg-accent/40 transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} z-10`}>
+          {label!?.length > 51 ? ellipsedText(label!, 51) : label!}
           {/* {label} */}
         </p>
 
@@ -106,7 +107,8 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
           // src={url}
           alt={label!} width={width} height={height}
           // className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`}
-          className={`w-60 transition-all duration-500 h-[11.4rem] object-cover hover:object-cover rounded-sm`}
+          // className={`w-60 transition-all duration-500 h-[11.4rem] object-cover hover:object-cover rounded-sm`}
+          className={`w-60 transition-all duration-500 h-full object-cover hover:object-cover rounded-sm`}
           // blurDataURL={url} placeholder='blur' 
           loading='lazy'
           // onError={addRandomUrl}
@@ -120,7 +122,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
       </Link>
       <div
         // className='flex flex-col gap-y-2 items-center justify-center'
-        className={`flex flex-col gap-y-2 items-center justify-center transition-all duration-500 ${isTrue ? "-translate-y-28" : "translate-y-0"}`}
+        className={`flex flex-col gap-y-2 items-center justify-center transition-all duration-500 ${isTrue ? "-translate-y-40" : "translate-y-0"}`}
       >
         <ReusableBadge text={co2EmissionsClass!} title='Carbon Emission' />
 
@@ -129,7 +131,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         <ReusableBadge text={typeof cuisineType === "object" ? cuisineType[0] : cuisineType} title='Cuisine' />
 
         <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} >
-          <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted' title={label}>
+          <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted text-lg' title={label}>
             <span>Name:</span>
             <span>{removeWrodRecipe(label!)!?.length > 11 ? ellipsedText(removeWrodRecipe(label!)!, 11) : removeWrodRecipe(label!)!}</span>
             {/* <span>{label!?.length > 11 ? ellipsedText(label!, 11) : label!}</span> */}
@@ -142,7 +144,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
 const ReusableBadge = ({ title, text }: { title: string, text: string | number }) => {
   return (
-    <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted'>
+    <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted text-lg'>
       <span>{title}:</span>
       <span>{text}</span>
     </Badge>
