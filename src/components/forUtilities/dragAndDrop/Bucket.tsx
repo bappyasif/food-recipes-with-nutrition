@@ -18,17 +18,18 @@ import { BucketCardsContainer } from './BucketCardsContainer'
 const style: CSSProperties = {
     // height: '4rem',
     // width: '13rem',
-    height: '8rem',
+    height: '1.1rem',
     width: '100%',
     // marginRight: '1.5rem',
     marginBottom: '1.5rem',
-    color: 'white',
-    padding: '1rem',
+    // color: 'white',
+    // padding: '1rem',
+    padding: '1.3rem',
     textAlign: 'center',
     fontSize: '1rem',
     lineHeight: 'normal',
     float: 'left',
-    paddingTop: "1.37rem"
+    // paddingTop: "1.37rem"
 }
 
 type BucketProps = {
@@ -52,20 +53,30 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
     const isActive = canDrop && isOver;
 
     return (
-        <div 
+        <div
             // className='flex flex-col gap-y-2 w-72 justify-between items-center'
-            className='flex flex-col gap-y-2 w-72 md:w-1/2 justify-between items-center px-2'
+            className='flex flex-col gap-y-2 w-72 md:w-1/2 justify-between items-center pl-2'
         >
-            <div
-                className={`bg-primary-focus ${isActive ? "bg-accent" : (!cards.length && !searchText) ? "bg-secondary" : "bg-special-foreground"} mt-1.5 mx-auto xxs:hidden md:flex items-center justify-center`}
+            {/* <div
+                className={`bg-primary-focus ${isActive ? "bg-accent" : (!cards.length && !searchText) ? "bg-secondary" : "bg-special-foreground"} mt-1 mx-auto xxs:hidden md:flex items-center justify-center`}
                 ref={drop}
                 style={{ ...style }}
             >
                 {isActive ? 'Release to drop' : (!cards.length && !searchText) ? "Search Recipes First" : 'Drag a box here'}
-            </div>
+            </div> */}
 
-            <h2 className={`text-special font-bold text-xl`}>{cards.length === 0 ? "" : cards.length < 2 ? "Add More Cards" : "You Can Re-arrange Cards"}</h2>
-            <hr />
+            <h2
+                className={`text-muted bg-special-foreground font-bold text-xl flex items-center justify-center`}
+                style={{...style}}
+            >
+                {
+                    cards.length === 0 ? "Search Recipes First" : cards.length < 2 ? "Add More Cards" : "You Can Re-arrange Cards"
+                }
+            </h2>
+            {/* <hr /> */}
+
+            {/* <h2 className={`text-special font-bold text-xl`}>{cards.length === 0 ? "" : cards.length < 2 ? "Add More Cards" : "You Can Re-arrange Cards"}</h2>
+            <hr /> */}
 
             {/* we can directly use this for drop and drag of recipes card but have to make cards item compliance with already implemented module */}
             <BucketCardsContainer recipeCards={cards} />
@@ -144,7 +155,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     }
 
     return (
-        <div 
+        <div
             // className='w-60 self-center'
             className='w-full self-center pb-0.5'
         >

@@ -177,11 +177,13 @@ body {
 }
 
 .rbc-toolbar {
-  @apply bg-special-foreground font-extrabold
+  /* @apply bg-special-foreground font-extrabold */
+  @apply bg-special font-extrabold text-secondary
 }
 
 .rbc-toolbar .rbc-btn-group button {
-  @apply text-primary-foreground bg-primary
+  /* @apply text-primary-foreground bg-primary */
+  @apply text-special-foreground bg-accent
 }
 
 .evenDays,
@@ -190,7 +192,8 @@ body {
 }
 
 .oddDays {
-  @apply bg-primary text-accent
+  /* @apply bg-primary text-accent */
+  @apply bg-special-foreground text-accent
 }
 
 .meetingSlots {

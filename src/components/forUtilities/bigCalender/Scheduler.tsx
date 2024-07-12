@@ -227,20 +227,22 @@ export const Scheduler = ({ open }: { open: boolean }) => {
             className: 'slotDefault',
             ...(moment(date).hour() < 8 && {
                 style: {
-                    backgroundColor: 'powderblue',
-                    color: 'black',
+                    backgroundColor: '#2e8eb8',
+                    color: "#000"
+                    // backgroundColor: 'powderblue',
+                    // color: 'black',
                 },
             }),
             ...(moment(date).hour() >= 8 && moment(date).hour() < 13 && {
                 style: {
-                    backgroundColor: 'darkcyan',
-                    color: 'black',
+                    // backgroundColor: 'darkcyan',
+                    // color: 'black',
                 },
             }),
             ...(moment(date).hour() > 12 && {
                 style: {
-                    backgroundColor: 'cadetblue',
-                    color: 'white',
+                    // backgroundColor: 'cadetblue',
+                    // color: 'white',
                 },
             }),
         }),
@@ -257,8 +259,8 @@ export const Scheduler = ({ open }: { open: boolean }) => {
             }),
             ...(((moment(date).day() === 5) || moment(date).day() === 6 || (moment(date).day() === 0)) && {
                 style: {
-                    backgroundColor: 'cadetblue',
-                    color: 'red',
+                    // backgroundColor: 'cadetblue',
+                    // color: 'red',
                 },
             }),
         }),

@@ -110,7 +110,7 @@ const RightExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
         <div
             // className={`absolute bg-card flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1.5" : "xxs:translate-x-[18.4rem] md:translate-x-[36rem] lg:translate-x-[36rem]"} z-20`}
 
-            className={`absolute bg-card flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1.5" : "xxs:translate-x-[18.4rem] md:translate-x-[36rem] lg:translate-x-[42rem]"} z-20`}
+            className={`absolute bg-card flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1.5" : "xxs:translate-x-[18.4rem] md:translate-x-[36rem] lg:translate-x-[44.3rem]"} z-20`}
         >
             <Button onClick={handleClicked} variant={'secondary'} 
 

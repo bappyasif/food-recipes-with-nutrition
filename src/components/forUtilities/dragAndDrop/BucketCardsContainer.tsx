@@ -12,7 +12,7 @@ export const BucketCardsContainer = ({ recipeCards }: { recipeCards: CardBoxProp
 
     const findCard = useCallback(
         (id: string) => {
-            const card = cards.filter((c) => `${c.id}` === id)[0]
+            const card = cards.filter((c) => `${c?.id}` === id)[0]
             return {
                 card,
                 index: cards.indexOf(card),
@@ -41,14 +41,15 @@ export const BucketCardsContainer = ({ recipeCards }: { recipeCards: CardBoxProp
         <div
             ref={drop}
             // className='flex flex-col gap-y-2 h-72 overflow-y-scroll no-scrollbar w-[10.5rem]'
-            className='flex flex-col gap-y-2 h-96 overflow-y-scroll no-scrollbar w-full'
+            // className='flex flex-col gap-y-2 h-96 overflow-y-scroll no-scrollbar w-full'
+            className='flex flex-col gap-y-2 h-full overflow-y-scroll no-scrollbar w-full mb-6'
         >
             {cards.map((card) => (
                 <Card
-                    key={card.id}
-                    id={`${card.id}`}
-                    text={card.label}
-                    imgSrc={card.imgSrc}
+                    key={card?.id}
+                    id={`${card?.id}`}
+                    text={card?.label}
+                    imgSrc={card?.imgSrc}
                     moveCard={moveCard}
                     findCard={findCard}
                 />
