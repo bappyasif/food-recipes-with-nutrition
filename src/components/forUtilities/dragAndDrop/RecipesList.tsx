@@ -18,23 +18,43 @@ export const RecipesList = ({ open }: { open: boolean }) => {
     }, [open])
 
     return (
-        <div
-            className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-[18rem] md:w-[36rem] h-[42rem] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-4`}
-        >
-            <Bucket cards={recipeCards} updateCards={updateCards} searchText={text} />
-            <SearchRecipesByName addToCards={addToCards} handleTextChange={handleTextChange} text={text} />
+        <div className='xxs:w-[18rem] md:w-[42rem]'>
+            <p className='text-sm p-2 font-semibold text-special-foreground'>You can search your favorite recipes and add to it scheduler or share on social media as well.</p>
+            
+            <div
+                // className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-[18rem] md:w-[42rem] h-[42rem] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-4`}
+
+                className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between h-[40rem] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-0.5`}
+            >
+                <Bucket cards={recipeCards} updateCards={updateCards} searchText={text} />
+                <SearchRecipesByName addToCards={addToCards} handleTextChange={handleTextChange} text={text} />
+            </div>
         </div>
     )
+
+    // return (
+    //     <div
+    //         // className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-[18rem] md:w-[36rem] h-[42rem] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-4`}
+
+    //         className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-[18rem] md:w-[42rem] h-[42rem] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-4`}
+    //     >
+    //         <Bucket cards={recipeCards} updateCards={updateCards} searchText={text} />
+    //         <SearchRecipesByName addToCards={addToCards} handleTextChange={handleTextChange} text={text} />
+    //     </div>
+    // )
 }
 
 const SearchRecipesByName = ({ addToCards, text, handleTextChange }: { addToCards: (d: any) => void, text: string, handleTextChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void }) => {
 
     return (
-        <div className='relative'>
+        <div
+            // className='relative'
+            className='relative bg-accent/20 w-1/2 pl-2'
+        >
             <input
                 type="text" placeholder='seacrh recipes by name'
                 value={text} onChange={handleTextChange}
-                className="w-full mt-2 rounded-sm pl-4 text-special-foreground bg-transparent border-0 border-b-2 border-b-special placeholder:text-special-foreground mb-1.5"
+                className="w-full mt-2 rounded-sm px-2 text-special-foreground bg-transparent border-0 border-b-2 border-b-special placeholder:text-special-foreground mb-1.5 focus:outline-none"
             />
             <ShowAllFoundRecipes text={text} addToCards={addToCards} />
         </div>
@@ -59,7 +79,10 @@ const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (
 
     return (
         <div
-            className={`absolute flex flex-col gap-y-2 ${recipes?.length ? " xxs:h-80 md:h-[38rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[15.9rem]`}>
+            // className={`absolute flex flex-col gap-y-2 ${recipes?.length ? " xxs:h-80 md:h-[38rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[15.9rem]`}
+
+            className={`absolute flex flex-col gap-y-2 ${recipes?.length ? " xxs:h-80 md:h-[37.18rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[20.2rem]`}
+        >
             {recipes?.length ? renderRecipes() : null}
         </div>
     )

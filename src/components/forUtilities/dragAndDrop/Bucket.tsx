@@ -16,8 +16,10 @@ import { useLocale } from 'next-intl'
 import { BucketCardsContainer } from './BucketCardsContainer'
 
 const style: CSSProperties = {
-    height: '4rem',
-    width: '13rem',
+    // height: '4rem',
+    // width: '13rem',
+    height: '8rem',
+    width: '100%',
     // marginRight: '1.5rem',
     marginBottom: '1.5rem',
     color: 'white',
@@ -50,16 +52,19 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
     const isActive = canDrop && isOver;
 
     return (
-        <div className='flex flex-col gap-y-2 w-72 justify-between items-center'>
+        <div 
+            // className='flex flex-col gap-y-2 w-72 justify-between items-center'
+            className='flex flex-col gap-y-2 w-72 md:w-1/2 justify-between items-center px-2'
+        >
             <div
-                className={`bg-primary-focus ${isActive ? "bg-accent" : (!cards.length && !searchText) ? "bg-secondary" : "bg-special-foreground"} mt-1.5 mx-auto xxs:hidden md:block`}
+                className={`bg-primary-focus ${isActive ? "bg-accent" : (!cards.length && !searchText) ? "bg-secondary" : "bg-special-foreground"} mt-1.5 mx-auto xxs:hidden md:flex items-center justify-center`}
                 ref={drop}
                 style={{ ...style }}
             >
                 {isActive ? 'Release to drop' : (!cards.length && !searchText) ? "Search Recipes First" : 'Drag a box here'}
             </div>
 
-            <h2 className={`text-special font-bold text-xl`}>{cards.length === 0 ? "" : cards.length < 2 ? "Add More Cards" : "Re-arrange Cards"}</h2>
+            <h2 className={`text-special font-bold text-xl`}>{cards.length === 0 ? "" : cards.length < 2 ? "Add More Cards" : "You Can Re-arrange Cards"}</h2>
             <hr />
 
             {/* we can directly use this for drop and drag of recipes card but have to make cards item compliance with already implemented module */}
@@ -139,7 +144,10 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
     }
 
     return (
-        <div className='w-60 self-center'>
+        <div 
+            // className='w-60 self-center'
+            className='w-full self-center pb-0.5'
+        >
             <div
                 className='flex xxs:flex-col gap-2 justify-between'
             // title={decideTitleText()}
@@ -221,7 +229,8 @@ export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description,
             <span className='text-special-foreground font-bold'>Share in Social Media</span>
 
             <span
-                className={`flex justify-between gap-2 ${ready ? "cursor-pointer" : "cursor-auto pointer-events-none"}`}
+                // className={`flex justify-between gap-2 ${ready ? "cursor-pointer" : "cursor-auto pointer-events-none"}`}
+                className={`flex justify-start gap-4 ${ready ? "cursor-pointer" : "cursor-auto pointer-events-none"}`}
             >
                 <FacebookShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`} hashtag={`${hashtags?.length ? hashtags[0] : "What's_Cooking_Yo!!"}`} title={title}
                 >
