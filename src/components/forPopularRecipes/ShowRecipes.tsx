@@ -27,9 +27,10 @@ export const ShowRecipes = ({ user }: { user: any }) => {
 
   const { push, replace } = useRouter();
 
-  if (!user?.email) {
-    replace(`/${locale}/prompt-user`)
-  }
+  // popular recipes page is now public
+  // if (!user?.email) {
+  //   replace(`/${locale}/prompt-user`)
+  // }
 
   // const [sorted, setSorted] = useState<RecipeMealType[]>([])
 
@@ -105,9 +106,10 @@ export const ShowRecipes = ({ user }: { user: any }) => {
 
   const renderRecipes = () => getRecipesForCurrentPage()?.map(item => <RenderRecipe key={item.uri} data={item} />)
 
-  if (!user?.email) {
-    return
-  }
+  // keeping popular recipes page is public
+  // if (!user?.email) {
+  //   return
+  // }
 
   // console.log(recipesList)
 

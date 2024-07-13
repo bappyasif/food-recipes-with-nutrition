@@ -66,7 +66,7 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
             </div> */}
 
             <h2
-                className={`text-muted bg-special-foreground font-bold text-xl flex items-center justify-center`}
+                className={`text-muted bg-special-foreground font-bold text-xl flex items-center justify-center rounded-sm`}
                 style={{...style}}
             >
                 {
