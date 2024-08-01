@@ -11,7 +11,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
 
     const { cuisine, diet, dish, health, meal } = existingFilters
 
-    const {handleFalsy, handleTruthy, isTrue} = useForTruthToggle()
+    const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
     const filtersMarkup = (
         <>
@@ -29,7 +29,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
             <span className='flex gap-2 flex-wrap xxs:text-sm sm:text-lg md:text-xl lg:text-2xl'>
                 {filtersMarkup}
             </span>
-            <span className='xxs:text-sm md:text-lg lg:text-xl font-bold text-muted-foreground'>{isTrue ? "Fetching New Recipes" : "" }</span>
+            <span className='xxs:text-sm md:text-lg lg:text-xl font-bold text-muted-foreground'>{isTrue ? "Fetching New Recipes" : ""}</span>
         </span>
     )
 
@@ -37,7 +37,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
 
     const handleScrollTopTop = () => {
         // ref.current?.scrollIntoView( { behavior: 'instant', block: 'end' } )
-        ref.current?.scrollTo({top: 0, behavior: "smooth"})
+        ref.current?.scrollTo({ top: 0, behavior: "smooth" })
     }
 
     const processRefetch = () => {
@@ -105,10 +105,10 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     return (
         <span className='flex flex-col gap-y-2 justify-center items-center xxs:w-96 md:w-80 lg:w-96 bg-card rounded-md'>
             <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex flex-col gap-y-2' title={label}>
-            <span className='font-bold text-2xl text-primary text-center'>{removeWrodRecipe(label).length > 26 ? ellipsedText(removeWrodRecipe(label), 26) : removeWrodRecipe(label)}</span>
+                <span className='font-bold text-2xl text-primary text-center'>{removeWrodRecipe(label).length > 26 ? ellipsedText(removeWrodRecipe(label), 26) : removeWrodRecipe(label)}</span>
                 {/* <span className='font-bold text-2xl text-primary text-center'>{label.length > 26 ? ellipsedText(label, 26) : label}</span> */}
 
-                <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] xxs:h-40 lg:h-64 rounded-sm duration-1000 transition-all hover:object-contain' placeholder='blur' loading='lazy' />
+                <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] xxs:h-40 lg:h-64 rounded-sm object-cover duration-300 transition-all hover:object-center hover:rounded-full' placeholder='blur' loading='lazy' />
 
                 {/* <Image
                     src={url} alt={label!} width={width} height={height}

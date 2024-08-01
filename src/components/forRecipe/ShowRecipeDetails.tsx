@@ -68,7 +68,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
                         {/* <RecipeIngredientsAndInstructions ingredients={ingredients} /> */}
 
-                        <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} cautions={cautions} tags={tags} />
+                        <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} cautions={cautions} tags={tags} co2={co2EmissionsClass} />
 
                         <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-primary'><span className='font-bold text-muted-foreground'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
                     </div>
@@ -115,7 +115,7 @@ const CustomBadge = ({ val }: { val: string }) => {
     )
 }
 
-const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels, cautions, tags }: { digest: DigestItemType[], healthLabels: string[], dietLabels: string[], cautions: string[], tags: string[] }) => {
+const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels, cautions, tags, co2 }: { digest: DigestItemType[], healthLabels: string[], dietLabels: string[], cautions: string[], tags: string[], co2: string }) => {
 
     const renderAcordionItemsForHealthLabels = () => healthLabels.map(val => <CustomBadge key={val} val={val} />)
 
@@ -129,7 +129,12 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels, cautions,
 
     return (
         <Accordion type='single' collapsible={true}>
-            <CustomAccordionItem content={healthLabels.length ? renderAcordionItemsForHealthLabels() : <span>Not found</span>} name='helath' title={`${t("Health")} ${t("Label")}`} />
+            <CustomAccordionItem content={healthLabels.length ? <CustomBadge  val={co2} /> : <span>Not found</span>} name='eco' 
+            // title={`${t("Health")} ${t("Label")}`} 
+            title={`Eco friendliness: Carbon emission class`} 
+            />
+
+            <CustomAccordionItem content={healthLabels.length ? renderAcordionItemsForHealthLabels() : <span>Not found</span>} name='health' title={`${t("Health")} ${t("Label")}`} />
 
             <CustomAccordionItem content={dietLabels.length ? renderAcordionItemsForDietLabels() : <span>Not found</span>} name='diet' title={`${t("Diet")} ${t("Label")}`} />
 

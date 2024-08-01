@@ -121,8 +121,8 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
             >
                 {cards}
             </div>
-            <Button variant={'destructive'} 
-            className={`absolute transition-all duration-500 bg-transparent hover:bg-transparent hover:text-2xl text-secondary ${isTrue ? "text-2xl" : ""}`} 
+            <Button variant={'secondary'} 
+            className={`absolute transition-all duration-500 bg-transparent  hover:text-2xl hover:text-primary text-secondary ${isTrue ? "text-2xl" : ""} rounded-full h-[90px] w-[90px]`} 
             onClick={handleSpin}
             >{t("Spin")}</Button>
         </div>

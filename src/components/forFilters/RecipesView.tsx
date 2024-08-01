@@ -1,7 +1,7 @@
 "use client"
 
 import { DigestItemType, IngredientItemType, RecipeMealType } from '@/types'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { Badge } from '../ui/badge'
@@ -176,8 +176,14 @@ const RenderBasicTextInfo = ({ text, val }: { text: string, val: string | number
 }
 
 export const ReusableModal = ({ children, triggerText, title, changeWidth, handleTrigger }: { children: React.ReactNode, triggerText: string, title: string, changeWidth?: boolean, handleTrigger?: () => void }) => {
+    const [open, setOpen] = useState(false)
+    
+    useEffect(() => {
+        changeWidth ? setOpen(true) : null
+    }, [])
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger onClick={() => handleTrigger && handleTrigger()}><Badge variant={'secondary'} className='w-full text-secondary bg-muted-foreground transition-colors duration-1000 hover:bg-primary'>{triggerText}</Badge></DialogTrigger>
             <DialogContent
                 // className='bg-accent border-ring xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
