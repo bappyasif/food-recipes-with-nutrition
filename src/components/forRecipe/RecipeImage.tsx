@@ -40,7 +40,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
             className='relative xxs:w-full rounded flex flex-col gap-y-6 items-center'
             onClick={handleClick}
         >
-            <h1 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>{removeWrodRecipe(label)}</h1>
+            <h1 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center'>{removeWrodRecipe(label)}</h1>
 
             <ShareInSocialMedias hashtags={prepareHashtags()} nestedRoute={`${locale}/recipe/${extractRecipeId(uri)}`} title={prepTitle()} description={prepDescription()} ready={!!uri} />
 
@@ -78,10 +78,12 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
 
     return (
         <div 
-            className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-fit lg:w-[32.1rem] rounded-sm" : `bg-slate-800 xxs:left-0 sm:left-[35%] xxs:h-0 sm:h-0 lg:h-[22rem] lg:w-[18rem] rounded-full ${styles.animateSpin} self-center`} xxs:pl-0 lg:pl-2`}
+            // className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-fit lg:w-[32.1rem] rounded-sm" : `bg-slate-800 xxs:left-0 sm:left-[22%] xxs:h-0 sm:h-0 lg:h-[22rem] lg:w-[18rem] rounded-full ${styles.animateSpin} self-center`} xxs:pl-0 lg:pl-2`}
+
+            className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-fit lg:w-[32.1rem] rounded-sm" : `rounded-full`} xxs:pl-0 lg:pl-2`}
         >
 
-            <div className={`grid grid-cols-1 justify-items-start transition-all duration-700 ${!showIt ? "-translate-y-20 opacity-0 scale-0" : "translate-y-0 opacity-100 scale-100"} py-2 z-10`}>
+            <div className={`grid grid-cols-1 justify-items-start transition-all duration-300 ${!showIt ? "-translate-y-20 opacity-0 scale-0" : "translate-y-0 opacity-100 scale-100"} py-2 z-10`}>
 
                 <div className='flex flex-col gap-y-4 justify-between w-fit'>
 

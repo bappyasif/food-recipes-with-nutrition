@@ -56,10 +56,10 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-10 pt-10'>
 
             <section
-                className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-6 mx-6 xxs:gap-y-4 sm:gap-y-11'
+                className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-20 mx-6 xxs:gap-y-4 sm:gap-y-11'
             >
                 <div
-                    className='relative xxs:w-full md:w-2/3 lg:w-[38.2%] rounded flex flex-col gap-y-6 items-center'
+                    className='relative xxs:w-full lg:w-[27.6%] rounded flex flex-col gap-y-6 items-center'
                     onClick={handleTruthy}
                 >
                     <RecipeImage {...data} />
@@ -72,7 +72,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                     </div>
                 </div>
 
-                <section className='xxs:mb-4 md:mt-8 w-full'>
+                <section className='xxs:mb-4 md:mt-8 w-2/3'>
                     <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-10'>Cooking Information</h2>
                     <RecipeIngredientsAndInstructions ingredients={ingredients} />
                 </section>
@@ -178,12 +178,12 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 
     const ingredientsMarkup = (
         <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 shadow-md pb-2'>
-            <h2 className='font-medium text-center xxs:text-sm sm:text-lg md:text-2xl lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
+            <h2 className='font-medium text-left xxs:text-sm sm:text-lg md:text-2xl lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
 
             {/* {headingsMarkup} */}
 
             <ol 
-                className='flex flex-col gap-y-2 justify-center items-center list-inside'>
+                className='flex flex-col gap-y-4 list-inside'>
                 {renderIngredientsAndMeasurements()}
             </ol>
         </div>
@@ -191,7 +191,7 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 
     const instructionsMarkup = (
         <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 shadow-md pb-2'>
-            <h2 className='font-medium text-center xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
+            <h2 className='font-medium text-left xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
             <div
                 className='grid grid-cols-1 xxs:gap-6 lg:gap-4 capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'
             >{renderInstructions()}</div>
@@ -199,7 +199,7 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     )
 
     return (
-        <div className='flex lg:justify-between xxs:flex-col xxs:gap-y-6 lg:flex-row lg:gap-x-16 mx-6 w-full'>
+        <div className='flex lg:justify-between xxs:flex-col xxs:gap-y-6 lg:flex-row lg:gap-x-0 mx-6 w-full'>
             {ingredientsMarkup}
             {instructionsMarkup}
         </div>
@@ -213,10 +213,22 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
     const { failSafeUrl, handleFailsafe } = useToGetRandomImageUrlIfFails(imgSrc)
 
     const contents = (
-        <div className='grid xxs:grid-cols-3 justify-items-center place-items-center w-full capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'>
+        <div className='grid xxs:grid-cols-2 justify-items-center place-items-center gap-x-10 w-full capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'>
 
             {/* <div className='xxs:hidden md:block lg:hidden 2xl:block'>{foodCategory}</div> */}
 
+            {/* <img
+                src={failSafeUrl}
+                alt={food}
+                width={60} height={39}
+                className='xxs:w-14 xxs:h-16 sm:w-24 lg:w-16 lg:h-9 rounded-xl object-cover'
+                placeholder='blur' loading='lazy'
+                onError={handleFailsafe}
+            /> */}
+
+            <div 
+                className='text-left w-full flex gap-x-6 items-center'
+            >
             <img
                 src={failSafeUrl}
                 alt={food}
@@ -225,8 +237,8 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
                 placeholder='blur' loading='lazy'
                 onError={handleFailsafe}
             />
-
-            <div className='text-left w-full'>{food}</div>
+                {food}
+            </div>
 
             <h2 className='flex gap-x-1 text-left w-full'><span>{quantity.toFixed(2)}</span> <span>{measure}</span></h2>
         </div>
