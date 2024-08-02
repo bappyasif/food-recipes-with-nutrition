@@ -37,12 +37,10 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
 
     return (
         <div
-            className='relative xxs:w-full rounded flex flex-col gap-y-6 items-center'
+            className='relative xxs:w-full md:w-2/3 lg:w-1/2 rounded flex flex-col gap-y-6 items-center'
             onClick={handleClick}
         >
             <h1 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>{removeWrodRecipe(label)}</h1>
-
-            <ShareInSocialMedias hashtags={prepareHashtags()} nestedRoute={`${locale}/recipe/${extractRecipeId(uri)}`} title={prepTitle()} description={prepDescription()} ready={!!uri} />
 
             <div title={isTrue ? "Back To Minimal View" : "Click To See More Info"} className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-start">
 
@@ -56,6 +54,14 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
 
                     blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' loading='lazy'
                 />
+                {/* <img
+                    src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
+
+                    className={`xxs:block lg:hidden transition-all duration-700 ${isTrue ? `h-[18.8rem] opacity-20 xxs:w-[13.2rem] xxs:ml-0 rotate-180` : `xxs:h-48 sm:52 lg:h-64 translate-x-0 xxs:w-56 lg:w-60 lg:ml-4 -rotate-180`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover rounded-sm`}
+
+                    placeholder='blur' 
+                    loading='lazy'
+                /> */}
 
                 {/* bigger screen */}
                 <Image
@@ -68,7 +74,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                 />
             </div>
 
-            {/* <ShareInSocialMedias hashtags={prepareHashtags()} nestedRoute={`${locale}/recipe/${extractRecipeId(uri)}`} title={prepTitle()} description={prepDescription()} ready={!!uri} /> */}
+            <ShareInSocialMedias hashtags={prepareHashtags()} nestedRoute={`${locale}/recipe/${extractRecipeId(uri)}`} title={prepTitle()} description={prepDescription()} ready={!!uri} />
         </div>
     )
 }

@@ -55,27 +55,29 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
     return (
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-10 pt-10'>
 
-            <section
-                className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-6 mx-6 xxs:gap-y-4 sm:gap-y-11'
-            >
+            <section className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-6 mx-6 xxs:gap-y-4 sm:gap-y-11'>
+
+                <RecipeImage {...data} />
+
                 <div
-                    className='relative xxs:w-full md:w-2/3 lg:w-[38.2%] rounded flex flex-col gap-y-6 items-center'
+                    className='relative xxs:w-full md:w-2/3 lg:w-1/2 rounded flex flex-col gap-y-6 items-center'
                     onClick={handleTruthy}
                 >
-                    <RecipeImage {...data} />
+                    <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold'>Additional Information</h2>
+                    <div className={`${isTrue ? "xxs:relative md:absolute xxs:top-0 md:top-16 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 bg-accent w-full xxs:h-[20rem] lg:h-[25.2rem] overflow-scroll scroll-smooth no-scrollbar`}>
 
-                    <div className={`${isTrue ? "xxs:relative xxs:top-0 md:top-0 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 bg-accent w-full xxs:h-[20rem] lg:max-h-[25.2rem] overflow-scroll scroll-smooth no-scrollbar`}>
+                        {/* <RecipeIngredientsAndInstructions ingredients={ingredients} /> */}
 
                         <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} cautions={cautions} tags={tags} co2={co2EmissionsClass} />
 
                         <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-primary'><span className='font-bold text-muted-foreground'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
                     </div>
                 </div>
+            </section>
 
-                <section className='xxs:mb-4 md:mt-8 w-full'>
-                    <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-10'>Cooking Information</h2>
-                    <RecipeIngredientsAndInstructions ingredients={ingredients} />
-                </section>
+            <section className='xxs:mb-4 md:mt-8'>
+                <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-10'>Cooking Information</h2>
+                <RecipeIngredientsAndInstructions ingredients={ingredients} />
             </section>
 
             <section className='xxs:my-4 lg:my-6'>
@@ -127,10 +129,10 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels, cautions,
 
     return (
         <Accordion type='single' collapsible={true}>
-            {/* <CustomAccordionItem content={healthLabels.length ? <CustomBadge  val={co2} /> : <span>Not found</span>} name='eco' 
+            <CustomAccordionItem content={healthLabels.length ? <CustomBadge  val={co2} /> : <span>Not found</span>} name='eco' 
             // title={`${t("Health")} ${t("Label")}`} 
             title={`Eco friendliness: Carbon emission class`} 
-            /> */}
+            />
 
             <CustomAccordionItem content={healthLabels.length ? renderAcordionItemsForHealthLabels() : <span>Not found</span>} name='health' title={`${t("Health")} ${t("Label")}`} />
 
@@ -160,47 +162,53 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     const renderInstructions = () => ingredients.map(item => {
         return (
             <li className='list-none' key={item.foodId + item.text}>{item.text}</li>
+            // <h3 key={item.foodId}>{item.text}</h3>
         )
     })
 
     const t = useTranslations("default")
 
     const headingsMarkup = (
-        <div 
-            className='grid xxs:grid-cols-3 justify-items-center place-items-center font-normal xxs:text-[.62rem] sm:text-sm md:text-lg lg:text-xl'
-        >
-            {/* <div className='bg-card px-4 rounded-md xxs:hidden md:block lg:hidden 2xl:block'>Category</div> */}
+        <div className='grid xxs:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 2xl:grid-cols-4 justify-items-center place-items-center font-bold xxs:text-[.62rem] sm:text-sm md:text-lg lg:text-xl'>
+            <div className='bg-card px-4 rounded-md xxs:hidden md:block lg:hidden 2xl:block'>Category</div>
             <div className='bg-card px-4 rounded-md'>Picture</div>
             <div className='bg-card px-4 rounded-md'>Name</div>
+            {/* <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Category</div> */}
             <div className='bg-card px-4 rounded-md'>Quantity</div>
+            {/* <div className='bg-card px-4 rounded-md xxs:hidden lg:block'>Weight</div> */}
         </div>
     )
 
     const ingredientsMarkup = (
         <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 shadow-md pb-2'>
-            <h2 className='font-medium text-center xxs:text-sm sm:text-lg md:text-2xl lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
+            <h2 className='font-bold text-center xxs:text-sm sm:text-lg md:text-2xl lg:text-3xl text-special-foreground pl-10'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
 
-            {/* {headingsMarkup} */}
+            {headingsMarkup}
 
-            <ol 
-                className='flex flex-col gap-y-2 justify-center items-center list-inside'>
+            {/* <div className='flex flex-col gap-y-2 justify-center items-center'>
+                {renderIngredientsAndMeasurements()}
+            </div> */}
+            <ol className='flex flex-col gap-y-2 justify-center items-center list-inside'>
                 {renderIngredientsAndMeasurements()}
             </ol>
         </div>
     )
 
     const instructionsMarkup = (
-        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 shadow-md pb-2'>
-            <h2 className='font-medium text-center xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
+        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 shadow-md pb-2 pl-6'>
+            <h2 className='font-bold text-center xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
             <div
-                className='grid grid-cols-1 xxs:gap-6 lg:gap-4 capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'
+                // className='grid grid-flow-col grid-rows-2 gap-4 xs:text-sm lg:text-lg'
+                className='grid grid-cols-2 xxs:gap-6 lg:gap-10 capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl font-semibold'
             >{renderInstructions()}</div>
         </div>
     )
 
     return (
-        <div className='flex lg:justify-between xxs:flex-col xxs:gap-y-6 lg:flex-row lg:gap-x-16 mx-6 w-full'>
+        <div className='flex lg:justify-between xxs:flex-col xxs:gap-y-6 lg:flex-row lg:gap-x-16 mx-6'>
             {ingredientsMarkup}
+            {/* <p className='xxs:hidden lg:block h-96 w-0.5 bg-muted-foreground self-center mx-4'></p>
+            <p className='xxs:block lg:hidden h-1 w-40 bg-muted-foreground self-center my-4'></p> */}
             {instructionsMarkup}
         </div>
     )
@@ -209,26 +217,38 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 const RednerIngredients = ({ ...items }: IngredientItemType) => {
     const { food, foodCategory, foodId, image, measure, quantity, text, weight } = items
 
-    const { imgSrc } = useToGetAnImageUrl(food)
-    const { failSafeUrl, handleFailsafe } = useToGetRandomImageUrlIfFails(imgSrc)
+    const {imgSrc} = useToGetAnImageUrl(food)
+    const {failSafeUrl, handleFailsafe} = useToGetRandomImageUrlIfFails(imgSrc)
+
+    const addRandomUrl = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+        e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${food}`
+    }
 
     const contents = (
-        <div className='grid xxs:grid-cols-3 justify-items-center place-items-center w-full capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'>
+        <div className='grid xxs:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 2xl:grid-cols-4 justify-items-center place-items-center w-full capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'>
 
-            {/* <div className='xxs:hidden md:block lg:hidden 2xl:block'>{foodCategory}</div> */}
+            <div className='xxs:hidden md:block lg:hidden 2xl:block'>{foodCategory}</div>
 
             <img
-                src={failSafeUrl}
+                // src={image} 
+                src={failSafeUrl} 
                 alt={food}
                 width={60} height={39}
-                className='xxs:w-14 xxs:h-16 sm:w-24 lg:w-16 lg:h-9 rounded-xl object-cover'
+                className='xxs:w-14 xxs:h-16 sm:w-24 lg:w-36 lg:h-20 rounded-xl object-cover'
                 placeholder='blur' loading='lazy'
+                // onError={addRandomUrl}
                 onError={handleFailsafe}
             />
 
-            <div className='text-left w-full'>{food}</div>
+            <div className='font-semibold text-center'>{food}</div>
 
-            <h2 className='flex gap-x-1 text-left w-full'><span>{quantity.toFixed(2)}</span> <span>{measure}</span></h2>
+            {/* <div className='xxs:hidden lg:block'>{foodCategory}</div> */}
+
+            <h2 className='flex gap-x-1 font-semibold'><span>{quantity.toFixed(2)}</span> <span>{measure}</span></h2>
+
+            {/* <h2 className='xxs:hidden lg:block'>
+                {weight.toFixed(2)}
+            </h2> */}
         </div>
     )
 

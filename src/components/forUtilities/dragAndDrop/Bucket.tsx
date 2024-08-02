@@ -237,13 +237,13 @@ export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description,
         <div
             title={!ready ? "Add Cards First From Search Results Dropdown" : "Ready For Share"}
         >
-            <span className='text-special-foreground font-bold'>Share in Social Media</span>
+            {/* <span className='text-special-foreground font-bold'>Share in Social Media</span> */}
 
             <span
                 // className={`flex justify-between gap-2 ${ready ? "cursor-pointer" : "cursor-auto pointer-events-none"}`}
                 className={`flex justify-start gap-4 ${ready ? "cursor-pointer" : "cursor-auto pointer-events-none"}`}
             >
-                <FacebookShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`} hashtag={`${hashtags?.length ? hashtags[0] : "What's_Cooking_Yo!!"}`} title={title}
+                <FacebookShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`} hashtag={`${hashtags?.length ? hashtags[0] : "What's_Cooking_Yo!!"}`} title={`${title} in Facebook`}
                 >
                     <FacebookIcon size={36} round />
                 </FacebookShareButton>
@@ -252,18 +252,19 @@ export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description,
                     url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`}
                     hashtags={hashtags?.length ? hashtags : ["test", "test2"]}
                     related={["item1", "item2"]}
-                    title={title}
+                    title={`${title} in X`}
                 >
                     <TwitterIcon round size={36} />
                 </TwitterShareButton>
 
                 <PinterestShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`} media='' description={description || "some description"}
-                    title={title}
+                    title={`${title} in Pinterest`}
                 >
                     <PinterestIcon round size={36} />
                 </PinterestShareButton>
 
                 <EmailShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`} subject='Some Subject For Email' body='Some text for body!! some more tetx mose more text!!' separator='[[<#>]]'
+                title={`${title} via Email`}
                 >
                     <EmailIcon round size={36} />
                 </EmailShareButton>
