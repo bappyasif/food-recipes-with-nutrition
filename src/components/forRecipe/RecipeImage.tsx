@@ -44,7 +44,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
 
             <ShareInSocialMedias hashtags={prepareHashtags()} nestedRoute={`${locale}/recipe/${extractRecipeId(uri)}`} title={prepTitle()} description={prepDescription()} ready={!!uri} />
 
-            <div title={isTrue ? "Back To Minimal View" : "Click To See More Info"} className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-start">
+            <div title={isTrue ? "Back To Minimal View" : "Click To See More Info"} className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-center">
 
                 <SquareElem showIt={isTrue} data={data} />
 
@@ -54,7 +54,8 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
 
                     className={`xxs:block lg:hidden transition-all duration-700 ${isTrue ? `h-[18.8rem] opacity-20 xxs:w-[13.2rem] xxs:ml-0 rotate-[360deg]` : `xxs:h-48 sm:h-64 translate-x-0 xxs:w-56 sm:w-80 lg:ml-4 -rotate-[360deg]`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover rounded-sm`}
 
-                    blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' loading='lazy'
+                    blurDataURL={images?.LARGE?.url || images.REGULAR.url} 
+                    placeholder='blur' loading='eager'
                 />
 
                 {/* bigger screen */}
@@ -62,9 +63,10 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                     src={images?.LARGE?.url || images.REGULAR.url} 
                     height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
                     
-                    className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[23.4rem] w-56 translate-x-[8.3rem] rotate-[360deg]` : `h-80 lg:w-96 translate-x-2 rotate-[-360deg]`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-0 object-cover hover:object-fill rounded-sm`}
+                    className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[18.4rem] w-[15.8rem] translate-x-[7.6rem] rotate-[360deg] rounded` : `h-96 lg:w-96 translate-x-2 rotate-[-360deg]`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-0 object-cover rounded-sm aspect-square`}
 
-                    blurDataURL={images?.LARGE?.url || images.REGULAR.url} placeholder='blur' loading='lazy'
+                    blurDataURL={images?.LARGE?.url || images.REGULAR.url} 
+                    placeholder='blur' loading='eager'
                 />
             </div>
 
@@ -88,9 +90,9 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
                 <div className='flex flex-col gap-y-4 justify-between w-fit'>
 
                     <div className='flex flex-col gap-y-1'>
-                        <Badge title={`Meal Type : ${mealType}`} className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Meal Type</span> <span>{mealType}</span></Badge>
-                        <Badge title={`Cautions : ${cautions[0]}`} className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>
-                        <Badge title={`Carbon Emissions Rating : ${co2EmissionsClass}`} className='xxs:text-sm lg:text-lg flex gap-x-6 justify-between bg-accent'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
+                        <Badge title={`Meal Type : ${mealType}`} className='xxs:text-sm lg:text-[0.9rem] font-light flex gap-x-6 justify-between bg-accent'><span>Meal Type</span> <span>{mealType}</span></Badge>
+                        <Badge title={`Cautions : ${cautions[0]}`} className='xxs:text-sm lg:text-[0.9rem] font-light flex gap-x-6 justify-between bg-accent'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>
+                        <Badge title={`Carbon Emissions Rating : ${co2EmissionsClass}`} className='xxs:text-sm lg:text-[0.9rem] font-light flex gap-x-6 justify-between bg-accent'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
                     </div>
 
                     <div className='flex flex-col gap-y-1'>
@@ -113,7 +115,7 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
 
 const ReusableBadge = ({ text, val }: { text: string, val: string | number }) => {
     return (
-        <Badge title={`${text} : ${val}`} className='px-4 flex gap-x-4 w-fit justify-between xxs:text-sm lg:text-lg xl:text-xl bg-accent'>
+        <Badge title={`${text} : ${val}`} className='px-4 flex gap-x-4 w-fit justify-between xxs:text-sm lg:text-[0.9rem] font-light bg-accent'>
             <span>{text} </span><span>{ typeof val === "string" && val.length > 14 ? ellipsedText(val, 14) : val}</span>
         </Badge>
     )

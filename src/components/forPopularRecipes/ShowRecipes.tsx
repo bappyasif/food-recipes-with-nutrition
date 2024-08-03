@@ -146,12 +146,15 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
   if (!cuisineType) return
 
   // const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
-  const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 0
+  // const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 0
+  const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'hours') > 1
 
   const addRandomPicture = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     // e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${label}`
     e.currentTarget.src = `https://picsum.photos/200`
   }
+
+  // console.log(checkIfDayOlder(), label, moment().diff(moment(lastUpdated), 'hours'))
 
   return (
     <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col gap-y-4 justify-between xl:h-[39rem]'>
@@ -161,7 +164,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
         // src={checkIfDayOlder() ? `https://picsum.photos/400` : url}
         src={checkIfDayOlder() ? failSafeUrl : url}
         alt={label!} width={width} height={height}
-        className='xxs:w-full h-72 object-cover rounded-sm transition-all duration-700 hover:object-fill mix-blend-lighten'
+        className='xxs:w-full h-72 aspect-square object-cover rounded-sm transition-all duration-700 mix-blend-lighten'
         // blurDataURL={url} 
         placeholder='blur' 
         loading='lazy'

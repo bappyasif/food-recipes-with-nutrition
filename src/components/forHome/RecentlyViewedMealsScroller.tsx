@@ -66,7 +66,8 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
   }
 
   // const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
-  const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 0
+  // const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 0
+  const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'hours') > 1
 
   // console.log(moment(lastUpdated).fromNow(), moment(), moment(lastUpdated), moment().diff(moment(lastUpdated), 'days'))
 
