@@ -13,6 +13,7 @@ import { extractRecipeId, removeWrodRecipe } from '../forFilters/RecipesView'
 import moment from 'moment'
 import { sortByRecentlyViewed } from '@/redux/features/recipes/RecipesSlice'
 import { useToGetAnImageUrl, useToGetRandomImageUrlIfFails } from '@/hooks/forPexels'
+import { TbLoader2 } from 'react-icons/tb'
 
 export const RecentlyViewedMealsScroller = () => {
 
@@ -78,6 +79,8 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
     // ref.current = `https://source.unsplash.com/random/200?recipe=${label}`
   }
 
+  const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
+
   return (
     <div
       className={`${styles.dissolvePhoto} h-[17.39rem] overflow-clip`}
@@ -85,11 +88,13 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
       onMouseLeave={handleFalsy}
     >
       <Link
+        onClick={isLoading ? falsy : truthy}
         href={`/${locale}/recipe/${extractRecipeId(uri!)}`}
-        // title={label} 
         title={checkIfDayOlder() ? `You might be looking at a random picture, click here to view recipe detail page for real info: ${label}` : `Click to view details: ${label}`}
-        className='relative'
+        className='relative text-center'
       >
+        {/* <TbLoader2 size={80} className={`${isLoading ? "absolute animate-spin self-center w-full top-20 z-20" : "hidden"}`} /> */}
+
         {/* <Image 
           src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
           alt={label!} width={width} height={height} 
@@ -101,6 +106,8 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
           {label!?.length > 51 ? ellipsedText(label!, 51) : label!}
           {/* {label} */}
         </p>
+
+        <TbLoader2 size={80} className={`${isLoading ? "absolute animate-spin self-center w-60 top-28 z-10" : "hidden"}`} />
 
         <img
           src={checkIfDayOlder() ? failSafeUrl : url}

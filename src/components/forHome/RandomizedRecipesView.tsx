@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import { useForTruthToggle } from '@/hooks/forComponents'
+import { TbLoader2 } from 'react-icons/tb'
 
 export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, fetchText }: { recipes: RecipeMealType[], handleClick: () => void, existingFilters: { cuisine: string, dish: string, health: string, diet: string, meal: string }, fetchText: string }) => {
 
@@ -102,13 +103,23 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     // const { height, url, width } = REGULAR
     // const { height: smHt, url: smUrl, width: smWd } = SMALL
     const locale = useLocale()
+    
+    const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
+
     return (
         <span className='flex flex-col gap-y-2 justify-center items-center xxs:w-96 md:w-80 lg:w-96 bg-card rounded-md'>
-            <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex flex-col gap-y-2' title={label}>
+            <Link 
+                href={`/${locale}/recipe/${extractRecipeId(uri)}`} 
+                className='flex flex-col gap-y-2 relative' 
+                title={label}
+                onClick={isLoading ? falsy : truthy}
+            >
                 <span className='font-bold text-2xl text-primary text-center'>{removeWrodRecipe(label).length > 26 ? ellipsedText(removeWrodRecipe(label), 26) : removeWrodRecipe(label)}</span>
                 {/* <span className='font-bold text-2xl text-primary text-center'>{label.length > 26 ? ellipsedText(label, 26) : label}</span> */}
 
                 <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] xxs:h-40 lg:h-64 rounded-sm object-cover duration-300 transition-all hover:object-center hover:rounded-full' placeholder='blur' loading='lazy' />
+
+                <TbLoader2 size={110} className={`${isLoading ? "absolute animate-spin self-center top-24 z-10" : "hidden"}`} />
 
                 {/* <Image
                     src={url} alt={label!} width={width} height={height}

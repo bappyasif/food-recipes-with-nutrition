@@ -9,6 +9,7 @@ import { diets, dishes, meals } from '../forFilters/FiltersDashboard'
 import { useLocale } from 'next-intl'
 import { useTranslations } from "use-intl"
 import Image from 'next/image'
+import { TbLoader2 } from 'react-icons/tb'
 
 export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: string, dishType: string, mealType: string }) => {
 
@@ -131,6 +132,8 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
 
     const locale = useLocale()
 
+    const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
+
     return (
         <div
             className='flex justify-center gap-4 relative xxs:w-28 sm:w-52 3xl:w-56'
@@ -149,21 +152,33 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
                 /> */}
                 <img
                     src={url} alt={label} height={height} width={width}
-                    className='xxs:w-full sm:w-44 md:w-48 xxs:h-24 sm:h-36 lg:h-44 object-cover rounded-sm mx-auto'
+                    className='xxs:w-full sm:w-44 md:w-48 xxs:h-24 sm:h-36 lg:h-44 object-cover rounded-sm mx-auto relative'
                     // className='xxs:w-40 sm:w-44 md:w-48 xxs:h-24 sm:h-28 md:h-32 lg:w-56 lg:h-52 rounded-md mx-auto'
                     // blurDataURL={url} placeholder='blur' 
                     loading='lazy'
                 />
+
+                <TbLoader2 size={20} className={`${isLoading ? "absolute animate-spin self-center xxs:w-full sm:w-44 md:w-48 h-20 top-20 z-10" : "hidden"}`} />
             </div>
             <div
                 className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center flex flex-col gap-y-2 xxs:text-xs lg:text-lg`}
             >
-                <Link className={`xl:hidden ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`} href={`/${locale}/recipe/${recipeId}`} title={label}>
+                <Link
+                    className={`xl:hidden ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`}
+                    href={`/${locale}/recipe/${recipeId}`} title={label}
+                    onClick={isLoading ? falsy : truthy}
+                >
                     {removeWrodRecipe(label).length > 18 ? ellipsedText(removeWrodRecipe(label), 18) : removeWrodRecipe(label)}
                     {/* {label.length > 18 ? ellipsedText(label, 18) : label} */}
                 </Link>
 
-                <Link className={`hidden xl:block ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`} href={`/${locale}/recipe/${recipeId}`} title={label}>
+                <Link 
+                className={`hidden xl:block ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`} 
+                href={`/${locale}/recipe/${recipeId}`} 
+                // href={"#"}
+                title={label}
+                onClick={isLoading ? falsy : truthy}
+                >
                     {removeWrodRecipe(label).length > 36 ? ellipsedText(removeWrodRecipe(label), 36) : removeWrodRecipe(label)}
                     {/* {label.length > 18 ? ellipsedText(label, 18) : label} */}
                 </Link>

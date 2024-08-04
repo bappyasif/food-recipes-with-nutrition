@@ -10,6 +10,7 @@ import { ellipsedText } from './FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import { useTranslations } from 'use-intl';
 import Image from 'next/image'
+import { TbLoader2 } from 'react-icons/tb'
 
 export const ShowFewRelatedRecipes = ({ mealType, diet, dishType, uri }: { mealType: string, diet: string, dishType: string, uri?: string }) => {
     const { recipes } = useForRandomRecipesList(mealType, diet, dishType, uri)
@@ -107,6 +108,9 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
         return () => clearTimeout(timer)
     }, [])
 
+    const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
+
+
     return (
         <div
             className={`${styles.fadeOutCard} xxs:w-44 lg:w-60 relative ${(lastCard || firstCard) ? "lg:pointer-events-none" : "pointer-events-auto"} xxs:h-36 lg:w-56 lg:h-52`}
@@ -127,13 +131,25 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                     placeholder='blur'
                     loading='lazy'
                 />
+
+                <TbLoader2 size={80} className={`${isLoading ? "absolute animate-spin self-center w-60 top-20 z-10" : "hidden"}`} />
             </div>
             <div className={`absolute top-[20%] left-[6%] capitalize transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>
-                <Link className={`${isTrue ? "xl:hidden xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""}`} href={`/${locale}/recipe/${recipeId}`} title={label}>
+                <Link
+                    className={`${isTrue ? "xl:hidden xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""}`}
+                    href={`/${locale}/recipe/${recipeId}`}
+                    title={label}
+                    onClick={isLoading ? falsy : truthy}
+                >
                     {removeWrodRecipe(label).length > 20 ? ellipsedText(removeWrodRecipe(label), 20) : removeWrodRecipe(label)}
                     {/* {label.length > 11 ? ellipsedText(label, 11) : label} */}
                 </Link>
-                <Link className={`${isTrue ? "xxs:hidden xl:block xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""}`} href={`/${locale}/recipe/${recipeId}`} title={label}>
+                <Link
+                    className={`${isTrue ? "xxs:hidden xl:block xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""}`}
+                    href={`/${locale}/recipe/${recipeId}`}
+                    title={label}
+                    onClick={isLoading ? falsy : truthy}
+                >
                     {removeWrodRecipe(label).length > 36 ? ellipsedText(removeWrodRecipe(label), 36) : removeWrodRecipe(label)}
                     {/* {label.length > 11 ? ellipsedText(label, 11) : label} */}
                 </Link>

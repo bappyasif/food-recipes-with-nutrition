@@ -12,6 +12,7 @@ import { useLocale } from 'next-intl'
 import axios from 'axios'
 import { useForIfRecipesFoundWithExistingFilters, useForTruthToggle } from '@/hooks/forComponents'
 import Image from 'next/image'
+import { TbLoader2 } from 'react-icons/tb'
 
 export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePreviousAndNext, check, isFirstPage }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d: RecipeMealType[], href?: string) => void, handlePreviousAndNext: (str: string) => void, check?: boolean, isFirstPage: boolean }) => {
 
@@ -83,10 +84,14 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
     const locale = useLocale()
 
+    const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
+
     return (
         <div
-            className={`flex flex-col justify-center items-center ${styles.flipCard} h-[19.6rem] xxs:w-[18.9rem] sm:w-[20.9rem]`}
+            className={`flex flex-col justify-center items-center ${styles.flipCard} h-[19.6rem] xxs:w-[18.9rem] sm:w-[20.9rem] relative`}
         >
+            <TbLoader2 size={110} className={`${isLoading ? "absolute animate-spin self-center top-24 z-10" : "hidden"}`} />
+
             <img
                 alt={label}
                 src={images?.SMALL?.url || images?.REGULAR?.url}
@@ -129,7 +134,11 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
             <div
                 className={`${styles.whenFlipped} px-1.5 items-center justify-center `}
             >
-                <Link className='bg-card opacity-80 w-full text-center rounded-t-md' href={`/${locale}/recipe/${extractRecipeId(uri)}`}>
+                <Link 
+                    className='bg-card opacity-80 w-full text-center rounded-t-md' 
+                    href={`/${locale}/recipe/${extractRecipeId(uri)}`}
+                    onClick={isLoading ? falsy : truthy}
+                >
                     <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{removeWrodRecipe(label).length > 25 ? ellipsedText(removeWrodRecipe(label), 25) : removeWrodRecipe(label)}</h2>
                     {/* <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</h2> */}
                 </Link>
