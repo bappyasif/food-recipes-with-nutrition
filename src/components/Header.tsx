@@ -37,6 +37,8 @@ export const Header = () => {
 
   const locale = useLocale()
 
+  const check = pathName !== `/${locale}/filter-recipes`
+
   return (
     <div className="flex flex-col justify-center items-center gap-y-1">
       {/* <Link href={"/"} title="What's Cooking Yo!!" className="self-start">
@@ -77,13 +79,14 @@ export const Header = () => {
           <div className="flex justify-start gap-x-20 w-fit">
             <nav
               // className='flex xxs:gap-x-2 xs:gap-x-6 lg:gap-x-10 justify-end xs:text-[.71rem] lg:text-sm xl:text-2xl 2xl:text-3xl'
-              className='flex justify-start items-end xxs:gap-x-2 xs:gap-x-6 lg:gap-x-16 w-2/3'
+              // className='flex justify-start items-end xxs:gap-x-2 xs:gap-x-6 lg:gap-x-16 w-2/3'
+              className={`flex justify-start items-end xxs:gap-x-2 xs:gap-x-6 lg:gap-x-16 ${check ? "w-4/5" : "w-full"}`}
             >
               {renderNavs()}
             </nav>
 
             {
-              pathName !== `/${locale}/filter-recipes`
+              check
                 ? <SearchRecipes />
                 : null
             }

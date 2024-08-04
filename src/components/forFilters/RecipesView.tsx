@@ -88,14 +88,14 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
     return (
         <div
-            className={`flex flex-col justify-center items-center ${styles.flipCard} h-[19.6rem] xxs:w-[18.9rem] sm:w-[20.9rem] relative`}
+            className={`flex flex-col justify-center items-center ${styles.flipCard} h-[20.6rem] xxs:w-[18.9rem] sm:w-[20.9rem] relative`}
         >
             <TbLoader2 size={110} className={`${isLoading ? "absolute animate-spin self-center top-24 z-10" : "hidden"}`} />
 
             <img
                 alt={label}
                 src={images?.SMALL?.url || images?.REGULAR?.url}
-                className={`${styles.flipCardBack} h-full w-full rounded-sm`}
+                className={`${styles.flipCardBack} h-[20.6rem] xxs:w-[19.5rem] sm:w-[19.44rem] rounded-sm`}
                 width={images?.SMALL?.width || images?.REGULAR?.width}
                 height={images?.SMALL?.height || images?.REGULAR?.height}
                 style={{
@@ -132,7 +132,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
             {/* after card is flipped */}
             <div
-                className={`${styles.whenFlipped} px-1.5 items-center justify-center `}
+                className={`${styles.whenFlipped} px-1.5 items-center justify-center h-[18.18rem] xxs:w-[19.3rem] sm:w-[18.4rem]`}
             >
                 <Link 
                     className='bg-card opacity-80 w-full text-center rounded-t-md' 
