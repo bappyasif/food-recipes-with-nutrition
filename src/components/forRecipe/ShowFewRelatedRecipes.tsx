@@ -132,21 +132,26 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                     loading='lazy'
                 />
 
-                <TbLoader2 size={80} className={`${isLoading ? "absolute animate-spin self-center w-60 top-20 z-10" : "hidden"}`} />
+                <TbLoader2 size={80} className={`${isLoading ? "absolute animate-spin self-center xxs:w-40 sm:w-44 md:w-48 xxs:h-24 sm:h-28 md:h-32 lg:w-56 top-14 z-10" : "hidden"}`} />
             </div>
             <div className={`absolute top-[20%] left-[6%] capitalize transition-all duration-1000 ${isTrue ? "z-20 opacity-100" : "z-0 opacity-0"} flex flex-col gap-y-1`}>
+                {/* smaller screen */}
                 <Link
                     className={`${isTrue ? "xl:hidden xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""}`}
-                    href={`/${locale}/recipe/${recipeId}`}
+                    // href={`/${locale}/recipe/${recipeId}`}
+                    href={"#"}
                     title={label}
                     onClick={isLoading ? falsy : truthy}
                 >
                     {removeWrodRecipe(label).length > 20 ? ellipsedText(removeWrodRecipe(label), 20) : removeWrodRecipe(label)}
                     {/* {label.length > 11 ? ellipsedText(label, 11) : label} */}
                 </Link>
+
+                {/* bigger screen */}
                 <Link
                     className={`${isTrue ? "xxs:hidden xl:block xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""}`}
-                    href={`/${locale}/recipe/${recipeId}`}
+                    // href={`/${locale}/recipe/${recipeId}`}
+                    href={"#"}
                     title={label}
                     onClick={isLoading ? falsy : truthy}
                 >
@@ -155,6 +160,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                 </Link>
                 <Badge>{mealType[0]}</Badge>
                 <Badge>{dishType[0]}</Badge>
+                <TbLoader2 size={40} className={`${isLoading ? "animate-spin self-start" : "hidden"}`} />
             </div>
         </div>
     )

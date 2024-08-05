@@ -139,7 +139,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                     href={`/${locale}/recipe/${extractRecipeId(uri)}`}
                     onClick={isLoading ? falsy : truthy}
                 >
-                    <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{removeWrodRecipe(label).length > 25 ? ellipsedText(removeWrodRecipe(label), 25) : removeWrodRecipe(label)}</h2>
+                    <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{removeWrodRecipe(label).length > 22 ? ellipsedText(removeWrodRecipe(label), 22) : removeWrodRecipe(label)}</h2>
                     {/* <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</h2> */}
                 </Link>
 

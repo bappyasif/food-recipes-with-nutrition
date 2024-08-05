@@ -163,6 +163,7 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
             <div
                 className={`transition-transform duration-500 ${isTrue ? "scale-100" : "z-20 scale-0"} text-center absolute self-center flex flex-col gap-y-2 xxs:text-xs lg:text-lg`}
             >
+                {/* smaller screen */}
                 <Link
                     className={`xl:hidden ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`}
                     href={`/${locale}/recipe/${recipeId}`} title={label}
@@ -172,10 +173,11 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
                     {/* {label.length > 18 ? ellipsedText(label, 18) : label} */}
                 </Link>
 
+                {/* bigger screen */}
                 <Link 
                 className={`hidden xl:block ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`} 
-                href={`/${locale}/recipe/${recipeId}`} 
-                // href={"#"}
+                // href={`/${locale}/recipe/${recipeId}`} 
+                href={"#"}
                 title={label}
                 onClick={isLoading ? falsy : truthy}
                 >
@@ -185,6 +187,7 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
 
                 <Badge className='w-fit mx-auto'>{mealType[0]}</Badge>
                 <Badge className='w-fit mx-auto'>{dishType[0]}</Badge>
+                <TbLoader2 size={40} className={`${isLoading ? "animate-spin self-center" : "hidden"}`} />
             </div>
         </div>
     )
