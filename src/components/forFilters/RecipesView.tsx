@@ -134,8 +134,8 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
             <div
                 className={`${styles.whenFlipped} px-1.5 items-center justify-center h-[18.18rem] xxs:w-[19.3rem] sm:w-[18.4rem]`}
             >
-                <Link 
-                    className='bg-card opacity-80 w-full text-center rounded-t-md' 
+                <Link
+                    className='bg-card opacity-80 w-full text-center rounded-t-md'
                     href={`/${locale}/recipe/${extractRecipeId(uri)}`}
                     onClick={isLoading ? falsy : truthy}
                 >
@@ -186,7 +186,7 @@ const RenderBasicTextInfo = ({ text, val }: { text: string, val: string | number
 
 export const ReusableModal = ({ children, triggerText, title, changeWidth, handleTrigger }: { children: React.ReactNode, triggerText: string, title: string, changeWidth?: boolean, handleTrigger?: () => void }) => {
     const [open, setOpen] = useState(false)
-    
+
     useEffect(() => {
         changeWidth ? setOpen(true) : null
     }, [])
@@ -199,9 +199,22 @@ export const ReusableModal = ({ children, triggerText, title, changeWidth, handl
                 className='bg-accent border-ring'
                 style={{ minWidth: changeWidth ? "80%" : "auto" }}
             >
-                <DialogHeader>
-                    <DialogTitle className='text-muted-foreground text-center'>{title}</DialogTitle>
-                </DialogHeader>
+                {
+                    title
+                    && (
+                        <DialogHeader>
+                            <DialogTitle
+                                className='text-muted-foreground text-center'
+                            >{title}</DialogTitle>
+                        </DialogHeader>
+                    )
+                }
+                {/* <DialogHeader>
+                    <DialogTitle 
+                        // className={`text-muted-foreground text-center ${title.length>1 ? "block" : "hidden"}`}
+                        className='text-muted-foreground text-center'
+                    >{title}</DialogTitle>
+                </DialogHeader> */}
 
                 <DialogDescription>
                     {children}
@@ -225,14 +238,18 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
     })
 
     return (
-        <ReusableModal triggerText={"Recipe Ingredients"} title={"Measurements And Instructions"}>
+        <ReusableModal
+            triggerText={"Recipe Ingredients"}
+            title={""}
+        // title={"Measurements And Instructions"}
+        >
             <span
                 className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
             >
                 <span className='font-bold text-lg text-special-foreground'>Ingredients And Measurements</span>
 
-                <span className='grid grid-cols-4 place-content-center place-items-center xxs:gap-2 lg:gap-4 font-bold text-lg xxs:text-sm md:text-lg lg:text-xl'>
-                    <span className='bg-card xxs:px-2 lg:px-4'>category</span>
+                <span className='grid grid-cols-4 place-content-center place-items-center xxs:gap-2 lg:gap-4 font-normal text-lg xxs:text-sm md:text-lg lg:text-xl'>
+                    <span className='bg-card xxs:px-2 lg:px-4'>Category</span>
                     <span className='bg-card xxs:px-2 lg:px-4'>Picture</span>
                     <span className='bg-card xxs:px-2 lg:px-4'>Name</span>
                     <span className='bg-card xxs:px-2 lg:px-4'>Quantity</span>
@@ -254,10 +271,13 @@ export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType)
         <span
             className='grid grid-cols-4 gap-4 place-content-center place-items-center xxs:text-xs lg:text-sm'
         >
-            <span className='capitalize font-semibold text-center'>{foodCategory}</span>
-            <img className='xxs:w-24 xxs:h-11 lg:w-36 lg:h-14 rounded-xl object-cover' src={image} alt={food} width={60} height={39} placeholder='blur' loading='lazy' />
-            <span className='capitalize font-bold text-center'>{food}</span>
-            <span className='font-semibold capitalize text-center'>{quantity.toFixed(2)} {measure}</span>
+            <span className='capitalize font-normal text-center'>{foodCategory}</span>
+            <img
+                // className='xxs:w-24 xxs:h-11 lg:w-36 lg:h-14 rounded-xl object-cover' 
+                className='xxs:w-24 xxs:h-11 lg:w-20 lg:h-12 rounded-xl object-cover'
+                src={image} alt={food} width={60} height={39} placeholder='blur' loading='lazy' />
+            <span className='capitalize font-normal text-center'>{food}</span>
+            <span className='font-normal capitalize text-center'>{quantity.toFixed(2)} {measure}</span>
             {/* <span className='font-semibold text-center'>{weight.toFixed(2)}</span> */}
         </span>
     )
@@ -288,7 +308,7 @@ const RenderDietLabels = ({ labels }: { labels: string[] }) => {
     const { renderLabels } = useForIngredientsLabels(labels)
     return (
         <ReusableModal triggerText={"Diet Labels"} title={"Recipe Diet Labels"}>
-            <span className='grid grid-cols-4 gap-2 px-4 text-sm'>
+            <span className='grid grid-cols-3 gap-2 px-4 text-sm'>
                 {renderLabels()}
             </span>
         </ReusableModal>
@@ -299,7 +319,11 @@ const RenderHealthLabels = ({ labels }: { labels: string[] }) => {
     const { renderLabels } = useForIngredientsLabels(labels)
     return (
         <ReusableModal triggerText={"Health Labels"} title={"Recipe Meal Health Labels"}>
-            <span className='grid grid-cols-4 gap-2 px-4 text-sm'>
+            <span 
+                // className='grid grid-cols-4 gap-2 px-4 text-sm'
+                className='grid grid-cols-3 gap-2 px-4 text-sm'
+                // className='flex gap-2 flex-wrap px-4 text-sm'
+            >
                 {renderLabels()}
             </span>
         </ReusableModal>
@@ -307,7 +331,7 @@ const RenderHealthLabels = ({ labels }: { labels: string[] }) => {
 }
 
 const useForIngredientsLabels = (labels: string[]) => {
-    const renderLabels = () => labels.map(txt => <Button key={txt} variant={'ghost'} className='text-muted-foreground cursor-auto'>{txt}</Button>)
+    const renderLabels = () => labels.map(txt => <Button key={txt} variant={'ghost'} className='text-muted-foreground cursor-auto min-w-64 w-fit text-left'>{txt}</Button>)
     return { renderLabels }
 }
 

@@ -197,7 +197,7 @@ const SearchRecipes = () => {
       type: "public",
     }
 
-    fetchAndUpdateData(params, setRecipes)
+    fetchAndUpdateData(params, setRecipes, () => handleFalsy())
   }
 
   useEffect(() => {
@@ -208,6 +208,7 @@ const SearchRecipes = () => {
 
   const handleEnterPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      handleTruthy()
       text.length >= 2 && fetchRecipesFromApi()
 
       if (text.length < 2) {
@@ -228,7 +229,8 @@ const SearchRecipes = () => {
         value={text} onChange={handleTextChange} onFocus={handleTruthyForFocused}
         onKeyUp={handleEnterPressed}
       />
-      <Button onClick={handleTruthy} variant={"ghost"} title="Click To Search Now" className="absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl"><RiSearchLine /></Button>
+      <Button onClick={handleTruthy} variant={"ghost"} title="Click To Search Now" disabled={isTrue && text.length >= 2} className={`absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-muted-foreground" : "bg-special-foreground"} text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl`}><RiSearchLine /></Button>
+      {/* <Button onClick={handleTruthy} variant={"ghost"} title="Click To Search Now" className="absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl"><RiSearchLine /></Button> */}
       <ShowAllFoundRecipes
         showDropdown={forFocused} handleFalsyForFocused={handleFalsyForFocused} recipes={recipes} />
     </div>
@@ -289,7 +291,7 @@ const RenderNav = ({ ...item }: NavType) => {
   )
 }
 
-export const fetchAndUpdateData = (params: any, setRecipes: any) => {
+export const fetchAndUpdateData = (params: any, setRecipes: any, reset: () => void) => {
   searchRecipes(params).then(d => {
     const onlyRecipes = d?.hits.map((item: any) => item.recipe)
 
@@ -300,6 +302,7 @@ export const fetchAndUpdateData = (params: any, setRecipes: any) => {
     !readyForRendering?.length && alert("Sorry, nothing is found to display for this search term, please try again, thank you :)")
 
   }).catch(err => console.log(err))
+  .finally(reset)
 }
 
 const navs = [

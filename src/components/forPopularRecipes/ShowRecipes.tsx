@@ -124,7 +124,10 @@ export const ShowRecipes = ({ user }: { user: any }) => {
         {renderRecipes()}
       </div>
 
-      <div className='flex gap-x-4 justify-center w-full'>
+      <div 
+        className={`gap-x-4 justify-center w-full ${getRecipesForCurrentPage()?.length ? "flex" : "hidden"}`}
+        // className='flex gap-x-4 justify-center w-full'
+      >
         <Button disabled={pageNum <= 1} onClick={handlePrev}>Prev</Button>
         <Button
           disabled={pageNum * 8 > recipesList.length}

@@ -176,7 +176,9 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
 
                     <input type="text" placeholder='search your recipe here by name....' className='xxs:w-2/3 md:w-1/2 xl:w-1/3 py-1 px-2 bg-transparent border-b-2 border-b-primary text-muted-foreground rounded-md placeholder:opacity-60 placeholder:text-center placeholder:text-muted-foreground xxs:text-sm md:text-lg xl:text-xl focus:outline-none' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
-                    <Button className='bg-special-foreground text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary hover:bg-special' onClick={handleSearchNow}>{t("Search")}</Button>
+                    <Button disabled={notifyText === "Fetching Data"} className={`${notifyText === "Fetching Data" ? "bg-muted-foreground" :"bg-special-foreground"} text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary hover:bg-special`} onClick={handleSearchNow}>{t("Search")}</Button>
+
+                    {/* <Button className='bg-special-foreground text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary hover:bg-special' onClick={handleSearchNow}>{t("Search")}</Button> */}
 
                     <MultipleSelectableFilters
                     // handleFiltersChange={handleFiltersChange} 
