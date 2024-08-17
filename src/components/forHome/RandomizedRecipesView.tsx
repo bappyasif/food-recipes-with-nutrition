@@ -37,12 +37,10 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
     const ref = useRef<HTMLSpanElement | null>(null)
 
     const handleScrollTopTop = () => {
-        // ref.current?.scrollIntoView( { behavior: 'instant', block: 'end' } )
         ref.current?.scrollTo({ top: 0, behavior: "smooth" })
     }
 
     const processRefetch = () => {
-        // handleFalsy()
         handleTruthy()
         handleClick()
         handleScrollTopTop()
@@ -57,7 +55,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
     return (
         <div className='font-bold text-xl text-center'>
             <Badge
-                className={`bg-accent hover:bg-accent-foreground text-primary my-2 xxs:text-sm lg:text-lg mr`}>{recipes.length ? `Recipes Found - ${recipes.length}` : fetchText ? fetchText : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
+                className={`bg-accent hover:bg-accent-foreground text-secondary my-2 xxs:text-sm lg:text-lg mr`}>{recipes.length ? `Recipes Found - ${recipes.length}` : fetchText ? fetchText : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
             {
                 recipes.length
                     ? <ReusableModal title='Showing Randomly Chosen Recipes' triggerText='Click To View' changeWidth={true} handleTrigger={() => null}>
@@ -79,12 +77,6 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
                     </ReusableModal>
                     : null
             }
-
-            {/* {
-                recipes.length && isTrue
-                    ? <Badge className='bg-special hover:bg-special-foreground text-muted'>Want To See More? <Button className='my-0 py-0 text-sm h-4 bg-special-foreground hover:bg-special hover:text-muted' onClick={processRefetch}>Click Here</Button></Badge>
-                    : null
-            } */}
         </div>
     )
 }
@@ -100,8 +92,6 @@ const FilterUsed = ({ ...item }: { title: string, val: string }) => {
 const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     const { uri, label, calories, images, mealType, co2EmissionsClass } = data;
     const { LARGE, REGULAR, SMALL } = images;
-    // const { height, url, width } = REGULAR
-    // const { height: smHt, url: smUrl, width: smWd } = SMALL
     const locale = useLocale()
     
     const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
@@ -115,17 +105,10 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
                 onClick={isLoading ? falsy : truthy}
             >
                 <span className='font-bold text-2xl text-primary text-center'>{removeWrodRecipe(label).length > 26 ? ellipsedText(removeWrodRecipe(label), 26) : removeWrodRecipe(label)}</span>
-                {/* <span className='font-bold text-2xl text-primary text-center'>{label.length > 26 ? ellipsedText(label, 26) : label}</span> */}
 
                 <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] xxs:h-40 lg:h-64 rounded-sm object-cover duration-300 transition-all hover:object-center hover:rounded-full' placeholder='blur' loading='lazy' />
 
                 <TbLoader2 size={110} className={`${isLoading ? "absolute animate-spin self-center top-24 z-10" : "hidden"}`} />
-
-                {/* <Image
-                    src={url} alt={label!} width={width} height={height}
-                    className='w-56 h-48 rounded-sm'
-                    blurDataURL={url} placeholder='blur' loading='lazy'
-                /> */}
             </Link>
 
             <span className='flex flex-col gap-y-1.5'>

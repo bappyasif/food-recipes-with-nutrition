@@ -6,7 +6,9 @@ import { RecentlyViewedMealsScroller } from "@/components/forHome/RecentlyViewed
 export default function Home() {
 
   return (
-    <div className="bg-secondary flex flex-col gap-y-20">
+    <div 
+      className="flex flex-col gap-y-20"
+    >
       <HomeHero />
 
       <RandomizeSelection />
@@ -18,7 +20,7 @@ export default function Home() {
       </div>
 
       {/* bigger screen */}
-      <div className="xxs:hidden xl:flex flex-row items-center gap-x-20 justify-between text-special-foreground mb-16 px-4">
+      <div className="xxs:hidden xl:flex flex-row items-center gap-x-20 justify-between text-secondary mb-16 px-4">
         <ReusableCarousel title='Dish' />
         <RecentlyViewedMealsScroller />
         <ReusableCarousel title='Cuisine' />

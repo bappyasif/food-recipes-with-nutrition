@@ -56,10 +56,6 @@ export const RandomizeSelection = () => {
 
     }, [setRandomizedDataset, cuisinesRandomized, dishesRandomized])
 
-    // useEffect(() => {
-    //     setRandomizedDataset({ forCuisines: cuisines, forDishes: dishes })
-    // }, [])
-
     useEffect(() => {
         setRandomizedDataset({ forCuisines: cuisines, forDishes: dishes })
         console.log("!!!!")
@@ -69,24 +65,14 @@ export const RandomizeSelection = () => {
 
     return (
         <div
-            className='w-full h-fit relative flex flex-col justify-center gap-y-20 text-muted-foreground'
+            className='w-full h-fit relative flex flex-col justify-center gap-y-20 text-secondary'
         >
-            <h2 className='text-2xl font-extrabold w-full text-center text-special'>{t("Randomly Recipe Finding Game")}</h2>
+            <h2 className='text-2xl font-extrabold w-full text-center text-secondary'>{t("Randomly Recipe Finding Game")}</h2>
 
             <div
                 className='flex flex-col xxs:gap-y-20 lg:gap-y-20 justify-center h-full w-full'
             >
-                {/* <div
-                    className='xxs:w-full flex xxs:flex-col xxs:gap-y-10 lg:flex-row lg:gap-x-20 justify-center xxs:items-center lg:items-baseline px-2'
-                >
-                    <GoingOffRandomizer updateRndNames={updateRndNames} clearExisting={isTrue} />
-
-                    <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} clearExisting={isTrue} />
-                    <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} clearExisting={isTrue} />
-                </div> */}
-
                 <div
-                    // className='flex xxs:flex-col xxs:gap-y-20 lg:gap-y-10 lg:flex-row gap-x-0 justify-around px-28 xxs:w-full'
                     className='flex xxs:flex-col xxs:gap-y-20 lg:gap-y-10 lg:flex-row gap-x-10 justify-between px-10'
                 >
                     {randomizedDataset.forCuisines.length <= 8 ?
@@ -109,19 +95,6 @@ export const RandomizeSelection = () => {
                     <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} clearExisting={isTrue} />
                     <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} clearExisting={isTrue} />
                 </div>
-
-                {/* <div
-                    className='xxs:w-full flex xxs:flex-col xxs:gap-y-10 lg:flex-row lg:gap-x-20 justify-center xxs:items-center lg:items-baseline px-2'
-                >
-                    <GoingOffRandomizer updateRndNames={updateRndNames} clearExisting={isTrue} />
-
-                    <div
-                        className='flex xxs:flex-col xxs:gap-y-10 lg:flex-row lg:gap-x-20 justify-between items-center'
-                    >
-                        <ReuseableBoxedRandomizer data={diets} title={"Randomize Diet"} updateRndNames={updateRndNames} clearExisting={isTrue} />
-                        <ReuseableBoxedRandomizer data={meals} title={"Randomize Meal"} updateRndNames={updateRndNames} clearExisting={isTrue} />
-                    </div>
-                </div> */}
             </div>
 
             <ShowRecipes rnds={rnds} rndNames={rndNames} wheelDataset={randomizedDataset} resetAllFilters={resetAllFilters} />
@@ -373,8 +346,6 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset, resetAllFilters }: {
 
             readyForRendering?.length && setFetchText("")
 
-            // !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
-
             !readyForRendering?.length && setFetchText("Sorry, Not Enough Recipes Found With This Combination!! Please Try Another Combination, Thank You :)")
         }).catch(err => {
             console.log(err)
@@ -385,7 +356,6 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset, resetAllFilters }: {
     const t = useTranslations("default")
 
     const filterValues = () => {
-        // const temp:{[key:string]: string} = {}
         const temp: any = {}
         temp.cuisine = wheelDataset.forCuisines[rnds.cuisine]
         temp.dish = wheelDataset.forDishes[rnds.dish]
@@ -408,7 +378,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset, resetAllFilters }: {
     return (
         <>
             <div className='flex flex-col gap-y-20 items-center justify-center w-full self-end h-full'>
-                <h2 className='text-2xl font-bold text-primary'>{t("Existing Filters")}</h2>
+                <h2 className='text-2xl font-bold text-secondary'>{t("Existing Filters")}</h2>
 
                 <div className='flex gap-4 justify-center flex-wrap'>
                     <ShowTitle rnds={rnds} wheelDataset={wheelDataset} />
@@ -416,7 +386,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset, resetAllFilters }: {
                 </div>
 
                 <div className='flex gap-x-4 justify-center'>
-                    <Button disabled={fetchText === "Recipes Data Is Loading, In Progress...."} className='bg-muted-foreground font-bold w-fit hover:bg-primary' onClick={handleClickForSpinners} variant={'default'}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>{t("Find Recipes")}</span></Button>
+                    <Button disabled={fetchText === "Recipes Data Is Loading, In Progress...."} className='bg-muted-foreground font-bold w-fit hover:bg-primary' onClick={handleClickForSpinners} variant={'default'}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted hover:text-accent'>{t("Find Recipes")}</span></Button>
                     <Button className='bg-muted-foreground font-bold w-fit hover:bg-destructive-foreground' onClick={handleResetFilters}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>Clear Filters</span></Button>
                 </div>
             </div>
@@ -445,7 +415,7 @@ const ShowOptionSelected = ({ title, val }: { title: string, val: string }) => {
     return (
         <h2 className='flex flex-col gap-y-2 xxs:w-40 lg:w-44 text-center'>
             <span className='font-bold xxs:text-sm md:text-lg bg-card rounded-md'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</span>
-            <span className='font-semibold xxs:text-xs md:text-sm text-special'>{val ? val : "intrim spin"}</span>
+            <span className='font-semibold xxs:text-xs md:text-sm text-secondary'>{val ? val : "intrim spin"}</span>
         </h2>
     )
 }
@@ -468,11 +438,11 @@ const ShowTitle = ({ rnds, wheelDataset }: {
         <div className='flex gap-x-6'>
             <h2 className='flex flex-col gap-y-2 xxs:w-40 lg:w-44 text-center'>
                 <span className='font-bold xxs:text-sm md:text-lg bg-card rounded-md'>{t("Dish")}</span>
-                <span className='font-semibold xxs:text-xs md:text-sm text-special'>{wheelDataset.forDishes[dish] ? wheelDataset.forDishes[dish] : "intrim spin"}</span>
+                <span className='font-semibold xxs:text-xs md:text-sm text-secondary'>{wheelDataset.forDishes[dish] ? wheelDataset.forDishes[dish] : "intrim spin"}</span>
             </h2>
             <h2 className='flex flex-col gap-y-2 xxs:w-40 lg:w-44 text-center'>
                 <span className='font-bold xxs:text-sm md:text-lg bg-card rounded-md'>{t("Cuisine")}</span>
-                <span className='font-semibold xxs:text-xs md:text-sm text-special'>{wheelDataset.forCuisines[cuisine] ? wheelDataset.forCuisines[cuisine] : "intrim spin"}</span>
+                <span className='font-semibold xxs:text-xs md:text-sm text-secondary'>{wheelDataset.forCuisines[cuisine] ? wheelDataset.forCuisines[cuisine] : "intrim spin"}</span>
             </h2>
         </div>
     )
@@ -505,7 +475,6 @@ const ReuseableWheelCarousel = ({ dataset, title, updateRnds, clearExisting }: {
 
     return (
         <div 
-            // className={`flex justify-center relative z-20 h-96 px-28`}
             className={`flex justify-center relative z-20 h-[31rem] px-28`}
         >
             <h2 className='text-center font-bold text-lg bg-card h-fit px-20 rounded-md'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>

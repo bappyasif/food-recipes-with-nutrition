@@ -15,7 +15,6 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
 
     const radius = 135
 
-    // const wheelRef = useRef<HTMLDivElement>(window.document?.querySelector("#wheel") as HTMLDivElement)
     const wheelRef = useRef<HTMLDivElement>(null)
 
     const [centerOfWheel, setCenterOfWheel] = useState<{
@@ -60,7 +59,6 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
 
         if(!wheelRef.current) return
         
-        // console.log(event.deltaY, event);
         const temp_theta = thetaTracked + event.deltaY;
 
         wheelRef.current.style.transform = `translate(-50%, -50%) rotate(${temp_theta * 0.2}deg)`
@@ -69,7 +67,6 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
         
         const timer = setTimeout(() => {
             setThetaTracked(temp_theta)
-            // console.log(temp_theta, "cleared timer", timerId)
         }, 200)
         
         setTimerId(timer);
@@ -102,8 +99,6 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
     return (
         <div 
             className='absolute xxs:top-[65%] lg:top-[58%] flex justify-center items-center'
-            // className='absolute xxs:top-[65%] lg:top-[0%] flex justify-center items-center lg:mt-20 h-full'
-            // className='relative xxs:top-[65%] lg:top-[0%] flex justify-center items-center'
         >
             <div
                 onWheel={handleScroll}
@@ -116,7 +111,6 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
                     width: "90px",
                     height: "90px",
                     borderRadius: "50%",
-                    // clipPath: "polygon(2% 1%, 90% 0, 56% 100%, 39% 100%)"
                 }}
             >
                 {cards}
@@ -146,17 +140,13 @@ const CarouselCard = ({ ...item }: {
 
     return (
         <div 
-        // className={`absolute -translate-x-[50%] -translate-y-[50%]  text-muted-foreground rounded-full flex justify-center items-center ${selected ? "bg-primary z-20 text-primary-foreground" : ""} hover:scale-110 hover:z-20 hover:bg-muted-foreground hover:text-muted`}
-        className={`absolute -translate-x-[50%] -translate-y-[50%]  text-muted-foreground rounded-full flex justify-center items-center ${selected ? "bg-primary z-20 text-primary-foreground" : ""} hover:scale-110 hover:z-20 bg-muted-foreground text-secondary`}
+        className={`absolute -translate-x-[50%] -translate-y-[50%]  text-muted-foreground rounded-full flex justify-center items-center ${selected ? "bg-primary z-20" : "bg-secondary"} text-primary-foreground hover:scale-110 hover:z-20`}
             style={{...styles.card, left: `${center.x + newCoords.x}px`, top: `${center.y + newCoords.y}px`, 
-            // clipPath: "polygon(2% 1%, 90% 0, 56% 100%, 39% 100%)"
         }}
         >
             <h2 title={title} className='' 
-                // style={{transform: `rotate(${theta * 45}deg)`}}
             >
                 {title?.length > 17 ? ellipsedText(title, 15 ) : title} 
-                {/* {theta} */}
             </h2>
         </div>
     )
@@ -164,15 +154,8 @@ const CarouselCard = ({ ...item }: {
 
 const styles = {
     card: {
-        // left: "50%",
-        // top: "50%",
-        // height: "60px",
         height: "44px",
         width: "150px",
-        // width: "170px",
-        // height: "9rem",
-        // width: "9rem",
-        // borderRadius: "50%"
     }
 }
 

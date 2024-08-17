@@ -62,17 +62,15 @@ export const CarouselVertical = ({...items}: ReuseableCarouselType) => {
     
   return (
     <div className='xxs:w-36 md:w-48 relative flex flex-col items-center text-muted-foreground'>
-        {/* {activeIdx} */}
-        <Button className='bg-primary' variant={'default'} onClick={() => handleCarousel("prev")}>Prev</Button>
+        <Button className='bg-secondary' variant={'default'} onClick={() => handleCarousel("prev")}>Prev</Button>
         <div 
-        // xxs:h-80 lg:h-96
             className='flex flex-col items-center flex-nowrap overflow-y-clip gap-y-4 xxs:h-80 lg:h-[33rem] bg-primary-content
 
             before:content-[""] before:h-8 before:absolute before:text-red-600 before:w-44 before:bg-gradient-to-b before:from-primary before:to-muted before:opacity-80 before:z-40
 
             after:content-[""] after:h-8 after:absolute after:bottom-10 after:text-red-600 after:w-44 after:bg-gradient-to-b after:from-muted after:to-primary after:opacity-80 after:z-40
             '>{renderData()}</div>
-        <Button className='bg-primary z-20' variant={'default'} onClick={() => handleCarousel("next")}>Next</Button>
+        <Button className='bg-secondary z-20' variant={'default'} onClick={() => handleCarousel("next")}>Next</Button>
     </div>
   )
 }

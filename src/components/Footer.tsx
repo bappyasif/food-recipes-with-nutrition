@@ -6,10 +6,9 @@ export const Footer = () => {
   const renderStacks = () => stacks.map(item => <RenderStack key={item.name} {...item} />)
 
   return (
-    <div className='w-full bg-primary-focus text-center flex flex-col gap-y-4 mt-6'>
-      {/* <h2 className='h-20'>Footer</h2> */}
-      <h2 className='font-bold xxs:text-2xl md:text-4xl text-special-foreground'>Stack Used</h2>
-      <div className='grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 justify-items-center place-content-center xxs:text-xs md:text-sm text-special'>
+    <div className='w-full bg-primary text-center flex flex-col gap-y-4 mt-6'>
+      <h2 className='font-bold xxs:text-2xl md:text-4xl text-accent'>Stack Used</h2>
+      <div className='grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 justify-items-center place-content-center xxs:text-xs md:text-sm text-accent/80'>
         {renderStacks()}
       </div>
       <CopyrightInfo />
@@ -21,7 +20,7 @@ const CopyrightInfo = () => {
   const getYear = new Date().getFullYear()
 
   return (
-    <div className='text-xs text-special-foreground font-bold'>This food recipe app Whats Cooking Yo, is developed by <span className="nav-item text-special px-2 py-1 rounded-md" title="portfolio link">a. b.</span> copyright &copy; {getYear}</div>
+    <div className='text-xs text-accent font-bold'>This food recipe app Whats Cooking Yo, is developed by <span className="nav-item text-accent/80 px-2 py-1 rounded-md" title="portfolio link">a. b.</span> copyright &copy; {getYear}</div>
   )
 }
 

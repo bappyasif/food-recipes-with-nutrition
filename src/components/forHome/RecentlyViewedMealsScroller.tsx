@@ -17,15 +17,11 @@ import { TbLoader2 } from 'react-icons/tb'
 
 export const RecentlyViewedMealsScroller = () => {
 
-  // useForGettingViewedRecipesDataFromBackend()
-
   const recipesList = useAppSelector(state => state.recipes.list)
 
-  // console.log(recipesList, "sorted!!")
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // recipesList.length && dispatch(sortByRecentlyViewed())
     dispatch(sortByRecentlyViewed())
   }, [])
 
@@ -38,7 +34,6 @@ export const RecentlyViewedMealsScroller = () => {
       <h2 className='text-xl font-bold'>Some Recently Viewed Meals</h2>
       <h3 className='text-sm font-semibold'>Real Recipe Image can be seen from Recipe Detail Page</h3>
       <div
-        // className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center max-h-[26rem] overflow-clip gap-2 mt-10'
         className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center  overflow-clip gap-2 mt-10'
         onMouseEnter={handleTruthy}
         onMouseLeave={handleFalsy}
@@ -66,18 +61,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
     return
   }
 
-  // const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
-  // const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 0
   const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'hours') > 1
-
-  // console.log(moment(lastUpdated).fromNow(), moment(), moment(lastUpdated), moment().diff(moment(lastUpdated), 'days'))
-
-  const addRandomUrl = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = `https://picsum.photos/200`
-    // e.target.src = ""
-    // e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${label}`
-    // ref.current = `https://source.unsplash.com/random/200?recipe=${label}`
-  }
 
   const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
 
@@ -91,45 +75,23 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         onClick={isLoading ? falsy : truthy}
         href={`/${locale}/recipe/${extractRecipeId(uri!)}`}
         title={checkIfDayOlder() ? `You might be looking at a random picture, click here to view recipe detail page for real info: ${label}` : `Click to view details: ${label}`}
-        className='relative text-center'
+        className='relative text-center w-60'
       >
-        {/* <TbLoader2 size={80} className={`${isLoading ? "absolute animate-spin self-center w-full top-20 z-20" : "hidden"}`} /> */}
-
-        {/* <Image 
-          src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url} 
-          alt={label!} width={width} height={height} 
-          className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`} 
-          blurDataURL={url} placeholder='blur' loading='lazy' 
-        /> */}
-
-        <p className={`absolute top-2 left-0.5 text-center w-60 text-foreground/80 font-medium bg-accent/40 transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} z-10`}>
+        <p className={`absolute top-0.5 text-center font-medium bg-primary/60 text-primary-foreground hover:text-muted-foreground transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} z-10 px-4 m-0.5 w-[14.8rem]`}>
           {label!?.length > 51 ? ellipsedText(label!, 51) : label!}
-          {/* {label} */}
         </p>
 
         <TbLoader2 size={80} className={`${isLoading ? "absolute animate-spin self-center w-60 top-28 z-10" : "hidden"}`} />
 
         <img
           src={checkIfDayOlder() ? failSafeUrl : url}
-          // src={checkIfDayOlder() ? `https://picsum.photos/400` : url}
-          // src={url}
           alt={label!} width={width} height={height}
-          // className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} object-cover hover:object-cover rounded-sm`}
-          // className={`w-60 transition-all duration-500 h-[11.4rem] object-cover hover:object-cover rounded-sm`}
           className={`w-60 transition-all duration-500 h-full object-cover hover:object-cover rounded-sm`}
-          // blurDataURL={url} placeholder='blur' 
           loading='lazy'
-          // onError={addRandomUrl}
           onError={handleFailsafe}
         />
-
-        {/* <p className={`w-60 transition-all duration-1000 ${isTrue ? "h-24" : "h-[11.4rem]"} aspect-square`}>
-        {label}
-        </p> */}
-
       </Link>
       <div
-        // className='flex flex-col gap-y-2 items-center justify-center'
         className={`flex flex-col gap-y-2 items-center justify-center transition-all duration-500 ${isTrue ? "-translate-y-40" : "translate-y-0"}`}
       >
         <ReusableBadge text={co2EmissionsClass!} title='Carbon Emission' />
@@ -139,10 +101,9 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         <ReusableBadge text={typeof cuisineType === "object" ? cuisineType[0] : cuisineType} title='Cuisine' />
 
         <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} >
-          <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted text-lg' title={label}>
+          <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted hover:text-muted-foreground text-lg' title={label}>
             <span>Name:</span>
             <span>{removeWrodRecipe(label!)!?.length > 11 ? ellipsedText(removeWrodRecipe(label!)!, 11) : removeWrodRecipe(label!)!}</span>
-            {/* <span>{label!?.length > 11 ? ellipsedText(label!, 11) : label!}</span> */}
           </Badge>
         </Link>
       </div>
@@ -152,7 +113,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
 const ReusableBadge = ({ title, text }: { title: string, text: string | number }) => {
   return (
-    <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted text-lg'>
+    <Badge className='flex gap-x-4 justify-between items-center bg-accent text-secondary hover:text-accent text-lg'>
       <span>{title}:</span>
       <span>{text}</span>
     </Badge>

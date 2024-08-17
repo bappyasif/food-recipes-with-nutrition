@@ -41,29 +41,13 @@ export const Header = () => {
 
   return (
     <div className="flex flex-col justify-center items-center gap-y-1">
-      {/* <Link href={"/"} title="What's Cooking Yo!!" className="self-start">
-        <img
-          src={logo.src}
-          // className="xxs:w-36 xxs:h-36 sm:w-40 sm:h-40 xl:w-52 xl:h-52 rounded-full"
-          className="w-20 rounded-full"
-          alt="what's cooking yo!! logo"
-          height={logo.height} width={logo.width}
-        />
-      </Link> */}
-
-      {/* <div className="flex gap-x-4 items-center self-end">
-        <LocaleSwitcher />
-        <UserAuth />
-      </div> */}
-
       <div
-        // className="bg-card flex xxs:justify-around lg:justify-center xxs:gap-x-2 lg:gap-x-10 w-full py-2 px-1"
-        className="bg-card flex items-end xxs:justify-around lg:justify-between xxs:gap-x-2 lg:gap-x-10 w-full py-0.5 pl-2 pr-6"
+        // className="bg-card flex items-end xxs:justify-around lg:justify-between xxs:gap-x-2 lg:gap-x-10 w-full py-0.5 pl-2 pr-6"
+        className="bg-primary flex items-end xxs:justify-around lg:justify-between xxs:gap-x-2 lg:gap-x-10 w-full py-0.5 pl-2 pr-6"
       >
         <Link href={"/"} title="What's Cooking Yo!!" className="self-start w-[6%]">
           <img
             src={logo.src}
-            // className="xxs:w-36 xxs:h-36 sm:w-40 sm:h-40 xl:w-52 xl:h-52 rounded-full"
             className="w-20 rounded-full"
             alt="what's cooking yo!! logo"
             height={logo.height} width={logo.width}
@@ -71,15 +55,26 @@ export const Header = () => {
         </Link>
 
         <div className="flex flex-col w-full gap-y-2">
-          <div className="flex gap-x-10 items-center justify-end">
+          <div className="flex gap-x-16 items-center justify-end">
+            {
+              check
+                ? <SearchRecipes />
+                : null
+            }
+            <div className="flex gap-x-6 items-end self-end">
             <LocaleSwitcher />
             <UserAuth />
+            </div>
           </div>
-          
-          <div className="flex justify-start gap-x-20 w-fit">
+
+          <nav
+            className={`flex justify-start items-end xxs:gap-x-2 xs:gap-x-6 lg:gap-x-16 ${check ? "w-4/5" : "w-full"}`}
+          >
+            {renderNavs()}
+          </nav>
+
+          {/* <div className="flex justify-start gap-x-20 w-fit">
             <nav
-              // className='flex xxs:gap-x-2 xs:gap-x-6 lg:gap-x-10 justify-end xs:text-[.71rem] lg:text-sm xl:text-2xl 2xl:text-3xl'
-              // className='flex justify-start items-end xxs:gap-x-2 xs:gap-x-6 lg:gap-x-16 w-2/3'
               className={`flex justify-start items-end xxs:gap-x-2 xs:gap-x-6 lg:gap-x-16 ${check ? "w-4/5" : "w-full"}`}
             >
               {renderNavs()}
@@ -90,27 +85,8 @@ export const Header = () => {
                 ? <SearchRecipes />
                 : null
             }
-          </div>
+          </div> */}
         </div>
-
-
-        {/* <nav
-          // className='flex xxs:gap-x-2 xs:gap-x-6 lg:gap-x-10 justify-end xs:text-[.71rem] lg:text-sm xl:text-2xl 2xl:text-3xl'
-          className='flex items-end xxs:gap-x-2 xs:gap-x-6 lg:gap-x-14'
-        >
-          {renderNavs()}
-        </nav>
-
-        {
-          pathName !== `/${locale}/filter-recipes`
-            ? <SearchRecipes />
-            : null
-        }
-
-        <div className="flex gap-x-4 items-center">
-          <LocaleSwitcher />
-          <UserAuth />
-        </div> */}
       </div>
     </div>
   )
@@ -120,9 +96,9 @@ const UserAuth = () => {
   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
   return (
-    <div className="text-special-foreground flex items-center relative cursor-pointer">
+    <div className="text-accent flex items-center relative cursor-pointer">
 
-      <span onClick={isTrue ? handleFalsy : handleTruthy} className="xxs:text-xl xs:text-2xl sm:text-3xl lg:text-3xl relative duration-1000 transition-all hover:text-special" title="User Auth">
+      <span onClick={isTrue ? handleFalsy : handleTruthy} className="xxs:text-xl xs:text-2xl sm:text-3xl lg:text-4xl relative duration-1000 transition-all hover:text-card" title="User Auth">
         <RiUserSettingsFill />
       </span>
 
@@ -155,8 +131,8 @@ const ShowDropdown = ({ handleFalsy }: { handleFalsy: () => void }) => {
   )
 
   return (
-    <div ref={ref} onClick={handleFalsy} className="absolute flex flex-col gap-y-2 top-9 right-0 bg-card py-2 px-1 z-50 xxs:w-28 lg:w-36">
-      <div className="xxs:text-sm sm:text-lg lg:text-xl text-center text-muted-foreground">User Auth</div>
+    <div ref={ref} onClick={handleFalsy} className="absolute flex flex-col gap-y-2 top-9 right-0 bg-card py-2 px-1 z-50 xxs:w-28 lg:w-36 rounded-sm">
+      <div className="xxs:text-sm sm:text-lg lg:text-xl text-center text-secondary">User Auth</div>
       {options}
     </div>
   )
@@ -164,7 +140,7 @@ const ShowDropdown = ({ handleFalsy }: { handleFalsy: () => void }) => {
 
 const UserAuthLinkView = ({ href, text, icon }: { href: string, text: string, icon: ReactNode }) => {
   return (
-    <Link className="bg-accent xxs:p-1 lg:px-2 rounded-md flex gap-2 items-center justify-center duration-1000 transition-all hover:bg-special-foreground hover:text-secondary font-bold xxs:text-sm xs:text-lg sm:text-xl" href={`${href}`} title={text}>
+    <Link className="bg-primary/60 xxs:p-1 lg:px-2 rounded-md flex gap-2 items-center justify-center duration-1000 transition-all hover:bg-primary/80 hover:text-secondary font-bold xxs:text-sm xs:text-lg sm:text-xl" href={`${href}`} title={text}>
       <span className="xxs:hidden xs:block">{text}</span>
       <span className="">{icon}</span>
     </Link>
@@ -223,14 +199,21 @@ const SearchRecipes = () => {
       ref={ref}
     >
       <input
-        // className="xxs:w-44 sm:w-64 md:w-72 lg:w-[22rem] h-full rounded-sm xxs:pl-1.5 lg:pl-4 text-muted-foreground bg-transparent border-0 border-b-2 border-b-primary placeholder:text-accent xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl focus:outline-none"
-        className="xxs:w-44 sm:w-64 md:w-72 lg:w-96 2xl:w-[29rem] h-full rounded-sm xxs:pl-1.5 lg:pl-2.5 text-muted-foreground bg-transparent border-0 border-b-2 border-b-primary placeholder:text-accent xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl focus:outline-none pb-0.5"
+        className="xxs:w-44 sm:w-64 md:w-72 lg:w-96 2xl:w-[29rem] h-full rounded-sm xxs:pl-1.5 lg:pl-1.5 text-muted-foreground bg-transparent border-0 border-b-2 border-b-accent placeholder:text-accent xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl focus:outline-none pb-0.5"
         type="text" placeholder='search recipes by name'
         value={text} onChange={handleTextChange} onFocus={handleTruthyForFocused}
         onKeyUp={handleEnterPressed}
       />
-      <Button onClick={handleTruthy} variant={"ghost"} title="Click To Search Now" disabled={isTrue && text.length >= 2} className={`absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-muted-foreground" : "bg-special-foreground"} text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl`}><RiSearchLine /></Button>
-      {/* <Button onClick={handleTruthy} variant={"ghost"} title="Click To Search Now" className="absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 bg-special-foreground text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl"><RiSearchLine /></Button> */}
+      <Button
+        onClick={handleTruthy}
+        variant={"ghost"}
+        title="Click To Search Now"
+        disabled={isTrue && text.length >= 2}
+        // className={`absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-muted-foreground" : "bg-special-foreground"} text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl`}
+        className={`absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-secondary" : "bg-accent/80"} text-muted hover:text-muted hover:bg-card font-semibold xxs:text-sm md:text-lg lg:text-xl`}
+      >
+        <RiSearchLine />
+      </Button>
       <ShowAllFoundRecipes
         showDropdown={forFocused} handleFalsyForFocused={handleFalsyForFocused} recipes={recipes} />
     </div>
@@ -246,19 +229,12 @@ const ShowAllFoundRecipes = ({ showDropdown, handleFalsyForFocused, recipes }: {
       <Link
         href={`/${locale}/recipe/${extractRecipeId(uri)}`}
         key={uri}
-        // className='flex gap-x-2 outline-dotted text-primary justify-between' 
         className='grid grid-cols-3 gap-1 text-primary justify-between p-1 xxs:px-1.5 lg:px-2.5 hover:bg-accent'
         title={`Click to see in detail: ${label}`}
         onClick={handleFalsyForFocused}
       >
-        {/* <span className="text-lg col-span-2">{label.length > 11 ? ellipsedText(label, 11) : label}</span> */}
         <span className="text-lg col-span-2">{label.length > 27 ? ellipsedText(label, 27) : label}</span>
-        {/* <span className="text-lg col-span-2">{label}</span> */}
         <span className="capitalize text-right">{cuisineType[0]}</span>
-        {/* <span className="capitalize">{cuisineType[0]}</span>
-        <span className="capitalize">{mealType[0]}</span> */}
-        {/* <Badge>{cuisineType[0]}</Badge>
-        <Badge>{mealType[0]}</Badge> */}
       </Link>
     )
   })
@@ -281,9 +257,8 @@ const RenderNav = ({ ...item }: NavType) => {
   return (
     <Link
       href={`/${locale}/${path}`}
-      className="flex gap-1 items-center justify-center font-bold text-primary transition-all duration-500 hover:text-special h-fit">
+      className="flex gap-1 items-center justify-center font-bold text-accent transition-all duration-500 hover:text-special h-fit">
       <span
-        // className="xxs:text-3xl xs:text-4xl sm:text-5xl lg:text-4xl"
         className="xxs:text-lg xs:text-xl sm:text-2xl lg:text-4xl"
       >{icon}</span>
       <span className="xxs:hidden lg:block xs:text-[.71rem] lg:text-lg xl:text-xl 2xl:text-2xl self-end">{t(`${name}`)}</span>
@@ -302,7 +277,7 @@ export const fetchAndUpdateData = (params: any, setRecipes: any, reset: () => vo
     !readyForRendering?.length && alert("Sorry, nothing is found to display for this search term, please try again, thank you :)")
 
   }).catch(err => console.log(err))
-  .finally(reset)
+    .finally(reset)
 }
 
 const navs = [

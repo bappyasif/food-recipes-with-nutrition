@@ -1,7 +1,6 @@
 "use client"
 
 import { CategoriesCuisinesCarouselType, FiltersTypes, ReuseableCarouselType } from '@/types'
-import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { CarouselVertical } from './CarouselVertical'
 import { Button } from '../ui/button'
@@ -26,14 +25,6 @@ export const DuoCarousels = () => {
 export const ReusableCarousel = ({ ...item }: ReuseableCarouselType) => {
     const { items, title } = item;
 
-    // const newDishes = dishes.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?meal=${name.split(" ").join("")}` }))
-
-    // const newCuisines = cuisines.map(name => ({ name: name, picture: `https://source.unsplash.com/random/200?cuisine=${name.split(" ").join("")}` }))
-
-    // const newDishes = dishes.map(name => ({ name: name, picture: `https://picsum.photos/200` }))
-
-    // const newCuisines = cuisines.map(name => ({ name: name, picture: `https://picsum.photos/200` }))
-
     const newDishes = dishes.map(name => ({ name: name }))
 
     const newCuisines = cuisines.map(name => ({ name: name }))
@@ -43,14 +34,12 @@ export const ReusableCarousel = ({ ...item }: ReuseableCarouselType) => {
     return (
         <div className='flex flex-col gap-y-4 justify-center items-center'>
             <h2 className='text-xl font-bold'>{t(`${title}`)}</h2>
-            {/* <CarouselVertical items={items} title={title} /> */}
             <CarouselVertical items={title === "Dish" ? newDishes : newCuisines} title={title} />
         </div>
     )
 }
 
 export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisinesCarouselType & { carouselType: string }) => {
-    // const { name, picture } = item;
     const { name } = item;
 
     const { imgSrc } = useToGetAnImageUrl(name)
@@ -64,8 +53,6 @@ export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisin
         } else {
             setParams(prev => ({ cuisineType: [name] }))
         }
-
-        // console.log(params, "params!!")
     }
 
     const { querifyFilters } = useForQuerifiedParams(params, true)
@@ -77,20 +64,8 @@ export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisin
     return (
         <Button 
             variant={'link'} onClick={prepareForDataFetching} 
-            // className='flex flex-col-reverse gap-x-4 p-1 justify-center items-center h-16 transition-all duration-500 hover:scale-110 -z-0'
-            className='flex flex-col-reverse gap-x-4 p-1 justify-center items-center h-24 transition-all duration-500 hover:scale-110 -z-0'
+            className='flex flex-col-reverse gap-x-4 p-1 justify-center items-center h-24 w-44 transition-all duration-500 hover:scale-110 -z-0'
         >
-            {/* <Image
-                className='w-44 xxs:h-11 lg:h-16 object-cover relative'
-                // fill={true}
-                placeholder='blur'
-                blurDataURL={picture}
-                loading='lazy'
-                width={80}
-                height={50}
-                alt={`${name}`}
-                src={picture}
-            /> */}
             <img
                 className='w-44 xxs:h-11 lg:h-20 object-cover relative rounded-md'
                 placeholder='blur'
@@ -98,11 +73,10 @@ export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisin
                 width={80}
                 height={50}
                 alt={`${name}`}
-                // src={picture}
                 src={failSafeUrl}
                 onError={handleFailsafe}
             />
-            <p className='absolute bg-muted text-primary font-bold px-2 capitalize opacity-80 xxs:text-sm lg:text-lg'>{name}</p>
+            <p className='absolute text-primary-foreground hover:text-muted-foreground bg-primary/60 font-bold px-2 capitalize opacity-80 xxs:text-sm lg:text-lg w-[10.5rem]'>{name}</p>
         </Button>
     )
 }
