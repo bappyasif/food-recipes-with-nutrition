@@ -61,7 +61,7 @@ export const Header = () => {
                 ? <SearchRecipes />
                 : null
             }
-            <div className="flex gap-x-6 items-end self-end">
+            <div className="flex gap-x-16 items-end self-end">
             <LocaleSwitcher />
             <UserAuth />
             </div>
@@ -98,7 +98,7 @@ const UserAuth = () => {
   return (
     <div className="text-accent flex items-center relative cursor-pointer">
 
-      <span onClick={isTrue ? handleFalsy : handleTruthy} className="xxs:text-xl xs:text-2xl sm:text-3xl lg:text-4xl relative duration-1000 transition-all hover:text-card" title="User Auth">
+      <span onClick={isTrue ? handleFalsy : handleTruthy} className="xxs:text-xl xs:text-2xl sm:text-3xl lg:text-3xl relative duration-1000 transition-all hover:text-card" title="User Auth">
         <RiUserSettingsFill />
       </span>
 
