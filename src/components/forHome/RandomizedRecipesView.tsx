@@ -26,8 +26,8 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
 
     const existingFiltersMarkup = (
         <span className='flex flex-col gap-y-4 w-full justify-center items-center xxs:mb-4 lg:mb-8'>
-            <span className='xxs:text-lg md:text-xl lg:text-4xl font-bold text-muted-foreground'>Existing Filters</span>
-            <span className='flex gap-2 flex-wrap xxs:text-sm sm:text-lg md:text-xl lg:text-2xl'>
+            <span className='xxs:text-lg md:text-xl lg:text-4xl font-bold text-secondary'>Existing Filters</span>
+            <span className='flex gap-x-10 gap-y-6 flex-wrap xxs:text-sm sm:text-lg md:text-xl lg:text-2xl'>
                 {filtersMarkup}
             </span>
             <span className='xxs:text-sm md:text-lg lg:text-xl font-bold text-muted-foreground'>{isTrue ? "Fetching New Recipes" : ""}</span>
@@ -58,7 +58,12 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
                 className={`bg-accent hover:bg-accent-foreground text-secondary my-2 xxs:text-sm lg:text-lg mr`}>{recipes.length ? `Recipes Found - ${recipes.length}` : fetchText ? fetchText : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
             {
                 recipes.length
-                    ? <ReusableModal title='Showing Randomly Chosen Recipes' triggerText='Click To View' changeWidth={true} handleTrigger={() => null}>
+                    ? <ReusableModal 
+                    // title='Showing Randomly Chosen Recipes'
+                    title='' 
+                    triggerText='Click To View' 
+                    changeWidth={true} handleTrigger={() => null}
+                    >
                         <span
                             className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
                         >
@@ -69,7 +74,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
 
                                 {
                                     recipes.length
-                                        ? <span className='w-96 min-h-[23.6rem] h-full rounded-sm bg-card text-muted-foreground flex justify-center items-center gap-x-4 text-xl'>Want To See More? <span className='py-2 text-lg text-secondary font-bold h-6 bg-primary hover:bg-special hover:text-muted cursor-pointer px-4 rounded-full flex items-center justify-center' onClick={processRefetch}>Click Here</span></span>
+                                        ? <span className='w-96 min-h-[23.6rem] h-full rounded-sm bg-quaternary text-secondary flex justify-center items-center gap-x-4 text-xl'>Want To See More? <span className='py-2 text-lg text-secondary font-bold h-6 bg-accent hover:bg-primary hover:text-content cursor-pointer px-4 rounded-full flex items-center justify-center' onClick={processRefetch}>Click Here</span></span>
                                         : null
                                 }
                             </span>
@@ -85,7 +90,7 @@ const FilterUsed = ({ ...item }: { title: string, val: string }) => {
     const { title, val } = item;
 
     return (
-        <span className='flex gap-x-2'><span className='bg-card px-2'>{title}:</span><span className='font-semibold px-2 text-special-foreground'>{val || "N/A"}</span></span>
+        <span className='flex gap-x-2 text-secondary'><span className='px-2'>{title}:</span><span className='font-light px-2 text-content'>{val || "N/A"}</span></span>
     )
 }
 
@@ -97,7 +102,7 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
 
     return (
-        <span className='flex flex-col gap-y-2 justify-center items-center xxs:w-96 md:w-80 lg:w-96 bg-card rounded-md'>
+        <span className='flex flex-col gap-y-2 justify-center items-center xxs:w-96 md:w-80 lg:w-96 bg-quaternary hover:bg-ternary rounded-md'>
             <Link 
                 href={`/${locale}/recipe/${extractRecipeId(uri)}`} 
                 className='flex flex-col gap-y-2 relative' 
@@ -111,7 +116,7 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
                 <TbLoader2 size={110} className={`${isLoading ? "absolute animate-spin self-center top-24 z-10" : "hidden"}`} />
             </Link>
 
-            <span className='flex flex-col gap-y-1.5'>
+            <span className='flex flex-col gap-y-1.5 w-full px-2'>
                 <RenderReusableBadgeItem text={`${calories.toFixed(2)}`} title='Calories' />
                 <RenderReusableBadgeItem title='Meal Type' text={mealType[0]} />
                 <RenderReusableBadgeItem title='CO2 Emission Rating' text={co2EmissionsClass} />
@@ -122,9 +127,9 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
 
 const RenderReusableBadgeItem = ({ title, text }: { title: string, text: string }) => {
     return (
-        <span className='flex justify-between gap-x-10 text-muted-foreground w-full'>
-            <span className='font-bold xxs:text-sm lg:text-xl'>{title}</span>
-            <span className='xxs:text-sm lg:text-lg font-semibold text-special-foreground'>{text}</span>
+        <span className='flex justify-between gap-x-10 text-secondary w-full font-medium'>
+            <span className='xxs:text-sm lg:text-xl'>{title}</span>
+            <span className='xxs:text-sm lg:text-lg text-primary'>{text}</span>
         </span>
     )
 }

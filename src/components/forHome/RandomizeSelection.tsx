@@ -67,7 +67,7 @@ export const RandomizeSelection = () => {
         <div
             className='w-full h-fit relative flex flex-col justify-center gap-y-20 text-secondary'
         >
-            <h2 className='text-2xl font-extrabold w-full text-center text-secondary'>{t("Randomly Recipe Finding Game")}</h2>
+            <h2 className='text-2xl font-extrabold text-center bg-secondary text-content w-fit mx-auto p-4 px-10 rounded'>{t("Randomly Recipe Finding Game")}</h2>
 
             <div
                 className='flex flex-col xxs:gap-y-20 lg:gap-y-20 justify-center h-full w-full'
@@ -172,7 +172,7 @@ const GoingOffRandomizer = ({ updateRndNames, clearExisting }: { updateRndNames:
 
     return (
         <div className='flex flex-col xxs:gap-y-4 md:gap-y-10 w-80 relative'>
-            <h2 className={`text-center font-bold ${locale === "bn" ? "text-lg" : "text-lg"} bg-card rounded-md`}>{t("Randomize")} {t("Health")} {t("Label")}</h2>
+            <h2 className={`text-center font-bold ${locale === "bn" ? "text-lg" : "text-lg"} bg-quaternary rounded-md p-2 px-10`}>{t("Randomize")} {t("Health")} {t("Label")}</h2>
             <div>
                 <img src={newImg.src} alt="" width={20} height={20}
                     className='h-20 w-full bg-black bg-blend-darken bottom-11 object-cover rounded-xl'
@@ -257,7 +257,7 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames, clearExisting }
 
     return (
         <div className='w-80 flex flex-col xxs:gap-y-4 lg:gap-y-10 relative h-full'>
-            <h2 className='text-center font-bold text-lg bg-card rounded-md'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
+            <h2 className='text-center font-bold text-lg bg-quaternary rounded-md p-2 px-10'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
             <div>
                 <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-80 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
 
@@ -377,14 +377,14 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset, resetAllFilters }: {
 
     return (
         <>
-            <div className='flex flex-col gap-y-20 items-center justify-center w-full self-end h-full'>
-                <h2 className='text-2xl font-bold text-secondary'>{t("Existing Filters")}</h2>
+            <div className='flex flex-col gap-y-10 items-center justify-center w-full self-end h-full'>
+                <h2 className='text-2xl font-bold bg-secondary text-content p-4 px-10 rounded-md'>{t("Existing Filters")}</h2>
 
                 <div className='flex gap-4 justify-center flex-wrap'>
                     <ShowTitle rnds={rnds} wheelDataset={wheelDataset} />
                     <ShowRandomlySelectedOptions rndNames={rndNames} />
                 </div>
-
+                
                 <div className='flex gap-x-4 justify-center'>
                     <Button disabled={fetchText === "Recipes Data Is Loading, In Progress...."} className='bg-muted-foreground font-bold w-fit hover:bg-primary' onClick={handleClickForSpinners} variant={'default'}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted hover:text-accent'>{t("Find Recipes")}</span></Button>
                     <Button className='bg-muted-foreground font-bold w-fit hover:bg-destructive-foreground' onClick={handleResetFilters}><span className='transition-all duration-1000 hover:scale-110 w-full text-muted'>Clear Filters</span></Button>
@@ -414,7 +414,7 @@ const ShowOptionSelected = ({ title, val }: { title: string, val: string }) => {
     const t = useTranslations("default")
     return (
         <h2 className='flex flex-col gap-y-2 xxs:w-40 lg:w-44 text-center'>
-            <span className='font-bold xxs:text-sm md:text-lg bg-card rounded-md'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</span>
+            <span className='font-bold xxs:text-sm md:text-lg bg-quaternary rounded-md'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</span>
             <span className='font-semibold xxs:text-xs md:text-sm text-secondary'>{val ? val : "intrim spin"}</span>
         </h2>
     )
@@ -437,11 +437,11 @@ const ShowTitle = ({ rnds, wheelDataset }: {
     return (
         <div className='flex gap-x-6'>
             <h2 className='flex flex-col gap-y-2 xxs:w-40 lg:w-44 text-center'>
-                <span className='font-bold xxs:text-sm md:text-lg bg-card rounded-md'>{t("Dish")}</span>
+                <span className='font-bold xxs:text-sm md:text-lg bg-quaternary rounded-md'>{t("Dish")}</span>
                 <span className='font-semibold xxs:text-xs md:text-sm text-secondary'>{wheelDataset.forDishes[dish] ? wheelDataset.forDishes[dish] : "intrim spin"}</span>
             </h2>
             <h2 className='flex flex-col gap-y-2 xxs:w-40 lg:w-44 text-center'>
-                <span className='font-bold xxs:text-sm md:text-lg bg-card rounded-md'>{t("Cuisine")}</span>
+                <span className='font-bold xxs:text-sm md:text-lg bg-quaternary rounded-md'>{t("Cuisine")}</span>
                 <span className='font-semibold xxs:text-xs md:text-sm text-secondary'>{wheelDataset.forCuisines[cuisine] ? wheelDataset.forCuisines[cuisine] : "intrim spin"}</span>
             </h2>
         </div>
@@ -474,10 +474,10 @@ const ReuseableWheelCarousel = ({ dataset, title, updateRnds, clearExisting }: {
     const t = useTranslations("default")
 
     return (
-        <div 
+        <div
             className={`flex justify-center relative z-20 h-[31rem] px-28`}
         >
-            <h2 className='text-center font-bold text-lg bg-card h-fit px-20 rounded-md'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
+            <h2 className='text-center font-bold text-lg bg-quaternary h-fit p-2 px-20 rounded-md'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
 
             <MouseWheelBasedCarousel handleRandomNumber={handleRandomNumber} rndNum={rndNum} handleResetRandomNumber={handleResetRandomNumber} dataset={dataset} />
         </div>

@@ -104,7 +104,7 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
                 onWheel={handleScroll}
                 id='wheel'
                 ref={wheelRef}
-                className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-muted-foreground'
+                className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-ternary'
                 onMouseEnter={handleTruthy}
                 onMouseLeave={handleFalsy}
                 style={{
@@ -140,7 +140,7 @@ const CarouselCard = ({ ...item }: {
 
     return (
         <div 
-        className={`absolute -translate-x-[50%] -translate-y-[50%]  text-muted-foreground rounded-full flex justify-center items-center ${selected ? "bg-primary z-20" : "bg-secondary"} text-primary-foreground hover:scale-110 hover:z-20`}
+        className={`absolute -translate-x-[50%] -translate-y-[50%]  text-muted-foreground rounded-full flex justify-center items-center ${selected ? "bg-primary z-20 text-content" : "bg-accent text-secondary"} hover:scale-110 hover:z-20`}
             style={{...styles.card, left: `${center.x + newCoords.x}px`, top: `${center.y + newCoords.y}px`, 
         }}
         >

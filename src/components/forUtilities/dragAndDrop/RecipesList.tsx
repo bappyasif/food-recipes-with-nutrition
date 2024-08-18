@@ -19,14 +19,11 @@ export const RecipesList = ({ open }: { open: boolean }) => {
 
     return (
         <div 
-            // className='xxs:w-[18rem] md:w-[42rem]'
             className='xxs:w-[18rem] md:w-[44.3rem]'
         >
             <p className='text-sm p-2 font-semibold text-special-foreground text-center'>You can search your favorite recipes and add to it scheduler or share on social media as well.</p>
             
             <div
-                // className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-[18rem] md:w-[42rem] h-[42rem] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-4`}
-
                 className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-4 justify-between h-[40rem] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-0.5`}
             >
                 <Bucket cards={recipeCards} updateCards={updateCards} searchText={text} />
@@ -34,32 +31,18 @@ export const RecipesList = ({ open }: { open: boolean }) => {
             </div>
         </div>
     )
-
-    // return (
-    //     <div
-    //         // className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-[18rem] md:w-[36rem] h-[42rem] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-4`}
-
-    //         className={`flex xxs:flex-col-reverse xxs:gap-y-4 md:flex-row gap-2 justify-between xxs:w-[18rem] md:w-[42rem] h-[42rem] transition-all duration-1000 ${open ? "-translate-x-0" : ""} py-4`}
-    //     >
-    //         <Bucket cards={recipeCards} updateCards={updateCards} searchText={text} />
-    //         <SearchRecipesByName addToCards={addToCards} handleTextChange={handleTextChange} text={text} />
-    //     </div>
-    // )
 }
 
 const SearchRecipesByName = ({ addToCards, text, handleTextChange }: { addToCards: (d: any) => void, text: string, handleTextChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void }) => {
 
     return (
         <div
-            // className='relative'
             className='relative bg-accent/20 w-1/2 pl-2'
         >
             <input
                 type="text" placeholder='seacrh recipes by name'
                 value={text} onChange={handleTextChange}
-                // className="w-full rounded-sm px-2 text-special-foreground bg-transparent border-0 border-b-2 border-b-special placeholder:text-special-foreground mb-1.5 focus:outline-none"
-
-                className="w-full rounded-sm px-2 text-special-foreground bg-transparent border-0 border-b-2 border-b-special placeholder:text-special-foreground mb-1.5 focus:outline-none text-3xl"
+                className="w-full rounded-sm px-2 text-special-foreground bg-transparent border-0 border-b-2 border-b-primary/80 placeholder:text-primary/80 mb-1.5 focus:outline-none text-3xl"
             />
             <ShowAllFoundRecipes text={text} addToCards={addToCards} />
         </div>
@@ -84,10 +67,6 @@ const ShowAllFoundRecipes = ({ text, addToCards }: { text: string, addToCards: (
 
     return (
         <div
-            // className={`absolute flex flex-col gap-y-2 ${recipes?.length ? " xxs:h-80 md:h-[38rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[15.9rem]`}
-
-            // className={`absolute flex flex-col gap-y-2 ${recipes?.length ? " xxs:h-80 md:h-[37.18rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[20.2rem]`}
-
             className={`absolute flex flex-col gap-y-2 ${recipes?.length ? " xxs:h-80 md:h-[37.18rem] overflow-y-scroll no-scrollbar" : "h-0"} xxs:w-[13rem] sm:w-[13.9rem] lg:w-[21.1rem]`}
         >
             {recipes?.length ? renderRecipes() : null}
@@ -135,7 +114,7 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
 
     return (
         <div
-            className='p-2 bg-primary-foreground flex flex-col gap-y-2 items-center justify-between w-full'
+            className='p-2 bg-background flex flex-col gap-y-2 items-center justify-between w-full'
             ref={drag}
             style={{ ...style, opacity }}
             title='Drag To Drop Box or Click Add'
@@ -144,7 +123,7 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
                 <h2 className='text-primary text-xl'>{label}</h2>
                 <img src={imgSrc} width={60} height={60} alt={label} className='w-11 h-11 rounded-full' />
             </div>
-            <Button className='text-primary' variant={'secondary'} onClick={() => {
+            <Button className='text-content' variant={'secondary'} onClick={() => {
                 addToCards({ label, id, imgSrc })
             }}>Add Recipe To Bucket</Button>
         </div>

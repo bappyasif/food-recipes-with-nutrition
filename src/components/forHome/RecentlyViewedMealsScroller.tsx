@@ -77,7 +77,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         title={checkIfDayOlder() ? `You might be looking at a random picture, click here to view recipe detail page for real info: ${label}` : `Click to view details: ${label}`}
         className='relative text-center w-60'
       >
-        <p className={`absolute top-0.5 text-center font-medium bg-primary/60 text-primary-foreground hover:text-muted-foreground transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} z-10 px-4 m-0.5 w-[14.8rem]`}>
+        <p className={`absolute top-0.5 text-center font-medium bg-primary/60 text-content hover:text-ternary transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} z-10 px-4 m-0.5 w-[14.8rem]`}>
           {label!?.length > 51 ? ellipsedText(label!, 51) : label!}
         </p>
 
@@ -101,7 +101,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         <ReusableBadge text={typeof cuisineType === "object" ? cuisineType[0] : cuisineType} title='Cuisine' />
 
         <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} >
-          <Badge className='flex gap-x-4 justify-between items-center bg-muted-foreground text-muted hover:text-muted-foreground text-lg' title={label}>
+          <Badge className='flex gap-x-4 justify-between items-center bg-ternary text-secondary hover:text-ternary text-lg' title={label}>
             <span>Name:</span>
             <span>{removeWrodRecipe(label!)!?.length > 11 ? ellipsedText(removeWrodRecipe(label!)!, 11) : removeWrodRecipe(label!)!}</span>
           </Badge>

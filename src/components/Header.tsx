@@ -96,7 +96,7 @@ const UserAuth = () => {
   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
   return (
-    <div className="text-accent flex items-center relative cursor-pointer">
+    <div className="text-content flex items-center relative cursor-pointer">
 
       <span onClick={isTrue ? handleFalsy : handleTruthy} className="xxs:text-xl xs:text-2xl sm:text-3xl lg:text-3xl relative duration-1000 transition-all hover:text-card" title="User Auth">
         <RiUserSettingsFill />
@@ -123,7 +123,7 @@ const ShowDropdown = ({ handleFalsy }: { handleFalsy: () => void }) => {
     status === "authenticated"
       ? <UserAuthLinkView href={`/api/auth/signout`} text="Logout" icon={<GoSignOut />} />
       : status === "loading"
-        ? <Link className="pointer-events-none bg-accent px-2 rounded-md" href={""}>Wait..</Link>
+        ? <Link className="pointer-events-none bg-background px-2 rounded-md" href={""}>Wait..</Link>
         : <>
           <UserAuthLinkView href={`/${locale}/signup`} text="Signup" icon={<TiUserAdd />} />
           <UserAuthLinkView href={`/api/auth/signin`} text="Sign-In" icon={<GoSignIn />} />
@@ -199,7 +199,7 @@ const SearchRecipes = () => {
       ref={ref}
     >
       <input
-        className="xxs:w-44 sm:w-64 md:w-72 lg:w-96 2xl:w-[29rem] h-full rounded-sm xxs:pl-1.5 lg:pl-1.5 text-muted-foreground bg-transparent border-0 border-b-2 border-b-accent placeholder:text-accent xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl focus:outline-none pb-0.5"
+        className="xxs:w-44 sm:w-64 md:w-72 lg:w-96 2xl:w-[29rem] h-full rounded-sm xxs:pl-1.5 lg:pl-1.5 text-muted-foreground bg-transparent border-0 border-b-2 border-b-accent placeholder:text-content xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl focus:outline-none pb-0.5"
         type="text" placeholder='search recipes by name'
         value={text} onChange={handleTextChange} onFocus={handleTruthyForFocused}
         onKeyUp={handleEnterPressed}
@@ -210,7 +210,7 @@ const SearchRecipes = () => {
         title="Click To Search Now"
         disabled={isTrue && text.length >= 2}
         // className={`absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-muted-foreground" : "bg-special-foreground"} text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl`}
-        className={`absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-secondary" : "bg-accent/80"} text-muted hover:text-muted hover:bg-card font-semibold xxs:text-sm md:text-lg lg:text-xl`}
+        className={`absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-secondary" : "bg-background/80"} text-muted hover:text-muted hover:bg-card font-semibold xxs:text-sm md:text-lg lg:text-xl`}
       >
         <RiSearchLine />
       </Button>
@@ -229,7 +229,7 @@ const ShowAllFoundRecipes = ({ showDropdown, handleFalsyForFocused, recipes }: {
       <Link
         href={`/${locale}/recipe/${extractRecipeId(uri)}`}
         key={uri}
-        className='grid grid-cols-3 gap-1 text-primary justify-between p-1 xxs:px-1.5 lg:px-2.5 hover:bg-accent'
+        className='grid grid-cols-3 gap-1 text-primary justify-between p-1 xxs:px-1.5 lg:px-2.5 hover:bg-background'
         title={`Click to see in detail: ${label}`}
         onClick={handleFalsyForFocused}
       >
@@ -257,7 +257,7 @@ const RenderNav = ({ ...item }: NavType) => {
   return (
     <Link
       href={`/${locale}/${path}`}
-      className="flex gap-1 items-center justify-center font-bold text-accent transition-all duration-500 hover:text-special h-fit">
+      className="flex gap-1 items-center justify-center font-bold text-content transition-all duration-500 hover:text-special h-fit">
       <span
         className="xxs:text-lg xs:text-xl sm:text-2xl lg:text-4xl"
       >{icon}</span>

@@ -54,17 +54,8 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
 
     return (
         <div
-            // className='flex flex-col gap-y-2 w-72 justify-between items-center'
             className='flex flex-col gap-y-2 w-72 md:w-1/2 justify-between items-center pl-2'
         >
-            {/* <div
-                className={`bg-primary-focus ${isActive ? "bg-accent" : (!cards.length && !searchText) ? "bg-secondary" : "bg-special-foreground"} mt-1 mx-auto xxs:hidden md:flex items-center justify-center`}
-                ref={drop}
-                style={{ ...style }}
-            >
-                {isActive ? 'Release to drop' : (!cards.length && !searchText) ? "Search Recipes First" : 'Drag a box here'}
-            </div> */}
-
             <h2
                 className={`text-muted bg-special-foreground font-bold text-xl flex items-center justify-center rounded-sm`}
                 style={{...style}}
@@ -73,10 +64,6 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
                     cards.length === 0 ? "Search Recipes First" : cards.length < 2 ? "Add More Cards" : "You Can Re-arrange Cards"
                 }
             </h2>
-            {/* <hr /> */}
-
-            {/* <h2 className={`text-special font-bold text-xl`}>{cards.length === 0 ? "" : cards.length < 2 ? "Add More Cards" : "You Can Re-arrange Cards"}</h2>
-            <hr /> */}
 
             {/* we can directly use this for drop and drag of recipes card but have to make cards item compliance with already implemented module */}
             <BucketCardsContainer recipeCards={cards} />
@@ -156,15 +143,13 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
 
     return (
         <div
-            // className='w-60 self-center'
             className='w-full self-center pb-0.5'
         >
             <div
                 className='flex xxs:flex-col gap-2 justify-between'
-            // title={decideTitleText()}
             >
                 <Button
-                    className='text-xs w-full text-muted'
+                    className='text-xs w-full text-content'
                     disabled={!cards?.length || status === "unauthenticated"}
                     onClick={handleClickedScheduler}
                     title={decideTitleText()}

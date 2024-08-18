@@ -24,7 +24,7 @@ export const HomeHero = () => {
                 />
 
                 <div
-                    className='w-full z-20 absolute text-accent border border-primary'
+                    className='w-full z-20 absolute text-content/80 border border-primary rounded'
                 >
                     <div className='grid grid-cols-3 place-items-center items-center h-[5.71rem]'>
                         <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-primary/40 flex items-center justify-center '>Be</h2>
@@ -179,7 +179,7 @@ const RightExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
     return (
         <div
-            className={`absolute bg-secondary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1.5" : "xxs:translate-x-[18.4rem] md:translate-x-[36rem] lg:translate-x-[44.3rem]"} z-20`}
+            className={`absolute bg-ternary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1.5" : "xxs:translate-x-[18.4rem] md:translate-x-[36rem] lg:translate-x-[44.3rem]"} z-20`}
         >
             <Button onClick={handleClicked} variant={'secondary'}
 

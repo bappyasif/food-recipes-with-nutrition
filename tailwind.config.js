@@ -64,6 +64,17 @@ module.exports = {
           DEFAULT: "hsl(var(--special))",
           foreground: "hsl(var(--special-foreground))",
         },
+        content: {
+          DEFAULT: "hsl(var(--content))",
+        },
+        ternary: {
+          DEFAULT: "hsl(var(--ternary))",
+          foreground: "hsl(var(--ternary-foreground))",
+        },
+        quaternary: {
+          DEFAULT: "hsl(var(--quaternary))",
+          foreground: "hsl(var(--quaternary-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

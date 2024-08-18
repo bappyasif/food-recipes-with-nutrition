@@ -111,9 +111,9 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
             {/* before card is flipped */}
             <div className={`${styles.whenNotFlipped}`}>
                 <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex items-center justify-center flex-col gap-y-2'>
-                    {/* <h2 className='font-bold text-lg'>{label.length > 11 ? ellipsedText(label, 11) : label}</h2> */}
+                    
                     <h2 className='font-bold text-lg'>{removeWrodRecipe(label).length > 25 ? ellipsedText(removeWrodRecipe(label), 25) : removeWrodRecipe(label)}</h2>
-                    {/* <Image src={images?.SMALL?.url || images?.REGULAR?.url} alt={label} width={images?.SMALL?.width || images?.REGULAR?.width} height={images?.SMALL?.height || images?.REGULAR?.height} className='w-64' blurDataURL={images?.SMALL?.url || images?.REGULAR?.url} placeholder='blur' loading='lazy' /> */}
+                    
                     <img
                         src={images?.SMALL?.url || images?.REGULAR?.url}
                         alt={label}
@@ -204,18 +204,11 @@ export const ReusableModal = ({ children, triggerText, title, changeWidth, handl
                     && (
                         <DialogHeader>
                             <DialogTitle
-                                className='text-muted-foreground text-center'
+                                className='text-primary text-center'
                             >{title}</DialogTitle>
                         </DialogHeader>
                     )
                 }
-                {/* <DialogHeader>
-                    <DialogTitle 
-                        // className={`text-muted-foreground text-center ${title.length>1 ? "block" : "hidden"}`}
-                        className='text-muted-foreground text-center'
-                    >{title}</DialogTitle>
-                </DialogHeader> */}
-
                 <DialogDescription>
                     {children}
                 </DialogDescription>
