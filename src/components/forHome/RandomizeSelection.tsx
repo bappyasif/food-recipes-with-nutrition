@@ -8,7 +8,6 @@ import { Button } from '../ui/button';
 import { useForRanmoziedDataset, useForTruthToggle } from '@/hooks/forComponents';
 import { searchRecipes } from '@/utils/dataFetching';
 import { RandomizedRecipesView } from './RandomizedRecipesView';
-import newImg from "../../../public/blob-s4f1.svg"
 import { useTranslations, useLocale } from 'use-intl';
 
 export const RandomizeSelection = () => {
@@ -124,27 +123,29 @@ const GoingOffRandomizer = ({ updateRndNames, clearExisting }: { updateRndNames:
         return () => clearTimeout(timer)
     }
 
-    const renderDivs = () => (rnd >= 0 ? clonedData.slice(0, rnd) : clonedData).map((name, idx) => <div key={name + idx} className='absolute -translate-y-11 translate-x-0 z-0 w-full text-center opacity-1'>{name}</div>)
+    const renderDivs = () => (rnd >= 0 ? clonedData.slice(0, rnd) : clonedData).map((name, idx) => <div key={name + idx} className='absolute -translate-y-15 translate-x-0 z-0 w-full text-center opacity-1'>{name}</div>)
 
     const spewingOut = () => {
         if (ref.current) {
             ref.current.childNodes.forEach((divItm, idx) => {
 
                 if (rnd === -2) {
-                    (divItm as HTMLDivElement).style.transform = `translateY(-42px) translateX(0)`;
+                    (divItm as HTMLDivElement).style.transitionDuration = `${.6}s`;
+                    (divItm as HTMLDivElement).style.transform = `translateY(0) translateX(0)`;
                     updateRndNames("", "health");
                     (divItm as HTMLDivElement).style.opacity = "1";
                     return
                 }
 
                 if (idx === rnd - 1) {
-                    (divItm as HTMLDivElement).style.transform = `translateY(-42px) translateX(0)`;
+                    (divItm as HTMLDivElement).style.transitionDuration = `${.9}s`;
+                    (divItm as HTMLDivElement).style.transform = `translateY(0) translateX(0)`;
                     updateRndNames(divItm.textContent!, "health");
                     (divItm as HTMLDivElement).style.opacity = "1";
                 } else {
                     const rndNum = Math.random();
                     (divItm as HTMLDivElement).style.transitionDuration = `${.6}s`;
-                    (divItm as HTMLDivElement).style.transform = rndNum < .2 ? `translateX(${36}px)` : rndNum < .4 ? `translateY(-${44}px)` : rndNum < .6 ? `translateY(${36}px)` : `translateX(-${44}px)`;
+                    (divItm as HTMLDivElement).style.transform = rndNum < .2 ? `translateX(${15}px)` : rndNum < .4 ? `translateY(-${15}px)` : rndNum < .6 ? `translateY(${15}px)` : `translateX(-${15}px)`;
                     (divItm as HTMLDivElement).style.opacity = `0`;
                 }
             })
@@ -174,12 +175,9 @@ const GoingOffRandomizer = ({ updateRndNames, clearExisting }: { updateRndNames:
         <div className='flex flex-col xxs:gap-y-4 md:gap-y-10 w-80 relative'>
             <h2 className={`text-center font-bold ${locale === "bn" ? "text-lg" : "text-lg"} bg-quaternary rounded-md p-2 px-10`}>{t("Randomize")} {t("Health")} {t("Label")}</h2>
             <div>
-                <img src={newImg.src} alt="" width={20} height={20}
-                    className='h-20 w-full bg-black bg-blend-darken bottom-11 object-cover rounded-xl'
-                />
                 <div
                     ref={ref}
-                    className="relative viewport flex flex-col justify-center items-center font-extrabold"
+                    className="relative viewport flex flex-col justify-center items-center font-extrabold h-20 border-x-8 rounded-l-2xl rounded-r-2xl"
                 >
                     {rnd > 0 ? renderDivs() : rnd === -2 ? <span className='absolute'>Spin It!!</span> : null}
                 </div>
@@ -192,7 +190,7 @@ const GoingOffRandomizer = ({ updateRndNames, clearExisting }: { updateRndNames:
 const ReuseableBoxedRandomizer = ({ data, title, updateRndNames, clearExisting }: { data: string[], title: string, updateRndNames: (v: string, t: string) => void, clearExisting: boolean }) => {
     const clonedData = data.concat(data, data, data, data, data, data)
 
-    const renderDivs = () => clonedData.map((name, idx) => <div className={`h-8 w-full flex justify-center items-center text-muted-foreground ${idx === prevSlideShown ? "bg-primary font-bold text-secondary" : "bg-secondary"}`} key={name + idx}>{name}</div>)
+    const renderDivs = () => clonedData.map((name, idx) => <div className={`h-8 w-full flex justify-center items-center text-muted-foreground ${idx === prevSlideShown ? "bg-primary font-bold z-20 text-muted-foreground" : "z-10 bg-accent text-secondary"} rounded-sm`} key={name + idx}>{name}</div>)
 
     const ref = useRef<HTMLDivElement>(null)
 
@@ -259,15 +257,14 @@ const ReuseableBoxedRandomizer = ({ data, title, updateRndNames, clearExisting }
         <div className='w-80 flex flex-col xxs:gap-y-4 lg:gap-y-10 relative h-full'>
             <h2 className='text-center font-bold text-lg bg-quaternary rounded-md p-2 px-10'>{title.split(" ").map(wd => t(`${wd}`)).join(" ")}</h2>
             <div>
-                <img src={newImg.src} alt="" width={20} height={20} className='absolute h-20 w-80 bg-black bg-blend-darken -z-0 object-cover rounded-lg' />
 
-                <div className="viewport bg-secondary h-16 overflow-hidden mix-blend-lighten rounded-lg">
+                <div className="viewport h-20 overflow-hidden rounded-lg border-x-8 rounded-l-2xl rounded-r-2xl">
                     <div className="flex flex-col gap-y-1 items-center justify-center" ref={ref}>
                         {renderDivs()}
                     </div>
                 </div>
 
-                <Button className='xxs:mt-6 w-full z-10 bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-muted'>{t("Spin")}</span></Button>
+                <Button className='mt-2 w-full z-10 bg-muted-foreground hover:bg-muted-foreground' variant={"secondary"} onClick={handleTruthy}><span className='transition-all duration-1000 hover:scale-150 w-full text-secondary hover:text-muted'>{t("Spin")}</span></Button>
             </div>
         </div>
     )

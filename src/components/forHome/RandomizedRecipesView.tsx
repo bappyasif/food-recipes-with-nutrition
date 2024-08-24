@@ -55,14 +55,16 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
     return (
         <div className='font-bold text-xl text-center'>
             <Badge
-                className={`bg-accent hover:bg-accent-foreground text-secondary my-2 xxs:text-sm lg:text-lg mr`}>{recipes.length ? `Recipes Found - ${recipes.length}` : fetchText ? fetchText : "Recipes will show here when ready, Click To Find Recipes...."}</Badge>
+                className={`bg-accent hover:bg-accent-foreground text-secondary my-2 xxs:text-sm lg:text-lg mr ${fetchText || recipes.length ? "visible" : "invisible"}`}
+            >
+                {recipes.length ? `Recipes Found - ${recipes.length}` : fetchText}
+            </Badge>
             {
                 recipes.length
-                    ? <ReusableModal 
-                    // title='Showing Randomly Chosen Recipes'
-                    title='' 
-                    triggerText='Click To View' 
-                    changeWidth={true} handleTrigger={() => null}
+                    ? <ReusableModal
+                        title=''
+                        triggerText='Click To View'
+                        changeWidth={true} handleTrigger={() => null}
                     >
                         <span
                             className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
@@ -98,20 +100,20 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     const { uri, label, calories, images, mealType, co2EmissionsClass } = data;
     const { LARGE, REGULAR, SMALL } = images;
     const locale = useLocale()
-    
+
     const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
 
     return (
-        <span className='flex flex-col gap-y-2 justify-center items-center xxs:w-96 md:w-80 lg:w-96 bg-quaternary hover:bg-ternary rounded-md'>
-            <Link 
-                href={`/${locale}/recipe/${extractRecipeId(uri)}`} 
-                className='flex flex-col gap-y-2 relative' 
+        <span className='flex flex-col gap-y-2 justify-center items-center xxs:w-96 md:w-80 lg:w-96 bg-background rounded-md hover:bg-background/40'>
+            <Link
+                href={`/${locale}/recipe/${extractRecipeId(uri)}`}
+                className='flex flex-col gap-y-2 relative hover:bg-secondary text-primary hover:text-ternary rounded-sm'
                 title={label}
                 onClick={isLoading ? falsy : truthy}
             >
-                <span className='font-bold text-2xl text-primary text-center'>{removeWrodRecipe(label).length > 26 ? ellipsedText(removeWrodRecipe(label), 26) : removeWrodRecipe(label)}</span>
+                <span className='font-bold text-2xl text-center'>{removeWrodRecipe(label).length > 26 ? ellipsedText(removeWrodRecipe(label), 26) : removeWrodRecipe(label)}</span>
 
-                <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] xxs:h-40 lg:h-64 rounded-sm object-cover duration-300 transition-all hover:object-center hover:rounded-full' placeholder='blur' loading='lazy' />
+                <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] xxs:h-40 lg:h-64 rounded-sm object-cover duration-300 transition-all hover:object-center hover:rounded-md' placeholder='blur' loading='lazy' />
 
                 <TbLoader2 size={110} className={`${isLoading ? "absolute animate-spin self-center top-24 z-10" : "hidden"}`} />
             </Link>

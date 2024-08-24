@@ -9,14 +9,12 @@ import Link from 'next/link'
 import { extractRecipeId, removeWrodRecipe } from '../forFilters/RecipesView'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
-import Image from 'next/image'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 import { sortByVisitCounts } from '@/redux/features/recipes/RecipesSlice'
 import { useForTruthToggle } from '@/hooks/forComponents'
 import { useToGetAnImageUrl, useToGetRandomImageUrlIfFails } from '@/hooks/forPexels'
-import { RiLoader2Fill } from 'react-icons/ri'
 import { TbLoader2 } from 'react-icons/tb'
 
 type DataType = {
@@ -34,14 +32,7 @@ export const ShowRecipes = ({ user }: { user: any }) => {
   //   replace(`/${locale}/prompt-user`)
   // }
 
-  // const [sorted, setSorted] = useState<RecipeMealType[]>([])
-
   const recipesList = useAppSelector(state => state.recipes.list)
-  // ?.sort((a, b) => a.count! > b.count! ? 1 : -1)
-
-  // useEffect(() => {
-
-  // }, [recipesList])
 
   const dispatch = useAppDispatch()
 
@@ -67,8 +58,6 @@ export const ShowRecipes = ({ user }: { user: any }) => {
 
   useEffect(() => {
     isTrue && recipesList.length && handleOnce()
-    // recipesList.length && handleOnce()
-    // recipesList.length && dispatch(sortByVisitCounts())
   }, [recipesList, isTrue])
 
   const handleNext = () => {
@@ -126,7 +115,6 @@ export const ShowRecipes = ({ user }: { user: any }) => {
 
       <div 
         className={`gap-x-4 justify-center w-full ${getRecipesForCurrentPage()?.length ? "flex" : "hidden"}`}
-        // className='flex gap-x-4 justify-center w-full'
       >
         <Button disabled={pageNum <= 1} onClick={handlePrev}>Prev</Button>
         <Button
@@ -150,49 +138,31 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   if (!cuisineType) return
 
-  // const checkIfDayOlder = () => moment(lastUpdated).fromNow().includes("day")
-  // const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'days') > 0
   const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'hours') > 1
 
-  const addRandomPicture = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    // e.currentTarget.src = `https://source.unsplash.com/random/200?recipe=${label}`
-    e.currentTarget.src = `https://picsum.photos/200`
-  }
-
-  // console.log(checkIfDayOlder(), label, moment().diff(moment(lastUpdated), 'hours'))
   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
   return (
-    <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col gap-y-4 justify-between xl:h-[39rem] relative items-center'>
+    <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col gap-y-4 justify-between xl:h-[39rem] relative items-center bg-secondary'>
       <img
-        // src={url} 
-        // src={checkIfDayOlder() ? `https://source.unsplash.com/random/200?recipe=${label}` : url}
-        // src={checkIfDayOlder() ? `https://picsum.photos/400` : url}
         title={checkIfDayOlder() ? `You might be looking at a random relatable picture!!, Recipe: ${label}, Click "See Details" for full details` : `Recipe: ${label}, Click "See Details" for full details`}
         src={checkIfDayOlder() ? failSafeUrl : url}
         alt={label!} width={width} height={height}
         className='xxs:w-full h-72 aspect-square object-cover rounded-sm transition-all duration-700 mix-blend-lighten'
-        // blurDataURL={url} 
         placeholder='blur'
         loading='lazy'
-        // onError={addRandomPicture}
         onError={handleFailsafe}
       />
 
       <TbLoader2 size={80} className={`${isTrue ? "absolute animate-spin self-center h-72" : "hidden"}`} />
 
       <CardHeader
-        className='font-bold xxs:text-lg md:text-2xl text-muted-foreground hover:text-primary text-center w-full'
+        // className='font-bold xxs:text-lg md:text-2xl text-muted-foreground hover:text-primary text-center w-full'
+        className='font-bold xxs:text-lg md:text-2xl text-accent hover:text-muted-foreground text-center w-full'
         title={checkIfDayOlder() ? `You might be looking at a random relatable picture!!, Recipe: ${label}, Click To View details` : `Recipe: ${label}, Click To View details`}
       >
-        {/* <Link href={recipeLink}>{removeWrodRecipe(label!)!?.length > 29 ? ellipsedText(removeWrodRecipe(label!)!, 26) : removeWrodRecipe(label!)}</Link> */}
-
-        <Link className='w-full' onClick={isTrue ? handleFalsy : handleTruthy} href={recipeLink}>{removeWrodRecipe(label!)!?.length > 29 ? ellipsedText(removeWrodRecipe(label!)!, 26) : removeWrodRecipe(label!)}</Link>
-
-        {/* <div onClick={isTrue ? handleFalsy : handleTruthy}>{removeWrodRecipe(label!)!?.length > 29 ? ellipsedText(removeWrodRecipe(label!)!, 26) : removeWrodRecipe(label!)}</div> */}
+        <Link className='w-full' onClick={isTrue ? handleFalsy : handleTruthy} href={recipeLink}>{removeWrodRecipe(label!)!?.length > 22 ? ellipsedText(removeWrodRecipe(label!)!, 22) : removeWrodRecipe(label!)}</Link>
       </CardHeader>
-
-      {/* <RiLoader2Fill size={80} className={`${isTrue ? "absolute animate-spin" : "hidden"}`} /> */}
 
       <CardContent className='flex flex-row gap-4 flex-wrap'>
         <ReuseableBadge txt='Calories' val={calories?.toFixed(2)} />
@@ -201,7 +171,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
       </CardContent>
 
       <CardFooter className='w-full'>
-        <Link onClick={isTrue ? handleFalsy : handleTruthy} className='w-full py-2 bg-accent text-center font-bold xxs:text-lg md:text-xl xl:text-2xl text-muted-foreground hover:text-muted hover:bg-primary rounded-lg' href={`/${locale}/recipe/${extractRecipeId(uri!)}`}>See Details</Link>
+        <Link onClick={isTrue ? handleFalsy : handleTruthy} className='w-full py-2 bg-quaternary text-center font-bold xxs:text-lg md:text-xl xl:text-2xl text-secondary hover:text-muted hover:bg-muted-foreground rounded-lg' href={`/${locale}/recipe/${extractRecipeId(uri!)}`}>See Details</Link>
       </CardFooter>
     </Card>
   )
@@ -209,9 +179,8 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
 
 const ReuseableBadge = ({ txt, val }: { txt: string, val: string | number | undefined }) => {
   return (
-    <Badge className='flex gap-x-4 w-fit bg-accent text-muted-foreground hover:text-muted xxs:text-xs md:text-sm xl:text-lg capitalize'>
+    <Badge className='flex gap-x-4 w-fit text-accent hover:text-muted xxs:text-xs md:text-sm xl:text-lg capitalize'>
       <span>{txt}</span>
-      {/* <span>{typeof val === "string" ? val?.length ? ellipsedText(val, 14) : val : val}</span> */}
       <span>{val}</span>
     </Badge>
   )

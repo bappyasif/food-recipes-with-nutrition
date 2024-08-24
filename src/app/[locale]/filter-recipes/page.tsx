@@ -14,8 +14,6 @@ export async function generateMetadata(
   const baseTitle = (await (parent)).title?.absolute
 
   return {
-    // title: "Filters Page"
-    // title: recipeData?.label,
     title: `${baseTitle} : Filters Page`,
     // openGraph: {
     //   images: [recipeData.images.REGULAR.url, ...previousImages],

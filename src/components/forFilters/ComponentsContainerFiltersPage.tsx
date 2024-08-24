@@ -72,14 +72,12 @@ export const ComponentsContainerFiltersPage = () => {
     })
   }
 
-  // IFNEXTDATAALREADYEXIST
+  // IFNEXTSETSOFDATAEXIST
   const check = pageNumber < untrackedList[untrackedList.length - 1]?.page
-
-  // console.log(untrackedList, "untrackedList", pageNumber, "page number")
 
   return (
     <div
-      className={`${(recipesData.recipesFound?.length) ? "h-fit" : "min-h-[100vh]"} bg-secondary text-muted-foreground flex flex-col gap-y-10 pb-20`}
+      className={`${(recipesData.recipesFound?.length) ? "h-fit" : "min-h-[100vh]"}  flex flex-col gap-y-10 pb-20`}
     >
       <FiltersDashboard handleRecipesFound={handleRecipesFound} resetPageNumber={resetPageNumber} />
 

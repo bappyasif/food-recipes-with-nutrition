@@ -138,8 +138,6 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
 
             readyForRendering?.length && setNotifyText("")
 
-            // !readyForRendering?.length && alert("Sorry, nothing is found to display for this combination, please try again, thank you :)")
-
             !readyForRendering?.length && setNotifyText("No Recipes Found With This Combination, please try again later, thank you")
         }).catch(err => {
             console.log(err)
@@ -170,15 +168,21 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
     return (
         <FiltersContext.Provider value={{ filters: filters, handleFilterChange: handleFiltersChange }}>
             <div className='flex flex-col mt-20 mb-0 gap-y-10 justify-center items-center h-fit'>
-                <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold text-special-foreground'>{t("Refine Searches Using Filters")}</h1>
+                {/* <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold text-primary'>{t("Refine Searches Using Filters")}</h1> */}
 
                 <div className='flex flex-col gap-y-12 justify-center items-center'>
 
-                    <input type="text" placeholder='search your recipe here by name....' className='xxs:w-2/3 md:w-1/2 xl:w-1/3 py-1 px-2 bg-transparent border-b-2 border-b-primary text-muted-foreground rounded-md placeholder:opacity-60 placeholder:text-center placeholder:text-muted-foreground xxs:text-sm md:text-lg xl:text-xl focus:outline-none' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
+                    <div className='flex gap-x-6 w-full justify-center'>
+                        <input type="text" placeholder='search your recipe here by name....' className='xxs:w-2/3 md:w-1/2 xl:w-1/4 py-1 px-2 bg-transparent border-b-2 border-b-primary text-primary rounded-md placeholder:opacity-60 text-center placeholder:text-center placeholder:text-secondary xxs:text-sm md:text-lg xl:text-xl focus:outline-none' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
 
-                    <Button disabled={notifyText === "Fetching Data"} className={`${notifyText === "Fetching Data" ? "bg-muted-foreground" :"bg-special-foreground"} text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary hover:bg-special`} onClick={handleSearchNow}>{t("Search")}</Button>
+                        <Button disabled={notifyText === "Fetching Data"} className={`${notifyText === "Fetching Data" ? "bg-muted-foreground" : "bg-quaternary"} text-secondary font-bold xxs:text-sm lg:text-lg hover:text-background hover:bg-primary`} onClick={handleSearchNow}>{t("Search")}</Button>
+                    </div>
 
-                    {/* <Button className='bg-special-foreground text-muted font-bold xxs:text-sm lg:text-lg hover:text-secondary hover:bg-special' onClick={handleSearchNow}>{t("Search")}</Button> */}
+                    {/* <input type="text" placeholder='search your recipe here by name....' className='xxs:w-2/3 md:w-1/2 xl:w-1/3 py-1 px-2 bg-transparent border-b-2 border-b-primary text-primary rounded-md placeholder:opacity-60 placeholder:text-center placeholder:text-secondary xxs:text-sm md:text-lg xl:text-xl focus:outline-none' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
+
+                    <Button disabled={notifyText === "Fetching Data"} className={`${notifyText === "Fetching Data" ? "bg-muted-foreground" :"bg-quaternary"} text-secondary font-bold xxs:text-sm lg:text-lg hover:text-background hover:bg-primary`} onClick={handleSearchNow}>{t("Search")}</Button> */}
+
+                    <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold text-primary'>{t("Refine Searches Using Filters")}</h1>
 
                     <MultipleSelectableFilters
                     // handleFiltersChange={handleFiltersChange} 
@@ -202,9 +206,9 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
     useForOutsideClick(ref, handleFalsy)
 
     return (
-        <AccordionItem ref={ref} value={propKey} className={`sm:min-w-[380px] max-w-[33rem] xxs:min-w-[20rem] xs:w-[26rem] sm:w-[31rem] px-2 rounded-md mb-4 bg-popover ring-special-foreground duration-1000 transition-all hover:text-special hover:ring-1 ${isTrue ? "text-special-foreground ring-2" : "ring-0"} border-b-0 h-fit relative`} onClick={handleTruthy}>
+        <AccordionItem ref={ref} value={propKey} className={`sm:min-w-[380px] max-w-[33rem] xxs:min-w-[20rem] xs:w-[26rem] sm:w-[31rem] px-2 rounded-md mb-4 ring-primary bg-accent duration-1000 transition-all hover:text-secondary hover:ring-1 ${isTrue ? "text-primary ring-2" : "text-background ring-0"} border-b-0 h-fit relative`} onClick={handleTruthy}>
             <AccordionTrigger className='xxs:text-lg sm:text-xl lg:text-2xl font-semibold my-4'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
-            <AccordionContent className={`duration-1000 transition-all ${propKey === "health" ? "absolute -left-0 ring-1 hover:ring-special" : "ring-0"} bg-card ${isTrue && propKey === "health" ? "ring-special ring-1 rounded-md z-40" : "ring-0"}`}>
+            <AccordionContent className={`duration-1000 transition-all ${propKey === "health" ? "absolute -left-0 ring-1 hover:ring-primary bg-accent px-2 rounded-md" : "ring-0"} ${isTrue && propKey === "health" ? "ring-primary ring-1 rounded-md z-40" : "ring-0"}`}>
                 <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText}
                 />
             </AccordionContent>
@@ -214,10 +218,8 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
 
 const MultipleSelectableFilters = () => {
     return (
-        <Accordion type='multiple'
-            // className='xxs:columns-1 md:columns-2 xl:columns-3 gap-4 px-20'
-            // className='flex flex-col flex-wrap px-20 gap-4 w-full min-h-[36rem] max-h-[60rem]'
-            // className='flex flex-col flex-wrap px-20 gap-4 w-full max-h-[40rem]'
+        <Accordion
+            type='multiple'
             className='grid xxs:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 grid-flow-row gap-4 px-10'
         >
             <ReusuableAccordionItem propKey='co2EmissionsClass' trigText='Carbon Footprint' data={carbonFootprints} />
@@ -273,16 +275,15 @@ const RenderCheckbox = ({ name, propKey }: CheckboxTypes) => {
     const handleFiltersChange = useContext(FiltersContext).handleFilterChange
 
     return (
-        <Badge variant={'secondary'} className="flex space-x-2 py-1 min-w-fit h-8">
+        <Badge variant={'outline'} className="flex space-x-2 py-1 min-w-fit h-8">
             <Checkbox
-                // value={filters[propKey as keyof FiltersTypes]![getIdx()]} 
                 checked={filters[propKey as keyof FiltersTypes]![getIdx()] ? true : false}
                 id={name}
                 onClick={() => handleFiltersChange(name, propKey)}
             />
             <label
                 htmlFor={name}
-                className="text-sm w-full font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm text-secondary w-full font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
                 {name}
             </label>

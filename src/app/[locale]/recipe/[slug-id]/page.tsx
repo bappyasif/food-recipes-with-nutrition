@@ -55,7 +55,7 @@ const RecipeFullViewPage = async ({ params, searchParams }: Props) => {
   const recipeData = await fetchRecipeData(params['slug-id'])
 
   return (
-    <div className='bg-accent text-muted-foreground'>
+    <div className='text-secondary'>
       {/* <h1>RecipeFullViewPage {params['slug-id']} {recipeData?.label}</h1> */}
       <ShowRecipeDetails params={params} recipeData={recipeData} />
     </div>

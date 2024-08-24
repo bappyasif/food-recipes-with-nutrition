@@ -69,8 +69,6 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                     placeholder='blur' loading='eager'
                 />
             </div>
-
-            {/* <ShareInSocialMedias hashtags={prepareHashtags()} nestedRoute={`${locale}/recipe/${extractRecipeId(uri)}`} title={prepTitle()} description={prepDescription()} ready={!!uri} /> */}
         </div>
     )
 }
@@ -80,9 +78,7 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
 
     return (
         <div 
-            // className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-fit lg:w-[32.1rem] rounded-sm" : `bg-slate-800 xxs:left-0 sm:left-[22%] xxs:h-0 sm:h-0 lg:h-[22rem] lg:w-[18rem] rounded-full ${styles.animateSpin} self-center`} xxs:pl-0 lg:pl-2`}
-
-            className={`absolute transition-all duration-1000 ${showIt ? "bg-slate-400 h-fit xxs:w-fit lg:w-[32.1rem] rounded-sm" : `rounded-full`} xxs:pl-0 lg:pl-2`}
+            className={`absolute transition-all duration-1000 ${showIt ? "bg-background h-fit xxs:w-fit lg:w-[32.1rem] rounded-sm" : `rounded-full`} xxs:pl-0 lg:pl-2`}
         >
 
             <div className={`grid grid-cols-1 justify-items-start transition-all duration-300 ${!showIt ? "-translate-y-20 opacity-0 scale-0" : "translate-y-0 opacity-100 scale-100"} py-2 z-10`}>
@@ -90,9 +86,9 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
                 <div className='flex flex-col gap-y-4 justify-between w-fit'>
 
                     <div className='flex flex-col gap-y-1'>
-                        <Badge title={`Meal Type : ${mealType}`} className='xxs:text-sm lg:text-[0.9rem] font-light flex gap-x-6 justify-between bg-accent'><span>Meal Type</span> <span>{mealType}</span></Badge>
-                        <Badge title={`Cautions : ${cautions[0]}`} className='xxs:text-sm lg:text-[0.9rem] font-light flex gap-x-6 justify-between bg-accent'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>
-                        <Badge title={`Carbon Emissions Rating : ${co2EmissionsClass}`} className='xxs:text-sm lg:text-[0.9rem] font-light flex gap-x-6 justify-between bg-accent'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
+                        <Badge title={`Meal Type : ${mealType}`} className='xxs:text-sm lg:text-[0.9rem] font-light flex gap-x-6 justify-between bg-accent text-secondary hover:text-quaternary'><span>Meal Type</span> <span>{mealType}</span></Badge>
+                        <Badge title={`Cautions : ${cautions[0]}`} className='xxs:text-sm lg:text-[0.9rem] font-light flex gap-x-6 justify-between bg-accent text-secondary hover:text-quaternary'><span>Cautions</span> <span>{cautions[0] || "None"}</span></Badge>
+                        <Badge title={`Carbon Emissions Rating : ${co2EmissionsClass}`} className='xxs:text-sm lg:text-[0.9rem] font-light flex gap-x-6 justify-between bg-accent text-secondary hover:text-quaternary'><span>Carbon Emission Rating</span> <span>{co2EmissionsClass}</span></Badge>
                     </div>
 
                     <div className='flex flex-col gap-y-1'>
@@ -115,7 +111,7 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
 
 const ReusableBadge = ({ text, val }: { text: string, val: string | number }) => {
     return (
-        <Badge title={`${text} : ${val}`} className='px-4 flex gap-x-4 w-fit justify-between xxs:text-sm lg:text-[0.9rem] font-light bg-accent'>
+        <Badge title={`${text} : ${val}`} className='px-4 flex gap-x-4 w-fit justify-between xxs:text-sm lg:text-[0.9rem] font-light bg-accent text-secondary hover:text-quaternary'>
             <span>{text} </span><span>{ typeof val === "string" && val.length > 14 ? ellipsedText(val, 14) : val}</span>
         </Badge>
     )

@@ -49,17 +49,13 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
 
     if (recipes.length < 2) return
 
-    // console.log(randomizedFilters, "randomizedFilters - non-related recipes!!")
 
     return (
-        // recipes.length < 2
-        //     ? "Not Enough Other Interesting Recipes Found To Show"
-        //     :
-        <div className='w-full flex flex-col xxs:gap-y-4 md:gap-y-10 text-special-foreground'>
+        <div className='w-full flex flex-col xxs:gap-y-4 md:gap-y-10'>
             <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("You Might Like")}</h2>
 
             <div className='flex gap-x-6 justify-between items-center mx-4'>
-                <Button className='xxs:w-4 lg:w-20 self-center text-muted-foreground hover:text-primary-foreground font-bold bg-card xxs:h-24 lg:h-64' variant={'default'} onClick={handlePrev}>Prev</Button>
+                <Button className='xxs:w-4 lg:w-20 self-center text-accent font-bold bg-secondary hover:bg-primary xxs:h-24 lg:h-64' variant={'default'} onClick={handlePrev}>Prev</Button>
 
                 {/* very very small screen */}
                 <div
@@ -116,7 +112,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
                 >
                     {renderRecipes()}
                 </div>
-                <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-card text-muted-foreground hover:text-primary-foreground xxs:h-24 lg:h-64' variant={'default'} onClick={handleNext}>Next</Button>
+                <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-secondary hover:bg-primary text-accent xxs:h-24 lg:h-64' variant={'default'} onClick={handleNext}>Next</Button>
             </div>
         </div>
     )
@@ -137,7 +133,6 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
     return (
         <div
             className='flex justify-center gap-4 relative xxs:w-28 sm:w-52 3xl:w-56'
-            // className='flex justify-center gap-4 relative xxs:w-44 lg:w-60'
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
@@ -145,16 +140,10 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
                 className={`transition-transform duration-500 ${isTrue ? "scale-0" : "z-20 scale-100"} text-center flex flex-col gap-y-1`}
             >
                 <Badge className='xxs:text-xs md:text-sm 2xl:text-lg capitalize flex justify-center'>{cuisineType[0]}</Badge>
-                {/* <Image
-                    src={url} alt={label} height={height} width={width}
-                    className='w-36 h-32 object-cover rounded-sm'
-                    blurDataURL={url} placeholder='blur' loading='lazy'
-                /> */}
+               
                 <img
                     src={url} alt={label} height={height} width={width}
                     className='xxs:w-full sm:w-44 md:w-48 xxs:h-24 sm:h-36 lg:h-44 object-cover rounded-sm mx-auto relative'
-                    // className='xxs:w-40 sm:w-44 md:w-48 xxs:h-24 sm:h-28 md:h-32 lg:w-56 lg:h-52 rounded-md mx-auto'
-                    // blurDataURL={url} placeholder='blur' 
                     loading='lazy'
                 />
 
@@ -165,24 +154,21 @@ const RenderNonRelatedRecipe = ({ rdata, firstCard, lastCard }: ForCarouselTypes
             >
                 {/* smaller screen */}
                 <Link
-                    className={`xl:hidden ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`}
+                    className={`xl:hidden ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline hover:text-muted-foreground hover:bg-secondary px-4`}
                     href={`/${locale}/recipe/${recipeId}`} title={label}
                     onClick={isLoading ? falsy : truthy}
                 >
                     {removeWrodRecipe(label).length > 18 ? ellipsedText(removeWrodRecipe(label), 18) : removeWrodRecipe(label)}
-                    {/* {label.length > 18 ? ellipsedText(label, 18) : label} */}
                 </Link>
 
                 {/* bigger screen */}
                 <Link 
-                className={`hidden xl:block ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline`} 
-                // href={`/${locale}/recipe/${recipeId}`} 
-                href={"#"}
+                className={`hidden xl:block ${isTrue ? "xxs:text-sm lg:text-xl" : ""} hover:underline hover:text-muted-foreground hover:bg-secondary px-4`} 
+                href={`/${locale}/recipe/${recipeId}`} 
                 title={label}
                 onClick={isLoading ? falsy : truthy}
                 >
                     {removeWrodRecipe(label).length > 36 ? ellipsedText(removeWrodRecipe(label), 36) : removeWrodRecipe(label)}
-                    {/* {label.length > 18 ? ellipsedText(label, 18) : label} */}
                 </Link>
 
                 <Badge className='w-fit mx-auto'>{mealType[0]}</Badge>

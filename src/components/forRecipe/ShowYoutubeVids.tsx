@@ -52,27 +52,24 @@ export const ShowYoutubeVids = ({ recipeStr }: { recipeStr: string }) => {
 
   return (
     <div className='flex flex-col justify-between items-center'>
-      {/* <h2 className='text-xl font-bold mt-3'>Popular Youtube Videos About This Recipe</h2> */}
-      {/* <h2 className='text-xl font-bold mt-3'>Popular Youtube Videos Found</h2> */}
-
       {/* smaller screens */}
       <div className='xxs:flex flex-col lg:hidden gap-y-2 items-center w-full mb-10'>
         <iframe className="xxs:w-full" width="720" height="315"
           src={`https://www.youtube.com/embed/${vidId}`}>
         </iframe>
         <div className='w-full flex justify-between gap-x-2 text-muted'>
-        <Button className='bg-card w-1/3' variant={'default'} onClick={handlePrev}>Prev</Button>
-        <Button className='bg-card w-1/3' variant={'default'} onClick={handleNext}>Next</Button>
+        <Button className='bg-secondary hover:bg-primary w-1/3' variant={'default'} onClick={handlePrev}>Prev</Button>
+        <Button className='bg-secondary hover:bg-primary w-1/3' variant={'default'} onClick={handleNext}>Next</Button>
         </div>
       </div>
 
       {/* bigger screens */}
       <div className='xxs:hidden lg:flex gap-x-2 items-center'>
-        <Button className='bg-card text-muted-foreground hover:text-primary-foreground' variant={'default'} onClick={handlePrev}>Prev</Button>
+        <Button className='bg-secondary hover:bg-primary text-accent hover:text-primary-foreground' variant={'default'} onClick={handlePrev}>Prev</Button>
         <iframe className="xxs:w-full lg:h-[27rem] lg:w-[40rem] xl:w-[33rem] 2xl:w-[40rem]" width="720" height="315"
           src={`https://www.youtube.com/embed/${vidId}`}>
         </iframe>
-        <Button className='bg-card text-muted-foreground hover:text-primary-foreground' variant={'default'} onClick={handleNext}>Next</Button>
+        <Button className='bg-secondary hover:bg-primary text-accent hover:text-primary-foreground' variant={'default'} onClick={handleNext}>Next</Button>
       </div>
     </div>
   )

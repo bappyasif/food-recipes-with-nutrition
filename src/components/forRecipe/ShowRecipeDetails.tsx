@@ -12,7 +12,6 @@ import { ShowYoutubeVids } from './ShowYoutubeVids'
 import { useTranslations } from "use-intl"
 import { useAppDispatch, useAppSelector } from '@/hooks/forRedux'
 import { addRecipeToList, updateRecipeCount } from '@/redux/features/recipes/RecipesSlice'
-import Head from 'next/head'
 import { useForTruthToggle } from '@/hooks/forComponents'
 import { useToGetAnImageUrl, useToGetRandomImageUrlIfFails } from '@/hooks/forPexels'
 
@@ -40,17 +39,15 @@ export const ShowRecipeDetails = ({ recipeData, params }: { recipeData: RecipeMe
         trackedRecipes.length && recipeData?.uri && addOrUpdateDataIntoStore()
     }, [recipeData, trackedRecipes.length])
 
-    // console.log(trackedRecipes, "trackedRecipes!!")
-
     return recipeData?.label ? <RenderRecipe {...recipeData} /> : null
 }
 
 const RenderRecipe = ({ ...data }: RecipeMealType) => {
-    const { calories, cautions, co2EmissionsClass, cuisineType, dietLabels, digest, dishType, healthLabels, images, ingredients, label, mealType, shareAs, source, tags, totalWeight, uri, url, yield: servings, count } = data;
+    const { cautions, co2EmissionsClass, dietLabels, digest, dishType, healthLabels, ingredients, label, mealType, source, tags, uri, url } = data;
 
     const t = useTranslations("default")
 
-    const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
+    const { handleTruthy, isTrue } = useForTruthToggle()
 
     return (
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-10 pt-10'>
@@ -64,11 +61,11 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 >
                     <RecipeImage {...data} />
 
-                    <div className={`${isTrue ? "xxs:relative xxs:top-0 md:top-0 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 bg-accent w-full xxs:h-[20rem] lg:max-h-[25.2rem] overflow-scroll scroll-smooth no-scrollbar`}>
+                    <div className={`${isTrue ? "xxs:relative xxs:top-0 md:top-0 right-0" : "relative"} flex flex-col justify-start gap-y-4 z-40 w-full xxs:h-[20rem] lg:max-h-[25.2rem] overflow-scroll scroll-smooth no-scrollbar`}>
 
                         <RenderRecipeVariousLabels dietLabels={dietLabels} digest={digest} healthLabels={healthLabels} cautions={cautions} tags={tags} co2={co2EmissionsClass} />
 
-                        <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl text-primary'><span className='font-bold text-muted-foreground'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
+                        <Button variant={'destructive'} className='flex gap-2 xxs:text-sm sm:text-lg lg:text-xl'><span className='font-bold text-muted-foreground'>{t("Source")}:</span> <a href={url} target='_blank'>{source}</a></Button>
                     </div>
                 </div>
 
@@ -86,13 +83,13 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                 <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center'>Some Related Information About This Recipe</h2>
                 <div className='flex xxs:flex-col xxs:gap-y-11 xl:flex-row lg:gap-x-6 justify-around items-center px-10'>
                     <div className='xxs:w-full xl:w-2/4'>
-                        <h2 className='xxs:text-2xl md:text-3xl xl:text-4xl mb-6 mt-2 font-bold text-center text-special-foreground'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
+                        <h2 className='xxs:text-2xl md:text-3xl xl:text-4xl mb-6 mt-2 font-bold text-center'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
                         <div className='h-[27rem] overflow-y-scroll scroll-smooth no-scrollbar'>
                             <RenderDigestTable heading='Digest' labels={digest} />
                         </div>
                     </div>
                     <div className='xxs:w-full xl:w-2/4'>
-                        <h2 className='xxs:text-2xl md:text-3xl xl:text-4xl font-bold mb-6 mt-2 text-center text-special-foreground'>Popular Youtube Videos Found</h2>
+                        <h2 className='xxs:text-2xl md:text-3xl xl:text-4xl font-bold mb-6 mt-2 text-center'>Popular Youtube Videos Found</h2>
                         <ShowYoutubeVids recipeStr={label} />
                     </div>
                 </div>
@@ -107,7 +104,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
 const CustomBadge = ({ val }: { val: string }) => {
     return (
-        <Badge className='bg-muted-foreground text-muted xs:text-sm lg:text-[1.01rem] m-1'>
+        <Badge className='bg-quaternary text-muted hover:text-accent xs:text-sm lg:text-[1.01rem] m-1'>
             {val}
         </Badge>
     )
@@ -121,24 +118,15 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels, cautions,
 
     const renderAccordionItemsForCautions = () => cautions.map(val => <CustomBadge key={val} val={val} />)
 
-    // const renderAccordionItemsForTags = () => tags?.map(val => <CustomBadge key={val} val={val} />)
-
     const t = useTranslations("default")
 
     return (
         <Accordion type='single' collapsible={true}>
-            {/* <CustomAccordionItem content={healthLabels.length ? <CustomBadge  val={co2} /> : <span>Not found</span>} name='eco' 
-            // title={`${t("Health")} ${t("Label")}`} 
-            title={`Eco friendliness: Carbon emission class`} 
-            /> */}
-
             <CustomAccordionItem content={healthLabels.length ? renderAcordionItemsForHealthLabels() : <span>Not found</span>} name='health' title={`${t("Health")} ${t("Label")}`} />
 
             <CustomAccordionItem content={dietLabels.length ? renderAcordionItemsForDietLabels() : <span>Not found</span>} name='diet' title={`${t("Diet")} ${t("Label")}`} />
 
             <CustomAccordionItem content={cautions.length ? renderAccordionItemsForCautions() : <span>Not found</span>} name='cautions' title={`${t("Cautions")} ${t("Label")}`} />
-
-            {/* <CustomAccordionItem content={renderAccordionItemsForTags() || <span>Not found</span>} name='tags' title={`${t("Tags")} ${t("Label")}`} /> */}
         </Accordion>
     )
 }
@@ -146,7 +134,7 @@ const RenderRecipeVariousLabels = ({ digest, healthLabels, dietLabels, cautions,
 const CustomAccordionItem = ({ name, title, content }: { name: string, title: string, content: React.JSX.Element | React.JSX.Element[] }) => {
     return (
         <AccordionItem value={name}>
-            <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl text-special-foreground duration-1000 transition-all hover:text-special'>{title}</AccordionTrigger>
+            <AccordionTrigger className='font-bold xxs:text-sm sm:text-lg lg:text-xl text-secondary duration-1000 transition-all hover:text-secondary/80'>{title}</AccordionTrigger>
             <AccordionContent>
                 {content}
             </AccordionContent>
@@ -165,20 +153,20 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 
     const t = useTranslations("default")
 
-    const headingsMarkup = (
-        <div 
-            className='grid xxs:grid-cols-3 justify-items-center place-items-center font-normal xxs:text-[.62rem] sm:text-sm md:text-lg lg:text-xl'
-        >
-            {/* <div className='bg-card px-4 rounded-md xxs:hidden md:block lg:hidden 2xl:block'>Category</div> */}
-            <div className='bg-card px-4 rounded-md'>Picture</div>
-            <div className='bg-card px-4 rounded-md'>Name</div>
-            <div className='bg-card px-4 rounded-md'>Quantity</div>
-        </div>
-    )
+    // const headingsMarkup = (
+    //     <div 
+    //         className='grid xxs:grid-cols-3 justify-items-center place-items-center font-normal xxs:text-[.62rem] sm:text-sm md:text-lg lg:text-xl'
+    //     >
+    //         {/* <div className='bg-card px-4 rounded-md xxs:hidden md:block lg:hidden 2xl:block'>Category</div> */}
+    //         <div className='bg-card px-4 rounded-md'>Picture</div>
+    //         <div className='bg-card px-4 rounded-md'>Name</div>
+    //         <div className='bg-card px-4 rounded-md'>Quantity</div>
+    //     </div>
+    // )
 
     const ingredientsMarkup = (
-        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 shadow-md pb-2'>
-            <h2 className='font-medium text-left xxs:text-sm sm:text-lg md:text-2xl lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
+        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-[45%] pb-2 px-1.5'>
+            <h2 className='font-medium text-left xxs:text-sm sm:text-lg md:text-2xl lg:text-3xl text-primary'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
 
             {/* {headingsMarkup} */}
 
@@ -190,8 +178,8 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     )
 
     const instructionsMarkup = (
-        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 shadow-md pb-2'>
-            <h2 className='font-medium text-left xxs:text-sm sm:text-lg lg:text-3xl text-special-foreground'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
+        <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 pb-2 px-1.5'>
+            <h2 className='font-medium text-left xxs:text-sm sm:text-lg lg:text-3xl text-primary'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
             <div
                 className='grid grid-cols-1 xxs:gap-6 lg:gap-4 capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'
             >{renderInstructions()}</div>
@@ -199,7 +187,7 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
     )
 
     return (
-        <div className='flex lg:justify-between xxs:flex-col xxs:gap-y-6 lg:flex-row lg:gap-x-0 mx-6 w-full'>
+        <div className='flex lg:justify-between xxs:flex-col xxs:gap-y-6 lg:flex-row lg:gap-x-10 mx-6 w-full'>
             {ingredientsMarkup}
             {instructionsMarkup}
         </div>
@@ -213,21 +201,9 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
     const { failSafeUrl, handleFailsafe } = useToGetRandomImageUrlIfFails(imgSrc)
 
     const contents = (
-        <div className='grid xxs:grid-cols-2 justify-items-center place-items-center gap-x-10 w-full capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'>
-
-            {/* <div className='xxs:hidden md:block lg:hidden 2xl:block'>{foodCategory}</div> */}
-
-            {/* <img
-                src={failSafeUrl}
-                alt={food}
-                width={60} height={39}
-                className='xxs:w-14 xxs:h-16 sm:w-24 lg:w-16 lg:h-9 rounded-xl object-cover'
-                placeholder='blur' loading='lazy'
-                onError={handleFailsafe}
-            /> */}
-
+        <div className='grid xxs:grid-cols-3 justify-items-center place-items-center gap-x-10 w-full capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'>
             <div 
-                className='text-left w-full flex gap-x-6 items-center'
+                className='text-left w-full flex gap-x-6 items-center col-span-2'
             >
             <img
                 src={failSafeUrl}

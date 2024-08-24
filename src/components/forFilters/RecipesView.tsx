@@ -11,7 +11,6 @@ import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import axios from 'axios'
 import { useForIfRecipesFoundWithExistingFilters, useForTruthToggle } from '@/hooks/forComponents'
-import Image from 'next/image'
 import { TbLoader2 } from 'react-icons/tb'
 
 export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePreviousAndNext, check, isFirstPage }: { recipes: RecipeMealType[], nextHref?: string, handleRecipesFound: (d: RecipeMealType[], href?: string) => void, handlePreviousAndNext: (str: string) => void, check?: boolean, isFirstPage: boolean }) => {
@@ -51,12 +50,6 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
         )
     }
 
-    // if (recipes.length === 0) {
-    //     return (
-    //         <h2 className='font-bold text-xl text-muted-foreground w-full text-center'>Try Using Filters To Find Recipes</h2>
-    //     )
-    // }
-
     return (
         <div className='py-10'>
             <div className='grid xxs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 xxs:gap-11 lg:gap-11 place-content-center place-items-center xxs:px-4 lg:px-10'>
@@ -64,10 +57,10 @@ export const RecipesView = ({ recipes, nextHref, handleRecipesFound, handlePrevi
             </div>
 
             <div className='flex gap-x-4 w-full justify-center mt-20'>
-                <Button className={`${nextHref ? "block" : "hidden"} bg-card font-bold text-xl text-muted-foreground hover:text-muted`} variant={'default'} onClick={() => handlePreviousAndNext("prev")} disabled={!nextHref || isFirstPage}>Prev</Button>
+                <Button className={`${nextHref ? "block" : "hidden"} bg-secondary hover:bg-primary font-bold text-xl text-accent`} variant={'default'} onClick={() => handlePreviousAndNext("prev")} disabled={!nextHref || isFirstPage}>Prev</Button>
 
                 <Button
-                    className={`${nextHref ? "block" : "hidden"} bg-card font-bold text-xl text-muted-foreground hover:text-muted`}
+                    className={`${nextHref ? "block" : "hidden"} bg-secondary hover:bg-primary font-bold text-xl text-accent`}
                     variant={'default'}
                     onClick={() => !check ? fetchMore() : handlePreviousAndNext("next")}
                     disabled={!nextHref || isTrue}
@@ -112,7 +105,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
             <div className={`${styles.whenNotFlipped}`}>
                 <Link href={`/${locale}/recipe/${extractRecipeId(uri)}`} className='flex items-center justify-center flex-col gap-y-2'>
                     
-                    <h2 className='font-bold text-lg'>{removeWrodRecipe(label).length > 25 ? ellipsedText(removeWrodRecipe(label), 25) : removeWrodRecipe(label)}</h2>
+                    <h2 className='font-bold text-lg text-primary'>{removeWrodRecipe(label).length > 25 ? ellipsedText(removeWrodRecipe(label), 25) : removeWrodRecipe(label)}</h2>
                     
                     <img
                         src={images?.SMALL?.url || images?.REGULAR?.url}
@@ -135,12 +128,11 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                 className={`${styles.whenFlipped} px-1.5 items-center justify-center h-[18.18rem] xxs:w-[19.3rem] sm:w-[18.4rem]`}
             >
                 <Link
-                    className='bg-card opacity-80 w-full text-center rounded-t-md'
+                    className='bg-accent hover:text-muted-foreground opacity-80 w-full text-center rounded-t-md'
                     href={`/${locale}/recipe/${extractRecipeId(uri)}`}
                     onClick={isLoading ? falsy : truthy}
                 >
                     <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{removeWrodRecipe(label).length > 22 ? ellipsedText(removeWrodRecipe(label), 22) : removeWrodRecipe(label)}</h2>
-                    {/* <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{label.length > 18 ? ellipsedText(label, 18) : label}</h2> */}
                 </Link>
 
                 <div className='flex justify-center gap-2 my-1'>
@@ -149,7 +141,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                     <RenderBadge text={mealType[0]} />
                 </div>
 
-                <div className='grid grid-cols-2 gap-y-2 bg-card py-0.5 opacity-80 my-1'>
+                <div className='grid grid-cols-2 gap-y-2 bg-accent py-0.5 opacity-80 my-1'>
                     <RenderBasicTextInfo text="Calories" val={calories.toFixed(2)} />
                     <RenderBasicTextInfo text="carbon footprint" val={co2EmissionsClass} />
                     <RenderBasicTextInfo text="servings" val={servings} />
@@ -165,7 +157,7 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
                 <div className='w-full my-1'>
                     <RenderBasicTextInfo text='Source' val={source} />
-                    <Button variant={"default"} title={url} className='w-full bg-muted-foreground duration-1000 transition-all hover:bg-card hover:text-primary'><a target='_blank' href={url}>Recipe Source Site</a></Button>
+                    <Button variant={"destructive"} title={url} className='w-full duration-1000 transition-all'><a target='_blank' href={url}>Recipe Source Site</a></Button>
                 </div>
             </div>
         </div>
@@ -174,13 +166,13 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
 const RenderBadge = ({ text }: { text: string }) => {
     return (
-        <Badge className='bg-muted-foreground text-muted hover:text-muted-foreground capitalize' variant={"secondary"} title={text}>{text.length > 10 ? ellipsedText(text, 8) : text}</Badge>
+        <Badge className='bg-accent text-secondary hover:text-muted-foreground capitalize' variant={"secondary"} title={text}>{text.length > 10 ? ellipsedText(text, 8) : text}</Badge>
     )
 }
 
 const RenderBasicTextInfo = ({ text, val }: { text: string, val: string | number }) => {
     return (
-        <h3 className={`flex justify-between px-2 gap-2 xxs:text-xs lg:text-sm text-muted-foreground ${text === "Source" ? "bg-card py-0.5 opacity-80 rounded-b-md" : ""} capitalize`}><span className='font-semibold'>{text}</span><span className='text-special-foreground font-semibold'>{val}</span></h3>
+        <h3 className={`flex justify-between px-2 gap-2 xxs:text-xs lg:text-sm bg-accent text-secondary ${text === "Source" ? "py-0.5 opacity-80 rounded-b-md" : ""} capitalize`}><span className='font-semibold'>{text}</span><span className='text-primary font-semibold'>{val}</span></h3>
     )
 }
 
@@ -193,9 +185,8 @@ export const ReusableModal = ({ children, triggerText, title, changeWidth, handl
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger onClick={() => handleTrigger && handleTrigger()}><Badge variant={'secondary'} className='w-full text-secondary bg-muted-foreground transition-colors duration-1000 hover:bg-primary'>{triggerText}</Badge></DialogTrigger>
+            <DialogTrigger onClick={() => handleTrigger && handleTrigger()}><Badge variant={'secondary'} className='w-full text-secondary bg-accent transition-colors duration-1000 hover:bg-primary hover:text-muted-foreground'>{triggerText}</Badge></DialogTrigger>
             <DialogContent
-                // className='bg-accent border-ring xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
                 className='bg-accent border-ring'
                 style={{ minWidth: changeWidth ? "80%" : "auto" }}
             >
@@ -234,24 +225,22 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
         <ReusableModal
             triggerText={"Recipe Ingredients"}
             title={""}
-        // title={"Measurements And Instructions"}
         >
             <span
-                className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
+                className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem] text-secondary'
             >
-                <span className='font-bold text-lg text-special-foreground'>Ingredients And Measurements</span>
+                <span className='font-bold text-lg text-primary'>Ingredients And Measurements</span>
 
                 <span className='grid grid-cols-4 place-content-center place-items-center xxs:gap-2 lg:gap-4 font-normal text-lg xxs:text-sm md:text-lg lg:text-xl'>
                     <span className='bg-card xxs:px-2 lg:px-4'>Category</span>
                     <span className='bg-card xxs:px-2 lg:px-4'>Picture</span>
                     <span className='bg-card xxs:px-2 lg:px-4'>Name</span>
                     <span className='bg-card xxs:px-2 lg:px-4'>Quantity</span>
-                    {/* <span>Weight</span> */}
                 </span>
                 <span className='flex flex-col gap-y-2 xxs:h-56 lg:h-[40rem] overflow-y-scroll no-scrollbar'>
                     {renderIngredientsAndMeasurements()}
                 </span>
-                <span className='font-bold text-lg text-special-foreground'>Instructions</span>
+                <span className='font-bold text-lg text-primary'>Instructions</span>
                 <span className='flex flex-col gap-y-2 xxs:h-40 lg:h-96 overflow-y-scroll no-scrollbar'>{renderInstructions()}</span>
             </span>
         </ReusableModal>
@@ -266,12 +255,10 @@ export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType)
         >
             <span className='capitalize font-normal text-center'>{foodCategory}</span>
             <img
-                // className='xxs:w-24 xxs:h-11 lg:w-36 lg:h-14 rounded-xl object-cover' 
                 className='xxs:w-24 xxs:h-11 lg:w-20 lg:h-12 rounded-xl object-cover'
                 src={image} alt={food} width={60} height={39} placeholder='blur' loading='lazy' />
             <span className='capitalize font-normal text-center'>{food}</span>
             <span className='font-normal capitalize text-center'>{quantity.toFixed(2)} {measure}</span>
-            {/* <span className='font-semibold text-center'>{weight.toFixed(2)}</span> */}
         </span>
     )
 }
@@ -313,9 +300,7 @@ const RenderHealthLabels = ({ labels }: { labels: string[] }) => {
     return (
         <ReusableModal triggerText={"Health Labels"} title={"Recipe Meal Health Labels"}>
             <span 
-                // className='grid grid-cols-4 gap-2 px-4 text-sm'
                 className='grid grid-cols-3 gap-2 px-4 text-sm'
-                // className='flex gap-2 flex-wrap px-4 text-sm'
             >
                 {renderLabels()}
             </span>
@@ -324,7 +309,7 @@ const RenderHealthLabels = ({ labels }: { labels: string[] }) => {
 }
 
 const useForIngredientsLabels = (labels: string[]) => {
-    const renderLabels = () => labels.map(txt => <Button key={txt} variant={'ghost'} className='text-muted-foreground cursor-auto min-w-64 w-fit text-left'>{txt}</Button>)
+    const renderLabels = () => labels.map(txt => <Button key={txt} variant={'ghost'} className='text-secondary cursor-auto min-w-64 w-fit text-left'>{txt}</Button>)
     return { renderLabels }
 }
 
