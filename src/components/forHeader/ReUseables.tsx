@@ -17,7 +17,8 @@ export const ShowAllFoundRecipes = ({ showDropdown, handleFalsyForFocused, recip
                 title={`Click to see in detail: ${label}`}
                 onClick={handleFalsyForFocused}
             >
-                <span className="text-lg col-span-2">{label.length > 27 ? ellipsedText(label, 27) : label}</span>
+                <span className="xxs:hidden xl:block text-lg col-span-2">{label.length > 27 ? ellipsedText(label, 27) : label}</span>
+                <span className="xxs:block xl:hidden col-span-2">{label.length > 20 ? ellipsedText(label, 20) : label}</span>
                 <span className="capitalize text-right">{cuisineType[0]}</span>
             </Link>
         )

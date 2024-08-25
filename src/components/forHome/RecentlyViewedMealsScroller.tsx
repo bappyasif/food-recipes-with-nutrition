@@ -34,7 +34,7 @@ export const RecentlyViewedMealsScroller = () => {
       <h2 className='text-xl font-bold'>Some Recently Viewed Meals</h2>
       <h3 className='text-sm font-semibold'>Real Recipe Image can be seen from Recipe Detail Page</h3>
       <div
-        className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4 place-content-center place-items-center  overflow-clip gap-2 mt-10'
+        className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-3 2xl:grid-cols-3 gap-2 gap-x-4 place-content-center place-items-center  overflow-clip mt-10'
         onMouseEnter={handleTruthy}
         onMouseLeave={handleFalsy}
       >
@@ -67,7 +67,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   return (
     <div
-      className={`${styles.dissolvePhoto} h-[17.39rem] overflow-clip`}
+      className={`${styles.dissolvePhoto} h-[17.39rem] overflow-clip w-96 2xl:w-80`}
       onMouseEnter={handleTruthy}
       onMouseLeave={handleFalsy}
     >
@@ -75,10 +75,10 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         onClick={isLoading ? falsy : truthy}
         href={`/${locale}/recipe/${extractRecipeId(uri!)}`}
         title={checkIfDayOlder() ? `You might be looking at a random picture, click here to view recipe detail page for real info: ${label}` : `Click to view details: ${label}`}
-        className='relative text-center w-60'
+        className='relative text-center w-full'
       >
-        <p className={`absolute top-0.5 text-center font-medium bg-primary/60 text-content hover:text-ternary transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} z-10 px-4 m-0.5 w-[14.8rem]`}>
-          {label!?.length > 51 ? ellipsedText(label!, 51) : label!}
+        <p className={`absolute top-0.5 text-center font-medium bg-primary/60 text-content hover:text-ternary transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} z-10 px-4 w-full`}>
+          {label!?.length > 40 ? ellipsedText(label!, 40) : label!}
         </p>
 
         <TbLoader2 size={80} className={`${isLoading ? "absolute animate-spin self-center w-60 top-28 z-10" : "hidden"}`} />
@@ -86,7 +86,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         <img
           src={checkIfDayOlder() ? failSafeUrl : url}
           alt={label!} width={width} height={height}
-          className={`w-60 transition-all duration-500 h-full object-cover hover:object-cover rounded-sm`}
+          className={`w-full transition-all duration-500 h-full object-cover hover:object-cover rounded-sm`}
           loading='lazy'
           onError={handleFailsafe}
         />

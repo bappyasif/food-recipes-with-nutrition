@@ -68,7 +68,7 @@ export const Search = ({clicked}: {clicked: boolean}) => {
             ref={ref}
         >
             <input
-                className="xxs:hidden xs:block xs:w-44 sm:w-64 md:w-72 lg:w-96 2xl:w-[29rem] h-full rounded-sm xxs:pl-1.5 lg:pl-1.5 text-muted-foreground bg-transparent border-0 border-b-2 border-b-accent placeholder:text-content xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl focus:outline-none pb-0.5"
+                className="xxs:hidden xs:block xs:w-64 md:w-72 lg:w-96 2xl:w-[29rem] h-full rounded-sm xxs:pl-1.5 lg:pl-1.5 text-muted-foreground bg-transparent border-0 border-b-2 border-b-accent placeholder:text-content xs:text-sm md:text-lg lg:text-xl focus:outline-none pb-0.5"
                 type="text" placeholder='search recipes by name'
                 value={text} onChange={handleTextChange} onFocus={handleTruthyForFocused}
                 onKeyUp={handleEnterPressed}
@@ -78,7 +78,7 @@ export const Search = ({clicked}: {clicked: boolean}) => {
                 variant={"ghost"}
                 title="Click To Search Now"
                 disabled={isTrue && text.length >= 2}
-                className={`absolute xxs:hidden xs:inline-flex right-0.5 xxs:bottom-1 xs:bottom-1.5 xxs:h-4 xs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-secondary" : "bg-background/80"} text-muted hover:text-muted hover:bg-card font-semibold xxs:text-sm md:text-lg lg:text-xl`}
+                className={`absolute xxs:hidden xs:inline-flex right-0.5 xs:bottom-1.5 xs:h-4 lg:h-6 ${isTrue && text.length >= 2 ? "bg-secondary" : "bg-background/80"} text-muted hover:text-muted hover:bg-card font-semibold xxs:text-xs md:text-lg lg:text-xl xs:px-1.5 md:px-4`}
             >
                 <RiSearchLine />
             </Button>
