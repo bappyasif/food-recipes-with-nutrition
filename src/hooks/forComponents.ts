@@ -10,6 +10,7 @@ import { addRecipesAtOnce } from "@/redux/features/recipes/RecipesSlice";
 import { useSession } from "next-auth/react";
 import moment from "moment";
 import { initializeUserEventsData } from "@/redux/features/events/EventsSlice";
+import { fetchAndUpdateData } from "@/utils/search-helper";
 
 export const useForPauseAndPlayMealScroll = () => {
     const [seconds, setSeconds] = useState(30);
@@ -418,4 +419,39 @@ export const useForGetAllEventsDataForAuthenticatedUser = () => {
             })
         }
     }, [status, data?.user?.email])
+}
+
+export const useForSearchFetchRecipesFromApi = (text:string, handleFalsy: () => void, isTrue: boolean, handleTruthy: () => void) => {
+    const [recipes, setRecipes] = useState<RecipeMealType[]>([])
+
+    const fetchRecipesFromApi = () => {
+        const params = {
+            app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
+            app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
+            q: text,
+            random: true,
+            type: "public",
+        }
+
+        fetchAndUpdateData(params, setRecipes, () => handleFalsy())
+    }
+
+    const handleEnterPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            handleTruthy()
+            text.length >= 2 && fetchRecipesFromApi()
+
+            if (text.length < 2) {
+                alert("at least use two or more letters")
+            }
+        }
+    }
+
+    useEffect(() => {
+        !text && setRecipes([])
+
+        isTrue && text.length >= 2 && fetchRecipesFromApi()
+    }, [text, isTrue])
+
+    return {recipes, fetchRecipesFromApi, handleEnterPressed}
 }

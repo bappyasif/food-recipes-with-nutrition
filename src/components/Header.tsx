@@ -21,6 +21,10 @@ import { GoSignIn, GoSignOut } from "react-icons/go"
 import { TiUserAdd } from "react-icons/ti"
 import { RiUserSettingsFill, RiSearchLine } from "react-icons/ri"
 import { extractRecipeId } from "./forFilters/RecipesView"
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
+import { SearchModal } from "./forHeader/SearchModal"
+import { Search } from "./forHeader/Search"
 
 store.dispatch(getAllViewedRecipesFromDb())
 
@@ -42,7 +46,6 @@ export const Header = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-y-1">
       <div
-        // className="bg-card flex items-end xxs:justify-around lg:justify-between xxs:gap-x-2 lg:gap-x-10 w-full py-0.5 pl-2 pr-6"
         className="bg-primary flex items-end xxs:justify-around lg:justify-between xxs:gap-x-2 lg:gap-x-10 w-full py-0.5 pl-2 pr-6"
       >
         <Link href={"/"} title="What's Cooking Yo!!" className="self-start w-[6%]">
@@ -55,15 +58,15 @@ export const Header = () => {
         </Link>
 
         <div className="flex flex-col w-full gap-y-2">
-          <div className="flex gap-x-16 items-center justify-end">
+          <div className="flex gap-x-2 md:gap-x-16 items-center justify-end">
             {
               check
                 ? <SearchRecipes />
                 : null
             }
-            <div className="flex gap-x-16 items-end self-end">
-            <LocaleSwitcher />
-            <UserAuth />
+            <div className="flex gap-x-2 md:gap-x-16 items-end self-end">
+              <LocaleSwitcher />
+              <UserAuth />
             </div>
           </div>
 
@@ -148,79 +151,187 @@ const UserAuthLinkView = ({ href, text, icon }: { href: string, text: string, ic
 }
 
 const SearchRecipes = () => {
-  const { handleTextChange, text } = useForInputTextChange();
-
-  const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle();
-
-  const { handleFalsy: handleFalsyForFocused, handleTruthy: handleTruthyForFocused, isTrue: forFocused } = useForTruthToggle()
-
-  useEffect(() => {
-    handleFalsy()
-  }, [text])
-
-  const ref = useRef<HTMLDivElement>(null)
-
-  useForOutsideClick(ref, handleFalsyForFocused)
-
-  const [recipes, setRecipes] = useState<RecipeMealType[]>([])
-
-  const fetchRecipesFromApi = () => {
-    const params = {
-      app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
-      app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
-      q: text,
-      random: true,
-      type: "public",
-    }
-
-    fetchAndUpdateData(params, setRecipes, () => handleFalsy())
-  }
-
-  useEffect(() => {
-    !text && setRecipes([])
-
-    isTrue && text.length >= 2 && fetchRecipesFromApi()
-  }, [text, isTrue])
-
-  const handleEnterPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleTruthy()
-      text.length >= 2 && fetchRecipesFromApi()
-
-      if (text.length < 2) {
-        alert("at least use two or more letters")
-      }
-    }
-  }
+  const { handleFalsy: clickedFalsy, handleTruthy: clickedTruthy, isTrue: clicked } = useForTruthToggle()
 
   return (
     <div
       className='relative xxs:w-fit flex items-end xs:text-xs sm:text-sm lg:text-xl h-fit self-end pb-0.5'
-      ref={ref}
     >
-      <input
-        className="xxs:w-44 sm:w-64 md:w-72 lg:w-96 2xl:w-[29rem] h-full rounded-sm xxs:pl-1.5 lg:pl-1.5 text-muted-foreground bg-transparent border-0 border-b-2 border-b-accent placeholder:text-content xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl focus:outline-none pb-0.5"
-        type="text" placeholder='search recipes by name'
-        value={text} onChange={handleTextChange} onFocus={handleTruthyForFocused}
-        onKeyUp={handleEnterPressed}
+      {/* for regular */}
+      <Search clicked={clicked} />
+
+      {/* for very small screens */}
+      <SearchModal 
+        ButtonElem={<Button variant={"default"} className="xxs:inline-flex xs:hidden text-accent xxs:text-sm items-end" size={"icon"}><RiSearchLine size={20} onClick={clickedTruthy} /></Button>} 
+        clickedFalsy={clickedFalsy}
       />
-      <Button
-        onClick={handleTruthy}
-        variant={"ghost"}
-        title="Click To Search Now"
-        disabled={isTrue && text.length >= 2}
-        // className={`absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-muted-foreground" : "bg-special-foreground"} text-muted hover:text-muted hover:bg-special font-semibold xxs:text-sm md:text-lg lg:text-xl`}
-        className={`absolute right-0.5 bottom-1.5 xxs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-secondary" : "bg-background/80"} text-muted hover:text-muted hover:bg-card font-semibold xxs:text-sm md:text-lg lg:text-xl`}
-      >
-        <RiSearchLine />
-      </Button>
-      <ShowAllFoundRecipes
-        showDropdown={forFocused} handleFalsyForFocused={handleFalsyForFocused} recipes={recipes} />
+
     </div>
   )
 }
 
-const ShowAllFoundRecipes = ({ showDropdown, handleFalsyForFocused, recipes }: { showDropdown: boolean, handleFalsyForFocused: () => void, recipes: RecipeMealType[] }) => {
+// const SearchRecipes = () => {
+//   const { handleTextChange, text } = useForInputTextChange();
+
+//   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle();
+
+//   const { handleFalsy: handleFalsyForFocused, handleTruthy: handleTruthyForFocused, isTrue: forFocused } = useForTruthToggle()
+
+//   useEffect(() => {
+//     handleFalsy()
+//   }, [text])
+
+//   const ref = useRef<HTMLDivElement>(null)
+
+//   useForOutsideClick(ref, handleFalsyForFocused)
+
+//   const [recipes, setRecipes] = useState<RecipeMealType[]>([])
+
+//   const fetchRecipesFromApi = () => {
+//     const params = {
+//       app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
+//       app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
+//       q: text,
+//       random: true,
+//       type: "public",
+//     }
+
+//     fetchAndUpdateData(params, setRecipes, () => handleFalsy())
+//   }
+
+//   useEffect(() => {
+//     !text && setRecipes([])
+
+//     isTrue && text.length >= 2 && fetchRecipesFromApi()
+//   }, [text, isTrue])
+
+//   const handleEnterPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
+//     if (e.key === "Enter") {
+//       handleTruthy()
+//       text.length >= 2 && fetchRecipesFromApi()
+
+//       if (text.length < 2) {
+//         alert("at least use two or more letters")
+//       }
+//     }
+//   }
+
+//   const { handleFalsy: clickedFalsy, handleTruthy: clickedTruthy, isTrue: clicked } = useForTruthToggle()
+
+
+
+//   return (
+//     <div
+//       className='relative xxs:w-fit flex items-end xs:text-xs sm:text-sm lg:text-xl h-fit self-end pb-0.5'
+//       ref={ref}
+//     >
+//       <input
+//         className="xxs:hidden xs:block xs:w-44 sm:w-64 md:w-72 lg:w-96 2xl:w-[29rem] h-full rounded-sm xxs:pl-1.5 lg:pl-1.5 text-muted-foreground bg-transparent border-0 border-b-2 border-b-accent placeholder:text-content xxs:text-[0.62rem] sm:text-sm md:text-lg lg:text-xl focus:outline-none pb-0.5"
+//         type="text" placeholder='search recipes by name'
+//         value={text} onChange={handleTextChange} onFocus={handleTruthyForFocused}
+//         onKeyUp={handleEnterPressed}
+//       />
+//       <Button
+//         onClick={handleTruthy}
+//         variant={"ghost"}
+//         title="Click To Search Now"
+//         disabled={isTrue && text.length >= 2}
+//         className={`absolute xxs:hidden xs:inline-flex right-0.5 xxs:bottom-1 xs:bottom-1.5 xxs:h-4 xs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-secondary" : "bg-background/80"} text-muted hover:text-muted hover:bg-card font-semibold xxs:text-sm md:text-lg lg:text-xl`}
+//       >
+//         <RiSearchLine />
+//       </Button>
+
+//       {
+//         !clicked
+//           ? <ShowAllFoundRecipes
+//             showDropdown={forFocused} handleFalsyForFocused={handleFalsyForFocused} recipes={recipes} />
+//           : null
+//       }
+
+//       {/* for very small screens */}
+//       <SearchModal 
+//         ButtonElem={<Button variant={"default"} className="xxs:inline-flex xs:hidden text-accent xxs:text-sm items-end" size={"icon"}><RiSearchLine size={20} onClick={clickedTruthy} /></Button>} 
+//       />
+//       {/* <Button
+//         onClick={() => {
+//           handleTruthy()
+//           clickedTruthy()
+//         }}
+//         variant={"ghost"}
+//         title="Click To Search Now"
+//         disabled={isTrue && text.length >= 2}
+//         className={`absolute xxs:inline-flex xs:hidden right-0.5 xxs:bottom-1 xs:bottom-1.5 xxs:h-4 xs:h-5 lg:h-6 ${isTrue && text.length >= 2 ? "bg-secondary" : "bg-background/80"} text-muted hover:text-muted hover:bg-card font-semibold xxs:text-sm md:text-lg lg:text-xl`}
+//       >
+//         <RiSearchLine />
+//       </Button> */}
+
+//       {/* search functionality popover for smaller screens */}
+//       {/* <SearchModal
+//         ButtonElem={<Button variant={"default"} className="xxs:inline-flex xs:hidden text-accent xxs:text-sm items-end" size={"icon"}><RiSearchLine size={20} /></Button>}
+//         inputElem={<input
+//           className="xxs:block xs:hidden xxs:w-80 h-full rounded-sm xxs:pl-1.5 text-muted-foreground bg-transparent border-0 border-b-2 border-b-accent placeholder:text-content xxs:text-sm focus:outline-none pb-0.5"
+//           type="text" placeholder='search recipes by name'
+//           value={text} onChange={handleTextChange} onFocus={handleTruthyForFocused}
+//           onKeyUp={handleEnterPressed}
+//         />}
+//         searchButton={<Button
+//           onClick={() => {
+//             handleTruthy()
+//             // clickedTruthy()
+//           }}
+//           variant={"ghost"}
+//           title="Click To Search Now"
+//           disabled={isTrue && text.length >= 2}
+//           className={`absolute xxs:inline-flex xs:hidden right-0.5 xxs:bottom-1 xxs:h-4 ${isTrue && text.length >= 2 ? "bg-secondary" : "bg-background/80"} text-muted hover:text-muted hover:bg-card font-semibold xxs:text-sm`}
+//         >
+//           <RiSearchLine />
+//         </Button>}
+
+//         dropdownElem={<ShowAllFoundRecipes
+//           showDropdown={forFocused} handleFalsyForFocused={handleFalsyForFocused} recipes={recipes} forModal={true} />}
+//       /> */}
+
+//       {/* <ShowAllFoundRecipes
+//         showDropdown={forFocused} handleFalsyForFocused={handleFalsyForFocused} recipes={recipes} /> */}
+//     </div>
+//   )
+// }
+
+// const SearchModal = ({ ButtonElem, searchButton, inputElem, dropdownElem }: { ButtonElem: ReactNode, searchButton: ReactNode, inputElem: ReactNode, dropdownElem: ReactNode }) => {
+//   return (
+//     <Dialog modal>
+//       <DialogTrigger asChild>
+//         {ButtonElem}
+//       </DialogTrigger>
+//       <DialogContent>
+//         <div className="flex gap-x-4 items-end relative">
+//           {inputElem}
+//           {searchButton}
+//         </div>
+//         {dropdownElem}
+//       </DialogContent>
+//     </Dialog>
+//   )
+// }
+
+// const SearchPopover = ({ ButtonElem, searchButton, inputElem, dropdownElem }: { ButtonElem: ReactNode, searchButton: ReactNode, inputElem: ReactNode, dropdownElem: ReactNode }) => {
+//   return (
+//     <Popover>
+//       <PopoverTrigger asChild>
+//         {ButtonElem}
+//       </PopoverTrigger>
+//       <PopoverContent className="w-80">
+//         <div className="flex gap-x-4 items-end relative">
+//           {inputElem}
+//           {searchButton}
+//         </div>
+//         {dropdownElem}
+//       </PopoverContent>
+//     </Popover>
+//   )
+// }
+
+const ShowAllFoundRecipes = ({ showDropdown, handleFalsyForFocused, recipes, forModal }: { showDropdown: boolean, handleFalsyForFocused: () => void, recipes: RecipeMealType[], forModal?: boolean }) => {
   const locale = useLocale()
 
   const renderRecipes = () => recipes.map(item => {
@@ -240,7 +351,7 @@ const ShowAllFoundRecipes = ({ showDropdown, handleFalsyForFocused, recipes }: {
   })
 
   return (
-    <div className={`absolute w-full top-8 right-0 flex flex-col gap-y-0 ${recipes?.length && showDropdown ? "max-h-[11rem]" : "h-0"} overflow-y-scroll no-scrollbar z-50 bg-card rounded-b-xl`}>
+    <div className={`absolute w-full ${forModal ? "top-12" : "top-8"} right-0 flex flex-col gap-y-0 ${recipes?.length && showDropdown ? "max-h-[11rem]" : "h-0"} overflow-y-scroll no-scrollbar z-50 bg-card rounded-b-xl`}>
       {recipes?.length && showDropdown ? renderRecipes() : null}
     </div>
   )

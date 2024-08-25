@@ -206,7 +206,7 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
     useForOutsideClick(ref, handleFalsy)
 
     return (
-        <AccordionItem ref={ref} value={propKey} className={`sm:min-w-[380px] max-w-[33rem] xxs:min-w-[20rem] xs:w-[26rem] sm:w-[31rem] px-2 rounded-md mb-4 ring-primary bg-accent duration-1000 transition-all hover:text-secondary hover:ring-1 ${isTrue ? "text-primary ring-2" : "text-background ring-0"} border-b-0 h-fit relative`} onClick={handleTruthy}>
+        <AccordionItem ref={ref} value={propKey} className={`sm:min-w-[380px] max-w-[33rem] xxs:min-w-[16.8rem] xs:w-[26rem] sm:w-[31rem] px-2 rounded-md mb-4 ring-primary bg-accent duration-1000 transition-all hover:text-secondary hover:ring-1 ${isTrue ? "text-primary ring-2" : "text-background ring-0"} border-b-0 h-fit relative`} onClick={handleTruthy}>
             <AccordionTrigger className='xxs:text-lg sm:text-xl lg:text-2xl font-semibold my-4'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
             <AccordionContent className={`duration-1000 transition-all ${propKey === "health" ? "absolute -left-0 ring-1 hover:ring-primary bg-accent px-2 rounded-md" : "ring-0"} ${isTrue && propKey === "health" ? "ring-primary ring-1 rounded-md z-40" : "ring-0"}`}>
                 <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText}
@@ -220,7 +220,7 @@ const MultipleSelectableFilters = () => {
     return (
         <Accordion
             type='multiple'
-            className='grid xxs:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 grid-flow-row gap-4 px-10'
+            className='grid xxs:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 grid-flow-row gap-4 px-2 md:px-10'
         >
             <ReusuableAccordionItem propKey='co2EmissionsClass' trigText='Carbon Footprint' data={carbonFootprints} />
 
