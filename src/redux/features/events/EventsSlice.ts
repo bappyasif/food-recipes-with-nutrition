@@ -70,7 +70,7 @@ const eventsSlice = createSlice({
             const {id, updatedData} = action.payload
             // const {updatedData} = action.payload
 
-            console.log(updatedData, "ready!!")
+            // console.log(updatedData, "ready!!")
 
             state.list = state.list.map(item => {
                 if(item.id === updatedData?.id || item.id === id) {

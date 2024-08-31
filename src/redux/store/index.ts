@@ -10,7 +10,10 @@ const store = configureStore({
         categories: CategoriesReducer,
         cuisines: CuisinesReducer,
         events: EventsReducer
-    }
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware( {
+        serializableCheck: false
+    }),
 })
 
 export type AppDispatch = typeof store.dispatch
