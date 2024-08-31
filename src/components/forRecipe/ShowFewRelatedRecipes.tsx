@@ -27,7 +27,7 @@ export const ShowFewRelatedRecipes = ({ mealType, diet, dishType, uri }: { mealT
 }
 
 export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) => {
-    const { handleFalsy, handleNext, handlePrev, handleTruthy, isTrue, onlyFour } = useForRecipeCarouselItems(data)
+    const { handleFalsy, handleNext, handlePrev, handleTruthy, isTrue, onlyFour } = useForRecipeCarouselItems(data, true)
 
     useEffect(() => {
         handleNext()
@@ -106,7 +106,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
 
     return (
         <div
-            className={`${styles.fadeOutCard} xxs:w-44 lg:w-60 relative ${(lastCard || firstCard) ? "lg:pointer-events-none" : "pointer-events-auto"} xxs:h-36 lg:w-56 lg:h-52`}
+            className={`${styles.fadeOutCard} xxs:w-44 lg:w-60 relative ${(lastCard || firstCard) ? "lg:pointer-events-none" : "pointer-events-auto"} xxs:h-36 lg:w-64 lg:h-52`}
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
@@ -115,7 +115,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
                 
                 <img
                     src={url} alt={label} height={height} width={width}
-                    className={`xxs:w-40 sm:w-44 md:w-48 xxs:h-24 sm:h-28 md:h-32 lg:w-56 lg:h-52 rounded-md ${test ? "visible" : "hidden"} object-cover ${firstCard || lastCard ? "lg:opacity-60" : "lg:opacity-100"}`}
+                    className={`xxs:w-40 sm:w-44 md:w-48 xxs:h-24 sm:h-28 md:h-32 lg:w-64 lg:h-52 rounded-md ${test ? "visible" : "hidden"} object-cover ${firstCard || lastCard ? "lg:opacity-60" : "lg:opacity-100"}`}
                     placeholder='blur'
                     loading='lazy'
                 />

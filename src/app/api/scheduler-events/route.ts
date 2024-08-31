@@ -23,6 +23,8 @@ export async function GET(req: NextRequest) {
             
         })
 
+
+
         return NextResponse.json({ msg: "het is leven!!", eventsData }, { status: 201 })
 
     } catch (error) {

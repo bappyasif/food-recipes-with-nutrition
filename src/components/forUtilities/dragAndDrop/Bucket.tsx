@@ -106,7 +106,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
         if (userData?.email) {
             eventItem.user = {
                 email: userData.email,
-                name: userData.name!
+                name: userData.name || "Dear User"
             }
         }
 
