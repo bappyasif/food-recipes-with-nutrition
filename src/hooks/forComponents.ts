@@ -176,7 +176,7 @@ export const useForRandomRecipesList = (mealType: string, diet: string, dishType
     return { recipes }
 }
 
-export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
+export const useForRecipeCarouselItems = (data: RecipeMealType[], forRecipesDetailsPage?: boolean) => {
     const [beginFrom, setBeginFrom] = useState(0);
     const [onlyFour, setOnlyFour] = useState<RecipeMealType[]>();
 
@@ -207,7 +207,7 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[]) => {
         setOnlyFour([])
 
         let temp: number[] = [];
-        Array.from(Array(9).keys()).forEach((v => {
+        Array.from(Array(forRecipesDetailsPage ? 8 : 9).keys()).forEach((v => {
             if (v + beginFrom >= data.length) {
                 temp.push((v + beginFrom) - data.length)
             } else {

@@ -56,7 +56,7 @@ export const addToSchedulerEvents = async (eventData: EventItemTypes) => {
 
     const newEventData = resp.data.newEvent
 
-    console.log("status code!!", statCode)
+    console.log("add to scheduler: status code!!", statCode)
 
     return newEventData
 }
@@ -70,7 +70,7 @@ export const fetchUserEventsDataFromDb = async (userEmail:string, userName: stri
 
     const data = resp.data
 
-    console.log("status code!!", statCode)
+    console.log("fetch: user events status code!!", statCode)
 
     return data
 }

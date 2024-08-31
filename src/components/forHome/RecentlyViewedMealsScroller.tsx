@@ -51,6 +51,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
   const { height, url, width } = images?.SMALL! || images
 
   const { imgSrc } = useToGetAnImageUrl(label!)
+
   const { failSafeUrl, handleFailsafe } = useToGetRandomImageUrlIfFails(imgSrc)
 
   const locale = useLocale()
@@ -67,7 +68,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   return (
     <div
-      className={`${styles.dissolvePhoto} h-[17.39rem] overflow-clip w-96 2xl:w-80`}
+      className={`${styles.dissolvePhoto} h-[17.39rem] overflow-clip w-96`}
       onMouseEnter={handleTruthy}
       onMouseLeave={handleFalsy}
     >
@@ -75,9 +76,9 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         onClick={isLoading ? falsy : truthy}
         href={`/${locale}/recipe/${extractRecipeId(uri!)}`}
         title={checkIfDayOlder() ? `You might be looking at a random picture, click here to view recipe detail page for real info: ${label}` : `Click to view details: ${label}`}
-        className='relative text-center w-full'
+        className='relative text-center'
       >
-        <p className={`absolute top-0.5 text-center font-medium bg-primary/60 text-content hover:text-ternary transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} z-10 px-4 w-full`}>
+        <p className={`absolute text-center font-medium bg-primary/60 text-content hover:text-ternary transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} top-3 z-10 w-96 px-4`}>
           {label!?.length > 40 ? ellipsedText(label!, 40) : label!}
         </p>
 
@@ -91,6 +92,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
           onError={handleFailsafe}
         />
       </Link>
+
       <div
         className={`flex flex-col gap-y-2 items-center justify-center transition-all duration-500 ${isTrue ? "-translate-y-40" : "translate-y-0"}`}
       >
