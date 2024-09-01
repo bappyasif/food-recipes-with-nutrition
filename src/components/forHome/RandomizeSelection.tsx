@@ -66,7 +66,7 @@ export const RandomizeSelection = () => {
         <div
             className='w-full h-fit relative flex flex-col justify-center gap-y-20 text-secondary'
         >
-            <h2 className='text-2xl font-extrabold text-center bg-secondary text-content w-fit mx-auto p-4 px-10 rounded'>{t("Randomly Recipe Finding Game")}</h2>
+            <h2 className='text-2xl font-extrabold text-center bg-primary text-content-light w-fit mx-auto p-4 px-10 rounded'>{t("Randomly Recipe Finding Game")}</h2>
 
             <div
                 className='flex flex-col xxs:gap-y-20 lg:gap-y-20 justify-center h-full w-full'
@@ -375,7 +375,7 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset, resetAllFilters }: {
     return (
         <>
             <div className='flex flex-col gap-y-10 items-center justify-center w-full self-end h-full'>
-                <h2 className='text-2xl font-bold bg-secondary text-content p-4 px-10 rounded-md'>{t("Existing Filters")}</h2>
+                <h2 className='text-2xl font-bold bg-primary text-content-light p-4 px-10 rounded-md'>{t("Existing Filters")}</h2>
 
                 <div className='flex gap-4 justify-center flex-wrap'>
                     <ShowTitle rnds={rnds} wheelDataset={wheelDataset} />

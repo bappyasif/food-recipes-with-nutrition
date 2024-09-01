@@ -60,12 +60,13 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        special: {
-          DEFAULT: "hsl(var(--special))",
-          foreground: "hsl(var(--special-foreground))",
-        },
+        // special: {
+        //   DEFAULT: "hsl(var(--special))",
+        //   foreground: "hsl(var(--special-foreground))",
+        // },
         content: {
           DEFAULT: "hsl(var(--content))",
+          light: "hsl(var(--content-light))"
         },
         ternary: {
           DEFAULT: "hsl(var(--ternary))",

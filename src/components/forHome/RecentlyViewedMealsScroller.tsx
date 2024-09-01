@@ -78,7 +78,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         title={checkIfDayOlder() ? `You might be looking at a random picture, click here to view recipe detail page for real info: ${label}` : `Click to view details: ${label}`}
         className='relative text-center'
       >
-        <p className={`absolute text-center font-medium bg-primary/60 text-content hover:text-ternary transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} top-3 z-10 w-96 px-4`}>
+        <p className={`absolute text-center font-medium bg-primary/60 text-content-light/80 hover:text-quaternary hover:bg-primary transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} top-3 z-10 w-96 px-4`}>
           {label!?.length > 40 ? ellipsedText(label!, 40) : label!}
         </p>
 
@@ -103,7 +103,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         <ReusableBadge text={typeof cuisineType === "object" ? cuisineType[0] : cuisineType} title='Cuisine' />
 
         <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} >
-          <Badge className='flex gap-x-4 justify-between items-center bg-ternary text-secondary hover:text-ternary text-lg' title={label}>
+          <Badge className='flex gap-x-4 justify-between items-center bg-primary/60 text-content-light/90 hover:text-quaternary hover:bg-primary text-lg' title={label}>
             <span>Name:</span>
             <span>{removeWrodRecipe(label!)!?.length > 11 ? ellipsedText(removeWrodRecipe(label!)!, 11) : removeWrodRecipe(label!)!}</span>
           </Badge>
@@ -115,7 +115,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
 const ReusableBadge = ({ title, text }: { title: string, text: string | number }) => {
   return (
-    <Badge className='flex gap-x-4 justify-between items-center bg-accent text-secondary hover:text-accent text-lg'>
+    <Badge className='flex gap-x-4 justify-between items-center bg-background/80 text-secondary hover:text-content-light/80 text-lg'>
       <span>{title}:</span>
       <span>{text}</span>
     </Badge>

@@ -1,13 +1,7 @@
 import { useForInputTextChange, useForOutsideClick, useForSearchFetchRecipesFromApi, useForTruthToggle } from '@/hooks/forComponents';
-import { RecipeMealType } from '@/types';
-import { useLocale } from 'next-intl';
-import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react'
-import { extractRecipeId } from '../forFilters/RecipesView';
-import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes';
+import React, { useEffect, useRef } from 'react'
 import { Button } from '../ui/button';
 import { RiSearchLine } from 'react-icons/ri';
-import { searchRecipes } from '@/utils/dataFetching';
 import { ShowAllFoundRecipes } from './ReUseables';
 
 export const Search = ({clicked}: {clicked: boolean}) => {
@@ -25,42 +19,7 @@ export const Search = ({clicked}: {clicked: boolean}) => {
 
     useForOutsideClick(ref, handleFalsyForFocused)
 
-    // const [recipes, setRecipes] = useState<RecipeMealType[]>([])
-
-    // const fetchRecipesFromApi = () => {
-    //     const params = {
-    //         app_id: process.env.NEXT_PUBLIC_EDAMAM_APP_ID,
-    //         app_key: process.env.NEXT_PUBLIC_EDAMAM_APP_KEY,
-    //         q: text,
-    //         random: true,
-    //         type: "public",
-    //     }
-
-    //     fetchAndUpdateData(params, setRecipes, () => handleFalsy())
-    // }
-
-    // useEffect(() => {
-    //     !text && setRecipes([])
-
-    //     isTrue && text.length >= 2 && fetchRecipesFromApi()
-    // }, [text, isTrue])
-
-    const {recipes, fetchRecipesFromApi, handleEnterPressed} = useForSearchFetchRecipesFromApi(text, handleFalsy, isTrue, handleTruthy)
-
-    // const handleEnterPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    //     if (e.key === "Enter") {
-    //         handleTruthy()
-    //         text.length >= 2 && fetchRecipesFromApi()
-
-    //         if (text.length < 2) {
-    //             alert("at least use two or more letters")
-    //         }
-    //     }
-    // }
-
-    // const { handleFalsy: clickedFalsy, handleTruthy: clickedTruthy, isTrue: clicked } = useForTruthToggle()
-
-
+    const {recipes, handleEnterPressed} = useForSearchFetchRecipesFromApi(text, handleFalsy, isTrue, handleTruthy)
 
     return (
         <div
@@ -78,7 +37,7 @@ export const Search = ({clicked}: {clicked: boolean}) => {
                 variant={"ghost"}
                 title="Click To Search Now"
                 disabled={isTrue && text.length >= 2}
-                className={`absolute xxs:hidden xs:inline-flex right-0.5 xs:bottom-1.5 xs:h-4 lg:h-6 ${isTrue && text.length >= 2 ? "bg-secondary" : "bg-background/80"} text-muted hover:text-muted hover:bg-card font-semibold xxs:text-xs md:text-lg lg:text-xl xs:px-1.5 md:px-4`}
+                className={`absolute xxs:hidden xs:inline-flex right-0.5 xs:bottom-1.5 xs:h-4 lg:h-6 ${isTrue && text.length >= 2 ? "bg-secondary text-content-light/80" : "bg-background/80 text-muted"} hover:text-muted hover:bg-background/60 font-semibold xxs:text-xs md:text-lg lg:text-xl xs:px-1.5 md:px-4`}
             >
                 <RiSearchLine />
             </Button>
@@ -92,43 +51,3 @@ export const Search = ({clicked}: {clicked: boolean}) => {
         </div>
     )
 }
-
-// const ShowAllFoundRecipes = ({ showDropdown, handleFalsyForFocused, recipes, forModal }: { showDropdown: boolean, handleFalsyForFocused: () => void, recipes: RecipeMealType[], forModal?: boolean }) => {
-//     const locale = useLocale()
-
-//     const renderRecipes = () => recipes.map(item => {
-//         const { label, uri, cuisineType, mealType } = item
-//         return (
-//             <Link
-//                 href={`/${locale}/recipe/${extractRecipeId(uri)}`}
-//                 key={uri}
-//                 className='grid grid-cols-3 gap-1 text-primary justify-between p-1 xxs:px-1.5 lg:px-2.5 hover:bg-background'
-//                 title={`Click to see in detail: ${label}`}
-//                 onClick={handleFalsyForFocused}
-//             >
-//                 <span className="text-lg col-span-2">{label.length > 27 ? ellipsedText(label, 27) : label}</span>
-//                 <span className="capitalize text-right">{cuisineType[0]}</span>
-//             </Link>
-//         )
-//     })
-
-//     return (
-//         <div className={`absolute w-full ${forModal ? "top-12" : "top-8"} right-0 flex flex-col gap-y-0 ${recipes?.length && showDropdown ? "max-h-[11rem]" : "h-0"} overflow-y-scroll no-scrollbar z-50 bg-card rounded-b-xl`}>
-//             {recipes?.length && showDropdown ? renderRecipes() : null}
-//         </div>
-//     )
-// }
-
-// export const fetchAndUpdateData = (params: any, setRecipes: any, reset: () => void) => {
-//     searchRecipes(params).then(d => {
-//         const onlyRecipes = d?.hits.map((item: any) => item.recipe)
-
-//         const readyForRendering = onlyRecipes?.map((item: any) => item?.mealType?.length && item?.dishType?.length && item?.dietLabels?.length && item).filter((item: any) => item).filter((v: any, idx: number, self: any) => idx === self.findIndex((t: any) => t.label === v.label)) || []
-
-//         readyForRendering?.length && setRecipes(readyForRendering)
-
-//         !readyForRendering?.length && alert("Sorry, nothing is found to display for this search term, please try again, thank you :)")
-
-//     }).catch(err => console.log(err))
-//         .finally(reset)
-// }

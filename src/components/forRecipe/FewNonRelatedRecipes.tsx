@@ -55,7 +55,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
             <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("You Might Like")}</h2>
 
             <div className='flex gap-x-6 justify-between items-center mx-4'>
-                <Button className='xxs:w-4 lg:w-20 self-center text-accent font-bold bg-secondary hover:bg-primary xxs:h-24 lg:h-64' variant={'default'} onClick={handlePrev}>Prev</Button>
+                <Button className='xxs:w-4 lg:w-20 self-center font-bold hover:bg-primary/60 hover:text-content/80 text-content-light/90  xxs:h-24 lg:h-64' variant={'default'} onClick={handlePrev}>Prev</Button>
 
                 {/* very very small screen */}
                 <div
@@ -112,7 +112,7 @@ export const FewNonRelatedRecipes = ({ diet, dishType, mealType }: { diet: strin
                 >
                     {renderRecipes()}
                 </div>
-                <Button className='xxs:w-4 lg:w-20 self-center font-bold bg-secondary hover:bg-primary text-accent xxs:h-24 lg:h-64' variant={'default'} onClick={handleNext}>Next</Button>
+                <Button className='xxs:w-4 lg:w-20 self-center font-bold hover:bg-primary/60 hover:text-content/80 text-content-light/90  xxs:h-24 lg:h-64' variant={'default'} onClick={handleNext}>Next</Button>
             </div>
         </div>
     )

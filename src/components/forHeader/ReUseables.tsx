@@ -13,7 +13,7 @@ export const ShowAllFoundRecipes = ({ showDropdown, handleFalsyForFocused, recip
             <Link
                 href={`/${locale}/recipe/${extractRecipeId(uri)}`}
                 key={uri}
-                className='grid grid-cols-3 gap-1 text-primary justify-between p-1 xxs:px-1.5 lg:px-2.5 hover:bg-background'
+                className='grid grid-cols-3 gap-1 text-content-light/80 justify-between p-1 xxs:px-1.5 lg:px-2.5 hover:bg-background hover:text-content/80'
                 title={`Click to see in detail: ${label}`}
                 onClick={handleFalsyForFocused}
             >
@@ -25,7 +25,7 @@ export const ShowAllFoundRecipes = ({ showDropdown, handleFalsyForFocused, recip
     })
 
     return (
-        <div className={`absolute w-full ${forModal ? "top-20" : "top-8"} right-0 flex flex-col gap-y-0 ${recipes?.length && showDropdown ? "max-h-[11rem]" : "h-0"} overflow-y-scroll no-scrollbar z-50 bg-card rounded-b-xl`}>
+        <div className={`absolute w-full ${forModal ? "top-20" : "top-8"} right-0 flex flex-col gap-y-0 ${recipes?.length && showDropdown ? "max-h-[11rem]" : "h-0"} overflow-y-scroll no-scrollbar z-50 bg-primary/95 shadow-inner rounded-b-xl`}>
             {recipes?.length && showDropdown ? renderRecipes() : null}
         </div>
     )

@@ -128,11 +128,11 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
                 className={`${styles.whenFlipped} px-1.5 items-center justify-center h-[18.18rem] xxs:w-[19.3rem] sm:w-[18.4rem]`}
             >
                 <Link
-                    className='bg-accent hover:text-muted-foreground opacity-80 w-full text-center rounded-t-md'
+                    className='bg-background/60 hover:bg-background/90 opacity-80 w-full text-center rounded-t-md'
                     href={`/${locale}/recipe/${extractRecipeId(uri)}`}
                     onClick={isLoading ? falsy : truthy}
                 >
-                    <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-primary' title={label}>{removeWrodRecipe(label).length > 22 ? ellipsedText(removeWrodRecipe(label), 22) : removeWrodRecipe(label)}</h2>
+                    <h2 className='text-center font-bold xxs:text-lg lg:text-xl text-content/90 hover:text-content/60' title={label}>{removeWrodRecipe(label).length > 22 ? ellipsedText(removeWrodRecipe(label), 22) : removeWrodRecipe(label)}</h2>
                 </Link>
 
                 <div className='flex justify-center gap-2 my-1'>
@@ -166,13 +166,13 @@ const RenderRecipe = ({ ...items }: RecipeMealType) => {
 
 const RenderBadge = ({ text }: { text: string }) => {
     return (
-        <Badge className='bg-accent text-secondary hover:text-muted-foreground capitalize' variant={"secondary"} title={text}>{text.length > 10 ? ellipsedText(text, 8) : text}</Badge>
+        <Badge className='bg-background/80 text-secondary hover:text-content-light/80 capitalize' variant={"secondary"} title={text}>{text.length > 10 ? ellipsedText(text, 8) : text}</Badge>
     )
 }
 
 const RenderBasicTextInfo = ({ text, val }: { text: string, val: string | number }) => {
     return (
-        <h3 className={`flex justify-between px-2 gap-2 xxs:text-xs lg:text-sm bg-accent text-secondary ${text === "Source" ? "py-0.5 opacity-80 rounded-b-md" : ""} capitalize`}><span className='font-semibold'>{text}</span><span className='text-primary font-semibold'>{val}</span></h3>
+        <h3 className={`flex justify-between px-2 gap-2 xxs:text-xs lg:text-sm bg-accent text-secondary ${text === "Source" ? "py-0.5 opacity-80 rounded-b-md" : ""} capitalize`}><span className='font-semibold'>{text}</span><span className='text-content/80 font-semibold'>{val}</span></h3>
     )
 }
 
@@ -185,9 +185,9 @@ export const ReusableModal = ({ children, triggerText, title, changeWidth, handl
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger onClick={() => handleTrigger && handleTrigger()}><Badge variant={'secondary'} className='w-full text-secondary bg-accent transition-colors duration-1000 hover:bg-primary hover:text-muted-foreground'>{triggerText}</Badge></DialogTrigger>
+            <DialogTrigger onClick={() => handleTrigger && handleTrigger()}><Badge variant={'secondary'} className='w-full text-secondary bg-background/80 transition-colors duration-1000 hover:bg-primary hover:text-content-light/80'>{triggerText}</Badge></DialogTrigger>
             <DialogContent
-                className='bg-accent border-ring'
+                className='bg-background/80 border-ring'
                 style={{ minWidth: changeWidth ? "80%" : "auto" }}
             >
                 {
@@ -195,7 +195,7 @@ export const ReusableModal = ({ children, triggerText, title, changeWidth, handl
                     && (
                         <DialogHeader>
                             <DialogTitle
-                                className='text-primary text-center'
+                                className='text-secondary text-center'
                             >{title}</DialogTitle>
                         </DialogHeader>
                     )
@@ -217,7 +217,7 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
 
     const renderInstructions = () => ingredients.map((item, idx) => {
         return (
-            <span key={item.foodId + item.weight + idx} className='font-semibold'>{item.text}</span>
+            <span key={item.foodId + item.weight + idx} className='font-semibold text-content/60'>{item.text}</span>
         )
     })
 
@@ -229,18 +229,18 @@ const RenderRecipeIngredients = ({ ...items }: IngredientsTypes) => {
             <span
                 className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem] text-secondary'
             >
-                <span className='font-bold text-lg text-primary'>Ingredients And Measurements</span>
+                <span className='font-bold text-lg text-secondary'>Ingredients And Measurements</span>
 
-                <span className='grid grid-cols-4 place-content-center place-items-center xxs:gap-2 lg:gap-4 font-normal text-lg xxs:text-sm md:text-lg lg:text-xl'>
-                    <span className='bg-card xxs:px-2 lg:px-4'>Category</span>
-                    <span className='bg-card xxs:px-2 lg:px-4'>Picture</span>
-                    <span className='bg-card xxs:px-2 lg:px-4'>Name</span>
-                    <span className='bg-card xxs:px-2 lg:px-4'>Quantity</span>
+                <span className='grid grid-cols-4 place-content-center place-items-center xxs:gap-2 lg:gap-4 font-normal text-lg xxs:text-sm md:text-lg lg:text-xl text-content'>
+                    <span className='bg-card/20 xxs:px-2 lg:px-4'>Category</span>
+                    <span className='bg-card/20 xxs:px-2 lg:px-4'>Picture</span>
+                    <span className='bg-card/20 xxs:px-2 lg:px-4'>Name</span>
+                    <span className='bg-card/20 xxs:px-2 lg:px-4'>Quantity</span>
                 </span>
                 <span className='flex flex-col gap-y-2 xxs:h-56 lg:h-[40rem] overflow-y-scroll no-scrollbar'>
                     {renderIngredientsAndMeasurements()}
                 </span>
-                <span className='font-bold text-lg text-primary'>Instructions</span>
+                <span className='font-bold text-lg text-secondary'>Instructions</span>
                 <span className='flex flex-col gap-y-2 xxs:h-40 lg:h-96 overflow-y-scroll no-scrollbar'>{renderInstructions()}</span>
             </span>
         </ReusableModal>
@@ -251,7 +251,7 @@ export const RenderIngredientAndMeasurement = ({ ...items }: IngredientItemType)
     const { food, foodCategory, measure, quantity, weight, image } = items;
     return (
         <span
-            className='grid grid-cols-4 gap-4 place-content-center place-items-center xxs:text-xs lg:text-sm'
+            className='grid grid-cols-4 gap-4 place-content-center place-items-center xxs:text-xs lg:text-sm text-content/80'
         >
             <span className='capitalize font-normal text-center'>{foodCategory}</span>
             <img
@@ -267,7 +267,7 @@ const RenderRecipeDigestInfo = ({ digestLabels }: { digestLabels: DigestItemType
     const renderItems = () => digestLabels.map(item => {
         const { label, unit, total, tag, hasRDI } = item
         return (
-            <Button key={label} variant={'ghost'} className='flex justify-between items-center text-left gap-x-2 mr-2 text-sm font-semibold cursor-auto'>
+            <Button key={label} variant={'ghost'} className='flex justify-between items-center text-left gap-x-2 mr-2 text-sm font-semibold cursor-auto text-content/80 hover:text-content-light/90 hover:bg-secondary'>
                 <span className='w-2/3'>{label}</span>
                 <span className='w-1/4 flex gap-x-2 text-xs'><span>hasRDI</span> (<span>{hasRDI ? "true" : "false"}</span>)</span>
                 <span className='w-1/2 text-xs'>Total ({total.toFixed(2)} {unit})</span>
@@ -309,7 +309,7 @@ const RenderHealthLabels = ({ labels }: { labels: string[] }) => {
 }
 
 const useForIngredientsLabels = (labels: string[]) => {
-    const renderLabels = () => labels.map(txt => <Button key={txt} variant={'ghost'} className='text-secondary cursor-auto min-w-64 w-fit text-left'>{txt}</Button>)
+    const renderLabels = () => labels.map(txt => <Button key={txt} variant={'ghost'} className='text-content/80 hover:text-content-light/90 hover:bg-secondary cursor-auto min-w-64 w-fit text-left'>{txt}</Button>)
     return { renderLabels }
 }
 

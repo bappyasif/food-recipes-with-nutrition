@@ -24,7 +24,7 @@ export const HomeHero = () => {
                 />
 
                 <div
-                    className='w-full z-20 absolute text-content/80 border border-primary rounded'
+                    className='w-full z-20 absolute text-content-light/60 border border-primary rounded'
                 >
                     <div className='grid grid-cols-3 place-items-center items-center h-[5.71rem]'>
                         <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-primary/40 flex items-center justify-center '>Be</h2>
@@ -98,61 +98,6 @@ export const HomeHero = () => {
                         </div>
                         <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-primary/40 flex items-center justify-center opacity-90'>Delicious</h2>
                     </div>
-                    
-
-                    {/* <div className='grid grid-cols-3 place-items-center items-center h-[8rem]'>
-                        <div className='h-full w-full rounded-s-xl rounded-xl bg-transparent flex justify-between'>
-                            <span className='border-r-primary border border-t-0 border-b-primary border-l-0 w-1/2'></span>
-                            <span className='border-r-primary border border-t-0 border-b-primary border-l-0 w-1/2'></span>
-                        </div>
-                        <h2 className='col-span-2 sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full bg-primary/40 flex items-center justify-evenly w-full text-center pl-[.38rem]  place-content-center'>
-                            <span>Make</span>
-                            <span>Cooking</span>
-                        </h2>
-                    </div> */}
-
-                    {/* <div className='grid grid-cols-3 place-items-center items-center h-[6.5rem]'>
-                        <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-primary/40 flex items-center justify-center '>Exciting</h2>
-                        <div className='col-span-2 h-full w-full bg-transparent flex justify-between'>
-                            <span className='border-r-primary border border-t-primary border-b-primary border-l-primary w-1/4'></span>
-                            <span className='border-r-primary border border-t-primary border-b-primary border-l-0 w-1/4'></span>
-                            <span className='border-r-primary border border-t-primary border-b-0 border-l-0 w-1/4'></span>
-                            <span className='border-r-primary border border-t-primary border-b-0 border-l-0 border-r-0 w-1/4'></span>
-                        </div>
-                    </div>
-
-                    <div className='grid grid-cols-3 place-items-center items-center h-[6.5rem]'>
-                        <div className='h-full w-full bg-transparent flex justify-between'>
-                            <span className='border border-primary border-l-0 border-b-0 w-1/2'></span>
-                            <span className='border border-primary border-l-0 border-b-0 w-1/2'></span>
-                        </div>
-                        <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-primary/40 flex items-center justify-center '>Fun</h2>
-                        <div className='h-full w-full bg-transparent flex justify-between'>
-                            <span className='border border-primary border-r-0 w-1/2'></span>
-                            <span className='border border-primary border-r-0 w-1/2'></span>
-                        </div>
-                    </div>
-
-                    <div className='grid grid-cols-3 place-items-center items-center h-[6.5rem]'>
-                        <div className='col-span-2 h-full w-full bg-transparent flex justify-between'>
-                            <span className='border border-primary border-y-primary-focus border-l-0 w-1/4'></span>
-                            <span className='border border-primary border-y-primary-focus border-l-0 w-1/4'></span>
-                            <span className='border border-primary border-y-primary-focus border-l-0 w-1/4'></span>
-                            <span className='border border-primary border-y-primary-focus border-l-0 w-1/4'></span>
-                        </div>
-                        <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-primary/40 flex items-center justify-center opacity-90'>Healthy</h2>
-                    </div>
-
-                    <div className='grid grid-cols-3 place-items-center items-center h-[6.5rem]'>
-                        <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-primary/40 flex items-center justify-evenly col-span-2 opacity-90'>
-                            <span>And</span>
-                            <span>Delicious</span>
-                        </h2>
-                        <div className='h-full w-full rounded-l-box bg-transparent flex justify-between'>
-                            <span className='border border-primary border-r-0 border-b-0 w-1/2'></span>
-                            <span className='border border-primary border-r-0 border-b-0 w-1/2'></span>
-                        </div>
-                    </div> */}
                 </div>
             </div>
         </div>
@@ -179,11 +124,11 @@ const RightExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
     return (
         <div
-            className={`absolute bg-ternary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1.5" : "xxs:translate-x-[18.4rem] md:translate-x-[36rem] lg:translate-x-[44.3rem]"} z-20`}
+            className={`absolute bg-quaternary flex gap-4 items-center right-0 transition-all duration-1000 ${(extOpen === "right") ? "-translate-x-1.5" : "xxs:translate-x-[18.4rem] md:translate-x-[36rem] lg:translate-x-[44.3rem]"} z-20`}
         >
             <Button onClick={handleClicked} variant={'secondary'}
 
-                className='absolute -left-16 top-0 transition-all duration-1000 h-full bg-secondary hover:bg-muted-foreground hover:text-special-foreground text-5xl flex items-center rounded-r-none text-special'
+                className='absolute -left-16 top-0 transition-all duration-1000 h-full bg-quaternary hover:bg-muted-foreground hover:text-special-foreground text-5xl flex items-center rounded-r-none text-special'
             >[</Button>
 
             <DragAndDrop open={extOpen === "right"} />
@@ -200,11 +145,11 @@ const LeftExtension = ({ extOpen, handleExtensionsOpen }: ExtensionProps) => {
 
     return (
         <div
-            className={`flex bg-secondary gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "xxs:-translate-x-[19.33rem] sm:-translate-x-[26.3rem] md:-translate-x-[36rem] xl:-translate-x-[52rem]"} ${extOpen === "left" ? "z-30" : "z-20"}`}
+            className={`flex bg-quaternary gap-4 justify-center items-center absolute left-0 transition-all duration-1000 ${(extOpen === "left") ? "translate-x-0" : "xxs:-translate-x-[19.33rem] sm:-translate-x-[26.3rem] md:-translate-x-[36rem] xl:-translate-x-[52rem]"} ${extOpen === "left" ? "z-30" : "z-20"}`}
         >
             <Scheduler open={extOpen === "left"} />
 
-            <Button onClick={handleClicked} variant={'secondary'} className={`absolute bg-secondary -right-16 bottom-0 transition-all duration-1000 h-full hover:bg-muted-foreground hover:text-special-foreground text-5xl flex items-center rounded-l-none text-special`}>]</Button>
+            <Button onClick={handleClicked} variant={'secondary'} className={`absolute bg-quaternary -right-16 bottom-0 transition-all duration-1000 h-full hover:bg-muted-foreground hover:text-special-foreground text-5xl flex items-center rounded-l-none text-special`}>]</Button>
         </div>
     )
 }

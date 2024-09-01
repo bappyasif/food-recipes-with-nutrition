@@ -80,7 +80,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
             </section>
 
             <section className='xxs:mb-4 lg:mb-6 flex flex-col xxs:gap-y-8 lg:gap-y-20'>
-                <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center'>Some Related Information About This Recipe</h2>
+                <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-content-light/90 bg-ternary w-fit mx-auto p-2 px-10 rounded'>Some Related Information About This Recipe</h2>
                 <div className='flex xxs:flex-col xxs:gap-y-11 xl:flex-row lg:gap-x-6 justify-around items-center px-10'>
                     <div className='xxs:w-full xl:w-2/4'>
                         <h2 className='xxs:text-2xl md:text-3xl xl:text-4xl mb-6 mt-2 font-bold text-center'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>
@@ -104,7 +104,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
 const CustomBadge = ({ val }: { val: string }) => {
     return (
-        <Badge className='bg-quaternary text-muted hover:text-accent xs:text-sm lg:text-[1.01rem] m-1'>
+        <Badge className='bg-quaternary text-content/60 hover:text-content-light/90 xs:text-sm lg:text-[1.01rem] m-1'>
             {val}
         </Badge>
     )
@@ -153,25 +153,11 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 
     const t = useTranslations("default")
 
-    // const headingsMarkup = (
-    //     <div 
-    //         className='grid xxs:grid-cols-3 justify-items-center place-items-center font-normal xxs:text-[.62rem] sm:text-sm md:text-lg lg:text-xl'
-    //     >
-    //         {/* <div className='bg-card px-4 rounded-md xxs:hidden md:block lg:hidden 2xl:block'>Category</div> */}
-    //         <div className='bg-card px-4 rounded-md'>Picture</div>
-    //         <div className='bg-card px-4 rounded-md'>Name</div>
-    //         <div className='bg-card px-4 rounded-md'>Quantity</div>
-    //     </div>
-    // )
-
     const ingredientsMarkup = (
         <div className='flex flex-col gap-y-6 xxs:w-full lg:w-[45%] pb-2 px-1.5'>
-            <h2 className='font-medium text-left xxs:text-sm sm:text-lg md:text-2xl lg:text-3xl text-primary'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
-
-            {/* {headingsMarkup} */}
-
+            <h2 className='font-medium text-left xxs:text-sm sm:text-lg md:text-2xl lg:text-3xl text-content/80'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Measurements")}</span></h2>
             <ol 
-                className='flex flex-col gap-y-4 list-inside'>
+                className='flex flex-col gap-y-4 list-inside text-content/80'>
                 {renderIngredientsAndMeasurements()}
             </ol>
         </div>
@@ -179,15 +165,15 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 
     const instructionsMarkup = (
         <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 pb-2 px-1.5'>
-            <h2 className='font-medium text-left xxs:text-sm sm:text-lg lg:text-3xl text-primary'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
+            <h2 className='font-medium text-left xxs:text-sm sm:text-lg lg:text-3xl'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
             <div
-                className='grid grid-cols-1 xxs:gap-6 lg:gap-4 capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl'
+                className='grid grid-cols-1 xxs:gap-6 lg:gap-4 capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl text-content/80'
             >{renderInstructions()}</div>
         </div>
     )
 
     return (
-        <div className='flex lg:justify-between xxs:flex-col xxs:gap-y-6 lg:flex-row lg:gap-x-10 mx-6 w-full'>
+        <div className='flex lg:justify-between xxs:flex-col xxs:gap-y-6 lg:flex-row lg:gap-x-10 mx-6 w-full text-content/80'>
             {ingredientsMarkup}
             {instructionsMarkup}
         </div>
@@ -243,17 +229,17 @@ const RenderDigestTable = ({ labels, heading }: { labels: DigestItemType[], head
 
     return (<table className="relative w-full border border-ring">
         <thead>
-            <tr className='text-lg bg-card sticky'>
-                <th className="top-0 px-6 py-3 bg-card sticky">Tag</th>
-                <th className="top-0 px-6 py-3 bg-card sticky">Daily</th>
-                <th className="top-0 px-6 py-3 bg-card sticky">SchemaOrgTag</th>
-                <th className="top-0 px-6 py-3 bg-card sticky">Label</th>
-                <th className="top-0 px-6 py-3 bg-card sticky">HasRDI</th>
-                <th className="top-0 px-6 py-3 bg-card sticky">Total</th>
-                <th className="top-0 px-6 py-3 bg-card sticky">Unit</th>
+            <tr className='text-lg bg-primary/80 text-content-light/90 sticky'>
+                <th className="top-0 px-6 py-3 sticky">Tag</th>
+                <th className="top-0 px-6 py-3 sticky">Daily</th>
+                <th className="top-0 px-6 py-3 sticky">SchemaOrgTag</th>
+                <th className="top-0 px-6 py-3 sticky">Label</th>
+                <th className="top-0 px-6 py-3 sticky">HasRDI</th>
+                <th className="top-0 px-6 py-3 sticky">Total</th>
+                <th className="top-0 px-6 py-3 sticky">Unit</th>
             </tr>
         </thead>
-        <tbody className="divide-y bg-accent text-center text-xs font-semibold">
+        <tbody className="divide-y bg-background/60 text-content/60 text-center text-xs font-semibold">
             {renderTableRows()}
         </tbody>
     </table>

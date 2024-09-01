@@ -143,7 +143,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
   return (
-    <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col gap-y-4 justify-between xl:h-[39rem] relative items-center bg-secondary'>
+    <Card className='hover:ring-1 hover:ring-special-foreground outline-transparent border-0 flex flex-col gap-y-4 justify-between xl:h-[39rem] relative items-center bg-ternary'>
       <img
         title={checkIfDayOlder() ? `You might be looking at a random relatable picture!!, Recipe: ${label}, Click "See Details" for full details` : `Recipe: ${label}, Click "See Details" for full details`}
         src={checkIfDayOlder() ? failSafeUrl : url}
@@ -157,8 +157,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
       <TbLoader2 size={80} className={`${isTrue ? "absolute animate-spin self-center h-72" : "hidden"}`} />
 
       <CardHeader
-        // className='font-bold xxs:text-lg md:text-2xl text-muted-foreground hover:text-primary text-center w-full'
-        className='font-bold xxs:text-lg md:text-2xl text-accent hover:text-muted-foreground text-center w-full'
+        className='font-bold xxs:text-lg md:text-2xl text-content/80 hover:text-content-light/80 text-center w-full'
         title={checkIfDayOlder() ? `You might be looking at a random relatable picture!!, Recipe: ${label}, Click To View details` : `Recipe: ${label}, Click To View details`}
       >
         <Link className='w-full' onClick={isTrue ? handleFalsy : handleTruthy} href={recipeLink}>{removeWrodRecipe(label!)!?.length > 22 ? ellipsedText(removeWrodRecipe(label!)!, 22) : removeWrodRecipe(label!)}</Link>
@@ -171,7 +170,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
       </CardContent>
 
       <CardFooter className='w-full'>
-        <Link onClick={isTrue ? handleFalsy : handleTruthy} className='w-full py-2 bg-quaternary text-center font-bold xxs:text-lg md:text-xl xl:text-2xl text-secondary hover:text-muted hover:bg-muted-foreground rounded-lg' href={`/${locale}/recipe/${extractRecipeId(uri!)}`}>See Details</Link>
+        <Link onClick={isTrue ? handleFalsy : handleTruthy} className='w-full py-2 bg-secondary/40 text-center font-bold xxs:text-lg md:text-xl xl:text-2xl text-content/80 hover:text-content-light/90 hover:bg-quaternary rounded-lg' href={`/${locale}/recipe/${extractRecipeId(uri!)}`}>See Details</Link>
       </CardFooter>
     </Card>
   )
@@ -179,7 +178,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
 
 const ReuseableBadge = ({ txt, val }: { txt: string, val: string | number | undefined }) => {
   return (
-    <Badge className='flex gap-x-4 w-fit text-accent hover:text-muted xxs:text-xs md:text-sm xl:text-lg capitalize'>
+    <Badge className='flex gap-x-4 w-fit text-content/80 hover:text-content-light/80 xxs:text-xs md:text-sm xl:text-lg capitalize'>
       <span>{txt}</span>
       <span>{val}</span>
     </Badge>

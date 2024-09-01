@@ -18,17 +18,16 @@ export const LocaleSwitcher = () => {
   }
 
   return (
-    <label htmlFor="locale-switcher" className='flex items-end gap-x-1.5 text-content'>
+    <label htmlFor="locale-switcher" className='flex items-end gap-x-1.5 text-content/80'>
       <span className='xxs:hidden md:block text-sm font-light'>{t("label")}</span>
       <select
-        // className="inline-flex appearance-none bg-transparent py-1 pl-2 xxs:p-1 lg:pr-6 font-bold xxs:text-xs sm:text-sm md:text-lg xl:text-xl text-accent duration-1000 transition-all hover:text-card cursor-pointer rounded-sm"
-        className='flex items-end appearance-none bg-transparent font-semibold text-lg duration-1000 transition-all hover:text-card cursor-pointer rounded-sm leading-none p-0.5'
+        className='flex items-end appearance-none bg-transparent font-semibold text-lg duration-1000 transition-all hover:text-content-light/80 cursor-pointer rounded-sm leading-none p-0.5'
         defaultValue={locale}
         disabled={isPending}
         onChange={onSelectChange}
       >
         {['en', 'bn'].map((cur) => (
-          <option key={cur} value={cur} className='font-bold bg-card text-secondary'>
+          <option key={cur} value={cur} className='font-bold'>
             {t(`${cur}`)}
           </option>
         ))}

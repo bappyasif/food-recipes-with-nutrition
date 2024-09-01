@@ -37,7 +37,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
 
     return (
         <div className='flex gap-x-4 items-center justify-center'>
-            <Button className='absolute left-0 xxs:h-20 lg:h-56 z-40 xxs:w-4 lg:w-20 text-accent font-extrabold bg-secondary hover:bg-primary' onClick={handlePrev} variant={'default'}>Prev</Button>
+            <Button className='absolute left-0 xxs:h-20 lg:h-56 z-40 xxs:w-4 lg:w-20 text-content-light/90 font-extrabold bg-primary hover:bg-primary/60 hover:text-content/80' onClick={handlePrev} variant={'default'}>Prev</Button>
 
             {/* very smaller screen */}
             <div
@@ -71,7 +71,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
                 {renderRecipes()}
             </div>
 
-            <Button className='absolute right-0 bg-secondary hover:bg-primary text-accent xxs:h-20 lg:h-56 z-40 xxs:w-4 lg:w-20 font-extrabold' onClick={handleNext} variant={'default'}>Next</Button>
+            <Button className='absolute right-0 bg-primary hover:bg-primary/60 hover:text-content/80 text-content-light/90 xxs:h-20 lg:h-56 z-40 xxs:w-4 lg:w-20 font-extrabold' onClick={handleNext} variant={'default'}>Next</Button>
         </div>
     )
 }
@@ -135,7 +135,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
 
                 {/* bigger screen */}
                 <Link
-                    className={`${isTrue ? "xxs:hidden xl:block xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""} hover:text-muted-foreground hover:bg-secondary px-4`}
+                    className={`${isTrue ? "xxs:hidden xl:block xxs:text-sm sm:text-lg lg:text-xl capitalize" : ""} hover:text-content-light/80 hover:bg-secondary px-4`}
                     href={`/${locale}/recipe/${recipeId}`}
                     title={label}
                     onClick={isLoading ? falsy : truthy}

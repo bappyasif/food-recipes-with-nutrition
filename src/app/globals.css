@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+/* @layer base {
   :root {
-    /* --background: 80 55.9% 2.72%; */
+    /* --background: 80 55.9% 2.72%; /
     --background: 225 30 110;
     --foreground: 80 8.6% 96.7%;
 
     --muted: 80 43% 10.200000000000001%;
-    /* --muted-foreground: 57 39 70; */
+    /* --muted-foreground: 57 39 70; /
     --muted-foreground: 64 66 85;
 
     --popover: 80 47.8% 4.42%;
@@ -24,11 +24,11 @@
     --border: 80 43% 10.200000000000001%;
     --input: 80 43% 10.200000000000001%;
 
-    /* --primary: 71 60% 37%; */
+    /* --primary: 71 60% 37%; /
     --primary: 207 88 27;
     --primary-foreground: 80 8.6% 96.7%;
 
-    /* --secondary: 121 68 84; */
+    /* --secondary: 121 68 84; /
     --secondary: 87 12 29;
     --secondary-foreground: 80 8.6% 96.7%;
 
@@ -39,6 +39,75 @@
     --quaternary-foreground: 121 68 130;
 
     --content:225 30 110;
+
+    /* --accent: 87 12 29; /
+    --accent: 225 30 80;
+    /* --accent: 225 30 110; /
+    --accent-foreground: 80 8.6% 96.7%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 80 8.6% 96.7%;
+
+    --ring: 80 86% 34%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --radius: 0.5rem;
+  }
+} */
+
+@layer base {
+  :root {
+    /* --background: 80 55.9% 2.72%; */
+    --background: 225 30 110;
+    /* --background: 75 5 15; */
+    --foreground: 80 8.6% 96.7%;
+
+    --muted: 75 10 32;
+    /* --muted-foreground: 57 39 70; */
+    /* --muted-foreground: 64 66 85; */
+    --muted-foreground: 75 10 81;
+
+    --popover: 80 47.8% 4.42%;
+    --popover-foreground: 80 8.6% 96.7%;
+
+    /* --card: 121 68 84; */
+    --card: 256 68 38;
+    --card-foreground: 80 8.6% 96.7%;
+
+    --special: 198 100% 71%;
+    --special-foreground: 198 60% 45%;
+
+    --border: 80 43% 10.200000000000001%;
+    --input: 80 43% 10.200000000000001%;
+
+    /* --primary: 71 60% 37%; */
+    /* --primary: 207 88 27; */
+    /* --primary: 75 5 15; */
+    /* --primary: 73 74 80; */
+    /* --primary: 64 10 32; */
+    /* --primary: 173 71 28; */
+    --primary: 127 9 39;
+    --primary-foreground: 80 8.6% 96.7%;
+
+    /* --secondary: 121 68 84; */
+    /* --secondary: 87 12 29; */
+    --secondary: 256 68 38;
+    /* --secondary: 215 83 35; */
+    --secondary-foreground: 80 8.6% 96.7%;
+
+    /* --ternary: 64 66 85; */
+    --ternary: 215 83 35;
+    /* --ternary: 216 50 70; */
+    --ternary-foreground: 64 66 130;
+
+    /* --quaternary: 121 68 84; */
+    /* --quaternary: 256 68 38; */
+    --quaternary: 216 50 70;
+    --quaternary-foreground: 121 68 130;
+
+    --content:73 9 9;
+    --content-light: 73 9 99;
 
     /* --accent: 87 12 29; */
     --accent: 225 30 80;
@@ -119,26 +188,34 @@
 }
 
 .rbc-toolbar {
-  @apply bg-special font-extrabold text-secondary
+  @apply bg-primary/80 font-extrabold text-content
 }
 
 .rbc-toolbar .rbc-btn-group button {
-  @apply text-special-foreground bg-accent
+  @apply text-content bg-primary
+}
+
+.rbc-today {
+  @apply text-red-800
 }
 
 .evenDays,
 .oddDays {
-  @apply bg-special font-extrabold text-primary
+  @apply bg-primary/40 font-extrabold text-content
 }
 
 .oddDays {
-  @apply bg-special-foreground text-accent
+  @apply bg-primary/60 text-content
 }
 
 .meetingSlots {
-  @apply bg-primary
+  @apply bg-primary/80
 }
 
 .slotSelected {
-  @apply bg-special
+  @apply bg-primary/20
+}
+
+.rbc-agenda-view {
+  @apply bg-primary
 }

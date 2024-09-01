@@ -104,7 +104,7 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
                 onWheel={handleScroll}
                 id='wheel'
                 ref={wheelRef}
-                className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-ternary'
+                className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-muted-foreground'
                 onMouseEnter={handleTruthy}
                 onMouseLeave={handleFalsy}
                 style={{
@@ -116,7 +116,7 @@ export const MouseWheelBasedCarousel= ({...item}: MouseWheelBasedCarouselType) =
                 {cards}
             </div>
             <Button variant={'secondary'} 
-            className={`absolute transition-all duration-500 bg-transparent  hover:text-2xl hover:text-primary text-secondary ${isTrue ? "text-2xl" : ""} rounded-full h-[90px] w-[90px]`} 
+            className={`absolute transition-all duration-500 bg-transparent  hover:text-2xl text-content hover:text-content-light ${isTrue ? "text-2xl" : ""} rounded-full h-[90px] w-[90px]`} 
             onClick={handleSpin}
             >{t("Spin")}</Button>
         </div>
