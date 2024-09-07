@@ -32,9 +32,9 @@ export const RecentlyViewedMealsScroller = () => {
   return (
     <div className=''>
       <h2 className='text-xl font-bold'>Some Recently Viewed Meals</h2>
-      <h3 className='text-sm font-semibold'>Real Recipe Image can be seen from Recipe Detail Page</h3>
+      <h3 className='text-sm font-semibold text-content/80'>Real Recipe Image can be seen from Recipe Detail Page</h3>
       <div
-        className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-3 2xl:grid-cols-3 gap-2 gap-x-4 place-content-center place-items-center  overflow-clip mt-10'
+        className='grid grid-rows-none xxs:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-2 gap-x-4 place-content-center place-items-center overflow-clip mt-10'
         onMouseEnter={handleTruthy}
         onMouseLeave={handleFalsy}
       >
@@ -68,7 +68,9 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   return (
     <div
-      className={`${styles.dissolvePhoto} h-[17.39rem] overflow-clip w-96`}
+      // className={`${styles.dissolvePhoto} h-[17.39rem] overflow-clip w-full xl:w-96 2xl:w-[22.2rem] 3xl:w-96`}
+      // className={`${styles.dissolvePhoto} h-[17.39rem] overflow-clip w-full xl:w-96 2xl:w-[22.2rem] 3xl:w-96 flex flex-col`}
+      className={`${styles.dissolvePhoto} h-80 overflow-clip w-full xl:w-96 2xl:w-[22.2rem] 3xl:w-96 flex flex-col`}
       onMouseEnter={handleTruthy}
       onMouseLeave={handleFalsy}
     >
@@ -78,7 +80,10 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         title={checkIfDayOlder() ? `You might be looking at a random picture, click here to view recipe detail page for real info: ${label}` : `Click to view details: ${label}`}
         className='relative text-center'
       >
-        <p className={`absolute text-center font-medium bg-primary/60 text-content-light/80 hover:text-quaternary hover:bg-primary transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} top-3 z-10 w-96 px-4`}>
+        <p 
+          // className={`absolute text-center font-medium bg-primary/60 text-content-light/80 hover:text-quaternary hover:bg-primary transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} top-3 z-10 xxs:min-w-max xs:w-full sm:w-96 xl:w-96 2xl:w-[22.2rem] 3xl:w-96 px-4`}
+          className={`absolute top-0.5 text-center font-medium bg-primary/60 z-10 text-content-light/80 hover:text-quaternary hover:bg-primary transition-all duration-50 px-4 ${isTrue ? "text-lg" : "text-2xl"} w-full`}
+        >
           {label!?.length > 40 ? ellipsedText(label!, 40) : label!}
         </p>
 
@@ -87,13 +92,14 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         <img
           src={checkIfDayOlder() ? failSafeUrl : url}
           alt={label!} width={width} height={height}
-          className={`w-full transition-all duration-500 h-full object-cover hover:object-cover rounded-sm`}
+          className={`w-full transition-all duration-500 h-80 object-cover hover:object-cover rounded-sm`}
           loading='lazy'
           onError={handleFailsafe}
         />
       </Link>
 
       <div
+        // className={`absolute bottom-0 flex flex-col gap-y-2 items-center justify-center transition-all duration-500 ${isTrue ? "-translate-y-40" : "translate-y-0"} z-20`}
         className={`flex flex-col gap-y-2 items-center justify-center transition-all duration-500 ${isTrue ? "-translate-y-40" : "translate-y-0"}`}
       >
         <ReusableBadge text={co2EmissionsClass!} title='Carbon Emission' />
@@ -103,9 +109,10 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         <ReusableBadge text={typeof cuisineType === "object" ? cuisineType[0] : cuisineType} title='Cuisine' />
 
         <Link href={`/${locale}/recipe/${extractRecipeId(uri!)}`} >
-          <Badge className='flex gap-x-4 justify-between items-center bg-primary/60 text-content-light/90 hover:text-quaternary hover:bg-primary text-lg' title={label}>
+          <Badge className='flex gap-x-4 justify-between items-center bg-primary/60 text-content-light/90 hover:text-quaternary hover:bg-primary text-xl' title={label}>
             <span>Name:</span>
-            <span>{removeWrodRecipe(label!)!?.length > 11 ? ellipsedText(removeWrodRecipe(label!)!, 11) : removeWrodRecipe(label!)!}</span>
+            <span className='block xl:hidden'>{removeWrodRecipe(label!)!?.length > 29 ? ellipsedText(removeWrodRecipe(label!)!, 29) : removeWrodRecipe(label!)!}</span>
+            <span className='hidden xl:block'>{removeWrodRecipe(label!)!?.length > 15 ? ellipsedText(removeWrodRecipe(label!)!, 15) : removeWrodRecipe(label!)!}</span>
           </Badge>
         </Link>
       </div>

@@ -42,7 +42,8 @@ export const BucketCardsContainer = ({ recipeCards }: { recipeCards: CardBoxProp
             ref={drop}
             // className='flex flex-col gap-y-2 h-72 overflow-y-scroll no-scrollbar w-[10.5rem]'
             // className='flex flex-col gap-y-2 h-96 overflow-y-scroll no-scrollbar w-full'
-            className='flex flex-col gap-y-2 h-full overflow-y-scroll no-scrollbar w-full mb-6'
+            // className='flex flex-col gap-y-2 h-full overflow-y-scroll no-scrollbar w-full mb-6'
+            className='flex flex-col gap-y-2 h-32 md:h-full overflow-y-scroll no-scrollbar w-full mb-6'
         >
             {cards.map((card) => (
                 <Card

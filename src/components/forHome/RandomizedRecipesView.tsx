@@ -67,11 +67,11 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
                         changeWidth={true} handleTrigger={() => null}
                     >
                         <span
-                            className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
+                            className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem] landscape:h-[19.1rem] portrait:h-[33rem]'
                         >
                             {existingFiltersMarkup}
 
-                            <span ref={ref} className='grid xxs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 h-[45rem] justify-items-center place-items-center gap-6 overflow-y-scroll scroll-smooth no-scrollbar'>
+                            <span ref={ref} className='grid xxs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 h-[45rem] justify-items-center place-items-center gap-6 gap-y-10 lg:gap-y-20 overflow-y-scroll scroll-smooth no-scrollbar'>
                                 {renderRecipes()}
 
                                 {
@@ -107,13 +107,16 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
         <span className='flex flex-col gap-y-2 justify-center items-center xxs:w-96 md:w-80 lg:w-96 bg-background rounded-md hover:bg-background/40'>
             <Link
                 href={`/${locale}/recipe/${extractRecipeId(uri)}`}
-                className='flex flex-col gap-y-2 relative hover:bg-secondary text-primary hover:text-ternary rounded-sm'
+                className='flex flex-col gap-y-2 relative hover:bg-accent/60 text-content hover:text-ternary rounded-sm'
                 title={label}
                 onClick={isLoading ? falsy : truthy}
             >
                 <span className='font-bold text-2xl text-center'>{removeWrodRecipe(label).length > 26 ? ellipsedText(removeWrodRecipe(label), 26) : removeWrodRecipe(label)}</span>
 
                 <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] xxs:h-40 lg:h-64 rounded-sm object-cover duration-300 transition-all hover:object-center hover:rounded-md' placeholder='blur' loading='lazy' />
+
+                {/* <span className='font-bold text-2xl text-center'>{removeWrodRecipe(label).length > 26 ? ellipsedText(removeWrodRecipe(label), 26) : removeWrodRecipe(label)}</span> */}
+
 
                 <TbLoader2 size={110} className={`${isLoading ? "absolute animate-spin self-center top-24 z-10" : "hidden"}`} />
             </Link>

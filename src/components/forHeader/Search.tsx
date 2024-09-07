@@ -37,7 +37,7 @@ export const Search = ({clicked}: {clicked: boolean}) => {
                 variant={"ghost"}
                 title="Click To Search Now"
                 disabled={isTrue && text.length >= 2}
-                className={`absolute xxs:hidden xs:inline-flex right-0.5 xs:bottom-1.5 xs:h-4 lg:h-6 ${isTrue && text.length >= 2 ? "bg-secondary text-content-light/80" : "bg-background/80 text-muted"} hover:text-muted hover:bg-background/60 font-semibold xxs:text-xs md:text-lg lg:text-xl xs:px-1.5 md:px-4`}
+                className={`absolute xxs:hidden xs:inline-flex right-0.5 xs:bottom-1.5 xs:h-4 sm:h-6 ${isTrue && text.length >= 2 ? "bg-secondary text-content-light/80" : "bg-background/80 text-muted"} hover:text-muted hover:bg-background/60 font-semibold xxs:text-xs md:text-lg lg:text-xl xs:px-1.5 md:px-4`}
             >
                 <RiSearchLine />
             </Button>

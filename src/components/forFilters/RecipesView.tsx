@@ -187,8 +187,11 @@ export const ReusableModal = ({ children, triggerText, title, changeWidth, handl
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger onClick={() => handleTrigger && handleTrigger()}><Badge variant={'secondary'} className='w-full text-secondary bg-background/80 transition-colors duration-1000 hover:bg-primary hover:text-content-light/80'>{triggerText}</Badge></DialogTrigger>
             <DialogContent
-                className='bg-background/80 border-ring'
-                style={{ minWidth: changeWidth ? "80%" : "auto" }}
+                className='bg-background/80 border-ring landscape:h-[90%] max-w-full'
+                style={{ 
+                    minWidth: changeWidth ? "94%" : "auto", 
+                    // minHeight: changeWidth ? "96%" : "auto" 
+                }}
             >
                 {
                     title
@@ -200,7 +203,11 @@ export const ReusableModal = ({ children, triggerText, title, changeWidth, handl
                         </DialogHeader>
                     )
                 }
-                <DialogDescription>
+                <DialogDescription 
+                    // style={{
+                    //     minHeight: changeWidth ? "96%" : "auto"
+                    // }}
+                >
                     {children}
                 </DialogDescription>
             </DialogContent>

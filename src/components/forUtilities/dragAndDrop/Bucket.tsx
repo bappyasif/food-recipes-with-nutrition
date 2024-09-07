@@ -54,10 +54,10 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
 
     return (
         <div
-            className='flex flex-col gap-y-2 w-72 md:w-1/2 justify-between items-center pl-2'
+            className='flex flex-col gap-y-2 w-72 md:w-1/2 justify-between items-center pl-2 bg-accent/40'
         >
             <h2
-                className={`text-muted bg-special-foreground font-bold text-xl flex items-center justify-center rounded-sm`}
+                className={`text-muted bg-background font-bold text-xl flex items-center justify-center rounded-sm`}
                 style={{...style}}
             >
                 {
@@ -163,12 +163,12 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                         <PopoverContent className='bg-card flex flex-col gap-y-2 w-fit text-muted-foreground'>
                             <span>
                                 <span>Title</span>
-                                <input type="text" value={text} onChange={handleTextChange} className='bg-secondary w-full' required />
+                                <input type="text" value={text} onChange={handleTextChange} className='bg-secondary w-full' required placeholder='e.g. Event title goes here....' />
                             </span>
 
                             <span>
                                 <span>Descriptions</span>
-                                <textarea name="description" id="description" className="w-full bg-secondary" rows={6} value={descText} onChange={handleDesc}></textarea>
+                                <textarea name="description" id="description" className="w-full bg-secondary" rows={6} value={descText} onChange={handleDesc} placeholder='e.g. Event details goes here....'></textarea>
                             </span>
 
                             <EventCreateTimeAndDate getEndStr={getEndStr} getStartStr={getStartStr} />
@@ -199,7 +199,7 @@ const CustomDateAndTime = ({ heading, getData }: { heading: string, getData: (it
     return (
         <span className='flex justify-between gap-x-2 w-full'>
             <span>{heading}</span>
-            <input className='bg-accent' type="datetime-local" name="date-time" id="date-time" onChange={handleTextChange} />
+            <input className='bg-accent/20' type="datetime-local" name="date-time" id="date-time" onChange={handleTextChange} />
         </span>
     )
 }

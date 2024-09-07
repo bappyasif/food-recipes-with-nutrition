@@ -48,10 +48,10 @@ export const Header = () => {
       <div
         className="bg-primary flex items-end xxs:justify-around lg:justify-between xxs:gap-x-2 lg:gap-x-10 w-full py-0.5 pl-2 pr-6"
       >
-        <Link href={"/"} title="What's Cooking Yo!!" className="self-start w-[6%]">
+        <Link href={"/"} title="What's Cooking Yo!!" className="self-start xl:w-[6%]">
           <img
             src={logo.src}
-            className="w-20 rounded-full"
+            className="w-28 md:w-20 rounded-full"
             alt="what's cooking yo!! logo"
             height={logo.height} width={logo.width}
           />
@@ -169,7 +169,7 @@ const RenderNav = ({ ...item }: NavType) => {
       href={`/${locale}/${path}`}
       className="flex gap-1 items-center justify-center font-bold text-content-light/80 transition-all duration-500 hover:text-quaternary h-fit">
       <span
-        className="xxs:text-lg xs:text-xl sm:text-2xl lg:text-4xl"
+        className="xxs:text-4xl"
       >{icon}</span>
       <span className="xxs:hidden lg:block xs:text-[.71rem] lg:text-lg xl:text-xl 2xl:text-2xl self-end">{t(`${name}`)}</span>
     </Link>
