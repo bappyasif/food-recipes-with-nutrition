@@ -140,7 +140,7 @@ const CarouselCard = ({ ...item }: {
 
     return (
         <div 
-        className={`absolute -translate-x-[50%] -translate-y-[50%]  text-muted-foreground rounded-full flex justify-center items-center ${selected ? "bg-primary z-20 text-content" : "bg-accent text-secondary"} hover:scale-110 hover:z-20`}
+        className={`absolute -translate-x-[50%] -translate-y-[50%]  text-muted-foreground rounded-full flex justify-center items-center ${selected ? "bg-primary z-20 text-content" : "bg-accent text-secondary"} hover:scale-110 hover:z-20 xxs:scale-75 xs:scale-90 sm:scale-100`}
             style={{...styles.card, left: `${center.x + newCoords.x}px`, top: `${center.y + newCoords.y}px`, 
         }}
         >

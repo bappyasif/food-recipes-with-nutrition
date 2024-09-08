@@ -187,6 +187,8 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
                     <MultipleSelectableFilters
                     // handleFiltersChange={handleFiltersChange} 
                     />
+
+                    <Button disabled={notifyText === "Fetching Data"} className={`${notifyText === "Fetching Data" ? "bg-muted-foreground" : "bg-quaternary"} text-secondary font-bold xxs:text-sm lg:text-lg hover:text-background hover:bg-primary`} onClick={handleSearchNow}>{t("Search")}</Button>
                 </div>
 
                 <h2 className='font-bold text-2xl'>{notifyText}</h2>

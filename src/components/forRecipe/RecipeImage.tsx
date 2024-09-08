@@ -44,7 +44,10 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
 
             <ShareInSocialMedias hashtags={prepareHashtags()} nestedRoute={`${locale}/recipe/${extractRecipeId(uri)}`} title={prepTitle()} description={prepDescription()} ready={!!uri} />
 
-            <div title={isTrue ? "Back To Minimal View" : "Click To See More Info"} className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-center">
+            <div 
+                // title={isTrue ? "Back To Minimal View" : "Click To See More Info"} className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-center"
+                className="flex xxs:flex-col sm:flex-row xxs:justify-start sm:justify-center items-center"
+            >
 
                 <SquareElem showIt={isTrue} data={data} />
 
@@ -52,7 +55,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                 <Image
                     src={images?.LARGE?.url || images.REGULAR.url} height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
 
-                    className={`xxs:block lg:hidden transition-all duration-700 ${isTrue ? `h-[18.8rem] opacity-20 xxs:w-[13.2rem] xxs:ml-0 rotate-[360deg]` : `xxs:h-48 sm:h-64 translate-x-0 xxs:w-56 sm:w-80 lg:ml-4 -rotate-[360deg]`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover rounded-sm`}
+                    className={`xxs:block sm:hidden transition-all duration-700 ${isTrue ? `h-[18.8rem] opacity-20 xxs:w-[13.2rem] xxs:ml-0 rotate-[360deg]` : `xxs:h-48 sm:h-64 translate-x-0 xxs:w-56 sm:w-80 lg:ml-4 -rotate-[360deg]`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative object-cover rounded-sm`}
 
                     blurDataURL={images?.LARGE?.url || images.REGULAR.url} 
                     placeholder='blur' loading='eager'
@@ -63,7 +66,7 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
                     src={images?.LARGE?.url || images.REGULAR.url} 
                     height={images?.LARGE?.height || images.REGULAR.height} width={images?.LARGE?.width || images.REGULAR.width} alt={label}
                     
-                    className={`xxs:hidden lg:block transition-all duration-700 ${isTrue ? `h-[18.4rem] w-[15.8rem] translate-x-[7.6rem] rotate-[360deg] rounded` : `h-96 lg:w-96 translate-x-2 rotate-[-360deg]`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-0 object-cover rounded-sm aspect-square`}
+                    className={`xxs:hidden sm:block transition-all duration-700 ${isTrue ? `h-[18.4rem] w-[15.8rem] translate-x-[7.6rem] rotate-[360deg] rounded` : `h-96 w-80 lg:w-96 translate-x-2 rotate-[-360deg]`} z-20 rounded cursor-pointer ${!isTrue ? styles.borderSlick : ``} relative ml-0 object-cover rounded-sm aspect-square`}
 
                     blurDataURL={images?.LARGE?.url || images.REGULAR.url} 
                     placeholder='blur' loading='eager'
@@ -78,7 +81,7 @@ const SquareElem = ({ showIt, data }: { showIt: boolean, data: RecipeMealType })
 
     return (
         <div 
-            className={`absolute transition-all duration-1000 ${showIt ? "bg-background h-fit xxs:w-fit lg:w-[32.1rem] rounded-sm" : `rounded-full`} xxs:pl-0 lg:pl-2`}
+            className={`absolute transition-all duration-1000 ${showIt ? "bg-background h-fit xxs:w-fit sm:w-[32.1rem] rounded-sm" : `rounded-full`} xxs:pl-0 lg:pl-2`}
         >
 
             <div className={`grid grid-cols-1 justify-items-start transition-all duration-300 ${!showIt ? "-translate-y-20 opacity-0 scale-0" : "translate-y-0 opacity-100 scale-100"} py-2 z-10`}>

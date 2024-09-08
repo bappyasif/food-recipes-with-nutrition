@@ -67,7 +67,7 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
                         changeWidth={true} handleTrigger={() => null}
                     >
                         <span
-                            className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem] landscape:h-[19.1rem] portrait:h-[33rem]'
+                            className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem] landscape:h-[19.1rem] portrait:h-[38rem] landscape:w-full'
                         >
                             {existingFiltersMarkup}
 
@@ -104,7 +104,7 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
     const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
 
     return (
-        <span className='flex flex-col gap-y-2 justify-center items-center xxs:w-96 md:w-80 lg:w-96 bg-background rounded-md hover:bg-background/40'>
+        <span className='flex flex-col gap-y-2 justify-center items-center xxs:w-96 md:w-80 lg:w-96 bg-background rounded-md hover:bg-background/40 portrait:w-full'>
             <Link
                 href={`/${locale}/recipe/${extractRecipeId(uri)}`}
                 className='flex flex-col gap-y-2 relative hover:bg-accent/60 text-content hover:text-ternary rounded-sm'

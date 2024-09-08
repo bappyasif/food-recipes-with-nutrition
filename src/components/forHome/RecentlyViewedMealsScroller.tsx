@@ -87,7 +87,7 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
           {label!?.length > 40 ? ellipsedText(label!, 40) : label!}
         </p>
 
-        <TbLoader2 size={80} className={`${isLoading ? "absolute animate-spin self-center w-60 top-28 z-10" : "hidden"}`} />
+        <TbLoader2 size={80} className={`${isLoading ? "absolute animate-spin self-center w-full top-28 z-10" : "hidden"}`} />
 
         <img
           src={checkIfDayOlder() ? failSafeUrl : url}

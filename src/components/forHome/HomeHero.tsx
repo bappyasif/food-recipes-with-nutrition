@@ -24,7 +24,7 @@ export const HomeHero = () => {
                 />
 
                 <div
-                    className='w-full z-20 absolute text-content-light/60 border border-primary rounded'
+                    className='w-full z-20 absolute text-content-light/80 border border-primary rounded'
                 >
                     <div className='grid grid-cols-3 place-items-center items-center h-[5.71rem]'>
                         <h2 className='sm:text-xl md:text-2xl xl:text-6xl font-extrabold h-full w-full bg-primary/40 flex items-center justify-center '>Be</h2>

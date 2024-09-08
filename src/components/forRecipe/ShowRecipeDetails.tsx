@@ -53,10 +53,11 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-10 pt-10'>
 
             <section
-                className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-20 mx-6 xxs:gap-y-4 sm:gap-y-11'
+                // className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-20 mx-6 xxs:gap-y-4 sm:gap-y-11'
+                className='flex xxs:flex-col 2xl:flex-row justify-between xxs:items-start md:items-baseline gap-x-20 mx-6 xxs:gap-y-4 sm:gap-y-11'
             >
                 <div
-                    className='relative xxs:w-full lg:w-[27.6%] rounded flex flex-col gap-y-6 items-center'
+                    className='relative xxs:w-full 2xl:w-[27.6%] rounded flex flex-col gap-y-6 items-center'
                     onClick={handleTruthy}
                 >
                     <RecipeImage {...data} />
@@ -69,7 +70,7 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
                     </div>
                 </div>
 
-                <section className='xxs:mb-4 md:mt-8 w-2/3'>
+                <section className='xxs:mb-4 md:mt-8 w-full 2xl:w-2/3'>
                     <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-10'>Cooking Information</h2>
                     <RecipeIngredientsAndInstructions ingredients={ingredients} />
                 </section>
@@ -165,7 +166,7 @@ const RecipeIngredientsAndInstructions = ({ ingredients }: { ingredients: Ingred
 
     const instructionsMarkup = (
         <div className='flex flex-col gap-y-6 xxs:w-full lg:w-1/2 pb-2 px-1.5'>
-            <h2 className='font-medium text-left xxs:text-sm sm:text-lg lg:text-3xl'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
+            <h2 className='font-medium text-left xxs:text-sm sm:text-lg md:text-2xl lg:text-3xl'><span>{t("Ingredients")}</span> <span>{t("And")}</span> <span>{t("Instructions")}</span></h2>
             <div
                 className='grid grid-cols-1 xxs:gap-6 lg:gap-4 capitalize xxs:text-xs xs:text-sm md:text-lg lg:text-xl text-content/80'
             >{renderInstructions()}</div>
@@ -195,7 +196,8 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
                 src={failSafeUrl}
                 alt={food}
                 width={60} height={39}
-                className='xxs:w-14 xxs:h-16 sm:w-24 lg:w-16 lg:h-9 rounded-xl object-cover'
+                // className='xxs:w-14 xxs:h-16 sm:w-24 lg:w-16 lg:h-9 rounded-xl object-cover'
+                className='w-16 h-9 rounded-xl object-cover'
                 placeholder='blur' loading='lazy'
                 onError={handleFailsafe}
             />
