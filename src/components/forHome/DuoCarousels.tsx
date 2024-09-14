@@ -76,7 +76,7 @@ export const ReusableCarouselCard = ({ carouselType, ...item }: CategoriesCuisin
                 src={failSafeUrl}
                 onError={handleFailsafe}
             />
-            <p className='absolute text-content-light/90 hover:text-content/90 bg-primary/90 hover:bg-primary-60 font-bold px-2 capitalize opacity-80 xxs:text-sm lg:text-lg w-[10.5rem]'>{name}</p>
+            <p className='absolute text-content-light/60 hover:text-content-light/90 bg-primary/90 hover:bg-primary-60 font-bold px-2 capitalize opacity-80 xxs:text-sm lg:text-lg w-[10.5rem]'>{name}</p>
         </Button>
     )
 }

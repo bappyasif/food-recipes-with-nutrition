@@ -18,7 +18,7 @@ export const LocaleSwitcher = () => {
   }
 
   return (
-    <label htmlFor="locale-switcher" className='flex items-end gap-x-1.5 text-content/80'>
+    <label htmlFor="locale-switcher" className='flex items-end gap-x-1.5 text-content-light/40'>
       <span className='xxs:hidden md:block text-sm font-light'>{t("label")}</span>
       <select
         className='flex items-end appearance-none bg-transparent font-semibold text-lg duration-1000 transition-all hover:text-content-light/80 cursor-pointer rounded-sm leading-none p-0.5'
@@ -27,7 +27,7 @@ export const LocaleSwitcher = () => {
         onChange={onSelectChange}
       >
         {['en', 'bn'].map((cur) => (
-          <option key={cur} value={cur} className='font-bold'>
+          <option key={cur} value={cur} className='font-bold bg-ternary'>
             {t(`${cur}`)}
           </option>
         ))}

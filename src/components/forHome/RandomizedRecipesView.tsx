@@ -25,9 +25,9 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
     )
 
     const existingFiltersMarkup = (
-        <span className='flex flex-col gap-y-4 w-full justify-center items-center xxs:mb-4 lg:mb-8'>
+        <span className='flex flex-col gap-y-1.5 lg:gap-y-4 w-full justify-center items-center xxs:mb-4 lg:mb-8'>
             <span className='xxs:text-lg md:text-xl lg:text-4xl font-bold text-secondary'>Existing Filters</span>
-            <span className='flex gap-x-10 gap-y-6 flex-wrap xxs:text-sm sm:text-lg md:text-xl lg:text-2xl'>
+            <span className='flex gap-x-2 lg:gap-x-10 gap-y-1.5 lg:gap-y-6 flex-wrap xxs:text-sm sm:text-lg md:text-xl lg:text-2xl'>
                 {filtersMarkup}
             </span>
             <span className='xxs:text-sm md:text-lg lg:text-xl font-bold text-muted-foreground'>{isTrue ? "Fetching New Recipes" : ""}</span>
@@ -67,7 +67,8 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
                         changeWidth={true} handleTrigger={() => null}
                     >
                         <span
-                            className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem] landscape:h-[19.1rem] portrait:h-[38rem] landscape:w-full'
+                            // className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem] landscape:h-[19.1rem] portrait:h-[38rem] landscape:w-full'
+                            className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
                         >
                             {existingFiltersMarkup}
 
@@ -92,7 +93,7 @@ const FilterUsed = ({ ...item }: { title: string, val: string }) => {
     const { title, val } = item;
 
     return (
-        <span className='flex gap-x-2 text-secondary'><span className='px-2'>{title}:</span><span className='font-light px-2 text-content'>{val || "N/A"}</span></span>
+        <span className='flex gap-x-0.5 lg:gap-x-2 text-secondary'><span className='px-2'>{title}:</span><span className='font-light px-2 text-content'>{val || "N/A"}</span></span>
     )
 }
 

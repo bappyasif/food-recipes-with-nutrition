@@ -72,7 +72,9 @@
     --popover-foreground: 80 8.6% 96.7%;
 
     /* --card: 121 68 84; */
-    --card: 256 68 38;
+    /* --card: 256 68 38; */
+    /* --card: 255 45 18; */
+    --card: 139 20 28;
     --card-foreground: 80 8.6% 96.7%;
 
     --special: 198 100% 71%;
@@ -87,12 +89,17 @@
     /* --primary: 73 74 80; */
     /* --primary: 64 10 32; */
     /* --primary: 173 71 28; */
-    --primary: 127 9 39;
+    /* --primary: 127 9 39; */
+    /* --primary: 74 23 22; */
+    /* --primary: 139 20 28; */
+    --primary: 220 54 25;
     --primary-foreground: 80 8.6% 96.7%;
 
     /* --secondary: 121 68 84; */
     /* --secondary: 87 12 29; */
-    --secondary: 256 68 38;
+    /* --secondary: 256 68 38; */
+    /* --secondary: 255 45 18; */
+    --secondary: 139 20 28;
     /* --secondary: 215 83 35; */
     --secondary-foreground: 80 8.6% 96.7%;
 

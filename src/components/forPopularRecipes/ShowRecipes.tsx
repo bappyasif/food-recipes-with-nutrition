@@ -182,7 +182,7 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
 
 const ReuseableBadge = ({ txt, val }: { txt: string, val: string | number | undefined }) => {
   return (
-    <Badge className='flex gap-x-4 w-fit text-content/80 hover:text-content-light/80 xxs:text-[1.01rem] md:text-sm xl:text-[1.01rem] 3xl:text-lg capitalize'>
+    <Badge className='flex gap-x-4 w-fit text-content-light/60 hover:text-content-light/90 xxs:text-[1.01rem] md:text-sm xl:text-[1.01rem] 3xl:text-lg capitalize'>
       <span>{txt}</span>
       <span>{val}</span>
     </Badge>

@@ -27,7 +27,7 @@ export const Search = ({clicked}: {clicked: boolean}) => {
             ref={ref}
         >
             <input
-                className="xxs:hidden xs:block xs:w-64 md:w-72 lg:w-96 2xl:w-[29rem] h-full rounded-sm xxs:pl-1.5 lg:pl-1.5 text-muted-foreground bg-transparent border-0 border-b-2 border-b-accent placeholder:text-content xs:text-sm md:text-lg lg:text-xl focus:outline-none pb-0.5"
+                className="xxs:hidden xs:block xs:w-64 md:w-72 lg:w-96 2xl:w-[29rem] h-full rounded-sm xxs:pl-1.5 lg:pl-1.5 text-muted-foreground bg-transparent border-0 border-b-2 border-b-accent placeholder:text-content-light/20 xs:text-sm md:text-lg lg:text-xl focus:outline-none pb-0.5"
                 type="text" placeholder='search recipes by name'
                 value={text} onChange={handleTextChange} onFocus={handleTruthyForFocused}
                 onKeyUp={handleEnterPressed}

@@ -85,7 +85,7 @@ const UserAuth = () => {
   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
   return (
-    <div className="text-content/80 flex items-center relative cursor-pointer">
+    <div className="text-content-light/40 flex items-center relative cursor-pointer">
 
       <span onClick={isTrue ? handleFalsy : handleTruthy} className="xxs:text-xl xs:text-2xl sm:text-3xl lg:text-3xl relative duration-1000 transition-all hover:text-content-light/80" title="User Auth">
         <RiUserSettingsFill />

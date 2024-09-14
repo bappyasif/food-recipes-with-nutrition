@@ -20,7 +20,7 @@ export const ShowFewRelatedRecipes = ({ mealType, diet, dishType, uri }: { mealT
 
     return (
         <div className='flex flex-col xxs:gap-y-4 md:gap-y-10'>
-            <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold'>{t("Similar Recipes")}</h2>
+            <h2 className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold text-content-light/90 bg-ternary/80 w-fit px-10 rounded'>{t("Similar Recipes")}</h2>
             <RenderRecipesListCarousel data={recipes.filter(item => item.dishType.length)} />
         </div>
     )
@@ -37,7 +37,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
 
     return (
         <div className='flex gap-x-4 items-center justify-center'>
-            <Button className='absolute left-0 xxs:h-20 lg:h-56 z-40 xxs:w-4 lg:w-20 text-content-light/90 font-extrabold bg-primary hover:bg-primary/60 hover:text-content/80' onClick={handlePrev} variant={'default'}>Prev</Button>
+            <Button className='absolute left-0 xxs:h-20 lg:h-56 z-40 xxs:w-4 lg:w-20 text-content-light/90 font-extrabold bg-primary/80 hover:bg-primary/60 hover:text-content/80' onClick={handlePrev} variant={'default'}>Prev</Button>
 
             {/* very smaller screen */}
             <div
@@ -71,7 +71,7 @@ export const RenderRecipesListCarousel = ({ data }: { data: RecipeMealType[] }) 
                 {renderRecipes()}
             </div>
 
-            <Button className='absolute right-0 bg-primary hover:bg-primary/60 hover:text-content/80 text-content-light/90 xxs:h-20 lg:h-56 z-40 xxs:w-4 lg:w-20 font-extrabold' onClick={handleNext} variant={'default'}>Next</Button>
+            <Button className='absolute right-0 bg-primary/80 hover:bg-primary/60 hover:text-content/80 text-content-light/90 xxs:h-20 lg:h-56 z-40 xxs:w-4 lg:w-20 font-extrabold' onClick={handleNext} variant={'default'}>Next</Button>
         </div>
     )
 }
@@ -110,7 +110,7 @@ export const RenderRecipeForCarousel = ({ rdata, firstCard, lastCard }: ForCarou
             onMouseEnter={handleTruthy}
             onMouseLeave={handleFalsy}
         >
-            <div className={`absolute transition-transform duration-500 ${isTrue ? "-translate-y-56" : "z-20"} text-center`}>
+            <div className={`absolute transition-transform duration-500 ${isTrue ? "-translate-y-56" : "z-20"} text-center ${(lastCard || firstCard) ? "opacity-40" : null}`}>
                 <Badge className={`xxs:text-xs sm:text-sm lg:text-lg capitalize ${test ? "visible" : "hidden"}`}>{cuisineType[0]}</Badge>
                 
                 <img

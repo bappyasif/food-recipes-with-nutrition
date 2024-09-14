@@ -81,7 +81,10 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
             </section>
 
             <section className='xxs:mb-4 lg:mb-6 flex flex-col xxs:gap-y-8 lg:gap-y-20'>
-                <h2 className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-content-light/90 bg-ternary w-fit mx-auto p-2 px-10 rounded'>Some Related Information About This Recipe</h2>
+                <h2 
+                    // className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-content-light/90 bg-ternary w-fit mx-auto p-2 px-10 rounded'
+                    className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold text-center text-content-light/90 bg-ternary/80 w-fit mx-auto px-10 rounded'
+                >Some Related Information About This Recipe</h2>
                 <div className='flex xxs:flex-col xxs:gap-y-11 xl:flex-row lg:gap-x-6 justify-around items-center px-10'>
                     <div className='xxs:w-full xl:w-2/4'>
                         <h2 className='xxs:text-2xl md:text-3xl xl:text-4xl mb-6 mt-2 font-bold text-center'><span>{t("Digest")}</span> <span>{t("Label")}</span></h2>

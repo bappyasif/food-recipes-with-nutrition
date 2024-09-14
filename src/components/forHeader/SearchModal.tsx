@@ -66,7 +66,7 @@ export const SearchModal = ({ ButtonElem, clickedFalsy }: { ButtonElem: ReactNod
                         variant={"ghost"}
                         title="Click To Search Now"
                         disabled={isTrue && text.length >= 2}
-                        className={`absolute xxs:inline-flex xs:hidden right-0.5 xxs:bottom-1 h-full ${isTrue && text.length >= 2 ? "bg-primary" : "bg-primary/80"} text-muted hover:text-muted hover:bg-card font-semibold xxs:text-sm`}
+                        className={`absolute xxs:inline-flex xs:hidden right-0.5 xxs:bottom-1 h-full ${isTrue && text.length >= 2 ? "bg-accent" : "bg-accent/80"} text-muted hover:text-muted hover:bg-accent/60 font-semibold xxs:text-sm`}
                     >
                         <RiSearchLine size={20} />
                     </Button>

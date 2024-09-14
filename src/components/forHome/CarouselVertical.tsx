@@ -61,7 +61,7 @@ export const CarouselVertical = ({...items}: ReuseableCarouselType) => {
     }, [activeIdx])
     
   return (
-    <div className='xxs:w-36 md:w-48 relative flex flex-col items-center text-muted-foreground'>
+    <div className='xxs:w-36 md:w-48 relative flex flex-col items-center'>
         <Button className='bg-primary hover:bg-primary/60 text-content-light/90 hover:text-content/80' variant={'default'} onClick={() => handleCarousel("prev")}>Prev</Button>
         <div 
             className='flex flex-col items-center flex-nowrap overflow-y-clip gap-y-4 xxs:h-80 lg:h-[33rem] bg-transparent

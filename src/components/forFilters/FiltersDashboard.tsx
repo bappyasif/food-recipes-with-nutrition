@@ -188,11 +188,11 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
                     // handleFiltersChange={handleFiltersChange} 
                     />
 
-                    <Button disabled={notifyText === "Fetching Data"} className={`${notifyText === "Fetching Data" ? "bg-muted-foreground" : "bg-quaternary"} text-secondary font-bold xxs:text-sm lg:text-lg hover:text-background hover:bg-primary`} onClick={handleSearchNow}>{t("Search")}</Button>
+                    <Button disabled={notifyText === "Fetching Data"} className={`${notifyText === "Fetching Data" ? "bg-muted-foreground" : "bg-quaternary"} text-secondary font-bold xxs:text-sm lg:text-lg hover:text-background hover:bg-primary`} onClick={handleSearchNow}>{t("Find Recipes")}</Button>
                 </div>
 
-                <h2 className='font-bold text-2xl'>{notifyText}</h2>
-                <p className='h-0.5 w-full bg-muted-foreground'></p>
+                <h2 className='font-bold text-2xl text-content/80'>{notifyText}</h2>
+                {/* <p className='h-0.5 w-full bg-muted-foreground'></p> */}
             </div>
         </FiltersContext.Provider>
     )
@@ -210,7 +210,10 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
     return (
         <AccordionItem ref={ref} value={propKey} className={`sm:min-w-[380px] max-w-[33rem] xxs:min-w-[16.8rem] xs:w-[26rem] sm:w-[31rem] px-2 rounded-md mb-4 ring-primary bg-quaternary duration-1000 transition-all hover:text-secondary hover:ring-1 ${isTrue ? "text-content/90 ring-2" : "text-content-light/90 ring-0"} border-b-0 h-fit relative`} onClick={handleTruthy}>
             <AccordionTrigger className='xxs:text-lg sm:text-xl lg:text-2xl font-semibold my-4'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
-            <AccordionContent className={`duration-1000 transition-all ${propKey === "health" ? "absolute -left-0 ring-1 hover:ring-primary bg-background/90 px-2 rounded-md" : "ring-0"} ${isTrue && propKey === "health" ? "ring-primary ring-1 rounded-md z-40" : "ring-0"}`}>
+            <AccordionContent 
+                // className={`duration-1000 transition-all ${propKey === "health" ? "absolute -left-0 ring-1 hover:ring-primary bg-background/90 px-2 rounded-md" : propKey === "health" && !isTrue ? "-z-20 invisible" : "ring-0"} ${isTrue && propKey === "health" ? "ring-primary ring-1 rounded-md z-40" : "ring-0"}`}
+                className={`duration-1000 transition-all ring-0`}
+            >
                 <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText}
                 />
             </AccordionContent>
@@ -253,7 +256,7 @@ const RenderCheckboxTypes = ({ ...items }: ReuseableCheckboxTypes) => {
 
     return (
         <div className='my-2'>
-            <div className='flex flex-wrap gap-4'>{rendertypes()}</div>
+            <div className='flex flex-wrap gap-4 max-h-20 overflow-y-scroll' style={{scrollbarWidth: "thin"}}>{rendertypes()}</div>
         </div>
     )
 
