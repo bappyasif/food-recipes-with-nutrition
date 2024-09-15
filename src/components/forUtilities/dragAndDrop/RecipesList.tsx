@@ -9,6 +9,15 @@ import { Button } from '@/components/ui/button'
 export const RecipesList = ({ open }: { open: boolean }) => {
     const [recipeCards, setRecipeCards] = useState<CardBoxProps[]>([])
     const addToCards = (item: CardBoxProps) => setRecipeCards(prev => [...prev, item])
+    // const addToCards = (item: CardBoxProps) => {
+    //     const checkIfExist = recipeCards.find(data => data.id === item.id)
+    //     console.log(item.id, checkIfExist?.id, recipeCards[0])
+    //     if(checkIfExist) {
+    //         alert("Already added!!")
+    //     } else {
+    //         setRecipeCards(prev => [...prev, item])
+    //     }
+    // }
     const updateCards = (dataset: CardBoxProps[]) => setRecipeCards(dataset)
     const { handleTextChange, text, resetText } = useForInputTextChange();
 
@@ -95,13 +104,16 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
 
     const { label, id, imgSrc } = data;
 
+    const [isAdded, setIsAdded] = useState(false)
+
     const [{ isDragging, handlerId }, drag] = useDrag(() => ({
         type: "card",
         item: { label, id, imgSrc },
         end: (item, monitor) => {
             const dropResult = monitor.getDropResult<DropResult>()
-            if (item && dropResult) {
+            if (item && dropResult && !isAdded) {
                 addToCards({ label, id, imgSrc })
+                setIsAdded(true)
             }
         },
         collect: (monitor) => ({
@@ -114,16 +126,19 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
 
     return (
         <div
-            className='p-0.5 md:p-2 bg-background flex flex-col gap-y-2 items-center justify-between w-full'
-            ref={drag}
+            // className='p-0.5 md:p-2 bg-background flex flex-col gap-y-2 items-center justify-between w-full'
+            className={`p-0.5 md:p-2 bg-background flex flex-col gap-y-2 items-center justify-between w-full ${isAdded ? "bg-accent/60" : "pointer-events-auto"}`}
+            // ref={drag}
+            ref={isAdded ?  null : drag}
             style={{ ...style, opacity }}
-            title='Drag To Drop Box or Click Add'
+            title={isAdded ? "Already added" : 'Drag To Drop Box or Click Add'}
         >
             <div className='flex gap-x-2 items-center justify-between'>
                 <h2 className='text-primary text-xl'>{label}</h2>
                 <img src={imgSrc} width={60} height={60} alt={label} className='w-8 md:w-11 h-6 md:h-11 rounded-full' />
             </div>
-            <Button className='text-content py-0.5 md:py-1 h-6 md:h-10' variant={'secondary'} onClick={() => {
+            <Button className='text-content-light/80 bg-secondary/90 py-0.5 md:py-1 h-6 md:h-10' variant={'secondary'} disabled={isAdded} onClick={() => {
+                setIsAdded(true)
                 addToCards({ label, id, imgSrc })
             }}>Add Recipe To Bucket</Button>
         </div>

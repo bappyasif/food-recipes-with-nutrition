@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 export const HomeHero = () => {
     return (
-        <div className='relative mt-20 w-full'>
+        <div className='relative w-full'>
             <TwoExtensions />
 
             <div

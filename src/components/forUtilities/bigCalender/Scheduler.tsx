@@ -291,7 +291,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
                 eventPropGetter={eventPropGetter}
 
-                onDropFromOutside={({ start, end, allDay }) => { console.log(start, end, "!!") }}
+                // onDropFromOutside={({ start, end, allDay }) => { console.log(start, end, "!!") }}
 
                 components={{
                     event: props => (<EventOptionsDropDown

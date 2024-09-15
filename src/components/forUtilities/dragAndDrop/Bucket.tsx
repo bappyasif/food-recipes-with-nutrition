@@ -58,7 +58,7 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
         >
             <h2
                 className={`text-muted bg-background font-bold text-xl flex items-center justify-center rounded-sm`}
-                style={{...style}}
+                style={{ ...style }}
             >
                 {
                     cards.length === 0 ? "Search Recipes First" : cards.length < 2 ? "Add More Cards" : "You Can Re-arrange Cards"
@@ -149,7 +149,7 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                 className='flex xxs:flex-col gap-2 justify-between'
             >
                 <Button
-                    className='text-xs w-full text-content'
+                    className='text-xs w-full text-content-light/80'
                     disabled={!cards?.length || status === "unauthenticated"}
                     onClick={handleClickedScheduler}
                     title={decideTitleText()}
@@ -160,18 +160,23 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                 isTrue
                     ?
                     <Popover open={isTrue}>
-                        <PopoverContent className='bg-card flex flex-col gap-y-2 w-fit text-muted-foreground'>
+                        <PopoverContent className='bg-accent flex flex-col gap-y-2 w-fit text-content/90 z-40'>
                             <span>
                                 <span>Title</span>
-                                <input type="text" value={text} onChange={handleTextChange} className='bg-secondary w-full' required placeholder='e.g. Event title goes here....' />
+                                <input type="text" value={text} onChange={handleTextChange} className='bg-secondary/80 w-full' required placeholder='e.g. Event title goes here....' />
                             </span>
 
                             <span>
                                 <span>Descriptions</span>
-                                <textarea name="description" id="description" className="w-full bg-secondary" rows={6} value={descText} onChange={handleDesc} placeholder='e.g. Event details goes here....'></textarea>
+                                <textarea name="description" id="description" className="w-full bg-secondary/80" rows={6} value={descText} onChange={handleDesc} placeholder='e.g. Event details goes here....'></textarea>
                             </span>
 
                             <EventCreateTimeAndDate getEndStr={getEndStr} getStartStr={getStartStr} />
+
+                            {/* <div className='bg-card flex gap-2 w-full my-1'>
+                                <Badge onClick={handleScheduler} className='w-full text-center flex justify-center'>Add</Badge>
+                                <Badge onClick={handleFalsy} className='w-full flex justify-center'>Cancel</Badge>
+                            </div> */}
                         </PopoverContent>
 
                         <PopoverTrigger className='bg-card flex gap-2 w-full my-1'>
@@ -249,7 +254,7 @@ export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description,
                 </PinterestShareButton>
 
                 <EmailShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`} subject='Some Subject For Email' body='Some text for body!! some more tetx mose more text!!' separator='[[<#>]]'
-                title={`${title}`}
+                    title={`${title}`}
                 >
                     <EmailIcon round size={36} />
                 </EmailShareButton>

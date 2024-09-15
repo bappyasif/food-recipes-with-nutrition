@@ -124,7 +124,8 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 80 8.6% 96.7%;
 
-    --ring: 80 86% 34%;
+    /* --ring: 80 86% 34%; */
+    --ring: 220 54 25%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
@@ -195,11 +196,11 @@
 }
 
 .rbc-toolbar {
-  @apply bg-primary/80 font-extrabold text-content
+  @apply bg-primary/80 font-extrabold text-content-light
 }
 
 .rbc-toolbar .rbc-btn-group button {
-  @apply text-content bg-primary
+  @apply text-content-light/80 bg-primary
 }
 
 .rbc-today {

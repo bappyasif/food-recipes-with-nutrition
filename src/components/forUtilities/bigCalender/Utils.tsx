@@ -30,25 +30,25 @@ export const DialogModalForEditOrDelete = ({ open, handleClose, handleRemoveFrom
         <Dialog open={open}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle className='text-accent-foreground'>Ready To Edit - {eventItem?.title} - Event Details?</DialogTitle>
+                    <DialogTitle className='text-content/80'>Ready to edit event details?</DialogTitle>
 
                     <DialogClose className="absolute top-3 right-3 bg-accent z-20 px-2 hover:ring-1 ring-primary rounded-full" onClick={handleClose}>X</DialogClose>
                 </DialogHeader>
                 <DialogDescription className="flex flex-col gap-y-2 justify-between">
                     <RenderTitleAndDescription descText={descText || eventItem?.description} handleDesc={textChangeForDesc} handleTitle={handleTextChange} titleText={text || eventItem?.title} />
 
-                    <DialogTrigger className='text-primary bg-accent font-bold text-xl' onClick={handleConfirmEdit}>Confirm Edit</DialogTrigger>
+                    <DialogTrigger className='text-content/60 font-bold text-xl' onClick={handleConfirmEdit}>Confirm Edit</DialogTrigger>
 
                     <RenderRecipesList hasCooking={eventItem?.recipes?.length ? true : false} items={eventItem?.recipes || []} />
                 </DialogDescription>
 
-                <DialogTitle className=''>Reday To Delete?</DialogTitle>
+                <DialogTitle className='text-destructive'>Reday To Delete?</DialogTitle>
 
                 <DialogFooter 
                 >
                    <span className="flex justify-between w-full">
                    <Button className="w-1/2" variant={"destructive"} onClick={handleDelete}>Yes, Delete</Button>
-                    <DialogClose onClick={handleClose} className='w-1/2 bg-secondary-content font-bold px-4 rounded-sm text-secondary-focus bg-accent' title="Close Modal">Cancel [X]</DialogClose>
+                    <DialogClose onClick={handleClose} className='w-1/2 font-bold px-4 rounded-sm text-secondary bg-accent' title="Close Modal">Cancel [X]</DialogClose>
                    </span>
                 </DialogFooter>
             </DialogContent>
@@ -116,10 +116,10 @@ export const DialogModal = ({ open, handleClose, slotData, handleAddToList }: { 
         <Dialog open={open}>
 
             <DialogContent>
-                <DialogClose className="absolute top-3 right-3 bg-accent z-20 px-2 hover:ring-1 ring-primary rounded-full" onClick={handleClose}>X</DialogClose>
+                <DialogClose className="absolute top-2 pt-0.5 right-3 bg-accent z-20 px-2 hover:ring-1 ring-primary rounded-full" onClick={handleClose}>X</DialogClose>
 
                 <DialogHeader className="relative">
-                    <DialogTitle className='bg-primary-focus'>Add A New Event</DialogTitle>
+                    <DialogTitle className='text-content/80'>Add A New Event</DialogTitle>
                 </DialogHeader>
 
                 <DialogDescription>
@@ -130,8 +130,8 @@ export const DialogModal = ({ open, handleClose, slotData, handleAddToList }: { 
 
                 <hr />
                 <DialogFooter className="flex justify-evenly">
-                    <Button className='w-40 bg-accent hover:bg-special-foreground' onClick={handleAdd}>Add</Button>
-                    <Button onClick={handleClose} className='w-40 bg-accent text-primary-content p-2 rounded-sm hover:bg-primary'>Cancel</Button>
+                    <Button className='w-40 bg-accent hover:bg-primary text-content/80 hover:text-content-light/80' onClick={handleAdd}>Add</Button>
+                    <Button onClick={handleClose} className='w-40 bg-accent p-2 rounded-sm hover:bg-accent/60 text-content/80'>Cancel</Button>
                 </DialogFooter>
 
             </DialogContent>
@@ -144,13 +144,13 @@ const RenderTitleAndDescription = ({ titleText, descText, handleTitle, handleDes
     return (
         <>
             <span>
-                <span className="font-bold text-lg">Title</span>
-                <input type="text" defaultValue={titleText} onChange={handleTitle} className='bg-secondary w-full text-sm h-8' required />
+                <span className="font-bold text-lg text-primary/80">Title</span>
+                <input type="text" defaultValue={titleText} onChange={handleTitle} className='bg-accent/80 text-content/80 w-full text-sm h-8' required />
             </span>
 
             <span>
-                <span className="font-bold text-lg">Descriptions</span>
-                <textarea name="description" id="description" className="w-full bg-secondary text-sm" rows={6} value={descText} onChange={handleDesc}></textarea>
+                <span className="font-bold text-lg text-primary/80">Descriptions</span>
+                <textarea name="description" id="description" className="w-full bg-accent/80 text-content/80 text-sm" rows={6} value={descText} onChange={handleDesc}></textarea>
             </span>
         </>
     )
@@ -195,9 +195,9 @@ export const ShowFullEventDetails = ({ isOpen, handleClose, eventItem, handleBeg
         <Dialog open={isOpen}>
             <DialogContent className="border-ring">
                 <DialogHeader>
-                    <DialogClose className="absolute top-3 right-3 bg-accent z-20 px-2 hover:ring-1 ring-primary rounded-full" onClick={handleClose}>X</DialogClose>
+                    <DialogClose className="absolute top-2 pt-0.5 right-3 bg-accent z-20 px-2 hover:ring-1 ring-primary rounded-full" onClick={handleClose}>X</DialogClose>
 
-                    <DialogTitle>Showing Event Full Details</DialogTitle>
+                    <DialogTitle className="text-primary/90">Showing Event Full Details</DialogTitle>
                 </DialogHeader>
                 <DialogDescription className="flex flex-col gap-y-1">
                     <ReusableModalTextContents heading="Title" text={title} />
@@ -205,7 +205,7 @@ export const ShowFullEventDetails = ({ isOpen, handleClose, eventItem, handleBeg
                     <ReusableModalTextContents heading="Description" text={description} />
 
                     <span className="flex gap-2 justify-between">
-                        <ReusableModalTextContents heading="Starts" text={moment(start).format("MMMM-DD-yyyy    hh:mm A")} />
+                        <ReusableModalTextContents heading="Starts" text={moment(start).format("MMMM-DD-yyyy hh:mm A")} />
 
                         <ReusableModalTextContents heading="Ends" text={moment(end).fromNow()} />
                     </span>
@@ -218,7 +218,7 @@ export const ShowFullEventDetails = ({ isOpen, handleClose, eventItem, handleBeg
                 <DialogFooter>
                     <span className="flex justify-between w-full items-baseline">
                         <Button className="w-1/2" variant={"destructive"} onClick={handleDelete}>Delete</Button>
-                        <Button className="w-1/2" variant={"secondary"} onClick={handleEdit}>Edit</Button>
+                        <Button className="w-1/2 bg-secondary/90" variant={"secondary"} onClick={handleEdit}>Edit</Button>
                     </span>
                 </DialogFooter>
             </DialogContent>
@@ -229,8 +229,8 @@ export const ShowFullEventDetails = ({ isOpen, handleClose, eventItem, handleBeg
 const ReusableModalTextContents = ({ heading, text }: { heading: string, text: string }) => {
     return (
         <span className="flex flex-col gap-y-0">
-            <span className="font-bold text-lg text-primary">{heading}</span>
-            <span className="text-sm">{text}</span>
+            <span className="font-bold text-lg text-primary/80">{heading}</span>
+            <span className="text-sm text-content/80">{text}</span>
         </span>
     )
 }
