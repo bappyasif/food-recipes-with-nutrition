@@ -58,18 +58,16 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
-  if (!cuisineType) {
-    return
-  }
-
   const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'hours') > 1
 
   const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
 
+  if (!cuisineType) {
+    return
+  }
+
   return (
     <div
-      // className={`${styles.dissolvePhoto} h-[17.39rem] overflow-clip w-full xl:w-96 2xl:w-[22.2rem] 3xl:w-96`}
-      // className={`${styles.dissolvePhoto} h-[17.39rem] overflow-clip w-full xl:w-96 2xl:w-[22.2rem] 3xl:w-96 flex flex-col`}
       className={`${styles.dissolvePhoto} h-80 overflow-clip w-full xl:w-96 2xl:w-[22.2rem] 3xl:w-96 flex flex-col`}
       onMouseEnter={handleTruthy}
       onMouseLeave={handleFalsy}
@@ -81,7 +79,6 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
         className='relative text-center'
       >
         <p 
-          // className={`absolute text-center font-medium bg-primary/60 text-content-light/80 hover:text-quaternary hover:bg-primary transition-all duration-500 ${isTrue ? "text-lg" : "text-2xl"} top-3 z-10 xxs:min-w-max xs:w-full sm:w-96 xl:w-96 2xl:w-[22.2rem] 3xl:w-96 px-4`}
           className={`absolute top-0.5 text-center font-medium bg-primary/60 z-10 text-content-light/80 hover:text-quaternary hover:bg-primary transition-all duration-50 px-4 ${isTrue ? "text-lg" : "text-2xl"} w-full`}
         >
           {label!?.length > 40 ? ellipsedText(label!, 40) : label!}
@@ -99,7 +96,6 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
       </Link>
 
       <div
-        // className={`absolute bottom-0 flex flex-col gap-y-2 items-center justify-center transition-all duration-500 ${isTrue ? "-translate-y-40" : "translate-y-0"} z-20`}
         className={`flex flex-col gap-y-2 items-center justify-center transition-all duration-500 ${isTrue ? "-translate-y-40" : "translate-y-0"}`}
       >
         <ReusableBadge text={co2EmissionsClass!} title='Carbon Emission' />

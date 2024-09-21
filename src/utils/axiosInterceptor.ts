@@ -21,8 +21,6 @@ export const edamamApiRequestInterceptor = ({...options}) => {
 
     const onError = (err:AxiosResponse) => err
 
-    // console.log(options, "options")
-
     return client(options).then(onSuccess).catch(onError)
 }
 
@@ -35,17 +33,5 @@ export const youtubeApiRequestInterceptor = ({...options}) => {
 
     const onError = (err:AxiosResponse) => err
 
-    // console.log(options, "options")
-
     return client(options).then(onSuccess).catch(onError)
 }
-
-// export const makeRequest = () => {
-//     const method = "GET"
-//     const url = endpoint
-//     const params = { ...entries }
-//     const headers = { 'x-api-key': process.env.NEXT_PUBLIC_NEWSCATCHER_API_KEY }
-//     // console.log(url, params, headers)
-//     // console.log(process.env.NEXT_PUBLIC_NEWSCATCHER_API_KEY)
-//     return fetchSourcesOnRequests({ method, url, params, headers })
-// }

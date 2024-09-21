@@ -8,7 +8,6 @@ import { RecipesList } from './RecipesList'
 export const DragAndDrop = ({open}: {open: boolean}) => {
   return (
     <DndProvider backend={HTML5Backend}>
-        {/* <Container /> */}
         <RecipesList open={open} />
     </DndProvider>
   )

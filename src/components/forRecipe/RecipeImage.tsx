@@ -45,7 +45,6 @@ export const RecipeImage = ({ ...data }: RecipeMealType) => {
             <ShareInSocialMedias hashtags={prepareHashtags()} nestedRoute={`${locale}/recipe/${extractRecipeId(uri)}`} title={prepTitle()} description={prepDescription()} ready={!!uri} />
 
             <div 
-                // title={isTrue ? "Back To Minimal View" : "Click To See More Info"} className="flex xxs:flex-col lg:flex-row xxs:justify-start lg:justify-center items-center"
                 className="flex xxs:flex-col sm:flex-row xxs:justify-start sm:justify-center items-center"
             >
 

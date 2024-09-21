@@ -45,7 +45,6 @@ const recipesSlice = createSlice({
             })
 
             state.list = state.list.sort((a, b) => a.count! < b.count! ? 1 : -1)
-            // state.list = state.list.sort((a, b) => a.lastUpdated! < b.lastUpdated! ? 1 : -1)
         },
 
         // adding fresh new recipe to list
@@ -58,7 +57,6 @@ const recipesSlice = createSlice({
             state.list = state.list.concat(withCount)
 
             state.list = state.list.sort((a, b) => a.count! < b.count! ? 1 : -1)
-            // state.list = state.list.sort((a, b) => a.lastUpdated! < b.lastUpdated! ? 1 : -1)
 
             // add to db too
             addToDbCollection(action.payload)
@@ -89,7 +87,6 @@ const recipesSlice = createSlice({
         // sort it based on counts
         sortByVisitCounts: (state) => {
             state.list = state.list.sort((a, b) => a.count! < b.count! ? 1 : -1)
-            // console.log(state.list.length, "sorted!!")
         }
     },
     extraReducers: builder => {

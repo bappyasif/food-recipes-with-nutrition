@@ -6,7 +6,6 @@ import { DialogClose } from "@radix-ui/react-dialog"
 import { SlotInfo } from "react-big-calendar"
 import { ChangeEvent } from "react"
 import moment from "moment"
-import Image from "next/image"
 import { ShareInSocialMedias } from "../dragAndDrop/Bucket"
 import { EventItemTypes } from "@/types"
 
@@ -63,15 +62,10 @@ const RenderRecipesList = ({ hasCooking, items }: { hasCooking: boolean, items: 
         return (
             <span key={name} className="flex flex-col xxs:justify-between lg:justify-center items-center outline outline-primary-content w-full rounded-md">
                 <span>{name}</span>
-                {/* <Image
-                    src={imgSrc} alt={name} width={60} height={60}
-                    className='xxs:w-36 sm:w-40 md:48 lg:w-56 xxs:h-20 lg:h-48 rounded-sm'
-                    blurDataURL={imgSrc} placeholder='blur' loading='lazy'
-                /> */}
                 <img
                     src={imgSrc} alt={name} width={60} height={60}
                     className='xxs:w-36 sm:w-40 md:48 lg:w-56 xxs:h-20 lg:h-48 rounded-sm'
-                    // blurDataURL={imgSrc} placeholder='blur' 
+                    placeholder='blur' 
                     loading='lazy'
                 />
             </span>
@@ -167,7 +161,6 @@ export const EventOptionsDropDown = (props: any) => {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={props.edit}>Edit</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => props.remove(props.event.id)}>Delete</DropdownMenuItem>
-                    {/* <DropdownMenuItem onClick={props.remove}>Delete</DropdownMenuItem> */}
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

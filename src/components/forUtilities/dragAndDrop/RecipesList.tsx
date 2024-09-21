@@ -8,17 +8,11 @@ import { Button } from '@/components/ui/button'
 
 export const RecipesList = ({ open }: { open: boolean }) => {
     const [recipeCards, setRecipeCards] = useState<CardBoxProps[]>([])
+    
     const addToCards = (item: CardBoxProps) => setRecipeCards(prev => [...prev, item])
-    // const addToCards = (item: CardBoxProps) => {
-    //     const checkIfExist = recipeCards.find(data => data.id === item.id)
-    //     console.log(item.id, checkIfExist?.id, recipeCards[0])
-    //     if(checkIfExist) {
-    //         alert("Already added!!")
-    //     } else {
-    //         setRecipeCards(prev => [...prev, item])
-    //     }
-    // }
+    
     const updateCards = (dataset: CardBoxProps[]) => setRecipeCards(dataset)
+    
     const { handleTextChange, text, resetText } = useForInputTextChange();
 
     useEffect(() => {
@@ -126,9 +120,7 @@ const CardBox = ({ ...items }: RecipeCardBoxProps) => {
 
     return (
         <div
-            // className='p-0.5 md:p-2 bg-background flex flex-col gap-y-2 items-center justify-between w-full'
             className={`p-0.5 md:p-2 bg-background flex flex-col gap-y-2 items-center justify-between w-full ${isAdded ? "bg-accent/60" : "pointer-events-auto"}`}
-            // ref={drag}
             ref={isAdded ?  null : drag}
             style={{ ...style, opacity }}
             title={isAdded ? "Already added" : 'Drag To Drop Box or Click Add'}

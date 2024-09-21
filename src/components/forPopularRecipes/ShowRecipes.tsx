@@ -10,7 +10,6 @@ import { extractRecipeId, removeWrodRecipe } from '../forFilters/RecipesView'
 import { ellipsedText } from '../forRecipe/FewNonRelatedRecipes'
 import { useLocale } from 'next-intl'
 import moment from 'moment'
-import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 import { sortByVisitCounts } from '@/redux/features/recipes/RecipesSlice'
 import { useForTruthToggle } from '@/hooks/forComponents'
@@ -23,9 +22,9 @@ type DataType = {
 }
 
 export const ShowRecipes = ({ user }: { user: any }) => {
-  const locale = useLocale();
+  // const locale = useLocale();
 
-  const { push, replace } = useRouter();
+  // const { push, replace } = useRouter();
 
   // popular recipes page is now public
   // if (!user?.email) {
@@ -102,8 +101,6 @@ export const ShowRecipes = ({ user }: { user: any }) => {
   //   return
   // }
 
-  // console.log(recipesList)
-
   return (
     <div className='flex flex-col gap-y-20 py-10 min-h-screen'>
       <div
@@ -136,11 +133,11 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const recipeLink = `/${locale}/recipe/${extractRecipeId(uri!)}`
 
-  if (!cuisineType) return
+  const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
   const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'hours') > 1
 
-  const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
+  if (!cuisineType) return
 
   return (
     <Card className='hover:ring-1 hover:ring-muted-foreground outline-transparent border-0 flex flex-col gap-y-4 justify-between xl:h-[39rem] relative items-center bg-quaternary'>

@@ -168,7 +168,6 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
     return (
         <FiltersContext.Provider value={{ filters: filters, handleFilterChange: handleFiltersChange }}>
             <div className='flex flex-col mt-20 mb-0 gap-y-10 justify-center items-center h-fit'>
-                {/* <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold text-primary'>{t("Refine Searches Using Filters")}</h1> */}
 
                 <div className='flex flex-col gap-y-12 justify-center items-center'>
 
@@ -178,21 +177,14 @@ export const FiltersDashboard = ({ handleRecipesFound, resetPageNumber }: Filter
                         <Button disabled={notifyText === "Fetching Data"} className={`${notifyText === "Fetching Data" ? "bg-muted-foreground" : "bg-quaternary"} text-secondary font-bold xxs:text-sm lg:text-lg hover:text-background hover:bg-primary`} onClick={handleSearchNow}>{t("Search")}</Button>
                     </div>
 
-                    {/* <input type="text" placeholder='search your recipe here by name....' className='xxs:w-2/3 md:w-1/2 xl:w-1/3 py-1 px-2 bg-transparent border-b-2 border-b-primary text-primary rounded-md placeholder:opacity-60 placeholder:text-center placeholder:text-secondary xxs:text-sm md:text-lg xl:text-xl focus:outline-none' value={text || filters?.q} onChange={handleTextChange} onKeyDownCapture={handleEnterKeyPressed} />
-
-                    <Button disabled={notifyText === "Fetching Data"} className={`${notifyText === "Fetching Data" ? "bg-muted-foreground" :"bg-quaternary"} text-secondary font-bold xxs:text-sm lg:text-lg hover:text-background hover:bg-primary`} onClick={handleSearchNow}>{t("Search")}</Button> */}
-
                     <h1 className='xxs:text-lg sm:text-xl md:text-2xl xl:text-4xl font-bold text-primary'>{t("Refine Searches Using Filters")}</h1>
 
-                    <MultipleSelectableFilters
-                    // handleFiltersChange={handleFiltersChange} 
-                    />
+                    <MultipleSelectableFilters />
 
                     <Button disabled={notifyText === "Fetching Data"} className={`${notifyText === "Fetching Data" ? "bg-muted-foreground" : "bg-quaternary"} text-secondary font-bold xxs:text-sm lg:text-lg hover:text-background hover:bg-primary`} onClick={handleSearchNow}>{t("Find Recipes")}</Button>
                 </div>
 
                 <h2 className='font-bold text-2xl text-content/80'>{notifyText}</h2>
-                {/* <p className='h-0.5 w-full bg-muted-foreground'></p> */}
             </div>
         </FiltersContext.Provider>
     )
@@ -211,7 +203,6 @@ const ReusuableAccordionItem = ({ trigText, propKey, data }: { trigText: string,
         <AccordionItem ref={ref} value={propKey} className={`sm:min-w-[380px] max-w-[33rem] xxs:min-w-[16.8rem] xs:w-[26rem] sm:w-[31rem] px-2 rounded-md mb-4 ring-primary bg-quaternary duration-1000 transition-all hover:text-secondary hover:ring-1 ${isTrue ? "text-content/90 ring-2" : "text-content-light/90 ring-0"} border-b-0 h-fit relative`} onClick={handleTruthy}>
             <AccordionTrigger className='xxs:text-lg sm:text-xl lg:text-2xl font-semibold my-4'>{trigText.split(" ").map(wd => t(`${wd}`)).join(" ")}</AccordionTrigger>
             <AccordionContent 
-                // className={`duration-1000 transition-all ${propKey === "health" ? "absolute -left-0 ring-1 hover:ring-primary bg-background/90 px-2 rounded-md" : propKey === "health" && !isTrue ? "-z-20 invisible" : "ring-0"} ${isTrue && propKey === "health" ? "ring-primary ring-1 rounded-md z-40" : "ring-0"}`}
                 className={`duration-1000 transition-all ring-0`}
             >
                 <RenderCheckboxTypes propKey={propKey as keyof FiltersTypes} data={data} title={trigText}
@@ -246,7 +237,6 @@ type ReuseableCheckboxTypes = {
     data: string[],
     title: string,
     propKey: keyof FiltersTypes,
-    // handleFiltersChange: (d: string, k: string) => void
 }
 
 const RenderCheckboxTypes = ({ ...items }: ReuseableCheckboxTypes) => {
@@ -262,13 +252,8 @@ const RenderCheckboxTypes = ({ ...items }: ReuseableCheckboxTypes) => {
 
 }
 
-type FilterChangeTypes = {
-    handleFiltersChange: (d: string, k: string) => void,
-}
-
 type CheckboxTypes = {
     name: string,
-    // handleFiltersChange: (d: string, k: string) => void,
     propKey: keyof FiltersTypes
 }
 

@@ -16,7 +16,6 @@ export const ShowYoutubeVids = ({ recipeStr }: { recipeStr: string }) => {
     }
 
     youtubeApiRequestInterceptor({ url: ENDPOINT, params }).then(data => {
-      // console.log(data, "data from youtube")
       data.data.items.length && setYTResp(data.data.items)
 
       data.data.items[0]?.id.videoId && setVidId(data.data.items[0]?.id.videoId)
@@ -38,7 +37,6 @@ export const ShowYoutubeVids = ({ recipeStr }: { recipeStr: string }) => {
     } else if(foundIdx === 9) {
       updateVidId(0)
     }
-    // console.log(foundIdx, "found idx")
   }
 
   const handlePrev = () => {

@@ -16,20 +16,14 @@ import { useLocale } from 'next-intl'
 import { BucketCardsContainer } from './BucketCardsContainer'
 
 const style: CSSProperties = {
-    // height: '4rem',
-    // width: '13rem',
     height: '1.1rem',
     width: '100%',
-    // marginRight: '1.5rem',
     marginBottom: '1.5rem',
-    // color: 'white',
-    // padding: '1rem',
     padding: '1.3rem',
     textAlign: 'center',
     fontSize: '1rem',
     lineHeight: 'normal',
     float: 'left',
-    // paddingTop: "1.37rem"
 }
 
 type BucketProps = {
@@ -45,7 +39,6 @@ export const Bucket = ({ cards, updateCards, searchText }: BucketProps) => {
             return ({
                 isOver: monitor.isOver(),
                 canDrop: monitor.canDrop(),
-                // itemDropped: monitor.getItem()
             })
         },
     }))
@@ -172,11 +165,6 @@ const UserActions = ({ cards, updateCards }: { cards: CardBoxProps[], updateCard
                             </span>
 
                             <EventCreateTimeAndDate getEndStr={getEndStr} getStartStr={getStartStr} />
-
-                            {/* <div className='bg-card flex gap-2 w-full my-1'>
-                                <Badge onClick={handleScheduler} className='w-full text-center flex justify-center'>Add</Badge>
-                                <Badge onClick={handleFalsy} className='w-full flex justify-center'>Cancel</Badge>
-                            </div> */}
                         </PopoverContent>
 
                         <PopoverTrigger className='bg-card flex gap-2 w-full my-1'>
@@ -227,10 +215,7 @@ export const ShareInSocialMedias = ({ nestedRoute, hashtags, title, description,
         <div
             title={!ready ? "Add Cards First From Search Results Dropdown" : "Ready For Share"}
         >
-            {/* <span className='text-special-foreground font-bold'>Share in Social Media</span> */}
-
             <span
-                // className={`flex justify-between gap-2 ${ready ? "cursor-pointer" : "cursor-auto pointer-events-none"}`}
                 className={`flex justify-start gap-4 ${ready ? "cursor-pointer" : "cursor-auto pointer-events-none"}`}
             >
                 <FacebookShareButton url={`${decideUrl}/${nestedRoute ? nestedRoute : locale}`} hashtag={`${hashtags?.length ? hashtags[0] : "What's_Cooking_Yo!!"}`} title={`${title}`}

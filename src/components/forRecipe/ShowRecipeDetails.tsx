@@ -53,7 +53,6 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
         <div className='flex flex-col xxs:gap-y-2 lg:gap-y-10 pt-10'>
 
             <section
-                // className='flex xxs:flex-col md:flex-row justify-between xxs:items-start md:items-baseline gap-x-20 mx-6 xxs:gap-y-4 sm:gap-y-11'
                 className='flex xxs:flex-col 2xl:flex-row justify-between xxs:items-start md:items-baseline gap-x-20 mx-6 xxs:gap-y-4 sm:gap-y-11'
             >
                 <div
@@ -82,7 +81,6 @@ const RenderRecipe = ({ ...data }: RecipeMealType) => {
 
             <section className='xxs:mb-4 lg:mb-6 flex flex-col xxs:gap-y-8 lg:gap-y-20'>
                 <h2 
-                    // className='xxs:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-content-light/90 bg-ternary w-fit mx-auto p-2 px-10 rounded'
                     className='xxs:text-xs sm:text-sm md:text-lg lg:text-xl font-bold text-center text-content-light/90 bg-ternary/80 w-fit mx-auto px-10 rounded'
                 >Some Related Information About This Recipe</h2>
                 <div className='flex xxs:flex-col xxs:gap-y-11 xl:flex-row lg:gap-x-6 justify-around items-center px-10'>
@@ -199,7 +197,6 @@ const RednerIngredients = ({ ...items }: IngredientItemType) => {
                 src={failSafeUrl}
                 alt={food}
                 width={60} height={39}
-                // className='xxs:w-14 xxs:h-16 sm:w-24 lg:w-16 lg:h-9 rounded-xl object-cover'
                 className='w-16 h-9 rounded-xl object-cover'
                 placeholder='blur' loading='lazy'
                 onError={handleFailsafe}

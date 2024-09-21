@@ -7,24 +7,12 @@ import { Button } from "@react-email/button"
 import { getBaseApiUrl } from '@/utils/dbRequests'
 import { Preview } from "@react-email/preview"
 
-// interface EmailTemplateProps {
-//     firstName: string;
-// }
-
-// export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({ }) => {
-//     return null
-// }
-
 export const AddedRecipesToEvent = () => {
     return (
         <Html lang='en' dir='ltr'>
             <Head>
                 <title>Hurray!!You planned on cooking....</title>
             </Head>
-
-            {/* <Preview>
-                Hurray!!You planned on cooking....
-            </Preview> */}
 
             <Container>
                 <Preview>Hurray!! You planned on cooking....</Preview>

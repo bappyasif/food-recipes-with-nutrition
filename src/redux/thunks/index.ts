@@ -1,6 +1,4 @@
-import { useForExtractingQueriesFromUrl } from "@/hooks/forComponents"
 import { mealdbApiRequestInterceptor } from "@/utils/axiosInterceptor"
-import { searchRecipes } from "@/utils/dataFetching"
 import { assembleReqStr } from "@/utils/dbRequests"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"

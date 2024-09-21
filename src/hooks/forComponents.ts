@@ -92,7 +92,7 @@ export const useForExtractingQueriesFromUrl = (handleRecipesFound: (data: Recipe
     }, [])
 
     useEffect(() => {
-        if (params!?.size < 5) return
+        if (params!?.size < 4) return
         const timer = setTimeout(() => {
             params?.get("type") && axios.get("https://api.edamam.com/api/recipes/v2", { params }).then(d => {
                 const onlyRecipes = d.data?.hits.map((item: any) => item.recipe)
@@ -187,10 +187,8 @@ export const useForRecipeCarouselItems = (data: RecipeMealType[], forRecipesDeta
             setBeginFrom(0)
         } else {
             !isTrue && setBeginFrom(prev => {
-                // console.log(prev, "from inside!!")
                 return prev + 1
             })
-            // console.log(beginFrom, "begin From!!")
         }
     }
 
@@ -398,7 +396,6 @@ export const useForGetAllEventsDataForAuthenticatedUser = () => {
     useEffect(() => {
         if (status === "authenticated") {
             fetchUserEventsDataFromDb(data.user?.email!, data.user?.name!).then(resp => {
-                // console.log(resp, "response!!")
                 if (resp?.eventsData.length) {
                     const modded = resp.eventsData.map((item: EventItemTypes) => {
                         if (item.end) {
@@ -413,15 +410,13 @@ export const useForGetAllEventsDataForAuthenticatedUser = () => {
                     })
 
                     dispatch(initializeUserEventsData(modded))
-
-                    // dispatch(initializeUserEventsData(resp.eventsData))
                 }
             })
         }
     }, [status, data?.user?.email])
 }
 
-export const useForSearchFetchRecipesFromApi = (text:string, handleFalsy: () => void, isTrue: boolean, handleTruthy: () => void) => {
+export const useForSearchFetchRecipesFromApi = (text: string, handleFalsy: () => void, isTrue: boolean, handleTruthy: () => void) => {
     const [recipes, setRecipes] = useState<RecipeMealType[]>([])
 
     const fetchRecipesFromApi = () => {
@@ -453,5 +448,5 @@ export const useForSearchFetchRecipesFromApi = (text:string, handleFalsy: () => 
         isTrue && text.length >= 2 && fetchRecipesFromApi()
     }, [text, isTrue])
 
-    return {recipes, fetchRecipesFromApi, handleEnterPressed}
+    return { recipes, fetchRecipesFromApi, handleEnterPressed }
 }

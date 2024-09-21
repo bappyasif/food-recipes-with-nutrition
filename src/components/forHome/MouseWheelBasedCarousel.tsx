@@ -134,7 +134,6 @@ const CarouselCard = ({ ...item }: {
 
     const newCoords = {
         x: Math.cos(theta) * radius,
-        // y: Math.sin(theta) * radius
         y: idx === 2 ? Math.sin(theta) * radius + 31 : idx === 6 ? Math.sin(theta) * radius - 31 : Math.sin(theta) * radius
     }
 

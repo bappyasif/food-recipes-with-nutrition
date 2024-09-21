@@ -90,8 +90,6 @@ export const Scheduler = ({ open }: { open: boolean }) => {
     const handleAddToList = (data: EventItemTypes) => {
         const newEvent = { ...data, id: v4() }
 
-        // sendUserEmailRequest("asifuzzamanbappy@gmail.com")
-
         if (status === "authenticated") {
             sendUserEmailRequest(userData?.user?.email || "asifuzzamanbappy@gmail.com")
 
@@ -229,21 +227,13 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                 style: {
                     backgroundColor: '#2e8eb8',
                     color: "#000"
-                    // backgroundColor: 'powderblue',
-                    // color: 'black',
                 },
             }),
             ...(moment(date).hour() >= 8 && moment(date).hour() < 13 && {
-                style: {
-                    // backgroundColor: 'darkcyan',
-                    // color: 'black',
-                },
+                style: { },
             }),
             ...(moment(date).hour() > 12 && {
-                style: {
-                    // backgroundColor: 'cadetblue',
-                    // color: 'white',
-                },
+                style: { },
             }),
         }),
         []
@@ -258,10 +248,7 @@ export const Scheduler = ({ open }: { open: boolean }) => {
                 className: "evenDays"
             }),
             ...(((moment(date).day() === 5) || moment(date).day() === 6 || (moment(date).day() === 0)) && {
-                style: {
-                    // backgroundColor: 'cadetblue',
-                    // color: 'red',
-                },
+                style: { },
             }),
         }),
         []
@@ -269,13 +256,11 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
     return (
         <div
-            // className={`transition-all duration-1000 ${open ? "h-[690px] xxs:w-64 sm:w-[26rem] md:w-[36rem] xl:w-[830px] scale-100" : "h-72 w-0 scale-0"}`}
             className={`h-[42rem] xxs:w-[19.1rem] sm:w-[26rem] md:w-[36rem] xl:w-[830px] transition-all duration-1000 ${open ? "" : ""}`}
         >
             <DnDCalendar
                 localizer={localizer}
                 events={events}
-                // events={eventsData}
                 selectable
                 resizable
                 onEventResize={handleResizeEvent}
@@ -291,17 +276,11 @@ export const Scheduler = ({ open }: { open: boolean }) => {
 
                 eventPropGetter={eventPropGetter}
 
-                // onDropFromOutside={({ start, end, allDay }) => { console.log(start, end, "!!") }}
-
                 components={{
                     event: props => (<EventOptionsDropDown
-                        // remove={handleRemoveFromList} 
                         remove={deleteFromDDModal}
                         edit={forDDTruthy}
-                        // edit={editFromDDModal} 
                         {...props}
-                    // closeED={ddAction} 
-                    // afterOpen={forShowEvent}
                     />)
                 }}
 

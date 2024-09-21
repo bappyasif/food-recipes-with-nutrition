@@ -67,7 +67,6 @@ export const RandomizedRecipesView = ({ recipes, handleClick, existingFilters, f
                         changeWidth={true} handleTrigger={() => null}
                     >
                         <span
-                            // className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem] landscape:h-[19.1rem] portrait:h-[38rem] landscape:w-full'
                             className='flex flex-col gap-y-4 xxs:h-[29rem] sm:h-[18rem] lg:h-[44rem]'
                         >
                             {existingFiltersMarkup}
@@ -115,9 +114,6 @@ const RenderRecipeItem = ({ data }: { data: RecipeMealType }) => {
                 <span className='font-bold text-2xl text-center'>{removeWrodRecipe(label).length > 26 ? ellipsedText(removeWrodRecipe(label), 26) : removeWrodRecipe(label)}</span>
 
                 <img src={REGULAR?.url || SMALL?.url} height={REGULAR?.height || SMALL?.height} width={REGULAR?.width || SMALL?.width} alt={label} className='xxs:w-[23.6rem] md:w-[19.5rem] lg:w-[23.6rem] xxs:h-40 lg:h-64 rounded-sm object-cover duration-300 transition-all hover:object-center hover:rounded-md' placeholder='blur' loading='lazy' />
-
-                {/* <span className='font-bold text-2xl text-center'>{removeWrodRecipe(label).length > 26 ? ellipsedText(removeWrodRecipe(label), 26) : removeWrodRecipe(label)}</span> */}
-
 
                 <TbLoader2 size={110} className={`${isLoading ? "absolute animate-spin self-center top-24 z-10" : "hidden"}`} />
             </Link>

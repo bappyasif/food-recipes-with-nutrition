@@ -302,7 +302,6 @@ const ShowRecipes = ({ rnds, rndNames, wheelDataset, resetAllFilters }: {
         if (!health.includes("Intrim-spin") && health) count++
         if (!meal.includes("Spin it") && meal) count++
         if (!diet.includes("Spin it") && diet) count++
-        // console.log(count, "filters exists!!", health)
         return count
     }
 
