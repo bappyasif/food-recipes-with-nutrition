@@ -58,13 +58,13 @@ const RenderMealCard = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
-  if (!cuisineType) {
-    return
-  }
-
   const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'hours') > 1
 
   const { handleFalsy: falsy, handleTruthy: truthy, isTrue: isLoading } = useForTruthToggle()
+
+  if (!cuisineType) {
+    return
+  }
 
   return (
     <div

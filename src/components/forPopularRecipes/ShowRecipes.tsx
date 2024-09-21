@@ -136,11 +136,11 @@ const RenderRecipe = ({ data }: { data: Partial<RecipeMealType> }) => {
 
   const recipeLink = `/${locale}/recipe/${extractRecipeId(uri!)}`
 
-  if (!cuisineType) return
+  const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
 
   const checkIfDayOlder = () => moment().diff(moment(lastUpdated), 'hours') > 1
 
-  const { handleFalsy, handleTruthy, isTrue } = useForTruthToggle()
+  if (!cuisineType) return
 
   return (
     <Card className='hover:ring-1 hover:ring-muted-foreground outline-transparent border-0 flex flex-col gap-y-4 justify-between xl:h-[39rem] relative items-center bg-quaternary'>

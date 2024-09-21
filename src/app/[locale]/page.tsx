@@ -12,7 +12,7 @@ export default function Home() {
       <section className="text-content/80 font-bold xxs:w-2/3 lg:w-5/6 mt-4 mx-auto space-y-6" role="presentation">
         <p className="text-center text-2xl leading-relaxed">Introducing Whats Cooking App, your ultimate companion for discovering and preparing delicious recipes with ease!</p>
 
-        <p className="font-light w-3/4 mx-auto text-lg px-4 leading-relaxed">Whether you're a seasoned chef or just starting out in the kitchen, our app is designed to inspire and guide you through a wide variety of dishes from around the world. Save your favorite recipes within app calender scheduler and share them on social media. Checkout both drawer on each side of your device screen right below. Start your culinary journey today!</p>
+        <p className="font-light w-3/4 mx-auto text-lg px-4 leading-relaxed">Whether you&apos;re a seasoned chef or just starting out in the kitchen, our app is designed to inspire and guide you through a wide variety of dishes from around the world. Save your favorite recipes within app calender scheduler and share them on social media. Checkout both drawer on each side of your device screen right below. Start your culinary journey today!</p>
 
         {/* <p>Save your favorite recipes and share them on social media or save within app calender scheduler. Checkout both drawer on each side of your device screen right below.</p> */}
 
