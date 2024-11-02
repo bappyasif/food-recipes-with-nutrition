@@ -15,13 +15,32 @@ export const HomeHero = () => {
                 className='xxs:w-2/3 lg:w-5/6 mt-4 mx-auto relative text-ring h-[40.01rem] flex items-center'
             >
                 <Image
-                    src={"https://source.unsplash.com/random/200?food=1"}
-                    alt={"a random food picture from unsplash"}
+                    // src={"https://source.unsplash.com/random/200?food=1"}
+                    src={"https://picsum.photos/id/292/800/800"}
+                    // alt={"a random food picture from unsplash"}
+                    alt={"a picture from picsum"}
                     width={800} height={400}
                     className='absolute h-full w-full object-cover -z-0 mix-blend-normal rounded'
-                    blurDataURL={"https://source.unsplash.com/random/200?food=1"}
-                    placeholder='blur' loading='lazy'
+                    // blurDataURL={"https://source.unsplash.com/random/200?food=1"}
+                    blurDataURL={"https://picsum.photos/id/292/800/800"}
+                    placeholder='blur' 
+                    // loading='lazy'
+                    loading='eager'
                 />
+
+                {/* <img
+                    // src={"https://source.unsplash.com/random/200?food=1"}
+                    src={"https://picsum.photos/id/292/800/800"}
+                    // alt={"a random food picture from unsplash"}
+                    alt={"a picture from picsum"}
+                    width={800} height={400}
+                    className='absolute h-full w-full object-cover -z-0 mix-blend-normal rounded'
+                    // blurDataURL={"https://source.unsplash.com/random/200?food=1"}
+                    // blurDataURL={"https://picsum.photos/id/292/800/800"}
+                    placeholder='blur'
+                    // loading='lazy'
+                    loading='eager'
+                /> */}
 
                 <div
                     className='w-full z-20 absolute text-content-light/80 border border-primary rounded'
